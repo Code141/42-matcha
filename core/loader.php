@@ -7,7 +7,7 @@ class loader
 
 	public function __construct()
 	{
-
+		$this->pdo = new m_model(); 
 	}
 
 	public function controller(string $controller)
@@ -17,11 +17,12 @@ class loader
 		else
 			$controller = "controller";
 		$called_controller = "c_" . $controller;
-$this->data[] = 'HAHA';
+
 
 		$instance_ctrl = new $called_controller();
 		$instance_ctrl->load =& $this;
 		$instance_ctrl->data =& $this->data;
+		$instance_ctrl->pdo =& $this->pdo;
 		return ($instance_ctrl);
 	}
 
@@ -33,7 +34,6 @@ $this->data[] = 'HAHA';
 			$view = "view";
 		$called_view = "v_" . $view;
 
-$this->data[] = 'HIHI';
 
 		$instance_view = new $called_view();
 		$instance_view->load =& $this;
@@ -60,9 +60,9 @@ $this->data[] = 'HIHI';
 		return ($data);
 	}
 
-	public function __destruct()
+	public	function	html($file)
 	{
-		var_dump( $this->data);
+		require(APP_PATH . 'html/' . $file . '.html');
 	}
 
 }

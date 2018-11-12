@@ -82,13 +82,8 @@ class v_view
 	{
 		foreach($this->html_files as $key => $filename)
 		{
-			$this->load_view($filename);
+			$this->load->html($filename);
 		}
-	}
-
-	public	function	load_view($file)
-	{
-		require(APP_PATH . 'html/' . $file . '.html');
 	}
 
 	public function __destruct()
