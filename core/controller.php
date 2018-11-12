@@ -2,6 +2,7 @@
 
 class c_controller
 {
+	public $load;
 	public $data = array();
 	public $prompter = array(
 		"success" => "",
@@ -9,9 +10,6 @@ class c_controller
 	
 	public function __construct()
 	{
-		$this->load = new loader();
-		$this->load->entity('user');
-		$this->load->entity('email');
 	}
 
 	private function protect_html_injection(array $data)

@@ -12,6 +12,7 @@ class entity_user
 		'comment' => NULL,
 		'message' => NULL
 	);
+
 	public $validated_account = NULL;
 
 	public function	__construct($id_user)

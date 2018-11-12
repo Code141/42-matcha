@@ -2,11 +2,12 @@
 
 class v_view
 {
+	public $load;
+	public $data = array();
 	public $html_files = array();
 	public $css_files = array();
 	public $js_files = array();
 
-	public $data = array();
 
 	public $prompter = array(
 		"success" => "",
@@ -14,9 +15,6 @@ class v_view
 
 	public function __construct()
 	{
-		$this->load = new loader();
-		$this->load->entity('user');
-		$this->load->entity('email');
 	}
 
 	private function protect_html_injection(array $data)

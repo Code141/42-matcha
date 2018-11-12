@@ -1,6 +1,6 @@
 <?php
 
-function	parse_uri($uri)
+function	parse_uri(string $uri) : array
 {
 	$pattern = "~^" . SITE_ROOT . "~";
 	$uri = preg_replace($pattern, "", $uri);
