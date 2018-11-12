@@ -8,7 +8,7 @@ id_user	password	email	new_email	token_email	token_password	token_account
 GENDER
 id	gender_name
 
-TAGS
+TAG
 id	tag_name
 
 
@@ -34,27 +34,27 @@ id	id_user		filename
 BLOCKED
 id_user(from)	id_user(to)
 
-LIKES
+LIKE
 id_user(from)	id_user(to)		up_down		seen
 								BOOL
 
 BROWSING_HISTORY
 id_user(from)	id_user(to)		timestamp	seen
 
-REPORTED_ACCOUNT
+REPORTED
 id_user(from)	id_user(to)
 
 
 
 
 USER_GENDER
-id_user	id_sex
+id_user	id_gender
 
 USER_GENDER_IDENTITY
-id_user	id_sex
+id_user	id_gender
 
 USER_ORIENTATION
-id	id_user	id_gender	id_gender_identity		|| (BONUS PREFERENCE) nb <= (gender.length * gender.length)
+id_user	id_gender	id_gender_identity		|| (BONUS PREFERENCE) nb <= (gender.length * gender.length)
 
 USER_TAGS
 id_user id_tag
