@@ -33,9 +33,22 @@ class m_model
 		return ($this->pdo_stm);
 	}
 
-	public function	toto()
+	public function	select(string $table,array $columns)
 	{
-		return ("TOTO");
+		string $c = "";
+		foreach ($columns as $column)
+			$c = $c."`".$column."`, ";
+		$c = rtrim($c,", ");
+
+		$stmt = "SELECT".$c."FROM".$table;
+ 
+		$this->pdo = $stmt;
+		return ($this);
+	}
+	
+	public function where(array $columns, array $values)
+	{
+
 	}
 
 	public function	__destruct()
