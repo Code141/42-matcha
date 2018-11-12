@@ -1,0 +1,14 @@
+<form target="" method="get">
+	<button type="submit" name="action" value="reset_db"<?php if($data['db_existe'] != TRUE) echo " disabled"; ?>>
+		Reset db
+	</button>
+	<button type="submit" name="action" value="create_db"<?php if($data['db_existe'] == TRUE) echo " disabled"; ?>>
+		Create empty db
+	</button>
+	<button type="submit" name="action" value="put_sample"<?php if($data['db_existe'] == TRUE) echo " disabled"; ?>>
+		Create sampled db
+	</button>
+</form>
+
+<?php if (!empty($data['msg'])) echo "<hr>" . $data['msg']; ?>
+

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		<?php if (!empty($this->data['title'])) { echo $this->data['title'] . " - ";}?>CAMAGRU
+	</title>
+	<link rel="icon" type="image/png" href="<?php echo IMG_PATH;?>favicon.png">
+<?php foreach($this->css_files as $filename) { ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
+<?php } ?>
+<script>
+</script>
+
+</head>
+<body>
+<?php $this->load_view($this->html_files['header']); ?>
+<section id="wrap">
+<?php
+if (isset($this->html_files['left']))
+	$this->load_view($this->html_files['left']);
+
+$this->load_view($this->html_files['center']);
+
+if (isset($this->html_files['right']))
+	$this->load_view($this->html_files['right']);
+?>
+</section>
+
+<?php $this->load_view($this->html_files['footer']); ?>
+
+<script>
+	var SITE_ROOT = "<?php echo SITE_ROOT; ?>";
+</script>
+<?php foreach($this->files['js'] as $filename) { ?>
+	<script src="<?php echo JS_PATH . $filename;?>.js" type="text/javascript"></script>
+<?php } ?>
+
+<?php $this->load_view('prompter'); ?>
+
+</body>
+</html>

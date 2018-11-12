@@ -1,0 +1,5 @@
+AddHandler application/x-httpd-php .html .htm 
+
+RewriteEngine On
+RewriteRule "setup" "config/setup.php" [L]
+RewriteRule !(css|js|jpg|png|ttf)$ index.php 

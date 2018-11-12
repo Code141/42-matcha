@@ -1,0 +1,61 @@
+USER
+id	 username	firstname	lastname	birthdate	city	account_valid	id_media	
+
+USER_ACCOUNT
+id_user	password	email	new_email	token_email	token_password	token_account
+
+
+GENDER
+id	gender_name
+
+TAGS
+id	tag_name
+
+
+
+
+CONNECTION
+id_user		ip		date
+
+
+
+
+
+BIO
+id_user	BIO
+
+MSG
+id	id_user(from)	id_user(to)		msg		seen
+
+MEDIA
+id	id_user		filename
+
+
+BLOCKED
+id_user(from)	id_user(to)
+
+LIKES
+id_user(from)	id_user(to)		up_down		seen
+								BOOL
+
+BROWSING_HISTORY
+id_user(from)	id_user(to)		timestamp	seen
+
+REPORTED_ACCOUNT
+id_user(from)	id_user(to)
+
+
+
+
+USER_GENDER
+id_user	id_sex
+
+USER_GENDER_IDENTITY
+id_user	id_sex
+
+USER_ORIENTATION
+id	id_user	id_gender	id_gender_identity		|| (BONUS PREFERENCE) nb <= (gender.length * gender.length)
+
+USER_TAGS
+id_user id_tag
+
