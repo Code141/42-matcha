@@ -11,6 +11,7 @@ require_once(CORE_PATH . 'route.php');
 
 require_once(CORE_PATH . 'loader.php');
 
+
 require_once(CORE_PATH . 'model.php');
 require_once(CORE_PATH . 'view.php');
 require_once(CORE_PATH . 'controller.php');

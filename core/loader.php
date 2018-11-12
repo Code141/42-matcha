@@ -34,7 +34,6 @@ class loader
 			$view = "view";
 		$called_view = "v_" . $view;
 
-
 		$instance_view = new $called_view();
 		$instance_view->load =& $this;
 		$instance_view->data =& $this->data;

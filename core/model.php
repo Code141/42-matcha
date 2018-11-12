@@ -2,6 +2,9 @@
 
 class m_model
 {
+	public	$pdo;
+	public	$sql;
+
 	public function	__construct()
 	{
 /*		try
@@ -35,14 +38,15 @@ class m_model
 
 	public function	select(string $table,array $columns)
 	{
-		string $c = "";
+		$c = "";
 		foreach ($columns as $column)
 			$c = $c."`".$column."`, ";
 		$c = rtrim($c,", ");
 
-		$stmt = "SELECT".$c."FROM".$table;
+		$stmt = "SELECT ".$c." FROM `".$table."`";
  
-		$this->pdo = $stmt;
+		$this->sql = $stmt;
+
 		return ($this);
 	}
 	
