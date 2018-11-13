@@ -7,7 +7,6 @@ class m_model
 
 	public function	__construct()
 	{
-		itoto
 		try
 		{
 			require(CONFIG_PATH . 'database.php');
@@ -28,7 +27,6 @@ class m_model
 				header ('location:' . SITE_ROOT . '404');
 			die();
 		}
-
 	}
 
 	public function	execute_pdo()
