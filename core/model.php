@@ -7,7 +7,7 @@ class m_model
 
 	public function	__construct()
 	{
-/*		try
+		try
 		{
 			require(CONFIG_PATH . 'database.php');
 			$this->pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -27,7 +27,7 @@ class m_model
 				header ('location:' . SITE_ROOT . '404');
 			die();
 		}
-*/
+
 	}
 
 	public function	execute_pdo()
