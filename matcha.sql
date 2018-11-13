@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Generation Time: Nov 12, 2018 at 09:12 AM
+-- Generation Time: Nov 13, 2018 at 09:38 AM
 -- Server version: 5.7.22
 -- PHP Version: 7.0.30
 
@@ -79,6 +79,16 @@ CREATE TABLE `gender` (
   `id` int(11) NOT NULL,
   `gender_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `gender`
+--
+
+INSERT INTO `gender` (`id`, `gender_name`) VALUES
+(1, 'male'),
+(2, 'female'),
+(3, 'hermaphrodite'),
+(4, 'none');
 
 -- --------------------------------------------------------
 
@@ -253,7 +263,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `gender`
 --
 ALTER TABLE `gender`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `msg`
@@ -271,7 +281,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

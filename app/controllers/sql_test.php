@@ -14,7 +14,6 @@ class c_sql_test extends c_controller
 		
 		$this->data['executed'] = $this->pdo->execute_pdo()->fetchAll();
 
-
 		$mavueview = $this->load->view("sql_test");
 		$mavueview->main();
 	}
