@@ -9,9 +9,10 @@ if (DEV_MODE)
 }
 
 define('APP_NAME', 'matcha');
+define('SITE_ROOT', '/' . 'matcha' . '/');
+
 define('DEFAULT_CONTROLLER', 'home');
 define('DEFAUT_ACTION', 'main');
-define('SITE_ROOT', '/' . 'matcha' . '/');
 
 // ------- U Can't Touch This
 

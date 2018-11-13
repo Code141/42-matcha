@@ -20,7 +20,7 @@ class loader
 			return ()
 	}
  */
-	public function new_controller(string $controller)
+	public function controller(string $controller)
 	{
 		if (is_readable(APP_PATH . 'controllers/' . $controller . '.php'))
 			require_once(APP_PATH . 'controllers/' . $controller . '.php');
