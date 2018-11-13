@@ -32,6 +32,7 @@ else
 	$action = $request['action'];
 
 $loaded_controller->$action($request['params']);
+<<<<<<< HEAD
 asrh
 
 asdgfasdfg
@@ -42,3 +43,10 @@ adsfg
 afsdgadfgafdg
 
 asdfg
+=======
+asrgd
+asdg
+asdg
+asdgasdg
+asdgasdgasdg
+>>>>>>> test
