@@ -8,14 +8,9 @@ class v_view
 	public $css_files = array();
 	public $js_files = array();
 
-
 	public $prompter = array(
 		"success" => "",
 		"fail" => "");
-
-	public function __construct()
-	{
-	}
 
 	private function protect_html_injection(array $data)
 	{
@@ -61,9 +56,6 @@ class v_view
 	public function regular_render()
 	{
 		$basic_css[] = 'reset';
-		$basic_css[] = 'style';
-		$basic_css[] = 'input';
-		$basic_css[] = 'glyphicons';
 		$this->css_files = array_merge($basic_css, $this->css_files);
 
 		if (!isset($this->html_files['header']))
@@ -85,8 +77,5 @@ class v_view
 			$this->load->html($filename);
 		}
 	}
-
-	public function __destruct()
-	{
-	}
 }
+
