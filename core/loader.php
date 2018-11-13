@@ -2,22 +2,33 @@
 
 class loader
 {
+	public $pdo;
 	public $data = array();
 	public $view = array();
 
 	public function __construct()
 	{
+		$this->load =& $this; 
 		$this->pdo = new m_model(); 
 	}
-
-	public function controller(string $controller)
+/*
+	public function core_controller(string $controller)
 	{
-		if (is_readable(APP_PATH .'controllers/' . $controller . '.php'))
-			require_once(APP_PATH .'controllers/' . $controller . '.php');
+		if (is_readable(CORE_PATH . 'controllers/' . $controller . '.php'))
+			require_once(CORE_PATH . 'controllers/' . $controller . '.php');
+		else
+			return ()
+	}
+ */
+	public function new_controller(string $controller)
+	{
+		if (is_readable(APP_PATH . 'controllers/' . $controller . '.php'))
+			require_once(APP_PATH . 'controllers/' . $controller . '.php');
+		else if (is_readable(CORE_PATH . 'controllers/' . $controller . '.php'))
+			require_once(CORE_PATH . 'controllers/' . $controller . '.php');
 		else
 			$controller = "controller";
 		$called_controller = "c_" . $controller;
-
 
 		$instance_ctrl = new $called_controller();
 		$instance_ctrl->load =& $this;
@@ -28,8 +39,10 @@ class loader
 
 	public function view(string $view)
 	{
-		if (is_readable(APP_PATH .'views/' . $view . '.php'))
-			require_once(APP_PATH .'views/' . $view . '.php');
+		if (is_readable(APP_PATH . 'views/' . $view . '.php'))
+			require_once(APP_PATH . 'views/' . $view . '.php');
+		else if (is_readable(CORE_PATH . 'views/' . $view . '.php'))
+			require_once(CORE_PATH . 'views/' . $view . '.php');
 		else
 			$view = "view";
 		$called_view = "v_" . $view;
@@ -48,6 +61,16 @@ class loader
 		return($pdo->$model($params));
 	}
 
+	public	function	html($file)
+	{
+		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
+			require(APP_PATH . 'html/' . $file . '.html');
+		else if (is_readable(CORE_PATH . 'html/' . $file . '.html'))
+			require(CORE_PATH . 'html/' . $file . '.html');
+		else
+			echo '<h1 style="color:red;">Can\'t find view "' . $file . '" in app/ or core/</h1>'; 
+	}
+
 	public function entity(string $entity)
 	{
 		require_once(APP_PATH . 'entity/' . $entity . '.php');
@@ -57,11 +80,6 @@ class loader
 	{
 		require_once(APP_PATH . 'script/' . $type . '/' . $file . '.' . $type);
 		return ($data);
-	}
-
-	public	function	html($file)
-	{
-		require(APP_PATH . 'html/' . $file . '.html');
 	}
 
 }
