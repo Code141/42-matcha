@@ -2,24 +2,6 @@
 
 class loader
 {
-	public $pdo;
-	public $data = array();
-	public $view = array();
-
-	public function __construct()
-	{
-		$this->load =& $this; 
-		$this->pdo = new m_model(); 
-	}
-/*
-	public function core_controller(string $controller)
-	{
-		if (is_readable(CORE_PATH . 'controllers/' . $controller . '.php'))
-			require_once(CORE_PATH . 'controllers/' . $controller . '.php');
-		else
-			return ()
-	}
- */
 	public function controller(string $controller)
 	{
 		if (is_readable(APP_PATH . 'controllers/' . $controller . '.php'))
@@ -27,14 +9,11 @@ class loader
 		else if (is_readable(CORE_PATH . 'controllers/' . $controller . '.php'))
 			require_once(CORE_PATH . 'controllers/' . $controller . '.php');
 		else
-			$controller = "controller";
-		$called_controller = "c_" . $controller;
-
-		$instance_ctrl = new $called_controller();
-		$instance_ctrl->load =& $this;
-		$instance_ctrl->data =& $this->data;
-		$instance_ctrl->pdo =& $this->pdo;
-		return ($instance_ctrl);
+			return (NULL);
+		$controller_name = "c_" . $controller;
+		if (!class_exists($controller_name))
+			return (NULL);
+		return ($controller_name);
 	}
 
 	public function view(string $view)
@@ -44,13 +23,23 @@ class loader
 		else if (is_readable(CORE_PATH . 'views/' . $view . '.php'))
 			require_once(CORE_PATH . 'views/' . $view . '.php');
 		else
-			$view = "view";
-		$called_view = "v_" . $view;
+			return (NULL);
+		$view_name = "v_" . $view;
+		if (!class_exists($view_name))
+			return (NULL);
+		return ($view_name);
+	}
 
-		$instance_view = new $called_view();
-		$instance_view->load =& $this;
-		$instance_view->data =& $this->data;
-		return ($instance_view);
+	public function module(string $name = null)
+	{
+		if (is_readable(CORE_PATH . 'modules/' . $name . '.php'))
+			require_once(CORE_PATH . 'modules/' . $name . '.php');
+		else
+			die ("Can't find '" . $name . "' module file ! Die;");
+		$module_name = "module_" . $name;
+		if (!class_exists($module_name))
+			die ("Can't load '" . $module_name . "' class ! Die;");
+		return ($module_name);
 	}
 
 	public function model(string $model_file, string $model, $params = NULL)
@@ -61,7 +50,7 @@ class loader
 		return($pdo->$model($params));
 	}
 
-	public	function	html($file)
+	public	function	html(string $file)
 	{
 		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
 			require(APP_PATH . 'html/' . $file . '.html');
@@ -83,4 +72,3 @@ class loader
 	}
 
 }
-

@@ -4,7 +4,12 @@
 </p>
 
 <?php
-	$this->load->controller('login')->main();
+
+	if ($this->core->module->session->is_loggued())
+		echo "LOGGUED";
+	else
+		echo "NON LOGGUED";
+ 
 ?>
 
 </section>

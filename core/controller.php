@@ -12,6 +12,10 @@ class c_controller
 	{
 	}
 
+	public function __destruct()
+	{
+	}
+
 	private function protect_html_injection(array $data)
 	{
 		foreach ($data as $key => $value)
@@ -41,55 +45,6 @@ class c_controller
 		//	$this->view();
 	}
 
-	protected function fail($msg = NULL, $action = NULL, $controller = NULL, $params = NULL)
-	{
-		if ($msg === NULL)
-			$msg = "Fail for unknow reason";
-
-		if ($action == NULL)
-			$action = $_SESSION['last_url']['action'];
-		if ($controller == NULL)
-			$controller = $_SESSION['last_url']['controller'];
-		if ($params == NULL)
-			$params = $_SESSION['last_url']['params'];
-
-		$controller = $this->load->controller($controller);
-		$controller->prompter['fail'] = $msg;
-		$controller->$action($params);
-		die ();
-	}
-
-	protected function success($msg = NULL, $action = NULL, $controller = NULL, $params = NULL)
-	{
-		if ($msg === NULL)
-			$msg = "Success";
-
-		if ($action == NULL)
-			$action = $_SESSION['last_url']['action'];
-		if ($controller == NULL)
-			$controller = $_SESSION['last_url']['controller'];
-		if ($params == NULL && isset($_SESSION['last_url']['params']))
-		{
-			$params = $_SESSION['last_url']['params'];
-		}
-
-		$controller = $this->load->controller($controller);
-		$controller->prompter['success'] = $msg;
-		$controller->$action($params);
-		die ();
-	}
-
-	protected function cookie_set($cookie_key, $cookie_value)
-	{
-		$expire = 10000;
-		setcookie($cookie_key, $cookie_value, time() + $expire);
-	}
-
-	protected function cookie_get($cookie_key)
-	{
-		return ($_COOKIE[$cookie_key]);
-	}
-
 	protected function	requiered_fields($keys, $array)
 	{
 		foreach ($keys as $key)
@@ -99,10 +54,6 @@ class c_controller
 				$new_array[$key] = $array[$key];
 		return ($new_array);
 	}
-
-	public function __destruct()
-	{
-	}
 }
 
 class c_logged_only extends c_controller
@@ -110,7 +61,7 @@ class c_logged_only extends c_controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (!is_loggued())
+		if (!$this->is_loggued())
 			$this->fail("You must be loggued in", "main", "login");
 	}
 }
@@ -120,7 +71,7 @@ class c_public_only extends c_controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (is_loggued())
+		if ($this->is_loggued())
 			$this->fail("You are already loggued", "main", "settings");
 	}
 }

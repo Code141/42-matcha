@@ -4,7 +4,12 @@ class c_setup extends c_controller
 {
 	public function main($params = NULL)
 	{
-		$mavue = $this->view = $this->load->view("setup");
-		$this->view->main();
+		/*
+		echo 'toto';
+		$mavue = $this->load->view("setup");
+		$mavue->main();
+		*/
+
+		$this->core->set_view("setup", "main");
 	}
 }
