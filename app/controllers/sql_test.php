@@ -14,7 +14,6 @@ class c_sql_test extends c_controller
 		$this->load->module("login");
 
 		$this->data['data_controller'] = "this data is setted into a controller";
-		$columns = array ("*");
 		$this->data['sql'] = $this->pdo
 			->select(array("*"),"user")
 			->where("id", "=" ,"1")
