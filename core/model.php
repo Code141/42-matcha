@@ -7,7 +7,7 @@ class m_model
 
 	public function	__construct()
 	{
-		/*
+		
 		try
 		{
 			require(CONFIG_PATH . 'database.php');
@@ -28,7 +28,35 @@ class m_model
 				header ('location:' . SITE_ROOT . '404');
 			die();
 		}
-		 */
+		 
+	}
+	
+	public function create_db()
+	{
+		require(CONFIG_PATH . 'database.php');
+		$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
+		$this->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME     . ";\n USE `".APP_NAME."`";
+		return ($this);
+	}
+
+	public function drop_db()
+	{
+		$this->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
+		return ($this);
+	}
+
+	public function from_file_to_query($file)
+	{
+		if (is_readable($file))
+			$script = file($file);
+		$query = '';
+		foreach ($script as $line) {
+			if(substr($line, 0, 2) == '--' || $line == '')
+				continue ;
+			$query .= $line;
+		}
+		$this->sql = $query;
+		return($this);
 	}
 
 	public function	execute_pdo()
