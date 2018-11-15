@@ -13,8 +13,8 @@ require_once(CORE_PATH . 'core.php');
 require_once(CORE_PATH . 'loader.php');
 require_once(CORE_PATH . 'modules.php');
 require_once(CORE_PATH . 'db.php');
+require_once(CORE_PATH . 'wrapper.php');
 
-require_once(CORE_PATH . 'model.php');
 require_once(CORE_PATH . 'view.php');
 require_once(CORE_PATH . 'controller.php');
 

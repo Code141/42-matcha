@@ -66,18 +66,6 @@ class core
 		$this->view->$action_name($this->request['params']);
 	}
 
-	public function	load_module(string $controller_name = NULL)
-	{
-		$controller_name = $this->load->controller($controller_name);
-		if ($controller_name === NULL)
-			die ("CORE CAN'T LOAD CONTROLLER");
-
-		$this->controller = new $controller_name();
-		$this->controller->core =& $this;
-		$this->controller->load =& $this->load;
-		$this->controller->data =& $this->data;
-	}
-
 	public function fail(string $msg = NULL, string $controller = NULL, string $action = NULL)
 	{
 		if ($msg === NULL)

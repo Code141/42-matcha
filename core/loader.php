@@ -2,14 +2,19 @@
 
 class loader
 {
+	private function file_loader($filename)
+	{
+		if (is_readable(APP_PATH . 'controllers/' . $filename . '.php'))
+			require_once(APP_PATH . 'controllers/' . $filename . '.php');
+		else if (is_readable(CORE_PATH . 'controllers/' . $filename . '.php'))
+			require_once(CORE_PATH . 'controllers/' . $filename . '.php');
+		else
+			die ("cant load file");
+	}
 	public function controller(string $controller)
 	{
-		if (is_readable(APP_PATH . 'controllers/' . $controller . '.php'))
-			require_once(APP_PATH . 'controllers/' . $controller . '.php');
-		else if (is_readable(CORE_PATH . 'controllers/' . $controller . '.php'))
-			require_once(CORE_PATH . 'controllers/' . $controller . '.php');
-		else
-			return (NULL);
+		$this->file_loader($controller);
+
 		$controller_name = "c_" . $controller;
 		if (!class_exists($controller_name))
 			return (NULL);
@@ -32,6 +37,7 @@ class loader
 		$view->load =& $this;
 		$view->core =& $this->core;
 		$view->data =& $this->data;
+
 		return ($view);
 	}
 
@@ -41,9 +47,12 @@ class loader
 			require_once(CORE_PATH . 'modules/' . $module . '.php');
 		else
 			die ("Can't find '" . $module . "' module file ! Die;");
+
 		$module_name = "module_" . $module;
+
 		if (!class_exists($module_name))
 			die ("Can't load '" . $module_name . "' class ! Die;");
+
 		return ($module_name);
 	}
 
@@ -54,8 +63,10 @@ class loader
 		else
 			die ("Can't find '" . $name . "' model file ! Die;");
 		$calledmodel = 'm_' . $model;
+
 		$model = new $calledmodel();
 		$model->db = &$this->core->db;
+
 		return ($model);
 	}
 

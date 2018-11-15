@@ -1,6 +1,6 @@
 <?php
 
-class m_model
+class m_wrapper
 {
 	public	$pdo;
 	public	$sql;
