@@ -16,16 +16,15 @@ class core
 	public function __construct($request)
 	{
 		$this->request = $request;
+		$this->pdo = new m_model();
+
 		$this->load = new loader();
 		$this->load->core =& $this;
 		$this->load->load =& $this->load;
 		$this->load->data =& $this->data;
 		$this->load->pdo =& $this->pdo;
 
-		$this->pdo = new m_model();
-
 		$this->module = new modules();
-
 		$this->module->core =& $this;
 		$this->module->load =& $this->load;
 		$this->module->data =& $this->data;
