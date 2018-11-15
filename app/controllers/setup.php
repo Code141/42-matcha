@@ -10,6 +10,7 @@ class c_setup extends c_controller
 	public function new($params = NULL)
 	{
 		$this->load->model("setup")
+			->drop_db()
 			->create_db()
 			->from_file_to_query("tables.sql");
 

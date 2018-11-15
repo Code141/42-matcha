@@ -1,0 +1,10 @@
+<?php
+	$DB_NAME = 'matcha';
+	$DB_DSN = "mysql:host=localhost;dbname=". $DB_NAME;
+	$DB_DSN_SETUP = "mysql:host=localhost";
+	$DB_USER = "root";
+<<<<<<< HEAD
+	$DB_PASSWORD = "123456789";
+=======
+	$DB_PASSWORD = "password";
+>>>>>>> f51f5d9ae7338a9bf08acdbc3c6ab47280fe0959

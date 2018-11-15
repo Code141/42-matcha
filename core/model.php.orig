@@ -4,6 +4,8 @@ class m_model
 {
 	public	$pdo;
 	public	$sql;
+<<<<<<< HEAD
+=======
 	public	$bind_param = array();
 
 	public function create_db()
@@ -40,6 +42,7 @@ class m_model
 		foreach ($this->bind_param as $key => $value)
 			$this->pdo_stm->bindParam($key , $value);
 	}
+>>>>>>> f51f5d9ae7338a9bf08acdbc3c6ab47280fe0959
 
 	public function insert(string $table, array $columns, array $values)
 	{
@@ -80,7 +83,7 @@ class m_model
 		return ($this);
 	}
 
-	public function where(string $table, string $column, string $operator, string $value)
+	public function where(string table, string $column, string $operator, string $value)
 	{
 		$stm = " WHERE " . $table . "." . $column . " " . $operator . " :" . $value;
 		$this->sql = $this->sql . $stm;
@@ -88,7 +91,7 @@ class m_model
 		return ($this);
 	}
 
-	public function and(string $table, string $column, string $operator, string $value)
+	public function and(string table, string $column, string $operator, string $value)
 	{
 		$stm = " AND " . $table . "." . $column . " " . $operator . " :" . $value;
 		$this->sql = $this->sql . $stm;
@@ -96,7 +99,7 @@ class m_model
 		return ($this);
 	}
 
-	public function or(string $table, string $column, string $operator, string $value)
+	public function or(string table, string $column, string $operator, string $value)
 	{
 		$stm = " OR " . $table . "." . $column . " " . $operator . " :" . $value . "";
 		$this->sql = $this->sql . $stm;
@@ -112,10 +115,13 @@ class m_model
 		return ($this);
 	}
 
-	public function join(string $join_type, string $table1, string $table2, string $column1, string $column2)
+<<<<<<< HEAD
+=======
+	public function join(string join_type, string table1, string table2, string column1, string column2)
 	{
 		$stm = " " . $join_type ." JOIN " . $table2 . " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
+>>>>>>> f51f5d9ae7338a9bf08acdbc3c6ab47280fe0959
 }

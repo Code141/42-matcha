@@ -1,6 +1,6 @@
 <?php
 
-class bdd_pdo
+class db_pdo
 {
 	public	$sql;
 
