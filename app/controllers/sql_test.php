@@ -7,9 +7,14 @@ class c_sql_test extends c_controller
 		$this->data['sql'] = $this->pdo
 			->select(array("*"),"user")
 			->where("id", "=" ,"1")
-			->and("username", "=", "fiofy");
+;//			->and("username", "=", "fiofy");
 		echo($this->pdo->sql. "<br>");
 		$this->data['executed'] = $this->pdo->execute_pdo()->fetchAll();
-		$this->core->set_view("sql_test", "main");
+/*		
+		$this->data['sql'] = 
+			$this->pdo
+			->select(array("firstname"),"user")
+			->left_join("");
+ */		$this->core->set_view("sql_test", "main");
 	}
 }

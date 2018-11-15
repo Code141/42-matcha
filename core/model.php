@@ -4,6 +4,7 @@ class m_model
 {
 	public	$pdo;
 	public	$sql;
+	public	$bind_param = array();
 
 	public function	__construct()
 	{
@@ -16,18 +17,21 @@ class m_model
 		}
 		catch(PDOException $exception)
 		{
-/*			if (DEV_MODE)
+			if (DEV_MODE)
 			{
 				if ($exception->getCode() == 1049)
-					$this->core->set_view("sql_test", "main");
-					header ('location:' . SITE_ROOT . 'setup');
+				{
+					$this->core->set_view("setup", "main");
+					$this->core->fail("database not installed", "setup", "main");
+//					header ('location:' . SITE_ROOT . 'setup');
+				}
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
 			else
 				header ('location:' . SITE_ROOT . '404');
 			die();
-*/		}
+		}
 	}
 
 	public function	execute_pdo()
@@ -77,12 +81,12 @@ class m_model
 		if ($count($columns) != count($values))
 			exit("ERROR : nb of columns don't match nb of values in function 'insert' in core/model.php");
 		foreach ($columns as $column)
-			$c = "`" . $column . "`, ";
+			$c = $column . ", ";
 		$c = rtrim($c,", ");
 		foreach ($values as $value)
-			$v = "'" . $value . "', ";
+			$v = $value . ", ";
 		$v = rtrim($v,", ");
-		$stm = "INSERT INTO `" . $table . "` (" . $c . ") VALUES (" . $v . ")";
+		$stm = "INSERT INTO " . $table . " (" . $c . ") VALUES (" . $v . ")";
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
@@ -93,10 +97,10 @@ class m_model
 			exit("ERROR : nb of columns don't match nb of values in function 'update' in core/model.php");
 		for($i = 0; $i < $len; $i++)
 		{
-			$u = $u . "`" . $columns[$i] . "` = '" . $values[$i] . "', ";
+			$u = $u . $columns[$i] . " = " . $values[$i] . ", ";
 		}
 		$u = rtrim($u,", ");
-		$stm = "UPDATE `" . $table . " SET " . $u;
+		$stm = "UPDATE " . $table . " SET " . $u;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
@@ -105,30 +109,30 @@ class m_model
 	{
 		$c = "";
 		foreach ($columns as $column)
-			$c = $c . "`" . $column . "`, ";
+			$c = $c . $column . ", ";
 		$c = rtrim($c,", ");
-		$stm = "SELECT " . $c . " FROM `" . $table . "`";
+		$stm = "SELECT " . $c . " FROM " . $table;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
 
 	public function where(string $column, string $operator, string $value)
 	{
-		$stm = " WHERE `" . $column . "` " . $operator . " '" . $value . "'";
+		$stm = " WHERE " . $column . " " . $operator . " " . $value;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
 
 	public function and(string $column, string $operator, string $value)
 	{
-		$stm = " AND `" . $column . "` " . $operator . " '" . $value . "'";
+		$stm = " AND " . $column . " " . $operator . " " . $value;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
 
 	public function or(string $column, string $operator, string $value)
 	{
-		$stm = " OR `" . $column . "` " . $operator . " '" . $value . "'";
+		$stm = " OR " . $column . " " . $operator . " " . $value . "";
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
@@ -136,11 +140,19 @@ class m_model
 	public function order_by(string $expression, string $direction)
 	{
 		if ($expression)
-			$stm = " ORDER BY `" . $expression . "` " .$direction;
+			$stm = " ORDER BY " . $expression . " " . $direction;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
+/*
+	public function left_join(string table1, string table2, string column1, string column2)
+	{
+		$stm = " LEFT JOIN `" . $column . "` " . $operator . " '" . $value . "'";
+		$this->sql = $this->sql . $stm;
+		return ($this);
 
+	}
+ */
 	public function	__destruct()
 	{
 		if (!empty($this->pdo_stm))
