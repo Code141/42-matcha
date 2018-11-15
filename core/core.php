@@ -21,7 +21,7 @@ class core
 		$this->load->core =& $this;
 		$this->load->data =& $this->data;
 
-		$this->pdo = new bdd_pdo();
+		$this->pdo = new db_pdo();
 		$this->pdo->core =& $this;
 		$this->pdo->load =& $this->load;
 		$this->pdo->data =& $this->data;
