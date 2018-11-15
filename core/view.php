@@ -2,8 +2,7 @@
 
 class v_view
 {
-	public $load;
-	public $data = array();
+	public $layout = 'default';
 	public $html_files = array();
 	public $css_files = array();
 	public $js_files = array();
@@ -38,7 +37,7 @@ class v_view
 		foreach($this->files['views'] as $key => $filename)
 		{
 			ob_start();
-			$this->load->html($filename);
+			$this->load_html($filename);
 			$html_file =  ob_get_contents();
 			$html_file = str_replace(array("\t", "\r", "\n"), "", $html_file);
 			$html[$key] = $html_file;
@@ -56,25 +55,30 @@ class v_view
 	public function regular_render()
 	{
 		$basic_css[] = 'reset';
+		$basic_css[] = 'style';
 		$this->css_files = array_merge($basic_css, $this->css_files);
 
-		if (!isset($this->html_files['header']))
-			$this->html_files['header'] = 'header';
-
-		if (!isset($this->html_files['center']))
-			$this->html_files['center'] = 'msg';
-
-		if (!isset($this->html_files['footer']))
-			$this->html_files['footer'] = 'footer';
-
-		$this->load_view("default_layout");
+		$this->load_html('layout/' . $this->layout);
 	}
 
 	protected function	linear_render()
 	{
 		foreach($this->html_files as $key => $filename)
 		{
-			$this->load->html($filename);
+			$this->load_html($filename);
+		}
+	}
+
+	public function load_html($file)
+	{
+		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
+			require(APP_PATH . 'html/' . $file . '.html');
+		else if (is_readable(CORE_PATH . 'html/' . $file . '.html'))
+			require(CORE_PATH . 'html/' . $file . '.html');
+		else
+		{
+			echo '<h1 style="color:red;">Can\'t find view "' . $file . '" in app/ or core/</h1>'; 
+			die();
 		}
 	}
 }

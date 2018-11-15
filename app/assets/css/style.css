@@ -1,0 +1,21 @@
+body
+{
+}
+
+header, footer, section
+{
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+footer
+{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		<?php if (!empty($this->data['title'])) { echo $this->data['title'] . " - ";} echo APP_NAME;?>
+	</title>
+	<link rel="icon" type="image/png" href="<?php echo IMG_PATH;?>favicon.png">
+
+<?php foreach($this->css_files as $filename) { ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
+<?php } ?>
+
+<script>
+</script>
+
+</head>
+<body>
+
+<header>
+	<?php $this->load_html('header'); ?>
+</header>
+
+<?php foreach($this->html_files as $filename) {
+	$this->load_html($filename);
+} ?>
+
+<footer>
+	<?php $this->load_html('prompter'); ?>
+</footer>
+</body>
+</html>

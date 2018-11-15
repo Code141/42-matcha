@@ -2,73 +2,83 @@
 
 class loader
 {
-	private function file_loader($filename)
+	private function file_loader($filepath, $filename)
 	{
-		if (is_readable(APP_PATH . 'controllers/' . $filename . '.php'))
-			require_once(APP_PATH . 'controllers/' . $filename . '.php');
-		else if (is_readable(CORE_PATH . 'controllers/' . $filename . '.php'))
-			require_once(CORE_PATH . 'controllers/' . $filename . '.php');
+		$file = $filepath . $filename . '.php';
+		if (is_readable(APP_PATH . $file))
+			require_once(APP_PATH . $file);
+		else if (is_readable(CORE_PATH . $file))
+			require_once(CORE_PATH . $file);
 		else
-			die ("cant load file");
-	}
-	public function controller(string $controller)
-	{
-		$this->file_loader($controller);
-
-		$controller_name = "c_" . $controller;
-		if (!class_exists($controller_name))
-			return (NULL);
-		return ($controller_name);
+			die ("Can't load file " . $file);
 	}
 
-	public function view(string $view)
+	public function controller(string $name)
 	{
-		if (is_readable(APP_PATH . 'views/' . $view . '.php'))
-			require_once(APP_PATH . 'views/' . $view . '.php');
-		else if (is_readable(CORE_PATH . 'views/' . $view . '.php'))
-			require_once(CORE_PATH . 'views/' . $view . '.php');
-		else
-			return (NULL);
-		$view_name = "v_" . $view;
-		if (!class_exists($view_name))
+		$class_name = "c_" . $name;
+		if (!class_exists($class_name))
+			$this->file_loader('controllers/', $name);
+		if (!class_exists($class_name))
 			return (NULL);
 
-		$view = new $view_name();
+		$controller = new $class_name();
+
+		$controller->load =& $this;
+		$controller->core =& $this->core;
+		$controller->data =& $this->data;
+		return ($controller);
+	}
+
+	public function view(string $name)
+	{
+		$class_name = "v_" . $name;
+		if (!class_exists($class_name))
+			$this->file_loader('views/', $name);
+		if (!class_exists($class_name))
+			return (NULL);
+
+		$view = new $class_name();
+
 		$view->load =& $this;
 		$view->core =& $this->core;
 		$view->data =& $this->data;
-
 		return ($view);
 	}
 
-	public function module(string $module = null)
+	public function model(string $name)
 	{
-		if (is_readable(CORE_PATH . 'modules/' . $module . '.php'))
-			require_once(CORE_PATH . 'modules/' . $module . '.php');
-		else
-			die ("Can't find '" . $module . "' module file ! Die;");
+		$class_name = "m_" . $name;
+		if (!class_exists($class_name))
+			$this->file_loader('models/', $name);
+		if (!class_exists($class_name))
+			return (NULL);
 
-		$module_name = "module_" . $module;
+		$model = new $class_name();
 
-		if (!class_exists($module_name))
-			die ("Can't load '" . $module_name . "' class ! Die;");
+		$model->load =& $this;
+		$model->core =& $this->core;
+		$model->data =& $this->data;
 
-		return ($module_name);
-	}
-
-	public function model(string $model)
-	{
-		if (is_readable(APP_PATH . 'models/' . $model . '.php'))
-			require_once(APP_PATH . 'models/' . $model . '.php');
-		else
-			die ("Can't find '" . $name . "' model file ! Die;");
-		$calledmodel = 'm_' . $model;
-
-		$model = new $calledmodel();
 		$model->db = &$this->core->db;
-
 		return ($model);
 	}
+
+	public function module(string $name = null)
+	{
+		$class_name = "module_" . $name;
+		if (!class_exists($class_name))
+			$this->file_loader('modules/', $name);
+		if (!class_exists($class_name))
+			return (NULL);
+
+		$module = new $class_name();
+
+		$module->load =& $this;
+		$module->core =& $this->core;
+		$module->data =& $this->data;
+		return ($module);
+	}
+
 
 	public function entity(string $entity)
 	{
@@ -81,13 +91,4 @@ class loader
 		return ($data);
 	}
 
-	public	function	html(string $file)
-	{
-		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
-			require(APP_PATH . 'html/' . $file . '.html');
-		else if (is_readable(CORE_PATH . 'html/' . $file . '.html'))
-			require(CORE_PATH . 'html/' . $file . '.html');
-		else
-			echo '<h1 style="color:red;">Can\'t find view "' . $file . '" in app/ or core/</h1>'; 
-	}
 }

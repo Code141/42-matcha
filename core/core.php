@@ -8,14 +8,14 @@ class core
 	public $load;
 
 	public $data;
-	public $modules;
+	public $module;
 
 	public $controller;
 	public $view;
 
-	public function __construct($request)
+	public function __construct()
 	{
-		$this->request = $request;
+		$this->parse_uri($_SERVER['REQUEST_URI']);
 
 		$this->load = new loader();
 		$this->load->core =& $this;
@@ -30,6 +30,9 @@ class core
 		$this->module->core =& $this;
 		$this->module->load =& $this->load;
 		$this->module->data =& $this->data;
+
+		$this->new_controller($this->request['controller']);
+		$this->execute_controller($this->request['action']);
 	}
 
 	public function	new_controller(string $controller_name = NULL)
@@ -37,19 +40,15 @@ class core
 		if (isset($this->controller))
 			unset($this->controller);
 
-		$controller_name = $this->load->controller($controller_name);
-		if ($controller_name === NULL)
+		$this->controller = $this->load->controller($controller_name);
+		if ($this->controller === NULL)
 			die ("CORE CAN'T LOAD CONTROLLER (404!)");
-
-		$this->controller = new $controller_name();
-		$this->controller->core =& $this;
-		$this->controller->load =& $this->load;
-		$this->controller->data =& $this->data;
 	}
 
 	public function	execute_controller($action_name)
 	{
 		$controller_classes = get_class_methods($this->controller);
+
 		$public_classes = preg_grep("/^(?!__).+/", $controller_classes);
 		if (array_search($action_name, $public_classes) === FALSE)
 			$action = "error_404";
@@ -105,5 +104,20 @@ class core
 		else
 			return (NULL);
 	}
+
+	private function	parse_uri(string $uri)
+	{
+		$pattern = "~^" . SITE_ROOT . "~";
+		$uri = preg_replace($pattern, "", $uri);
+		$uri = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $uri);
+		$uri = strtok($uri, '?');
+		$uri = trim($uri, '/');
+		$exploded_uri = explode('/', $uri);
+		$request['controller'] = ($exploded_uri[0] != '') ? $exploded_uri[0] : DEFAULT_CONTROLLER;
+		$request['action'] = (isset($exploded_uri[1])) ? $exploded_uri[1] : DEFAUT_ACTION;
+		$request['params'] = (isset($exploded_uri[2])) ? array_slice($exploded_uri, 2) : NULL;
+		$this->request = $request;
+	}
+
 
 }
