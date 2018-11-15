@@ -4,6 +4,7 @@ class	db
 {
 	public	$pdo;
 	public	$sql;
+	public	$bind_param = array();
 
 	public function	connect()
 	{
@@ -35,6 +36,11 @@ class	db
 	public function	execute_pdo()
 	{
 		$this->pdo_stm = $this->pdo->prepare($this->sql);
+
+		$this->bind_param = array_unique($this->bind_param);
+		foreach ($this->bind_param as $key => $value)
+			$this->pdo_stm->bindParam($key, $value);
+		
 		try
 		{
 			$this->pdo_stm->execute();
