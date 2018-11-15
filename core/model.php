@@ -7,7 +7,6 @@ class m_model
 
 	public function	__construct()
 	{
-		
 		try
 		{
 			require(CONFIG_PATH . 'database.php');
@@ -17,20 +16,34 @@ class m_model
 		}
 		catch(PDOException $exception)
 		{
-			if (DEV_MODE)
+/*			if (DEV_MODE)
 			{
 				if ($exception->getCode() == 1049)
-					header ('location:' . SITE_ROOT . 'config/setup.php');
+					$this->core->set_view("sql_test", "main");
+					header ('location:' . SITE_ROOT . 'setup');
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
 			else
 				header ('location:' . SITE_ROOT . '404');
 			die();
-		}
-		 
+*/		}
 	}
-	
+
+	public function	execute_pdo()
+	{
+		$this->pdo_stm = $this->pdo->prepare($this->sql);
+		try
+		{
+			$this->pdo_stm->execute();
+		}
+		catch (PDOException $exception)
+		{
+			exit("Something went wrong : " . $exception);//->getMessage());
+		}
+		return ($this->pdo_stm);
+	}
+
 	public function create_db()
 	{
 		require(CONFIG_PATH . 'database.php');
@@ -59,18 +72,6 @@ class m_model
 		return($this);
 	}
 
-	public function	execute_pdo()
-	{
-		$this->pdo_stm = $this->pdo->prepare($this->sql);
-		try {
-			$this->pdo_stm->execute();
-		} catch (PDOException $exception){
-			exit("Something went wrong : " . $exception);//->getMessage());
-		}
-
-		return ($this->pdo_stm);
-	}
-	
 	public function insert(string $table, array $columns, array $values)
 	{
 		if ($count($columns) != count($values))
@@ -110,7 +111,7 @@ class m_model
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
-	
+
 	public function where(string $column, string $operator, string $value)
 	{
 		$stm = " WHERE `" . $column . "` " . $operator . " '" . $value . "'";
@@ -124,7 +125,7 @@ class m_model
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
-	
+
 	public function or(string $column, string $operator, string $value)
 	{
 		$stm = " OR `" . $column . "` " . $operator . " '" . $value . "'";

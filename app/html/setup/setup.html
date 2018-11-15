@@ -1,8 +1,15 @@
 <h1>
 	SETUP MATCHA
 </h1>
-<form action="<?php echo SITE_ROOT;?>setup/setup" method="post">
+
+<form action="<?php echo SITE_ROOT;?>setup/new" method="post">
 	<input type="submit" name="new" value="create an empty database">
+</form>
+
+<form action="<?php echo SITE_ROOT;?>setup/seed" method="post">
 	<input type="submit" name="seed" value="create a database with 500 users">
+</form>
+
+<form action="<?php echo SITE_ROOT;?>setup/drop" method="post">
 	<input type="submit" name="drop" value="drop database">
 </form>

@@ -22,7 +22,6 @@ class core
 		$this->load->data =& $this->data;
 		$this->load->pdo =& $this->pdo;
 
-
 		$this->pdo = new m_model();
 
 		$this->module = new modules();
