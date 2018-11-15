@@ -16,24 +16,30 @@ class core
 	public function __construct($request)
 	{
 		$this->request = $request;
-		$this->pdo = new m_model();
 
 		$this->load = new loader();
 		$this->load->core =& $this;
-		$this->load->load =& $this->load;
 		$this->load->data =& $this->data;
-		$this->load->pdo =& $this->pdo;
+
+		$this->pdo = new bdd_pdo();
+		$this->pdo->core =& $this;
+		$this->pdo->load =& $this->load;
+		$this->pdo->data =& $this->data;
+		$this->pdo->pdo =& $this->pdo;
+		$this->pdo->connect();
 
 		$this->module = new modules();
 		$this->module->core =& $this;
 		$this->module->load =& $this->load;
 		$this->module->data =& $this->data;
 		$this->module->pdo =& $this->pdo;
-
 	}
 
 	public function	new_controller(string $controller_name = NULL)
 	{
+		if (isset($this->controller))
+			unset($this->controller);
+
 		$controller_name = $this->load->controller($controller_name);
 		if ($controller_name === NULL)
 			die ("CORE CAN'T LOAD CONTROLLER");
@@ -95,7 +101,7 @@ class core
 		$this->controller->pdo =& $this->pdo;
 	}
 
-	public function fail($msg = NULL, $action = NULL, $controller = NULL, $params = NULL)
+	public function fail(string $msg = NULL, string $controller = NULL, string $action = NULL)
 	{
 		if ($msg === NULL)
 			$msg = "Fail for unknow reason";
@@ -103,15 +109,12 @@ class core
 			$action = $_SESSION['last_url']['action'];
 		if ($controller == NULL)
 			$controller = $_SESSION['last_url']['controller'];
-		if ($params == NULL)
-			$params = $_SESSION['last_url']['params'];
-		$controller = $this->load->controller($controller);
-		$controller->prompter['fail'] = $msg;
-		$controller->$action($params);
-		die ();
+		$this->new_controller($controller);
+		$this->controller->prompter['fail'] = $msg;
+		$this->execute_controller($action);
 	}
 
-	public function success($msg = NULL, $action = NULL, $controller = NULL, $params = NULL)
+	public function success($msg = NULL, $controller = NULL, $action = NULL)
 	{
 		if ($msg === NULL)
 			$msg = "Success";
@@ -119,12 +122,9 @@ class core
 			$action = $_SESSION['last_url']['action'];
 		if ($controller == NULL)
 			$controller = $_SESSION['last_url']['controller'];
-		if ($params == NULL && isset($_SESSION['last_url']['params']))
-			$params = $_SESSION['last_url']['params'];
-		$controller = $this->load->controller($controller);
-		$controller->prompter['success'] = $msg;
-		$controller->$action($params);
-		die ();
+		$this->new_controller($controller);
+		$this->controller->prompter['success'] = $msg;
+		$this->execute_controller($action);
 	}
 
 	protected function cookie_set($cookie_key, $cookie_value)

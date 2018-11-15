@@ -12,6 +12,7 @@ require_once(CORE_PATH . 'route.php');
 require_once(CORE_PATH . 'core.php');
 require_once(CORE_PATH . 'loader.php');
 require_once(CORE_PATH . 'modules.php');
+require_once(CORE_PATH . 'bdd_pdo.php');
 
 require_once(CORE_PATH . 'model.php');
 require_once(CORE_PATH . 'view.php');
