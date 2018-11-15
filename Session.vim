@@ -18,15 +18,15 @@ badd +3 core/model.php
 badd +1 app/entity/user.php
 badd +1 config/database.php
 badd +9 app/controllers/home.php
-badd +1 app/html/home.html
+badd +3 app/html/home.html
 badd +35 core/core.php
-badd +9 core/modules.php
+badd +16 core/modules.php
 badd +15 core/db.php
 badd +1 app/views/home.php
 badd +1 app/html/layout/default.html
-badd +0 app/html/prompter.html
-badd +0 app/html/header.html
-badd +0 app/assets/css/style.css
+badd +1 app/html/prompter.html
+badd +4 app/html/header.html
+badd +1 app/assets/css/style.css
 argglobal
 silent! argdel *
 tabnew
@@ -56,15 +56,15 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 8 + 40) / 81)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 35 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 32 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 95 + 181) / 362)
-exe 'vert 6resize ' . ((&columns * 96 + 181) / 362)
+exe '1resize ' . ((&lines * 8 + 42) / 84)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 37 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 33 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 5resize ' . ((&columns * 96 + 182) / 364)
+exe 'vert 6resize ' . ((&columns * 97 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -91,7 +91,7 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 4 - ((3 * winheight(0) + 17) / 35)
+let s:l = 4 - ((3 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -110,7 +110,7 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 4 - ((3 * winheight(0) + 16) / 32)
+let s:l = 4 - ((3 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -130,7 +130,7 @@ setlocal fdn=20
 setlocal fen
 8
 normal! zo
-let s:l = 13 - ((12 * winheight(0) + 38) / 77)
+let s:l = 13 - ((12 * winheight(0) + 40) / 80)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -148,8 +148,6 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 5
-normal! zo
-34
 normal! zo
 40
 normal! zo
@@ -169,7 +167,7 @@ normal! zo
 normal! zc
 110
 normal! zc
-let s:l = 30 - ((29 * winheight(0) + 38) / 77)
+let s:l = 30 - ((29 * winheight(0) + 40) / 80)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -198,22 +196,22 @@ normal! zo
 normal! zo
 68
 normal! zo
-let s:l = 2 - ((1 * winheight(0) + 38) / 77)
+let s:l = 2 - ((1 * winheight(0) + 40) / 80)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 2
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 8 + 40) / 81)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 35 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 32 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 95 + 181) / 362)
-exe 'vert 6resize ' . ((&columns * 96 + 181) / 362)
+exe '1resize ' . ((&lines * 8 + 42) / 84)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 37 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 33 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 5resize ' . ((&columns * 96 + 182) / 364)
+exe 'vert 6resize ' . ((&columns * 97 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/core/controller.php
 set splitbelow splitright
@@ -237,15 +235,15 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 56 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 20 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
+exe 'vert 1resize ' . ((&columns * 121 + 182) / 364)
+exe '2resize ' . ((&lines * 58 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 21 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 40 + 42) / 84)
+exe 'vert 4resize ' . ((&columns * 121 + 182) / 364)
+exe '5resize ' . ((&lines * 39 + 42) / 84)
+exe 'vert 5resize ' . ((&columns * 121 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -261,7 +259,7 @@ normal! zo
 normal! zo
 60
 normal! zo
-let s:l = 28 - ((27 * winheight(0) + 38) / 77)
+let s:l = 28 - ((27 * winheight(0) + 40) / 80)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -278,7 +276,7 @@ setlocal fdl=4
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 85 - ((60 * winheight(0) + 28) / 56)
+let s:l = 85 - ((57 * winheight(0) + 29) / 58)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -297,7 +295,7 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 12 - ((11 * winheight(0) + 10) / 20)
+let s:l = 12 - ((11 * winheight(0) + 10) / 21)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -316,7 +314,7 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 2 - ((1 * winheight(0) + 19) / 38)
+let s:l = 2 - ((1 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -333,28 +331,22 @@ setlocal fdl=5
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-5
-normal! zo
-46
-normal! zo
-109
-normal! zo
-let s:l = 14 - ((13 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
+1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 56 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 20 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
+exe 'vert 1resize ' . ((&columns * 121 + 182) / 364)
+exe '2resize ' . ((&lines * 58 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 21 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 40 + 42) / 84)
+exe 'vert 4resize ' . ((&columns * 121 + 182) / 364)
+exe '5resize ' . ((&lines * 39 + 42) / 84)
+exe 'vert 5resize ' . ((&columns * 121 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/core/controller.php
 set splitbelow splitright
@@ -372,7 +364,10 @@ wincmd w
 wincmd w
 wincmd _ | wincmd |
 split
-1wincmd k
+wincmd _ | wincmd |
+split
+2wincmd k
+wincmd w
 wincmd w
 wincmd w
 wincmd w
@@ -382,10 +377,7 @@ wincmd _ | wincmd |
 split
 wincmd _ | wincmd |
 split
-wincmd _ | wincmd |
-split
-4wincmd k
-wincmd w
+3wincmd k
 wincmd w
 wincmd w
 wincmd w
@@ -394,25 +386,25 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 19 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 57 + 40) / 81)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 91 + 181) / 362)
-exe '6resize ' . ((&lines * 17 + 40) / 81)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 17 + 40) / 81)
-exe 'vert 7resize ' . ((&columns * 84 + 181) / 362)
-exe '8resize ' . ((&lines * 12 + 40) / 81)
-exe 'vert 8resize ' . ((&columns * 84 + 181) / 362)
-exe '9resize ' . ((&lines * 9 + 40) / 81)
-exe 'vert 9resize ' . ((&columns * 84 + 181) / 362)
-exe '10resize ' . ((&lines * 18 + 40) / 81)
-exe 'vert 10resize ' . ((&columns * 84 + 181) / 362)
+exe '1resize ' . ((&lines * 20 + 42) / 84)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 59 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 93 + 182) / 364)
+exe '4resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 4resize ' . ((&columns * 93 + 182) / 364)
+exe '5resize ' . ((&lines * 48 + 42) / 84)
+exe 'vert 5resize ' . ((&columns * 93 + 182) / 364)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 25 + 42) / 84)
+exe 'vert 7resize ' . ((&columns * 84 + 182) / 364)
+exe '8resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 8resize ' . ((&columns * 84 + 182) / 364)
+exe '9resize ' . ((&lines * 10 + 42) / 84)
+exe 'vert 9resize ' . ((&columns * 84 + 182) / 364)
+exe '10resize ' . ((&lines * 27 + 42) / 84)
+exe 'vert 10resize ' . ((&columns * 84 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -432,11 +424,11 @@ normal! zo
 normal! zo
 70
 normal! zo
-let s:l = 42 - ((30 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-42
+1
 normal! 0
 wincmd w
 argglobal
@@ -457,12 +449,12 @@ normal! zo
 normal! zo
 74
 normal! zo
-let s:l = 58 - ((17 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-58
-normal! 029|
+1
+normal! 0
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/app/controllers/home.php') | buffer ~/cursus/matcha/app/controllers/home.php | else | edit ~/cursus/matcha/app/controllers/home.php | endif
@@ -476,7 +468,7 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 7 - ((6 * winheight(0) + 9) / 19)
+let s:l = 7 - ((6 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -495,11 +487,11 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 7 - ((6 * winheight(0) + 28) / 57)
+let s:l = 11 - ((7 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
+11
 normal! 0
 wincmd w
 argglobal
@@ -512,11 +504,11 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 6 - ((5 * winheight(0) + 38) / 77)
+let s:l = 9 - ((8 * winheight(0) + 24) / 48)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
+9
 normal! 0
 wincmd w
 argglobal
@@ -531,12 +523,12 @@ setlocal fdn=20
 setlocal fen
 4
 normal! zo
-let s:l = 26 - ((10 * winheight(0) + 8) / 17)
+let s:l = 32 - ((31 * winheight(0) + 40) / 80)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
-normal! 04|
+32
+normal! 07|
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/app/assets/css/style.css') | buffer ~/cursus/matcha/app/assets/css/style.css | else | edit ~/cursus/matcha/app/assets/css/style.css | endif
@@ -548,11 +540,11 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 16 - ((11 * winheight(0) + 8) / 17)
+let s:l = 1 - ((0 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
+1
 normal! 0
 wincmd w
 argglobal
@@ -565,11 +557,11 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 4 - ((3 * winheight(0) + 6) / 12)
+let s:l = 1 - ((0 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-4
+1
 normal! 0
 wincmd w
 argglobal
@@ -578,16 +570,16 @@ setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=2
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 4) / 9)
+let s:l = 2 - ((1 * winheight(0) + 5) / 10)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 02|
+2
+normal! 0
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/app/html/home.html') | buffer ~/cursus/matcha/app/html/home.html | else | edit ~/cursus/matcha/app/html/home.html | endif
@@ -599,34 +591,33 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-2
-normal! zo
-let s:l = 3 - ((2 * winheight(0) + 9) / 18)
+let s:l = 1 - ((0 * winheight(0) + 13) / 27)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 02|
+1
+normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 38 + 40) / 81)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 19 + 40) / 81)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 57 + 40) / 81)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 91 + 181) / 362)
-exe '6resize ' . ((&lines * 17 + 40) / 81)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 17 + 40) / 81)
-exe 'vert 7resize ' . ((&columns * 84 + 181) / 362)
-exe '8resize ' . ((&lines * 12 + 40) / 81)
-exe 'vert 8resize ' . ((&columns * 84 + 181) / 362)
-exe '9resize ' . ((&lines * 9 + 40) / 81)
-exe 'vert 9resize ' . ((&columns * 84 + 181) / 362)
-exe '10resize ' . ((&lines * 18 + 40) / 81)
-exe 'vert 10resize ' . ((&columns * 84 + 181) / 362)
+6wincmd w
+exe '1resize ' . ((&lines * 20 + 42) / 84)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 59 + 42) / 84)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 3resize ' . ((&columns * 93 + 182) / 364)
+exe '4resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 4resize ' . ((&columns * 93 + 182) / 364)
+exe '5resize ' . ((&lines * 48 + 42) / 84)
+exe 'vert 5resize ' . ((&columns * 93 + 182) / 364)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 25 + 42) / 84)
+exe 'vert 7resize ' . ((&columns * 84 + 182) / 364)
+exe '8resize ' . ((&lines * 15 + 42) / 84)
+exe 'vert 8resize ' . ((&columns * 84 + 182) / 364)
+exe '9resize ' . ((&lines * 10 + 42) / 84)
+exe 'vert 9resize ' . ((&columns * 84 + 182) / 364)
+exe '10resize ' . ((&lines * 27 + 42) / 84)
+exe 'vert 10resize ' . ((&columns * 84 + 182) / 364)
 tabnext 3
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
