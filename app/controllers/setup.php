@@ -9,32 +9,39 @@ class c_setup extends c_controller
 
 	public function new($params = NULL)
 	{
-		$this->pdo->create_db();
-		$this->pdo->execute_pdo();
-		$this->pdo->from_file_to_query(SERVER_ROOT . "app/sql/" . APP_NAME . ".sql");
-		$this->pdo->execute_pdo();
+		$this->load->model("setup")
+			->create_db()
+			->from_file_to_query("tables.sql");
+
 		echo "new<br>";
+		$this->core->set_view("setup", "main");
 	}
 
 	public function seed($params = NULL)
 	{
+
+		$this->load->model("setup")
+			->drop_db()
+			->create_db()
+			->from_file_to_query("tables.sql");
+
+		$this->load->model("setup")->create_db();
 		$seed_dir = SERVER_ROOT . "app/sql/seed/";
-		$this->pdo->create_db();
-		$this->pdo->execute_pdo();
 		if (is_dir($seed_dir))
-		{	
-			foreach (scandir($seed_dir) as $file)
-			{
-				$this->pdo->from_file_to_query($seed_dir . $file);
-				$ret = $this->pdo->execute_pdo();
-			}
+		{
+			$seeds_files = preg_grep("/.+\.sql$/", scandir($seed_dir));
+			foreach ($seeds_files as $file)
+				$this->load->model("setup")->from_file_to_query("seed/" . $file);
 		}
+
 		echo "seed<br>";
+		$this->core->set_view("setup", "main");
 	}
 
 	public function drop($params = NULL)
 	{
+		$this->load->model("setup")->drop_db();
 		echo "drop<br>";
+		$this->core->set_view("setup", "main");
 	}
-
 }

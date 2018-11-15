@@ -5,73 +5,6 @@ class m_model
 	public	$pdo;
 	public	$sql;
 
-	public function	__construct()
-	{
-		try
-		{
-			require(CONFIG_PATH . 'database.php');
-			$this->pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-			if (DEV_MODE)
-				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-		}
-		catch(PDOException $exception)
-		{
-			if (DEV_MODE)
-			{
-				if ($exception->getCode() == 1049)
-					$this->core->fail("Database doesn't existe", "setup", "main");
-//					header ('location:' . SITE_ROOT . 'setup');
-				else
-					echo 'Erreur : ' . $exception->getMessage();
-			}
-			else
-				header ('location:' . SITE_ROOT . '404');
-			die();
-		}
-	}
-
-	public function	execute_pdo()
-	{
-		$this->pdo_stm = $this->pdo->prepare($this->sql);
-		try
-		{
-			$this->pdo_stm->execute();
-		}
-		catch (PDOException $exception)
-		{
-			exit("Something went wrong : " . $exception);//->getMessage());
-		}
-		return ($this->pdo_stm);
-	}
-
-	public function create_db()
-	{
-		require(CONFIG_PATH . 'database.php');
-		$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
-		$this->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME     . ";\n USE `".APP_NAME."`";
-		return ($this);
-	}
-
-	public function drop_db()
-	{
-		$this->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
-		return ($this);
-	}
-
-	public function from_file_to_query($file)
-	{
-		if (is_readable($file))
-			$script = file($file);
-		$query = '';
-		foreach ($script as $line) {
-			if(substr($line, 0, 2) == '--' || $line == '')
-				continue ;
-			$query .= $line;
-		}
-		$this->sql = $query;
-		return($this);
-	}
-
 	public function insert(string $table, array $columns, array $values)
 	{
 		if ($count($columns) != count($values))
@@ -141,12 +74,5 @@ class m_model
 		return ($this);
 	}
 
-	public function	__destruct()
-	{
-		if (!empty($this->pdo_stm))
-			$this->pdo_stm->closeCursor();
-		$this->pdo_stm = NULL;
-		$this->pdo = NULL;
-	}
 }
 

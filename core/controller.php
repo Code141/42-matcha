@@ -4,9 +4,6 @@ class c_controller
 {
 	public $load;
 	public $data = array();
-	public $prompter = array(
-		"success" => "",
-		"fail" => "");
 
 	public function __construct()
 	{

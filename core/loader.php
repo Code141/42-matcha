@@ -27,37 +27,36 @@ class loader
 		$view_name = "v_" . $view;
 		if (!class_exists($view_name))
 			return (NULL);
-		return ($view_name);
+
+		$view = new $view_name();
+		$view->load =& $this;
+		$view->core =& $this->core;
+		$view->data =& $this->data;
+		return ($view);
 	}
 
-	public function module(string $name = null)
+	public function module(string $module = null)
 	{
-		if (is_readable(CORE_PATH . 'modules/' . $name . '.php'))
-			require_once(CORE_PATH . 'modules/' . $name . '.php');
+		if (is_readable(CORE_PATH . 'modules/' . $module . '.php'))
+			require_once(CORE_PATH . 'modules/' . $module . '.php');
 		else
-			die ("Can't find '" . $name . "' module file ! Die;");
-		$module_name = "module_" . $name;
+			die ("Can't find '" . $module . "' module file ! Die;");
+		$module_name = "module_" . $module;
 		if (!class_exists($module_name))
 			die ("Can't load '" . $module_name . "' class ! Die;");
 		return ($module_name);
 	}
 
-	public function model(string $model_file, string $model, $params = NULL)
+	public function model(string $model)
 	{
-		require_once(APP_PATH . 'models/' . $model_file . '.php');
-		$calledmodel = 'm_' . $model_file;
-		$pdo = new $calledmodel();
-		return($pdo->$model($params));
-	}
-
-	public	function	html(string $file)
-	{
-		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
-			require(APP_PATH . 'html/' . $file . '.html');
-		else if (is_readable(CORE_PATH . 'html/' . $file . '.html'))
-			require(CORE_PATH . 'html/' . $file . '.html');
+		if (is_readable(APP_PATH . 'models/' . $model . '.php'))
+			require_once(APP_PATH . 'models/' . $model . '.php');
 		else
-			echo '<h1 style="color:red;">Can\'t find view "' . $file . '" in app/ or core/</h1>'; 
+			die ("Can't find '" . $name . "' model file ! Die;");
+		$calledmodel = 'm_' . $model;
+		$model = new $calledmodel();
+		$model->db = &$this->core->db;
+		return ($model);
 	}
 
 	public function entity(string $entity)
@@ -71,4 +70,13 @@ class loader
 		return ($data);
 	}
 
+	public	function	html(string $file)
+	{
+		if (is_readable(APP_PATH . 'html/' . $file . '.html'))
+			require(APP_PATH . 'html/' . $file . '.html');
+		else if (is_readable(CORE_PATH . 'html/' . $file . '.html'))
+			require(CORE_PATH . 'html/' . $file . '.html');
+		else
+			echo '<h1 style="color:red;">Can\'t find view "' . $file . '" in app/ or core/</h1>'; 
+	}
 }

@@ -1,473 +1,474 @@
-insert into tag (id, tag_name) values (NULL, '3D printing');
-insert into tag (id, tag_name) values (NULL, 'Acting');
-insert into tag (id, tag_name) values (NULL, 'Aeromodeling');
-insert into tag (id, tag_name) values (NULL, 'Air sports');
-insert into tag (id, tag_name) values (NULL, 'Airbrushing');
-insert into tag (id, tag_name) values (NULL, 'Aircraft Spotting');
-insert into tag (id, tag_name) values (NULL, 'Airsoft');
-insert into tag (id, tag_name) values (NULL, 'Airsofting');
-insert into tag (id, tag_name) values (NULL, 'Amateur astronomy');
-insert into tag (id, tag_name) values (NULL, 'Amateur geology');
-insert into tag (id, tag_name) values (NULL, 'Amateur Radio');
-insert into tag (id, tag_name) values (NULL, 'American football');
-insert into tag (id, tag_name) values (NULL, 'Animal fancy');
-insert into tag (id, tag_name) values (NULL, 'Animals/pets/dogs');
-insert into tag (id, tag_name) values (NULL, 'Antiquing');
-insert into tag (id, tag_name) values (NULL, 'Antiquities');
-insert into tag (id, tag_name) values (NULL, 'Aqua-lung');
-insert into tag (id, tag_name) values (NULL, 'Aquarium (Freshwater & Saltwater)');
-insert into tag (id, tag_name) values (NULL, 'Archery');
-insert into tag (id, tag_name) values (NULL, 'Art collecting');
-insert into tag (id, tag_name) values (NULL, 'Arts');
-insert into tag (id, tag_name) values (NULL, 'Association football');
-insert into tag (id, tag_name) values (NULL, 'Astrology');
-insert into tag (id, tag_name) values (NULL, 'Astronomy');
-insert into tag (id, tag_name) values (NULL, 'Audiophilia');
-insert into tag (id, tag_name) values (NULL, 'Australian rules football');
-insert into tag (id, tag_name) values (NULL, 'Auto audiophilia');
-insert into tag (id, tag_name) values (NULL, 'Auto racing');
-insert into tag (id, tag_name) values (NULL, 'Backgammon');
-insert into tag (id, tag_name) values (NULL, 'Backpacking');
-insert into tag (id, tag_name) values (NULL, 'Badminton');
-insert into tag (id, tag_name) values (NULL, 'Base Jumping');
-insert into tag (id, tag_name) values (NULL, 'Baseball');
-insert into tag (id, tag_name) values (NULL, 'Basketball');
-insert into tag (id, tag_name) values (NULL, 'Baton Twirling');
-insert into tag (id, tag_name) values (NULL, 'Beach Volleyball');
-insert into tag (id, tag_name) values (NULL, 'Beach/Sun tanning');
-insert into tag (id, tag_name) values (NULL, 'Beachcombing');
-insert into tag (id, tag_name) values (NULL, 'Beadwork');
-insert into tag (id, tag_name) values (NULL, 'Beatboxing');
-insert into tag (id, tag_name) values (NULL, 'Becoming A Child Advocate');
-insert into tag (id, tag_name) values (NULL, 'Beekeeping');
-insert into tag (id, tag_name) values (NULL, 'Bell Ringing');
-insert into tag (id, tag_name) values (NULL, 'Belly Dancing');
-insert into tag (id, tag_name) values (NULL, 'Bicycle Polo');
-insert into tag (id, tag_name) values (NULL, 'Bicycling');
-insert into tag (id, tag_name) values (NULL, 'Billiards');
-insert into tag (id, tag_name) values (NULL, 'Bird watching');
-insert into tag (id, tag_name) values (NULL, 'Birding');
-insert into tag (id, tag_name) values (NULL, 'Birdwatching');
-insert into tag (id, tag_name) values (NULL, 'Blacksmithing');
-insert into tag (id, tag_name) values (NULL, 'Blogging');
-insert into tag (id, tag_name) values (NULL, 'BMX');
-insert into tag (id, tag_name) values (NULL, 'Board games');
-insert into tag (id, tag_name) values (NULL, 'Board sports');
-insert into tag (id, tag_name) values (NULL, 'BoardGames');
-insert into tag (id, tag_name) values (NULL, 'Boating');
-insert into tag (id, tag_name) values (NULL, 'Body Building');
-insert into tag (id, tag_name) values (NULL, 'Bodybuilding');
-insert into tag (id, tag_name) values (NULL, 'Bonsai Tree');
-insert into tag (id, tag_name) values (NULL, 'Book collecting');
-insert into tag (id, tag_name) values (NULL, 'Bookbinding');
-insert into tag (id, tag_name) values (NULL, 'Boomerangs');
-insert into tag (id, tag_name) values (NULL, 'Bowling');
-insert into tag (id, tag_name) values (NULL, 'Boxing');
-insert into tag (id, tag_name) values (NULL, 'Brazilian jiu-jitsu');
-insert into tag (id, tag_name) values (NULL, 'Breakdancing');
-insert into tag (id, tag_name) values (NULL, 'Brewing Beer');
-insert into tag (id, tag_name) values (NULL, 'Bridge');
-insert into tag (id, tag_name) values (NULL, 'Bridge Building');
-insert into tag (id, tag_name) values (NULL, 'Bringing Food To The Disabled');
-insert into tag (id, tag_name) values (NULL, 'Building A House For Habitat For Humanity');
-insert into tag (id, tag_name) values (NULL, 'Building Dollhouses');
-insert into tag (id, tag_name) values (NULL, 'Bus spotting');
-insert into tag (id, tag_name) values (NULL, 'Butterfly Watching');
-insert into tag (id, tag_name) values (NULL, 'Button Collecting');
-insert into tag (id, tag_name) values (NULL, 'Cake Decorating');
-insert into tag (id, tag_name) values (NULL, 'Calligraphy');
-insert into tag (id, tag_name) values (NULL, 'Camping');
-insert into tag (id, tag_name) values (NULL, 'Candle making');
-insert into tag (id, tag_name) values (NULL, 'Canoeing');
-insert into tag (id, tag_name) values (NULL, 'Car Racing');
-insert into tag (id, tag_name) values (NULL, 'Card collecting');
-insert into tag (id, tag_name) values (NULL, 'Cartooning');
-insert into tag (id, tag_name) values (NULL, 'Casino Gambling');
-insert into tag (id, tag_name) values (NULL, 'Cave Diving');
-insert into tag (id, tag_name) values (NULL, 'Ceramics');
-insert into tag (id, tag_name) values (NULL, 'Cheerleading');
-insert into tag (id, tag_name) values (NULL, 'Chess');
-insert into tag (id, tag_name) values (NULL, 'Church/church activities');
-insert into tag (id, tag_name) values (NULL, 'Cigar Smoking');
-insert into tag (id, tag_name) values (NULL, 'Climbing');
-insert into tag (id, tag_name) values (NULL, 'Cloud Watching');
-insert into tag (id, tag_name) values (NULL, 'Coin Collecting');
-insert into tag (id, tag_name) values (NULL, 'Collecting');
-insert into tag (id, tag_name) values (NULL, 'Collecting Antiques');
-insert into tag (id, tag_name) values (NULL, 'Collecting Artwork');
-insert into tag (id, tag_name) values (NULL, 'Collecting Hats');
-insert into tag (id, tag_name) values (NULL, 'Collecting Music Albums');
-insert into tag (id, tag_name) values (NULL, 'Collecting RPM Records');
-insert into tag (id, tag_name) values (NULL, 'Collecting Sports Cards (Baseball, Football, Basketball, Hockey)');
-insert into tag (id, tag_name) values (NULL, 'Collecting Swords');
-insert into tag (id, tag_name) values (NULL, 'Color guard');
-insert into tag (id, tag_name) values (NULL, 'Coloring');
-insert into tag (id, tag_name) values (NULL, 'Comic book collecting');
-insert into tag (id, tag_name) values (NULL, 'Compose Music');
-insert into tag (id, tag_name) values (NULL, 'Computer activities');
-insert into tag (id, tag_name) values (NULL, 'Computer programming');
-insert into tag (id, tag_name) values (NULL, 'Conworlding');
-insert into tag (id, tag_name) values (NULL, 'Cooking');
-insert into tag (id, tag_name) values (NULL, 'Cosplay');
-insert into tag (id, tag_name) values (NULL, 'Cosplaying');
-insert into tag (id, tag_name) values (NULL, 'Couponing');
-insert into tag (id, tag_name) values (NULL, 'Crafts');
-insert into tag (id, tag_name) values (NULL, 'Crafts (unspecified)');
-insert into tag (id, tag_name) values (NULL, 'Creative writing');
-insert into tag (id, tag_name) values (NULL, 'Cricket');
-insert into tag (id, tag_name) values (NULL, 'Crochet');
-insert into tag (id, tag_name) values (NULL, 'Crocheting');
-insert into tag (id, tag_name) values (NULL, 'Cross-Stitch');
-insert into tag (id, tag_name) values (NULL, 'Crossword Puzzles');
-insert into tag (id, tag_name) values (NULL, 'Cryptography');
-insert into tag (id, tag_name) values (NULL, 'Curling');
-insert into tag (id, tag_name) values (NULL, 'Cycling');
-insert into tag (id, tag_name) values (NULL, 'Dance');
-insert into tag (id, tag_name) values (NULL, 'Dancing');
-insert into tag (id, tag_name) values (NULL, 'Darts');
-insert into tag (id, tag_name) values (NULL, 'Debate');
-insert into tag (id, tag_name) values (NULL, 'Deltiology (postcard collecting)');
-insert into tag (id, tag_name) values (NULL, 'Diecast Collectibles');
-insert into tag (id, tag_name) values (NULL, 'Digital arts');
-insert into tag (id, tag_name) values (NULL, 'Digital Photography');
-insert into tag (id, tag_name) values (NULL, 'Disc golf');
-insert into tag (id, tag_name) values (NULL, 'Do it yourself');
-insert into tag (id, tag_name) values (NULL, 'Dodgeball');
-insert into tag (id, tag_name) values (NULL, 'Dog sport');
-insert into tag (id, tag_name) values (NULL, 'Dolls');
-insert into tag (id, tag_name) values (NULL, 'Dominoes');
-insert into tag (id, tag_name) values (NULL, 'Dowsing');
-insert into tag (id, tag_name) values (NULL, 'Drama');
-insert into tag (id, tag_name) values (NULL, 'Drawing');
-insert into tag (id, tag_name) values (NULL, 'Driving');
-insert into tag (id, tag_name) values (NULL, 'Dumpster Diving');
-insert into tag (id, tag_name) values (NULL, 'Eating out');
-insert into tag (id, tag_name) values (NULL, 'Educational Courses');
-insert into tag (id, tag_name) values (NULL, 'Electronics');
-insert into tag (id, tag_name) values (NULL, 'Element collecting');
-insert into tag (id, tag_name) values (NULL, 'Embroidery');
-insert into tag (id, tag_name) values (NULL, 'Entertaining');
-insert into tag (id, tag_name) values (NULL, 'Equestrianism');
-insert into tag (id, tag_name) values (NULL, 'Exercise (aerobics, weights)');
-insert into tag (id, tag_name) values (NULL, 'Exhibition drill');
-insert into tag (id, tag_name) values (NULL, 'Falconry');
-insert into tag (id, tag_name) values (NULL, 'Fast cars');
-insert into tag (id, tag_name) values (NULL, 'Felting');
-insert into tag (id, tag_name) values (NULL, 'Fencing');
-insert into tag (id, tag_name) values (NULL, 'Field hockey');
-insert into tag (id, tag_name) values (NULL, 'Figure skating');
-insert into tag (id, tag_name) values (NULL, 'Fire Poi');
-insert into tag (id, tag_name) values (NULL, 'Fishing');
-insert into tag (id, tag_name) values (NULL, 'Fishkeeping');
-insert into tag (id, tag_name) values (NULL, 'Flag Football');
-insert into tag (id, tag_name) values (NULL, 'Floorball');
-insert into tag (id, tag_name) values (NULL, 'Floral Arrangements');
-insert into tag (id, tag_name) values (NULL, 'Flower arranging');
-insert into tag (id, tag_name) values (NULL, 'Flower collecting and pressing');
-insert into tag (id, tag_name) values (NULL, 'Fly Tying');
-insert into tag (id, tag_name) values (NULL, 'Flying');
-insert into tag (id, tag_name) values (NULL, 'Footbag');
-insert into tag (id, tag_name) values (NULL, 'Football');
-insert into tag (id, tag_name) values (NULL, 'Foraging');
-insert into tag (id, tag_name) values (NULL, 'Foreign language learning');
-insert into tag (id, tag_name) values (NULL, 'Fossil hunting');
-insert into tag (id, tag_name) values (NULL, 'Four Wheeling');
-insert into tag (id, tag_name) values (NULL, 'Freshwater Aquariums');
-insert into tag (id, tag_name) values (NULL, 'Frisbee Golf – Frolf');
-insert into tag (id, tag_name) values (NULL, 'Gambling');
-insert into tag (id, tag_name) values (NULL, 'Games');
-insert into tag (id, tag_name) values (NULL, 'Gaming (tabletop games and role-playing games)');
-insert into tag (id, tag_name) values (NULL, 'Garage Saleing');
-insert into tag (id, tag_name) values (NULL, 'Gardening');
-insert into tag (id, tag_name) values (NULL, 'Genealogy');
-insert into tag (id, tag_name) values (NULL, 'Geocaching');
-insert into tag (id, tag_name) values (NULL, 'Ghost hunting');
-insert into tag (id, tag_name) values (NULL, 'Glassblowing');
-insert into tag (id, tag_name) values (NULL, 'Glowsticking');
-insert into tag (id, tag_name) values (NULL, 'Gnoming');
-insert into tag (id, tag_name) values (NULL, 'Go');
-insert into tag (id, tag_name) values (NULL, 'Go Kart Racing');
-insert into tag (id, tag_name) values (NULL, 'Going to movies');
-insert into tag (id, tag_name) values (NULL, 'Golf');
-insert into tag (id, tag_name) values (NULL, 'Golfing');
-insert into tag (id, tag_name) values (NULL, 'Gongoozling');
-insert into tag (id, tag_name) values (NULL, 'Graffiti');
-insert into tag (id, tag_name) values (NULL, 'Grip Strength');
-insert into tag (id, tag_name) values (NULL, 'Guitar');
-insert into tag (id, tag_name) values (NULL, 'Gun Collecting');
-insert into tag (id, tag_name) values (NULL, 'Gunsmithing');
-insert into tag (id, tag_name) values (NULL, 'Gymnastics');
-insert into tag (id, tag_name) values (NULL, 'Gyotaku');
-insert into tag (id, tag_name) values (NULL, 'Handball');
-insert into tag (id, tag_name) values (NULL, 'Handwriting Analysis');
-insert into tag (id, tag_name) values (NULL, 'Hang gliding');
-insert into tag (id, tag_name) values (NULL, 'Herping');
-insert into tag (id, tag_name) values (NULL, 'Hiking');
-insert into tag (id, tag_name) values (NULL, 'Home Brewing');
-insert into tag (id, tag_name) values (NULL, 'Home Repair');
-insert into tag (id, tag_name) values (NULL, 'Home Theater');
-insert into tag (id, tag_name) values (NULL, 'Homebrewing');
-insert into tag (id, tag_name) values (NULL, 'Hooping');
-insert into tag (id, tag_name) values (NULL, 'Horse riding');
-insert into tag (id, tag_name) values (NULL, 'Hot air ballooning');
-insert into tag (id, tag_name) values (NULL, 'Hula Hooping');
-insert into tag (id, tag_name) values (NULL, 'Hunting');
-insert into tag (id, tag_name) values (NULL, 'Ice hockey');
-insert into tag (id, tag_name) values (NULL, 'Ice skating');
-insert into tag (id, tag_name) values (NULL, 'Iceskating');
-insert into tag (id, tag_name) values (NULL, 'Illusion');
-insert into tag (id, tag_name) values (NULL, 'Impersonations');
-insert into tag (id, tag_name) values (NULL, 'Inline skating');
-insert into tag (id, tag_name) values (NULL, 'Insect collecting');
-insert into tag (id, tag_name) values (NULL, 'Internet');
-insert into tag (id, tag_name) values (NULL, 'Inventing');
-insert into tag (id, tag_name) values (NULL, 'Jet Engines');
-insert into tag (id, tag_name) values (NULL, 'Jewelry Making');
-insert into tag (id, tag_name) values (NULL, 'Jigsaw Puzzles');
-insert into tag (id, tag_name) values (NULL, 'Jogging');
-insert into tag (id, tag_name) values (NULL, 'Judo');
-insert into tag (id, tag_name) values (NULL, 'Juggling');
-insert into tag (id, tag_name) values (NULL, 'Jukskei');
-insert into tag (id, tag_name) values (NULL, 'Jump Roping');
-insert into tag (id, tag_name) values (NULL, 'Kabaddi');
-insert into tag (id, tag_name) values (NULL, 'Kart racing');
-insert into tag (id, tag_name) values (NULL, 'Kayaking');
-insert into tag (id, tag_name) values (NULL, 'Keep A Journal');
-insert into tag (id, tag_name) values (NULL, 'Kitchen Chemistry');
-insert into tag (id, tag_name) values (NULL, 'Kite Boarding');
-insert into tag (id, tag_name) values (NULL, 'Kite flying');
-insert into tag (id, tag_name) values (NULL, 'Kites');
-insert into tag (id, tag_name) values (NULL, 'Kitesurfing');
-insert into tag (id, tag_name) values (NULL, 'Knapping');
-insert into tag (id, tag_name) values (NULL, 'Knife making');
-insert into tag (id, tag_name) values (NULL, 'Knife throwing');
-insert into tag (id, tag_name) values (NULL, 'Knitting');
-insert into tag (id, tag_name) values (NULL, 'Knotting');
-insert into tag (id, tag_name) values (NULL, 'Lacemaking');
-insert into tag (id, tag_name) values (NULL, 'Lacrosse');
-insert into tag (id, tag_name) values (NULL, 'Lapidary');
-insert into tag (id, tag_name) values (NULL, 'LARPing');
-insert into tag (id, tag_name) values (NULL, 'Laser tag');
-insert into tag (id, tag_name) values (NULL, 'Lasers');
-insert into tag (id, tag_name) values (NULL, 'Lawn Darts');
-insert into tag (id, tag_name) values (NULL, 'Learn to Play Poker');
-insert into tag (id, tag_name) values (NULL, 'Learning A Foreign Language');
-insert into tag (id, tag_name) values (NULL, 'Learning An Instrument');
-insert into tag (id, tag_name) values (NULL, 'Learning To Pilot A Plane');
-insert into tag (id, tag_name) values (NULL, 'Leather crafting');
-insert into tag (id, tag_name) values (NULL, 'Leathercrafting');
-insert into tag (id, tag_name) values (NULL, 'Lego building');
-insert into tag (id, tag_name) values (NULL, 'Legos');
-insert into tag (id, tag_name) values (NULL, 'Letterboxing');
-insert into tag (id, tag_name) values (NULL, 'Listening to music');
-insert into tag (id, tag_name) values (NULL, 'Locksport');
-insert into tag (id, tag_name) values (NULL, 'Machining');
-insert into tag (id, tag_name) values (NULL, 'Macramé');
-insert into tag (id, tag_name) values (NULL, 'Macrame');
-insert into tag (id, tag_name) values (NULL, 'Magic');
-insert into tag (id, tag_name) values (NULL, 'Mahjong');
-insert into tag (id, tag_name) values (NULL, 'Making Model Cars');
-insert into tag (id, tag_name) values (NULL, 'Marbles');
-insert into tag (id, tag_name) values (NULL, 'Marksmanship');
-insert into tag (id, tag_name) values (NULL, 'Martial arts');
-insert into tag (id, tag_name) values (NULL, 'Matchstick Modeling');
-insert into tag (id, tag_name) values (NULL, 'Meditation');
-insert into tag (id, tag_name) values (NULL, 'Metal detecting');
-insert into tag (id, tag_name) values (NULL, 'Meteorology');
-insert into tag (id, tag_name) values (NULL, 'Microscopy');
-insert into tag (id, tag_name) values (NULL, 'Mineral collecting');
-insert into tag (id, tag_name) values (NULL, 'Model aircraft');
-insert into tag (id, tag_name) values (NULL, 'Model building');
-insert into tag (id, tag_name) values (NULL, 'Model Railroading');
-insert into tag (id, tag_name) values (NULL, 'Model Rockets');
-insert into tag (id, tag_name) values (NULL, 'Modeling Ships');
-insert into tag (id, tag_name) values (NULL, 'Models');
-insert into tag (id, tag_name) values (NULL, 'Motor sports');
-insert into tag (id, tag_name) values (NULL, 'Motorcycles');
-insert into tag (id, tag_name) values (NULL, 'Mountain Biking');
-insert into tag (id, tag_name) values (NULL, 'Mountain Climbing');
-insert into tag (id, tag_name) values (NULL, 'Mountaineering');
-insert into tag (id, tag_name) values (NULL, 'Movie and movie memorabilia collecting');
-insert into tag (id, tag_name) values (NULL, 'Mushroom hunting/Mycology');
-insert into tag (id, tag_name) values (NULL, 'Musical Instruments');
-insert into tag (id, tag_name) values (NULL, 'Nail Art');
-insert into tag (id, tag_name) values (NULL, 'Needlepoint');
-insert into tag (id, tag_name) values (NULL, 'Netball');
-insert into tag (id, tag_name) values (NULL, 'Nordic skating');
-insert into tag (id, tag_name) values (NULL, 'Orienteering');
-insert into tag (id, tag_name) values (NULL, 'Origami');
-insert into tag (id, tag_name) values (NULL, 'Owning An Antique Car');
-insert into tag (id, tag_name) values (NULL, 'Paintball');
-insert into tag (id, tag_name) values (NULL, 'Painting');
-insert into tag (id, tag_name) values (NULL, 'Papermache');
-insert into tag (id, tag_name) values (NULL, 'Papermaking');
-insert into tag (id, tag_name) values (NULL, 'Parachuting');
-insert into tag (id, tag_name) values (NULL, 'Paragliding or Power Paragliding');
-insert into tag (id, tag_name) values (NULL, 'Parkour');
-insert into tag (id, tag_name) values (NULL, 'People Watching');
-insert into tag (id, tag_name) values (NULL, 'Photography');
-insert into tag (id, tag_name) values (NULL, 'Piano');
-insert into tag (id, tag_name) values (NULL, 'Pigeon racing');
-insert into tag (id, tag_name) values (NULL, 'Pinochle');
-insert into tag (id, tag_name) values (NULL, 'Pipe Smoking');
-insert into tag (id, tag_name) values (NULL, 'Planking');
-insert into tag (id, tag_name) values (NULL, 'Playing music');
-insert into tag (id, tag_name) values (NULL, 'Playing musical instruments');
-insert into tag (id, tag_name) values (NULL, 'Playing team sports');
-insert into tag (id, tag_name) values (NULL, 'Poker');
-insert into tag (id, tag_name) values (NULL, 'Pole Dancing');
-insert into tag (id, tag_name) values (NULL, 'Polo');
-insert into tag (id, tag_name) values (NULL, 'Pottery');
-insert into tag (id, tag_name) values (NULL, 'Powerboking');
-insert into tag (id, tag_name) values (NULL, 'Protesting');
-insert into tag (id, tag_name) values (NULL, 'Puppetry');
-insert into tag (id, tag_name) values (NULL, 'Puzzles');
-insert into tag (id, tag_name) values (NULL, 'Pyrotechnics');
-insert into tag (id, tag_name) values (NULL, 'Quilting');
-insert into tag (id, tag_name) values (NULL, 'R/C Boats');
-insert into tag (id, tag_name) values (NULL, 'R/C Cars');
-insert into tag (id, tag_name) values (NULL, 'R/C Helicopters');
-insert into tag (id, tag_name) values (NULL, 'R/C Planes');
-insert into tag (id, tag_name) values (NULL, 'Racing Pigeons');
-insert into tag (id, tag_name) values (NULL, 'Racquetball');
-insert into tag (id, tag_name) values (NULL, 'Radio-controlled car racing');
-insert into tag (id, tag_name) values (NULL, 'Rafting');
-insert into tag (id, tag_name) values (NULL, 'Railfans');
-insert into tag (id, tag_name) values (NULL, 'Rappelling');
-insert into tag (id, tag_name) values (NULL, 'Rapping');
-insert into tag (id, tag_name) values (NULL, 'Reading');
-insert into tag (id, tag_name) values (NULL, 'Reading To The Elderly');
-insert into tag (id, tag_name) values (NULL, 'Record collecting');
-insert into tag (id, tag_name) values (NULL, 'Relaxing');
-insert into tag (id, tag_name) values (NULL, 'Renaissance Faire');
-insert into tag (id, tag_name) values (NULL, 'Renting movies');
-insert into tag (id, tag_name) values (NULL, 'Rescuing Abused Or Abandoned Animals');
-insert into tag (id, tag_name) values (NULL, 'Robotics');
-insert into tag (id, tag_name) values (NULL, 'Rock balancing');
-insert into tag (id, tag_name) values (NULL, 'Rock climbing');
-insert into tag (id, tag_name) values (NULL, 'Rock Collecting');
-insert into tag (id, tag_name) values (NULL, 'Rockets');
-insert into tag (id, tag_name) values (NULL, 'Rocking AIDS Babies');
-insert into tag (id, tag_name) values (NULL, 'Roleplaying');
-insert into tag (id, tag_name) values (NULL, 'Roller derby');
-insert into tag (id, tag_name) values (NULL, 'Roller skating');
-insert into tag (id, tag_name) values (NULL, 'Rugby');
-insert into tag (id, tag_name) values (NULL, 'Rugby league football');
-insert into tag (id, tag_name) values (NULL, 'Running');
-insert into tag (id, tag_name) values (NULL, 'Sailing');
-insert into tag (id, tag_name) values (NULL, 'Saltwater Aquariums');
-insert into tag (id, tag_name) values (NULL, 'Sand art');
-insert into tag (id, tag_name) values (NULL, 'Sand Castles');
-insert into tag (id, tag_name) values (NULL, 'Scrapbooking');
-insert into tag (id, tag_name) values (NULL, 'Scuba diving');
-insert into tag (id, tag_name) values (NULL, 'Sculling or Rowing');
-insert into tag (id, tag_name) values (NULL, 'Sculpting');
-insert into tag (id, tag_name) values (NULL, 'Sea glass collecting');
-insert into tag (id, tag_name) values (NULL, 'Seashell collecting');
-insert into tag (id, tag_name) values (NULL, 'Self Defense');
-insert into tag (id, tag_name) values (NULL, 'Sewing');
-insert into tag (id, tag_name) values (NULL, 'Shark Fishing');
-insert into tag (id, tag_name) values (NULL, 'Shooting');
-insert into tag (id, tag_name) values (NULL, 'Shooting sport');
-insert into tag (id, tag_name) values (NULL, 'Shopping');
-insert into tag (id, tag_name) values (NULL, 'Shortwave listening');
-insert into tag (id, tag_name) values (NULL, 'Singing');
-insert into tag (id, tag_name) values (NULL, 'Singing In Choir');
-insert into tag (id, tag_name) values (NULL, 'Skateboarding');
-insert into tag (id, tag_name) values (NULL, 'Skeet Shooting');
-insert into tag (id, tag_name) values (NULL, 'Sketching');
-insert into tag (id, tag_name) values (NULL, 'Skiing');
-insert into tag (id, tag_name) values (NULL, 'Skimboarding');
-insert into tag (id, tag_name) values (NULL, 'Sky Diving');
-insert into tag (id, tag_name) values (NULL, 'Skydiving');
-insert into tag (id, tag_name) values (NULL, 'Slack Lining');
-insert into tag (id, tag_name) values (NULL, 'Slacklining');
-insert into tag (id, tag_name) values (NULL, 'Sleeping');
-insert into tag (id, tag_name) values (NULL, 'Slingshots');
-insert into tag (id, tag_name) values (NULL, 'Slot car racing');
-insert into tag (id, tag_name) values (NULL, 'Snorkeling');
-insert into tag (id, tag_name) values (NULL, 'Snowboarding');
-insert into tag (id, tag_name) values (NULL, 'Soap Making');
-insert into tag (id, tag_name) values (NULL, 'Soapmaking');
-insert into tag (id, tag_name) values (NULL, 'Soccer');
-insert into tag (id, tag_name) values (NULL, 'Socializing with friends/neighbors');
-insert into tag (id, tag_name) values (NULL, 'Speed Cubing (rubix cube)');
-insert into tag (id, tag_name) values (NULL, 'Speed skating');
-insert into tag (id, tag_name) values (NULL, 'Spelunkering');
-insert into tag (id, tag_name) values (NULL, 'Spending time with family/kids');
-insert into tag (id, tag_name) values (NULL, 'Sports');
-insert into tag (id, tag_name) values (NULL, 'Squash');
-insert into tag (id, tag_name) values (NULL, 'Stamp Collecting');
-insert into tag (id, tag_name) values (NULL, 'Stand-up comedy');
-insert into tag (id, tag_name) values (NULL, 'Stone collecting');
-insert into tag (id, tag_name) values (NULL, 'Stone skipping');
-insert into tag (id, tag_name) values (NULL, 'Storm Chasing');
-insert into tag (id, tag_name) values (NULL, 'Storytelling');
-insert into tag (id, tag_name) values (NULL, 'String Figures');
-insert into tag (id, tag_name) values (NULL, 'Sudoku');
-insert into tag (id, tag_name) values (NULL, 'Surf Fishing');
-insert into tag (id, tag_name) values (NULL, 'Surfing');
-insert into tag (id, tag_name) values (NULL, 'Survival');
-insert into tag (id, tag_name) values (NULL, 'Swimming');
-insert into tag (id, tag_name) values (NULL, 'Table football');
-insert into tag (id, tag_name) values (NULL, 'Table tennis');
-insert into tag (id, tag_name) values (NULL, 'Taekwondo');
-insert into tag (id, tag_name) values (NULL, 'Tai chi');
-insert into tag (id, tag_name) values (NULL, 'Tatting');
-insert into tag (id, tag_name) values (NULL, 'Taxidermy');
-insert into tag (id, tag_name) values (NULL, 'Tea Tasting');
-insert into tag (id, tag_name) values (NULL, 'Tennis');
-insert into tag (id, tag_name) values (NULL, 'Tesla Coils');
-insert into tag (id, tag_name) values (NULL, 'Tetris');
-insert into tag (id, tag_name) values (NULL, 'Textiles');
-insert into tag (id, tag_name) values (NULL, 'Texting');
-insert into tag (id, tag_name) values (NULL, 'Tombstone Rubbing');
-insert into tag (id, tag_name) values (NULL, 'Tool Collecting');
-insert into tag (id, tag_name) values (NULL, 'Tour skating');
-insert into tag (id, tag_name) values (NULL, 'Toy Collecting');
-insert into tag (id, tag_name) values (NULL, 'Train Collecting');
-insert into tag (id, tag_name) values (NULL, 'Train Spotting');
-insert into tag (id, tag_name) values (NULL, 'Trainspotting');
-insert into tag (id, tag_name) values (NULL, 'Traveling');
-insert into tag (id, tag_name) values (NULL, 'Treasure Hunting');
-insert into tag (id, tag_name) values (NULL, 'Trekkie');
-insert into tag (id, tag_name) values (NULL, 'Triathlon');
-insert into tag (id, tag_name) values (NULL, 'Tutoring Children');
-insert into tag (id, tag_name) values (NULL, 'TV watching');
-insert into tag (id, tag_name) values (NULL, 'Ultimate Frisbee');
-insert into tag (id, tag_name) values (NULL, 'Urban exploration');
-insert into tag (id, tag_name) values (NULL, 'Vehicle restoration');
-insert into tag (id, tag_name) values (NULL, 'Video game collecting');
-insert into tag (id, tag_name) values (NULL, 'Video Games');
-insert into tag (id, tag_name) values (NULL, 'Video gaming');
-insert into tag (id, tag_name) values (NULL, 'Videophilia');
-insert into tag (id, tag_name) values (NULL, 'Vintage cars');
-insert into tag (id, tag_name) values (NULL, 'Violin');
-insert into tag (id, tag_name) values (NULL, 'Volleyball');
-insert into tag (id, tag_name) values (NULL, 'Volunteer');
-insert into tag (id, tag_name) values (NULL, 'Walking');
-insert into tag (id, tag_name) values (NULL, 'Warhammer');
-insert into tag (id, tag_name) values (NULL, 'Watching movies');
-insert into tag (id, tag_name) values (NULL, 'Watching sporting events');
-insert into tag (id, tag_name) values (NULL, 'Water sports');
-insert into tag (id, tag_name) values (NULL, 'Weather Watcher');
-insert into tag (id, tag_name) values (NULL, 'Web surfing');
-insert into tag (id, tag_name) values (NULL, 'Weightlifting');
-insert into tag (id, tag_name) values (NULL, 'Windsurfing');
-insert into tag (id, tag_name) values (NULL, 'Wine Making');
-insert into tag (id, tag_name) values (NULL, 'Wingsuit Flying');
-insert into tag (id, tag_name) values (NULL, 'Wood carving');
-insert into tag (id, tag_name) values (NULL, 'Woodworking');
-insert into tag (id, tag_name) values (NULL, 'Working In A Food Pantry');
-insert into tag (id, tag_name) values (NULL, 'Working on cars');
-insert into tag (id, tag_name) values (NULL, 'World Record Breaking');
-insert into tag (id, tag_name) values (NULL, 'Worldbuilding');
-insert into tag (id, tag_name) values (NULL, 'Wrestling');
-insert into tag (id, tag_name) values (NULL, 'Writing');
-insert into tag (id, tag_name) values (NULL, 'Writing Music');
-insert into tag (id, tag_name) values (NULL, 'Writing Songs');
-insert into tag (id, tag_name) values (NULL, 'Yo-yoing');
-insert into tag (id, tag_name) values (NULL, 'Yoga');
-insert into tag (id, tag_name) values (NULL, 'YoYo');
-insert into tag (id, tag_name) values (NULL, 'Ziplining');
-insert into tag (id, tag_name) values (NULL, 'Zumba');
+INSERT INTO tag (id, tag_name) VALUES
+(NULL, '3D printing'),
+(NULL, 'Acting'),
+(NULL, 'Aeromodeling'),
+(NULL, 'Air sports'),
+(NULL, 'Airbrushing'),
+(NULL, 'Aircraft Spotting'),
+(NULL, 'Airsoft'),
+(NULL, 'Airsofting'),
+(NULL, 'Amateur astronomy'),
+(NULL, 'Amateur geology'),
+(NULL, 'Amateur Radio'),
+(NULL, 'American football'),
+(NULL, 'Animal fancy'),
+(NULL, 'Animals/pets/dogs'),
+(NULL, 'Antiquing'),
+(NULL, 'Antiquities'),
+(NULL, 'Aqua-lung'),
+(NULL, 'Aquarium (Freshwater & Saltwater)'),
+(NULL, 'Archery'),
+(NULL, 'Art collecting'),
+(NULL, 'Arts'),
+(NULL, 'Association football'),
+(NULL, 'Astrology'),
+(NULL, 'Astronomy'),
+(NULL, 'Audiophilia'),
+(NULL, 'Australian rules football'),
+(NULL, 'Auto audiophilia'),
+(NULL, 'Auto racing'),
+(NULL, 'Backgammon'),
+(NULL, 'Backpacking'),
+(NULL, 'Badminton'),
+(NULL, 'Base Jumping'),
+(NULL, 'Baseball'),
+(NULL, 'Basketball'),
+(NULL, 'Baton Twirling'),
+(NULL, 'Beach Volleyball'),
+(NULL, 'Beach/Sun tanning'),
+(NULL, 'Beachcombing'),
+(NULL, 'Beadwork'),
+(NULL, 'Beatboxing'),
+(NULL, 'Becoming A Child Advocate'),
+(NULL, 'Beekeeping'),
+(NULL, 'Bell Ringing'),
+(NULL, 'Belly Dancing'),
+(NULL, 'Bicycle Polo'),
+(NULL, 'Bicycling'),
+(NULL, 'Billiards'),
+(NULL, 'Bird watching'),
+(NULL, 'Birding'),
+(NULL, 'Birdwatching'),
+(NULL, 'Blacksmithing'),
+(NULL, 'Blogging'),
+(NULL, 'BMX'),
+(NULL, 'Board games'),
+(NULL, 'Board sports'),
+(NULL, 'BoardGames'),
+(NULL, 'Boating'),
+(NULL, 'Body Building'),
+(NULL, 'Bodybuilding'),
+(NULL, 'Bonsai Tree'),
+(NULL, 'Book collecting'),
+(NULL, 'Bookbinding'),
+(NULL, 'Boomerangs'),
+(NULL, 'Bowling'),
+(NULL, 'Boxing'),
+(NULL, 'Brazilian jiu-jitsu'),
+(NULL, 'Breakdancing'),
+(NULL, 'Brewing Beer'),
+(NULL, 'Bridge'),
+(NULL, 'Bridge Building'),
+(NULL, 'Bringing Food To The Disabled'),
+(NULL, 'Building A House For Habitat For Humanity'),
+(NULL, 'Building Dollhouses'),
+(NULL, 'Bus spotting'),
+(NULL, 'Butterfly Watching'),
+(NULL, 'Button Collecting'),
+(NULL, 'Cake Decorating'),
+(NULL, 'Calligraphy'),
+(NULL, 'Camping'),
+(NULL, 'Candle making'),
+(NULL, 'Canoeing'),
+(NULL, 'Car Racing'),
+(NULL, 'Card collecting'),
+(NULL, 'Cartooning'),
+(NULL, 'Casino Gambling'),
+(NULL, 'Cave Diving'),
+(NULL, 'Ceramics'),
+(NULL, 'Cheerleading'),
+(NULL, 'Chess'),
+(NULL, 'Church/church activities'),
+(NULL, 'Cigar Smoking'),
+(NULL, 'Climbing'),
+(NULL, 'Cloud Watching'),
+(NULL, 'Coin Collecting'),
+(NULL, 'Collecting'),
+(NULL, 'Collecting Antiques'),
+(NULL, 'Collecting Artwork'),
+(NULL, 'Collecting Hats'),
+(NULL, 'Collecting Music Albums'),
+(NULL, 'Collecting RPM Records'),
+(NULL, 'Collecting Sports Cards (Baseball, Football, Basketball, Hockey)'),
+(NULL, 'Collecting Swords'),
+(NULL, 'Color guard'),
+(NULL, 'Coloring'),
+(NULL, 'Comic book collecting'),
+(NULL, 'Compose Music'),
+(NULL, 'Computer activities'),
+(NULL, 'Computer programming'),
+(NULL, 'Conworlding'),
+(NULL, 'Cooking'),
+(NULL, 'Cosplay'),
+(NULL, 'Cosplaying'),
+(NULL, 'Couponing'),
+(NULL, 'Crafts'),
+(NULL, 'Crafts (unspecified)'),
+(NULL, 'Creative writing'),
+(NULL, 'Cricket'),
+(NULL, 'Crochet'),
+(NULL, 'Crocheting'),
+(NULL, 'Cross-Stitch'),
+(NULL, 'Crossword Puzzles'),
+(NULL, 'Cryptography'),
+(NULL, 'Curling'),
+(NULL, 'Cycling'),
+(NULL, 'Dance'),
+(NULL, 'Dancing'),
+(NULL, 'Darts'),
+(NULL, 'Debate'),
+(NULL, 'Deltiology (postcard collecting)'),
+(NULL, 'Diecast Collectibles'),
+(NULL, 'Digital arts'),
+(NULL, 'Digital Photography'),
+(NULL, 'Disc golf'),
+(NULL, 'Do it yourself'),
+(NULL, 'Dodgeball'),
+(NULL, 'Dog sport'),
+(NULL, 'Dolls'),
+(NULL, 'Dominoes'),
+(NULL, 'Dowsing'),
+(NULL, 'Drama'),
+(NULL, 'Drawing'),
+(NULL, 'Driving'),
+(NULL, 'Dumpster Diving'),
+(NULL, 'Eating out'),
+(NULL, 'Educational Courses'),
+(NULL, 'Electronics'),
+(NULL, 'Element collecting'),
+(NULL, 'Embroidery'),
+(NULL, 'Entertaining'),
+(NULL, 'Equestrianism'),
+(NULL, 'Exercise (aerobics, weights)'),
+(NULL, 'Exhibition drill'),
+(NULL, 'Falconry'),
+(NULL, 'Fast cars'),
+(NULL, 'Felting'),
+(NULL, 'Fencing'),
+(NULL, 'Field hockey'),
+(NULL, 'Figure skating'),
+(NULL, 'Fire Poi'),
+(NULL, 'Fishing'),
+(NULL, 'Fishkeeping'),
+(NULL, 'Flag Football'),
+(NULL, 'Floorball'),
+(NULL, 'Floral Arrangements'),
+(NULL, 'Flower arranging'),
+(NULL, 'Flower collecting and pressing'),
+(NULL, 'Fly Tying'),
+(NULL, 'Flying'),
+(NULL, 'Footbag'),
+(NULL, 'Football'),
+(NULL, 'Foraging'),
+(NULL, 'Foreign language learning'),
+(NULL, 'Fossil hunting'),
+(NULL, 'Four Wheeling'),
+(NULL, 'Freshwater Aquariums'),
+(NULL, 'Frisbee Golf – Frolf'),
+(NULL, 'Gambling'),
+(NULL, 'Games'),
+(NULL, 'Gaming (tabletop games and role-playing games)'),
+(NULL, 'Garage Saleing'),
+(NULL, 'Gardening'),
+(NULL, 'Genealogy'),
+(NULL, 'Geocaching'),
+(NULL, 'Ghost hunting'),
+(NULL, 'Glassblowing'),
+(NULL, 'Glowsticking'),
+(NULL, 'Gnoming'),
+(NULL, 'Go'),
+(NULL, 'Go Kart Racing'),
+(NULL, 'Going to movies'),
+(NULL, 'Golf'),
+(NULL, 'Golfing'),
+(NULL, 'Gongoozling'),
+(NULL, 'Graffiti'),
+(NULL, 'Grip Strength'),
+(NULL, 'Guitar'),
+(NULL, 'Gun Collecting'),
+(NULL, 'Gunsmithing'),
+(NULL, 'Gymnastics'),
+(NULL, 'Gyotaku'),
+(NULL, 'Handball'),
+(NULL, 'Handwriting Analysis'),
+(NULL, 'Hang gliding'),
+(NULL, 'Herping'),
+(NULL, 'Hiking'),
+(NULL, 'Home Brewing'),
+(NULL, 'Home Repair'),
+(NULL, 'Home Theater'),
+(NULL, 'Homebrewing'),
+(NULL, 'Hooping'),
+(NULL, 'Horse riding'),
+(NULL, 'Hot air ballooning'),
+(NULL, 'Hula Hooping'),
+(NULL, 'Hunting'),
+(NULL, 'Ice hockey'),
+(NULL, 'Ice skating'),
+(NULL, 'Iceskating'),
+(NULL, 'Illusion'),
+(NULL, 'Impersonations'),
+(NULL, 'Inline skating'),
+(NULL, 'Insect collecting'),
+(NULL, 'Internet'),
+(NULL, 'Inventing'),
+(NULL, 'Jet Engines'),
+(NULL, 'Jewelry Making'),
+(NULL, 'Jigsaw Puzzles'),
+(NULL, 'Jogging'),
+(NULL, 'Judo'),
+(NULL, 'Juggling'),
+(NULL, 'Jukskei'),
+(NULL, 'Jump Roping'),
+(NULL, 'Kabaddi'),
+(NULL, 'Kart racing'),
+(NULL, 'Kayaking'),
+(NULL, 'Keep A Journal'),
+(NULL, 'Kitchen Chemistry'),
+(NULL, 'Kite Boarding'),
+(NULL, 'Kite flying'),
+(NULL, 'Kites'),
+(NULL, 'Kitesurfing'),
+(NULL, 'Knapping'),
+(NULL, 'Knife making'),
+(NULL, 'Knife throwing'),
+(NULL, 'Knitting'),
+(NULL, 'Knotting'),
+(NULL, 'Lacemaking'),
+(NULL, 'Lacrosse'),
+(NULL, 'Lapidary'),
+(NULL, 'LARPing'),
+(NULL, 'Laser tag'),
+(NULL, 'Lasers'),
+(NULL, 'Lawn Darts'),
+(NULL, 'Learn to Play Poker'),
+(NULL, 'Learning A Foreign Language'),
+(NULL, 'Learning An Instrument'),
+(NULL, 'Learning To Pilot A Plane'),
+(NULL, 'Leather crafting'),
+(NULL, 'Leathercrafting'),
+(NULL, 'Lego building'),
+(NULL, 'Legos'),
+(NULL, 'Letterboxing'),
+(NULL, 'Listening to music'),
+(NULL, 'Locksport'),
+(NULL, 'Machining'),
+(NULL, 'Macramé'),
+(NULL, 'Macrame'),
+(NULL, 'Magic'),
+(NULL, 'Mahjong'),
+(NULL, 'Making Model Cars'),
+(NULL, 'Marbles'),
+(NULL, 'Marksmanship'),
+(NULL, 'Martial arts'),
+(NULL, 'Matchstick Modeling'),
+(NULL, 'Meditation'),
+(NULL, 'Metal detecting'),
+(NULL, 'Meteorology'),
+(NULL, 'Microscopy'),
+(NULL, 'Mineral collecting'),
+(NULL, 'Model aircraft'),
+(NULL, 'Model building'),
+(NULL, 'Model Railroading'),
+(NULL, 'Model Rockets'),
+(NULL, 'Modeling Ships'),
+(NULL, 'Models'),
+(NULL, 'Motor sports'),
+(NULL, 'Motorcycles'),
+(NULL, 'Mountain Biking'),
+(NULL, 'Mountain Climbing'),
+(NULL, 'Mountaineering'),
+(NULL, 'Movie and movie memorabilia collecting'),
+(NULL, 'Mushroom hunting/Mycology'),
+(NULL, 'Musical Instruments'),
+(NULL, 'Nail Art'),
+(NULL, 'Needlepoint'),
+(NULL, 'Netball'),
+(NULL, 'Nordic skating'),
+(NULL, 'Orienteering'),
+(NULL, 'Origami'),
+(NULL, 'Owning An Antique Car'),
+(NULL, 'Paintball'),
+(NULL, 'Painting'),
+(NULL, 'Papermache'),
+(NULL, 'Papermaking'),
+(NULL, 'Parachuting'),
+(NULL, 'Paragliding or Power Paragliding'),
+(NULL, 'Parkour'),
+(NULL, 'People Watching'),
+(NULL, 'Photography'),
+(NULL, 'Piano'),
+(NULL, 'Pigeon racing'),
+(NULL, 'Pinochle'),
+(NULL, 'Pipe Smoking'),
+(NULL, 'Planking'),
+(NULL, 'Playing music'),
+(NULL, 'Playing musical instruments'),
+(NULL, 'Playing team sports'),
+(NULL, 'Poker'),
+(NULL, 'Pole Dancing'),
+(NULL, 'Polo'),
+(NULL, 'Pottery'),
+(NULL, 'Powerboking'),
+(NULL, 'Protesting'),
+(NULL, 'Puppetry'),
+(NULL, 'Puzzles'),
+(NULL, 'Pyrotechnics'),
+(NULL, 'Quilting'),
+(NULL, 'R/C Boats'),
+(NULL, 'R/C Cars'),
+(NULL, 'R/C Helicopters'),
+(NULL, 'R/C Planes'),
+(NULL, 'Racing Pigeons'),
+(NULL, 'Racquetball'),
+(NULL, 'Radio-controlled car racing'),
+(NULL, 'Rafting'),
+(NULL, 'Railfans'),
+(NULL, 'Rappelling'),
+(NULL, 'Rapping'),
+(NULL, 'Reading'),
+(NULL, 'Reading To The Elderly'),
+(NULL, 'Record collecting'),
+(NULL, 'Relaxing'),
+(NULL, 'Renaissance Faire'),
+(NULL, 'Renting movies'),
+(NULL, 'Rescuing Abused Or Abandoned Animals'),
+(NULL, 'Robotics'),
+(NULL, 'Rock balancing'),
+(NULL, 'Rock climbing'),
+(NULL, 'Rock Collecting'),
+(NULL, 'Rockets'),
+(NULL, 'Rocking AIDS Babies'),
+(NULL, 'Roleplaying'),
+(NULL, 'Roller derby'),
+(NULL, 'Roller skating'),
+(NULL, 'Rugby'),
+(NULL, 'Rugby league football'),
+(NULL, 'Running'),
+(NULL, 'Sailing'),
+(NULL, 'Saltwater Aquariums'),
+(NULL, 'Sand art'),
+(NULL, 'Sand Castles'),
+(NULL, 'Scrapbooking'),
+(NULL, 'Scuba diving'),
+(NULL, 'Sculling or Rowing'),
+(NULL, 'Sculpting'),
+(NULL, 'Sea glass collecting'),
+(NULL, 'Seashell collecting'),
+(NULL, 'Self Defense'),
+(NULL, 'Sewing'),
+(NULL, 'Shark Fishing'),
+(NULL, 'Shooting'),
+(NULL, 'Shooting sport'),
+(NULL, 'Shopping'),
+(NULL, 'Shortwave listening'),
+(NULL, 'Singing'),
+(NULL, 'Singing In Choir'),
+(NULL, 'Skateboarding'),
+(NULL, 'Skeet Shooting'),
+(NULL, 'Sketching'),
+(NULL, 'Skiing'),
+(NULL, 'Skimboarding'),
+(NULL, 'Sky Diving'),
+(NULL, 'Skydiving'),
+(NULL, 'Slack Lining'),
+(NULL, 'Slacklining'),
+(NULL, 'Sleeping'),
+(NULL, 'Slingshots'),
+(NULL, 'Slot car racing'),
+(NULL, 'Snorkeling'),
+(NULL, 'Snowboarding'),
+(NULL, 'Soap Making'),
+(NULL, 'Soapmaking'),
+(NULL, 'Soccer'),
+(NULL, 'Socializing with friends/neighbors'),
+(NULL, 'Speed Cubing (rubix cube)'),
+(NULL, 'Speed skating'),
+(NULL, 'Spelunkering'),
+(NULL, 'Spending time with family/kids'),
+(NULL, 'Sports'),
+(NULL, 'Squash'),
+(NULL, 'Stamp Collecting'),
+(NULL, 'Stand-up comedy'),
+(NULL, 'Stone collecting'),
+(NULL, 'Stone skipping'),
+(NULL, 'Storm Chasing'),
+(NULL, 'Storytelling'),
+(NULL, 'String Figures'),
+(NULL, 'Sudoku'),
+(NULL, 'Surf Fishing'),
+(NULL, 'Surfing'),
+(NULL, 'Survival'),
+(NULL, 'Swimming'),
+(NULL, 'Table football'),
+(NULL, 'Table tennis'),
+(NULL, 'Taekwondo'),
+(NULL, 'Tai chi'),
+(NULL, 'Tatting'),
+(NULL, 'Taxidermy'),
+(NULL, 'Tea Tasting'),
+(NULL, 'Tennis'),
+(NULL, 'Tesla Coils'),
+(NULL, 'Tetris'),
+(NULL, 'Textiles'),
+(NULL, 'Texting'),
+(NULL, 'Tombstone Rubbing'),
+(NULL, 'Tool Collecting'),
+(NULL, 'Tour skating'),
+(NULL, 'Toy Collecting'),
+(NULL, 'Train Collecting'),
+(NULL, 'Train Spotting'),
+(NULL, 'Trainspotting'),
+(NULL, 'Traveling'),
+(NULL, 'Treasure Hunting'),
+(NULL, 'Trekkie'),
+(NULL, 'Triathlon'),
+(NULL, 'Tutoring Children'),
+(NULL, 'TV watching'),
+(NULL, 'Ultimate Frisbee'),
+(NULL, 'Urban exploration'),
+(NULL, 'Vehicle restoration'),
+(NULL, 'Video game collecting'),
+(NULL, 'Video Games'),
+(NULL, 'Video gaming'),
+(NULL, 'Videophilia'),
+(NULL, 'Vintage cars'),
+(NULL, 'Violin'),
+(NULL, 'Volleyball'),
+(NULL, 'Volunteer'),
+(NULL, 'Walking'),
+(NULL, 'Warhammer'),
+(NULL, 'Watching movies'),
+(NULL, 'Watching sporting events'),
+(NULL, 'Water sports'),
+(NULL, 'Weather Watcher'),
+(NULL, 'Web surfing'),
+(NULL, 'Weightlifting'),
+(NULL, 'Windsurfing'),
+(NULL, 'Wine Making'),
+(NULL, 'Wingsuit Flying'),
+(NULL, 'Wood carving'),
+(NULL, 'Woodworking'),
+(NULL, 'Working In A Food Pantry'),
+(NULL, 'Working on cars'),
+(NULL, 'World Record Breaking'),
+(NULL, 'Worldbuilding'),
+(NULL, 'Wrestling'),
+(NULL, 'Writing'),
+(NULL, 'Writing Music'),
+(NULL, 'Writing Songs'),
+(NULL, 'Yo-yoing'),
+(NULL, 'Yoga'),
+(NULL, 'YoYo'),
+(NULL, 'Ziplining'),
+(NULL, 'Zumba');

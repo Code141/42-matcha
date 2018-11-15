@@ -1,7 +1,8 @@
 <?php
 
-class bdd_pdo
+class	db
 {
+	public	$pdo;
 	public	$sql;
 
 	public function	connect()
@@ -18,7 +19,10 @@ class bdd_pdo
 			if (DEV_MODE)
 			{
 				if ($exception->getCode() == 1049)
+				{
+					$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
 					$this->core->fail("Database doesn't existe", "setup", "main");
+				}
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
@@ -26,7 +30,6 @@ class bdd_pdo
 				header ('location:' . SITE_ROOT . '404');
 			die();
 		}
-
 	}
 
 	public function	execute_pdo()
@@ -38,8 +41,9 @@ class bdd_pdo
 		}
 		catch (PDOException $exception)
 		{
-			exit("Something went wrong : " . $exception);//->getMessage());
+			exit("Something went wrong : " . $exception->getMessage());
 		}
+
 		return ($this->pdo_stm);
 	}
 

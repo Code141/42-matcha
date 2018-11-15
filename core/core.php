@@ -4,7 +4,7 @@ class core
 {
 	public $request;
 
-	public $pdo;
+	public $db;
 	public $load;
 
 	public $data;
@@ -21,18 +21,15 @@ class core
 		$this->load->core =& $this;
 		$this->load->data =& $this->data;
 
-		$this->pdo = new bdd_pdo();
-		$this->pdo->core =& $this;
-		$this->pdo->load =& $this->load;
-		$this->pdo->data =& $this->data;
-		$this->pdo->pdo =& $this->pdo;
-		$this->pdo->connect();
+		$this->db = new db();
+		$this->db->core =& $this;
+		$this->db->data =& $this->data;
+		$this->db->connect();
 
 		$this->module = new modules();
 		$this->module->core =& $this;
 		$this->module->load =& $this->load;
 		$this->module->data =& $this->data;
-		$this->module->pdo =& $this->pdo;
 	}
 
 	public function	new_controller(string $controller_name = NULL)
@@ -42,13 +39,12 @@ class core
 
 		$controller_name = $this->load->controller($controller_name);
 		if ($controller_name === NULL)
-			die ("CORE CAN'T LOAD CONTROLLER");
+			die ("CORE CAN'T LOAD CONTROLLER (404!)");
 
 		$this->controller = new $controller_name();
 		$this->controller->core =& $this;
 		$this->controller->load =& $this->load;
 		$this->controller->data =& $this->data;
-		$this->controller->pdo =& $this->pdo;
 	}
 
 	public function	execute_controller($action_name)
@@ -64,28 +60,10 @@ class core
 
 	public function	set_view(string $view_name = NULL, string $action_name = NULL)
 	{
-		$view_name = $this->load->view($view_name);
-		if ($view_name === NULL)
-			die ("CORE CAN'T LOAD VIEW");
-
-		$this->view = new $view_name();
-		$this->view->core =& $this;
-		$this->view->load =& $this->load;
-		$this->view->data =& $this->data;
-		$this->execute_view($action_name);
-	}
-
-	public function	execute_view($action_name)
-	{
-		$view_classes = get_class_methods($this->controller);
-		$public_classes = preg_grep("/^(?!__).+/", $view_classes);
-
-		if (array_search($action_name, $public_classes) === FALSE)
-			$action = "error_404";
-		else
-			$action = $this->request['action'];
-
-		$this->view->$action($this->request['params']);
+		$this->view = $this->load->view($view_name);
+		if ($this->view === NULL)
+			die ("CORE CAN'T LOAD VIEW " . $view_name);
+		$this->view->$action_name($this->request['params']);
 	}
 
 	public function	load_module(string $controller_name = NULL)
@@ -98,7 +76,6 @@ class core
 		$this->controller->core =& $this;
 		$this->controller->load =& $this->load;
 		$this->controller->data =& $this->data;
-		$this->controller->pdo =& $this->pdo;
 	}
 
 	public function fail(string $msg = NULL, string $controller = NULL, string $action = NULL)

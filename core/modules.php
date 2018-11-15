@@ -5,7 +5,7 @@ class modules
 	public $core;
 	public $load;
 	public $data;
-	public $pdo;
+	public $db;
 
 	public function __call(string $name , array $arguments)
 	{
