@@ -16,18 +16,18 @@ class m_model
 		}
 		catch(PDOException $exception)
 		{
-/*			if (DEV_MODE)
+			if (DEV_MODE)
 			{
 				if ($exception->getCode() == 1049)
-					$this->core->set_view("sql_test", "main");
-					header ('location:' . SITE_ROOT . 'setup');
+					$this->core->fail("Database doesn't existe", "setup", "main");
+//					header ('location:' . SITE_ROOT . 'setup');
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
 			else
 				header ('location:' . SITE_ROOT . '404');
 			die();
-*/		}
+		}
 	}
 
 	public function	execute_pdo()
