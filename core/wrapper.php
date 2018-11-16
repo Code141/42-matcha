@@ -45,8 +45,11 @@ class m_wrapper
 
 	public function where(string $table, string $column, string $operator, string $value)
 	{
+		//$to_bind = preg_replace("/\./", "_", $value);
+	//	$stm = " WHERE " . $table . "." . $column . " " . $operator . " :" . $to_bind;
 		$stm = " WHERE " . $table . "." . $column . " " . $operator . " :" . $value;
 		$this->sql = $this->sql . $stm;
+		//$this->db->bind_param[":" . $to_bind] = $value;
 		$this->db->bind_param[":" . $value] = $value;
 		return ($this);
 	}
