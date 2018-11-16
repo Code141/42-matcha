@@ -13,18 +13,6 @@ class c_controller
 	{
 	}
 
-	private function protect_html_injection(array $data)
-	{
-		foreach ($data as $key => $value)
-			if (is_string($value))
-				$data[$key] = htmlspecialchars($value);
-			else if (is_array($value))
-				$data[$key] = $this->protect_html_injection($value);
-			else
-				$data[$key] = $value;
-		return ($data);
-	}
-
 	protected function save_url()
 	{
 		$_SESSION['last_url']['controller'] = $controller;
@@ -42,15 +30,6 @@ class c_controller
 		//	$this->view();
 	}
 
-	protected function	requiered_fields($keys, $array)
-	{
-		foreach ($keys as $key)
-			if (!isset($array[$key]) || empty($array[$key]))
-				return (NULL);
-			else
-				$new_array[$key] = $array[$key];
-		return ($new_array);
-	}
 }
 
 class c_logged_only extends c_controller

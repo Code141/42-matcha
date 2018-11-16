@@ -3,8 +3,19 @@
 </p>
 
 <?php
-	if ($this->core->module->session->is_loggued())
-		echo "LOGGUED";
-	else
-		echo "NON LOGGUED";
+
+$this->modules->session();
+
+if ($this->modules->session->controller->is_loggued())
+	echo "LOGGUED";
+else
+	echo "NON LOGGUED";
+
+var_dump($this->module->session->main());
+
+/*
+		$this->modules->session();
+		var_dump($this->module->session->self->controller);
+		var_dump($this->module->session->self->controller);
+ */
 ?>

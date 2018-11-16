@@ -33,5 +33,4 @@ class m_sql_test extends m_wrapper
 		$result = $this->db->execute_pdo()->fetch(PDO::FETCH_ASSOC);
 		return ($result);
 	}
-
 }

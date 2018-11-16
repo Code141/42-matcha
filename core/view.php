@@ -52,12 +52,12 @@ class v_view
 		echo ($json_response);
 	}
 
-	public function regular_render()
+	public function layout_render()
 	{
+
 		$basic_css[] = 'reset';
 		$basic_css[] = 'style';
 		$this->css_files = array_merge($basic_css, $this->css_files);
-
 		$this->load_html('layout/' . $this->layout);
 	}
 

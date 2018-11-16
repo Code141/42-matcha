@@ -7,11 +7,11 @@ class core
 	public $db;
 	public $load;
 
-	public $data;
-	public $module;
+	public $data = array();
 
-	public $controller;
-	public $view;
+	public $controller = NULL;
+	public $view = NULL;
+	public $modules = NULL;
 
 	public function __construct()
 	{
@@ -26,10 +26,10 @@ class core
 		$this->db->data =& $this->data;
 		$this->db->connect();
 
-		$this->module = new modules();
-		$this->module->core =& $this;
-		$this->module->load =& $this->load;
-		$this->module->data =& $this->data;
+		$this->modules = new modules();
+		$this->modules->core =& $this;
+		$this->modules->load =& $this->load;
+		$this->modules->data =& $this->data;
 
 		$this->new_controller($this->request['controller']);
 		$this->execute_controller($this->request['action']);
@@ -89,6 +89,16 @@ class core
 		$this->new_controller($controller);
 		$this->controller->prompter['success'] = $msg;
 		$this->execute_controller($action);
+	}
+
+	public function	requiered_fields($keys, $array)
+	{
+		foreach ($keys as $key)
+			if (!isset($array[$key]) || empty($array[$key]))
+				return (NULL);
+			else
+				$new_array[$key] = $array[$key];
+		return ($new_array);
 	}
 
 	protected function cookie_set($cookie_key, $cookie_value)

@@ -2,9 +2,8 @@
 
 class loader
 {
-	private function file_loader($filepath, $filename)
+	private function file_loader($file)
 	{
-		$file = $filepath . $filename . '.php';
 		if (is_readable(APP_PATH . $file))
 			require_once(APP_PATH . $file);
 		else if (is_readable(CORE_PATH . $file))
@@ -15,9 +14,11 @@ class loader
 
 	public function controller(string $name)
 	{
+		$file = 'controllers/' . $name . '.php';
 		$class_name = "c_" . $name;
+
 		if (!class_exists($class_name))
-			$this->file_loader('controllers/', $name);
+			$this->file_loader($file);
 		if (!class_exists($class_name))
 			return (NULL);
 
@@ -26,14 +27,16 @@ class loader
 		$controller->load =& $this;
 		$controller->core =& $this->core;
 		$controller->data =& $this->data;
+		$controller->modules =& $this->core->modules;
 		return ($controller);
 	}
 
 	public function view(string $name)
 	{
+		$file = 'views/' . $name . '.php';
 		$class_name = "v_" . $name;
 		if (!class_exists($class_name))
-			$this->file_loader('views/', $name);
+			$this->file_loader($file);
 		if (!class_exists($class_name))
 			return (NULL);
 
@@ -42,14 +45,16 @@ class loader
 		$view->load =& $this;
 		$view->core =& $this->core;
 		$view->data =& $this->data;
+		$view->modules =& $this->core->modules;
 		return ($view);
 	}
 
 	public function model(string $name)
 	{
+		$file = 'models/' . $name . '.php';
 		$class_name = "m_" . $name;
 		if (!class_exists($class_name))
-			$this->file_loader('models/', $name);
+			$this->file_loader($file);
 		if (!class_exists($class_name))
 			return (NULL);
 
@@ -58,24 +63,62 @@ class loader
 		$model->load =& $this;
 		$model->core =& $this->core;
 		$model->data =& $this->data;
-
 		$model->db = &$this->core->db;
 		return ($model);
 	}
 
+
 	public function module(string $name = null)
 	{
-		$class_name = "module_" . $name;
-		if (!class_exists($class_name))
-			$this->file_loader('modules/', $name);
-		if (!class_exists($class_name))
-			return (NULL);
+		$class_name_m = "m_" . $name;
+		$class_name_v = "v_" . $name;
+		$class_name_c = "c_" . $name;
 
-		$module = new $class_name();
+		$m_file = 'modules/' . $name . '/' . $class_name_m . '.php';
+		$v_file = 'modules/' . $name . '/' . $class_name_v. '.php';
+		$c_file = 'modules/' . $name . '/' . $class_name_c . '.php';
 
-		$module->load =& $this;
-		$module->core =& $this->core;
-		$module->data =& $this->data;
+		if (!class_exists($class_name_m))
+			if (is_readable(CORE_PATH . $m_file))
+				require_once($m_file);
+		if (!class_exists($class_name_v))
+			if (is_readable(CORE_PATH . $v_file))
+				require_once($v_file);
+		if (!class_exists($class_name_c))
+			if (is_readable(CORE_PATH . $c_file))
+				require_once($c_file);
+
+		$module = new module();
+
+		if (class_exists($class_name_m))
+		{
+			$module->model = new $class_name_m();
+			$module->model->load =& $this;
+			$module->model->core =& $this->core;
+			$module->model->data =& $this->data;
+			$module->model->db = &$this->core->db;
+		}
+		if (class_exists($class_name_v))
+		{
+			$module->view = new $class_name_v();
+			$module->view->load =& $this;
+			$module->view->core =& $this->core;
+			$module->view->data =& $this->data;
+			$module->view->modules =& $this->core->modules;
+		}
+		if (class_exists($class_name_c))
+		{
+			$module->controller = new $class_name_c();
+			$module->controller->load =& $this;
+			$module->controller->core =& $this->core;
+			$module->controller->data =& $this->data;
+			$module->controller->modules =& $this->core->modules;
+		}
+
+		$module->controller->self =& $module;
+		$module->model->self =& $module;
+		$module->view->self =& $module;
+
 		return ($module);
 	}
 
