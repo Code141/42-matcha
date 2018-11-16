@@ -608,6 +608,7 @@ normal! zt
 3
 normal! 02|
 wincmd w
+5wincmd w
 exe '1resize ' . ((&lines * 38 + 40) / 81)
 exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
 exe '2resize ' . ((&lines * 38 + 40) / 81)
