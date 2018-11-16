@@ -40,7 +40,10 @@ class	db
 		$this->bind_param = array_unique($this->bind_param);
 		foreach ($this->bind_param as $key => $value)
 			$this->pdo_stm->bindParam($key, $value);
-		
+ 		echo  "<br>-------BINDED STMT-------------<br>";		
+		$this->pdo_stm->debugDumpParams();
+		//var_dump ($this->pdo_stm);
+		echo "<br>";
 		try
 		{
 			$this->pdo_stm->execute();
@@ -49,7 +52,6 @@ class	db
 		{
 			exit("Something went wrong : " . $exception->getMessage());
 		}
-
 		return ($this->pdo_stm);
 	}
 
