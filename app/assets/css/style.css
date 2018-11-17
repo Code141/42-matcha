@@ -4,7 +4,7 @@ header, footer, section
 	border-style: solid;
 	border-color: black;
 	box-sizing: border-box;
-	text-align: center;
+/*	text-align: center;*/
 }
 
 footer

@@ -27,7 +27,7 @@ class loader
 		$controller->load =& $this;
 		$controller->core =& $this->core;
 		$controller->data =& $this->data;
-		$controller->modules =& $this->core->modules;
+		$controller->module_loader =& $this->core->module_loader;
 		return ($controller);
 	}
 
@@ -41,11 +41,10 @@ class loader
 			return (NULL);
 
 		$view = new $class_name();
-
 		$view->load =& $this;
 		$view->core =& $this->core;
 		$view->data =& $this->data;
-		$view->modules =& $this->core->modules;
+		$view->module_loader =& $this->core->module_loader;
 		return ($view);
 	}
 
@@ -88,7 +87,7 @@ class loader
 			if (is_readable(CORE_PATH . $c_file))
 				require_once($c_file);
 
-		$module = new module();
+		$module = new module($name);
 
 		if (class_exists($class_name_m))
 		{
@@ -101,24 +100,19 @@ class loader
 		if (class_exists($class_name_v))
 		{
 			$module->view = new $class_name_v();
+			$module->view->self =& $module;
 			$module->view->load =& $this;
 			$module->view->core =& $this->core;
 			$module->view->data =& $this->data;
-			$module->view->modules =& $this->core->modules;
 		}
 		if (class_exists($class_name_c))
 		{
 			$module->controller = new $class_name_c();
+			$module->controller->self =& $module;
 			$module->controller->load =& $this;
 			$module->controller->core =& $this->core;
 			$module->controller->data =& $this->data;
-			$module->controller->modules =& $this->core->modules;
 		}
-
-		$module->controller->self =& $module;
-		$module->model->self =& $module;
-		$module->view->self =& $module;
-
 		return ($module);
 	}
 

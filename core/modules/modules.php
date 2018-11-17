@@ -2,9 +2,13 @@
 
 class module
 {
+	public function __construct($name)
+	{
+		$this->name = $name;
+	}
 }
 
-class modules
+class module_loader
 {
 	public $core;
 	public $load;
@@ -13,7 +17,14 @@ class modules
 
 	public function __call(string $name , array $arguments)
 	{
-		$this->$name = $this->load->module($name);
+		if (empty($this->$name))
+		{
+			$module = $this->load->module($name);
+			$this->$name = &$module;
+			$this->core->consolelog("[LOAD MODULE] : " . $name . "");
+		}
+		else
+			$this->core->consolelog("[RECALL MODULE] : " . $name . "");
 		$this->link($name);
 		return ($this->$name);
 	}

@@ -1,12 +1,12 @@
 <?php
 
-class v_session extends v_view
+class v_session extends v_module_view
 {
 	public function main($params = NULL)
 	{
-		if ($this->module->is_loggued())
-			$this->load_html('login/login');
+		if ($this->self->controller->is_loggued())
+			$this->load_html('login');
 		else
-			$this->load_html('login/login');
+			$this->load_html('login');
 	}
 }

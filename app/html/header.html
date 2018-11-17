@@ -4,18 +4,13 @@
 
 <?php
 
-$this->modules->session();
-
-if ($this->modules->session->controller->is_loggued())
-	echo "LOGGUED";
-else
-	echo "NON LOGGUED";
-
-var_dump($this->module->session->main());
-
 /*
-		$this->modules->session();
-		var_dump($this->module->session->self->controller);
-		var_dump($this->module->session->self->controller);
- */
+	$this->modules->session();
+	$this->module->session->main();
+*/
+
+	//$this->modules->session()->view->main();
+
+	$this->module_loader->session();
+	$this->module->session->main();
 ?>

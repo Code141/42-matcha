@@ -11,7 +11,15 @@ class core
 
 	public $controller = NULL;
 	public $view = NULL;
-	public $modules = NULL;
+	public $module_loader = NULL;
+
+	public function consolelog($msg)
+	{
+		echo "
+<script>console.log('" . $msg . "');</script>
+";
+	}
+
 
 	public function __construct()
 	{
@@ -26,10 +34,10 @@ class core
 		$this->db->data =& $this->data;
 		$this->db->connect();
 
-		$this->modules = new modules();
-		$this->modules->core =& $this;
-		$this->modules->load =& $this->load;
-		$this->modules->data =& $this->data;
+		$this->module_loader = new module_loader();
+		$this->module_loader->core =& $this;
+		$this->module_loader->load =& $this->load;
+		$this->module_loader->data =& $this->data;
 
 		$this->new_controller($this->request['controller']);
 		$this->execute_controller($this->request['action']);

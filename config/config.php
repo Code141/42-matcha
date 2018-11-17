@@ -22,6 +22,7 @@ define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT'] . SITE_ROOT);
 define('CORE_PATH', SERVER_ROOT . 'core/');
 define('CONFIG_PATH', SERVER_ROOT . 'config/');
 define('APP_PATH', SERVER_ROOT . 'app/');
+define('MODULES_PATH', CORE_PATH . 'modules/');
 
 define('CSS_PATH', SITE_ROOT . 'app/assets/css/');
 define('IMG_PATH', SITE_ROOT . 'app/assets/img/');
