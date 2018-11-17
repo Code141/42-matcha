@@ -7,11 +7,17 @@ class core
 	public $db;
 	public $load;
 
-	public $data = array();
+	public $data = array(
+	'prompter' => array(
+		"success" => "",
+		"fail" => "")
+	);
 
 	public $controller = NULL;
 	public $view = NULL;
 	public $module_loader = NULL;
+
+
 
 	public function consolelog($msg)
 	{
@@ -48,6 +54,8 @@ class core
 		if (isset($this->controller))
 			unset($this->controller);
 
+		$this->consolelog("[NEW CONTROLLER] : " . $controller_name . "");
+
 		$this->controller = $this->load->controller($controller_name);
 		if ($this->controller === NULL)
 			die ("CORE CAN'T LOAD CONTROLLER (404!)");
@@ -58,10 +66,12 @@ class core
 		$controller_classes = get_class_methods($this->controller);
 
 		$public_classes = preg_grep("/^(?!__).+/", $controller_classes);
+
 		if (array_search($action_name, $public_classes) === FALSE)
 			$action = "error_404";
 		else
-			$action = $this->request['action'];
+			$action = $action_name;
+
 		$this->controller->$action($this->request['params']);
 	}
 
@@ -77,36 +87,32 @@ class core
 	{
 		if ($msg === NULL)
 			$msg = "Fail for unknow reason";
+/*
 		if ($action == NULL)
 			$action = $_SESSION['last_url']['action'];
 		if ($controller == NULL)
 			$controller = $_SESSION['last_url']['controller'];
+*/
 		$this->new_controller($controller);
-		$this->controller->prompter['fail'] = $msg;
+		$this->data['prompter']['fail'] = $msg;
 		$this->execute_controller($action);
+		die(); /////// REQUIERED SWITCH CONTROLLER DOESNT WORK YET
 	}
 
 	public function success($msg = NULL, $controller = NULL, $action = NULL)
 	{
 		if ($msg === NULL)
 			$msg = "Success";
+/*
 		if ($action == NULL)
 			$action = $_SESSION['last_url']['action'];
 		if ($controller == NULL)
 			$controller = $_SESSION['last_url']['controller'];
+*/
 		$this->new_controller($controller);
-		$this->controller->prompter['success'] = $msg;
+		$this->data['prompter']['success'] = $msg;
 		$this->execute_controller($action);
-	}
-
-	public function	requiered_fields($keys, $array)
-	{
-		foreach ($keys as $key)
-			if (!isset($array[$key]) || empty($array[$key]))
-				return (NULL);
-			else
-				$new_array[$key] = $array[$key];
-		return ($new_array);
+		die(); /////// REQUIERED SWITCH CONTROLLER DOESNT WORK YET
 	}
 
 	protected function cookie_set($cookie_key, $cookie_value)

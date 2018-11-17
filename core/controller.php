@@ -13,6 +13,16 @@ class c_controller
 	{
 	}
 
+	public function	requiered_fields($keys, $array)
+	{
+		foreach ($keys as $key)
+			if (!isset($array[$key]) || empty($array[$key]))
+				return (NULL);
+			else
+				$new_array[$key] = $array[$key];
+		return ($new_array);
+	}
+
 	protected function save_url()
 	{
 		$_SESSION['last_url']['controller'] = $controller;

@@ -5,7 +5,7 @@ class v_session extends v_module_view
 	public function main($params = NULL)
 	{
 		if ($this->self->controller->is_loggued())
-			$this->load_html('login');
+			$this->load_html('loggued');
 		else
 			$this->load_html('login');
 	}
