@@ -1,4 +1,4 @@
-INSERT INTO user_tags (id_user, id_tag) VALUES
+INSERT INTO `user_tags` (`id_user`, `id_tag`) VALUES
 (270, 262),
 (115, 83),
 (497, 404),
@@ -915,7 +915,6 @@ INSERT INTO user_tags (id_user, id_tag) VALUES
 (279, 271),
 (22, 124),
 (93, 454),
-(347, 281),
 (36, 172),
 (256, 330),
 (417, 323),

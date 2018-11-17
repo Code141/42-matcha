@@ -34,7 +34,12 @@ class m_sql_test extends m_wrapper
 
 		$this->db->bind_param[":" . $id] = $id;
 	}
-
+	
+	public function all_matches_sort_by_tags()
+	{
+		$this->all_matches();
+	}
+	
 	public function user_from_username()
 	{
 		$username = "biornso";
@@ -51,8 +56,43 @@ class m_sql_test extends m_wrapper
 		$this->db->bind_param[":" . $username] = $username;
 	}
 
-	public function all_matches_sort_by_tags()
+	public function redundant_orientations()
 	{
-		$this->all_matches();
-	}	
+		$this->db->sql =
+			"SELECT uo1.id_user, uo1.id_gender, uo1.id_gender_identity
+			FROM user_orientation uo1 
+			
+			JOIN user_orientation uo2 
+			ON (uo2.id_gender = uo1.id_gender 
+			AND (uo2.id_user = uo1.id_user
+			AND uo2.id_gender_identity = 0
+			AND NOT uo1.id_gender_identity = 0))
+			
+			OR (uo2.id_gender_identity = uo1.id_gender_identity 
+			AND (uo2.id_user = uo1.id_user
+			AND uo2.id_gender = 0
+			AND NOT uo1.id_gender = 0))
+			
+			
+			
+			ORDER BY uo1.id_user, uo1.id_gender, uo1.id_gender_identity ASC";
+	}
+
+	public function delete_redundant_orientations()
+	{
+		$this->db->sql = 
+			"DELETE uo1
+			FROM user_orientation uo1
+
+			INNER JOIN user_orientation uo2
+			ON (uo2.id_gender = uo1.id_gender
+			AND (uo2.id_user = uo1.id_user
+			AND uo2.id_gender_identity = 0
+			AND NOT uo1.id_gender_identity = 0))
+
+			OR (uo2.id_gender_identity = uo1.id_gender_identity
+			AND (uo2.id_user = uo1.id_user
+			AND uo2.id_gender = 0
+			AND NOT uo1.id_gender = 0))";
+	}
 }
