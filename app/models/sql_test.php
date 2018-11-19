@@ -45,12 +45,8 @@ class m_sql_test extends m_wrapper
 	
 	public function matches_gender_identity()
 	{
-//		$this->join[] = "user_gender_identity ugi1 ON ugi1.id_user = uo1.id_user";
-//		$this->join[] = "user_gender_identity ugi2 ON ugi2.id_gender = uo1.id_gender_identity";
 		$this->condition[] = "ugi2.id_gender = uo1.id_gender_identity
 			       				AND uo2.id_gender_identity = ugi1.id_gender"; 
-	//		"uo1.id_gender_identity = ugi2.id_gender
-	//						AND uo2.id_gender_identity = ugi1.id_gender";
 		return ($this);
 	}
 
@@ -71,9 +67,6 @@ class m_sql_test extends m_wrapper
 
 
 
-<<<<<<< HEAD
-		$this->db->bind_param[$id] = $id;
-=======
 			LEFT JOIN user_tags ut1
 			ON ut1.id_user = uo1.id_user
 
@@ -98,7 +91,6 @@ class m_sql_test extends m_wrapper
 
 			$this->bind_param[$i] = $user_id;
 			return ($this);
->>>>>>> c409338dc3990436359a9c7b7b6954c7e19cbc06
 	}
 	
 	public function all_matches_sort_by_tags()

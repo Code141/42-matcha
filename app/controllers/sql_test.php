@@ -6,9 +6,9 @@ class c_sql_test extends c_controller
 	{
 		$this->data['executed'] = 
 			$this->load->model("sql_test")
-			->all_matches(4)
-			->matches_gender_identity()
-//			->only_matches_with_same_tags(4)
+			->all_matches(1)
+//			->matches_gender_identity()
+			->only_matches_with_same_tags(1)
 			->execute()
 			->fetchAll();
 
