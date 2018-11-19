@@ -3,34 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>
-		<?php if (!empty($this->data['title'])) { echo $this->data['title'] . " - ";} echo APP_NAME;?>
+		<?php if (!empty($this->data['title'])) { echo $this->data['title'] . " - ";} echo ucfirst(APP_NAME);?>
 	</title>
 	<link rel="icon" type="image/png" href="<?php echo IMG_PATH;?>favicon.png">
-
-<?php foreach($this->css_files as $filename) { ?>
-	<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
-<?php } ?>
-
-<script>
-</script>
-
+	<?php foreach($this->css_files as $filename) { ?>
+		<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
+	<?php } ?>
 </head>
+
 <body>
+	<header>
+		<div class="center">
+			<?php $this->load_html('header'); ?>
+		</div>
+	</header>
+
 <?php $this->load_html('prompter'); ?>
 
-<?php if (DEV_MODE) { ?>
-	<a href="<?php echo SITE_ROOT; ?>setup">SETUP</a>
-<?php } ?>
+	<section class="center">
+		<main>
+	<?php foreach($this->html_files as $filename) { $this->load_html($filename); } ?>
+		</main>
+	</section>
 
-<header>
-	<?php $this->load_html('header'); ?>
-</header>
-
-<?php foreach($this->html_files as $filename) {
-	$this->load_html($filename);
-} ?>
-
-<footer>
-</footer>
+	<footer>
+		Footer
+	</footer>
 </body>
+
 </html>

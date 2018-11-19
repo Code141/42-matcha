@@ -4,11 +4,31 @@ class	db
 {
 	public	$pdo;
 
-	public function	connect()
+	public function	set_up_connect()
 	{
+		require(CONFIG_PATH . 'database.php');
 		try
 		{
-			require(CONFIG_PATH . 'database.php');
+			$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
+			if (DEV_MODE)
+				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		}
+		catch(PDOException $exception)
+		{
+			if (DEV_MODE)
+			{
+				echo 'Erreur : ' . $exception->getMessage();
+			}
+			else
+				header ('location:' . SITE_ROOT . '404');
+		}
+	}
+
+	public function	connect_base()
+	{
+		require(CONFIG_PATH . 'database.php');
+		try
+		{
 			$this->pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 			if (DEV_MODE)
 				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -20,10 +40,7 @@ class	db
 				if ($exception->getCode() == 1049)
 				{
 					$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
-					
-//		PREASE INSTALL YOUR DB
-//		$this->core->fail("Database doesn't existe", "setup", "main");
-
+					$this->core->set_view("setup", "main");
 				}
 				else
 					echo 'Erreur : ' . $exception->getMessage();

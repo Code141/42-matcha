@@ -32,18 +32,21 @@ class core
 		$this->parse_uri($_SERVER['REQUEST_URI']);
 
 		$this->load = new loader();
+		$this->module_loader = new module_loader();
+		$this->db = new db();
+
 		$this->load->core =& $this;
 		$this->load->data =& $this->data;
-
-		$this->db = new db();
 		$this->db->core =& $this;
 		$this->db->data =& $this->data;
-		$this->db->connect();
-
-		$this->module_loader = new module_loader();
 		$this->module_loader->core =& $this;
 		$this->module_loader->load =& $this->load;
 		$this->module_loader->data =& $this->data;
+
+		if ($this->request['controller'] != "setup")
+			$this->db->connect_base();
+		else
+			$this->db->connect();
 
 		$this->new_controller($this->request['controller']);
 		$this->execute_controller($this->request['action']);
@@ -53,8 +56,6 @@ class core
 	{
 		if (isset($this->controller))
 			unset($this->controller);
-
-		$this->consolelog("[NEW CONTROLLER] : " . $controller_name . "");
 
 		$this->controller = $this->load->controller($controller_name);
 		if ($this->controller === NULL)
@@ -71,7 +72,6 @@ class core
 		else
 			$action = $action_name;
 
-		$this->consolelog("[ACTION] : " . $action . "");
 		$this->controller->$action($this->request['params']);
 	}
 
@@ -81,6 +81,7 @@ class core
 		if ($this->view === NULL)
 			die ("CORE CAN'T LOAD VIEW " . $view_name);
 		$this->view->$action_name($this->request['params']);
+		die();
 	}
 
 	public function fail(string $msg = NULL, string $controller = NULL, string $action = NULL)

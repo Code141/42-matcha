@@ -23,7 +23,5 @@ require_once(MODULES_PATH . 'modules.php');
 require_once(CORE_PATH . 'tool.php');
 
 
-
-
 $core = new core();
 

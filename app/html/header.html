@@ -1,15 +1,55 @@
-<p>
-	HEADER
-</p>
+<h1 id="title">
+<?php echo ucfirst(APP_NAME); ?>
+</h1>
+
+<?php
+
+$this->core->module_loader->session();
+
+if ($this->module_loader->session()->controller->is_loggued()) 
+{
+?>
+<nav>
+	<ul>
+		<li>
+			<a href="account">
+				My account
+			</a>
+		</li>
+		<li>
+			<a href="Matches">
+				My matches 
+			</a>
+		</li>
+		<li>
+			<a href="messages">
+				My messages 
+			</a>
+		</li>
+	</ul> 
+</nav>
+<?php } ?>
+
+<?php if (DEV_MODE) { ?>
+<nav>
+	<ul id>
+		<li>
+			<a href="<?php echo SITE_ROOT; ?>setup">
+				Setup
+			</a>
+		</li>
+	</ul>
+</nav>
+<?php } ?>
 
 <?php
 
 //	$this->module_loader->session();
 //	$this->module->session->main();
 
-	if ($this->module_loader->session()->controller->is_loggued())
-		$this->module->session->loggued();
-	else
-		$this->module->session->login();
-	
+if ($this->module_loader->session()->controller->is_loggued())
+	$this->module->session->loggued();
+else
+	$this->module->session->login();
+
 ?>

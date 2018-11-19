@@ -1,11 +1,108 @@
-header, footer, section
+@font-face {
+	font-family: 'din1451';
+	src: url('font/din1451stdengschrift.ttf');
+}
+
+@font-face {
+	font-family: 'geo';
+	src: url('font/GeosansLight.ttf');
+}
+
+@font-face {
+	font-family: 'geo-oblique';
+	src: url('font/GeosansLight-Oblique.ttf');
+}
+
+/*------------------------------------------------------------------*/
+
+body 
 {
-	border: 1px;
+	font-family: geo;
+	background-color: rgba(255, 0, 0, 1);
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: din1451;
+	font-size: 30px;
+}
+
+header, main, footer, section
+{
 	border-style: solid;
 	border-color: black;
 	box-sizing: border-box;
-/*	text-align: center;*/
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.4);
 }
+
+.center
+{
+	height: 100%;
+	max-width: 1024px;
+	margin: 0px auto 0px auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+/*- HEADER ---------------------------------------------------------*/
+
+header 
+{
+	height: 60px;
+	width: 100%;
+	position: sticky;
+	top: 0px;
+}
+
+header h1#title
+{
+	font-size: 40px;
+	box-sizing: border-box;
+}
+
+header nav ul li
+{
+	float: left;
+}
+
+header nav ul li + li
+{
+	margin-left: 20px;
+}
+
+header nav,
+header h1,
+header nav ul
+{
+	background-color: rgba(255, 255, 255, 0.4);
+	align-self: center;
+}
+
+/*- WRAP -----------------------------------------------------------*/
+
+section#wrap
+{
+}
+
+main
+{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+/*- HOME -----------------------------------------------------------*/
+
+#home
+{
+	width:500px;
+	float:left;
+}
+
+/*- FOOTER ---------------------------------------------------------*/
 
 footer
 {
@@ -15,3 +112,36 @@ footer
 	width: 100%;
 }
 
+/*- LOGIN ----------------------------------------------------------*/
+
+section#login
+{
+	right: 0px;
+	top: 0px;
+	align-self: center;
+}
+
+/*- REGISTER -------------------------------------------------------*/
+
+section#register
+{
+	width: 400px;
+	float: right;
+	padding:15px;
+}
+
+section#register input
+{
+	margin: 10px;
+	border-radius: 3px;
+	padding: 5px;
+	border: none;
+}
+
+section#register button#singup
+{
+	border-radius: 3px;
+	padding: 5px 10px 5px 10px;
+	border: none;
+	font-size: 25px;
+}

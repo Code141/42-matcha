@@ -134,7 +134,6 @@ class c_module_session extends c_controller
 		return (TRUE);
 	}
 
-
 	private function	check_username($username)
 	{
 		try

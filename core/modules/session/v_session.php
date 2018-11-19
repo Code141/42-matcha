@@ -18,7 +18,6 @@ class v_module_session extends v_module_view
 			$this->load_html('login');
 	}
 
-
 	public function register($params = NULL)
 	{
 		$this->load_html('register');
