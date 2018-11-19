@@ -4,8 +4,14 @@ class c_sql_test extends c_controller
 {
 	public function main($params = NULL)
 	{
-		$model = $this->load->model("sql_test");
-		$model->delete_redundant_orientations();
+		$this->data['executed'] = 
+			$this->load->model("sql_test")
+			->all_matches()
+			->prepare()
+			->bind_params()
+			->execute();
+
+/*
 
 		echo "-----------RAW SQL:---------------<BR>";
 		echo $this->core->db->sql;
@@ -19,6 +25,7 @@ class c_sql_test extends c_controller
 		$this->data['executed'] = $this->core->db->execute_pdo()->rowCount();
 		
 //		------------------------------------------------------------------
+		//		*/
 		$this->core->set_view("sql_test", "main");
 	}
 }

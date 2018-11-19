@@ -2,12 +2,13 @@
 
 class m_sql_test extends m_wrapper
 {
-	public $sql;
 
 	public function test()
 	{
 		$this->select(array("user" => "username"),"user")->where("user","id", "=" , "1");
+
 		$this->db->sql = $this->sql; 
+
 		$this->data['sql'] = $this->db->sql;
 		var_dump($this->data['sql']);
 		echo "<br>";
@@ -18,7 +19,7 @@ class m_sql_test extends m_wrapper
 	public function all_matches()
 	{
 		$id = 1;
-		$this->db->sql =
+		$this->sql =
 		"SELECT DISTINCT ug2.id_user
 		FROM user_orientation uo1
 		LEFT JOIN user_gender ug1
@@ -32,7 +33,8 @@ class m_sql_test extends m_wrapper
 		AND uo1.id_user = :" . $id .
 		" ORDER BY ug2.id_user ASC";
 
-		$this->db->bind_param[":" . $id] = $id;
+		$this->bind_param[$id] = $id;
+		return ($this);
 	}
 	
 	public function all_matches_sort_by_tags()
@@ -53,7 +55,7 @@ class m_sql_test extends m_wrapper
 			ON ua.id_user = u.id 
 			WHERE u.username = :" . $username;
 	
-		$this->db->bind_param[":" . $username] = $username;
+		$this->bind_param[":" . $username] = $username;
 	}
 
 	public function redundant_orientations()
