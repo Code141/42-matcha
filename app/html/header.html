@@ -4,13 +4,12 @@
 
 <?php
 
-/*
-	$this->modules->session();
-	$this->module->session->main();
-*/
+//	$this->module_loader->session();
+//	$this->module->session->main();
 
-	//$this->modules->session()->view->main();
-
-	$this->module_loader->session();
-	$this->module->session->main();
+	if ($this->module_loader->session()->controller->is_loggued())
+		$this->module->session->loggued();
+	else
+		$this->module->session->login();
+	
 ?>

@@ -32,7 +32,7 @@ class m_sql_test extends m_wrapper
 		AND uo1.id_user = :" . $id .
 		" ORDER BY ug2.id_user ASC";
 
-		$this->db->bind_param[":" . $id] = $id;
+		$this->db->bind_param[$id] = $id;
 	}
 	
 	public function all_matches_sort_by_tags()
@@ -52,8 +52,8 @@ class m_sql_test extends m_wrapper
 			LEFT JOIN user_account ua
 			ON ua.id_user = u.id 
 			WHERE u.username = :" . $username;
-	
-		$this->db->bind_param[":" . $username] = $username;
+
+		$this->db->bind_param[$username] = $username;
 	}
 
 	public function redundant_orientations()
@@ -72,8 +72,6 @@ class m_sql_test extends m_wrapper
 			AND (uo2.id_user = uo1.id_user
 			AND uo2.id_gender = 0
 			AND NOT uo1.id_gender = 0))
-			
-			
 			
 			ORDER BY uo1.id_user, uo1.id_gender, uo1.id_gender_identity ASC";
 	}

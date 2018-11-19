@@ -1,50 +1,34 @@
 <?php
 
-
-class c_session extends c_controller
+class c_module_session extends c_controller
 {
-	public function __construct()
+	public function	login($fields)
 	{
-		$this->error = 'Login :';
-	}
-
-	public function	login(string $username, string $password)
-	{
+		$encrypted_password = $this->hash_password($fields['password']);
+		$user = $this->self->model->get_user_by_login($fields['username']);
 		try
 		{
-			$encrypted_password = $this->hash_password($password);
-		//	$user = $this->load->model('login', 'get_user_by_username', $this->data);
-$user = 3;
-
 			if ($user == NULL)
 				throw new Exception("Unknow user");
-			if ($encrypted_password != $user['password'])
+			if ($encrypted_password !== $user['password'])
 				throw new Exception("Bad password");
-			if ($user['validated_account'] != "TRUE")
+			if ($user['account_valid'] != 1)
 				throw new Exception("Account not validated");
-
 		}
 		catch (Exception $e)
 		{
 			throw $e;
 			return (FALSE);
 		}
-
-
-		$password_length = strlen($password);
-
-
-		$_SESSION['user'] = array();
-		$_SESSION['user']['id'] = "3";
-		$_SESSION['user']['email'] = "email@email.fr";
-		$_SESSION['user']['password_length'] = 8;
-		$_SESSION['user']['username'] = $fields['username'];
+		$_SESSION['user'] = $user;
+		$_SESSION['user']['password_len'] = strlen($fields['password']);
 		return (TRUE);
 	}
 
 	public function	logout()
 	{
-		$_SESSION = NULL;
+		$_SESSION['user'] = NULL;
+		unset($_SESSION['user']);
 		session_destroy();
 	}
 
@@ -56,38 +40,34 @@ $user = 3;
 			return (TRUE);
 	}
 
-	public function	loggued_username()
+	public function	user_loggued()
 	{
 		if ($this->is_loggued())
-			return ($_SESSION['user']['username']);
+			return ($_SESSION['user']);
 		return (NULL);
 	}
 
-	public function	loggued_id()
+	public function	check_register($fields)
 	{
-		if (is_loggued())
-			return ($_SESSION['user']['id']);
-		return (NULL);
-	}
+		$encrypted_password = $this->hash_password($fields['password']);
+		try
+		{
+			$this->check_email ($fields['email']);
+			$this->check_password ($fields['password'], $fields['password_repeat']);
+			$this->check_username ($fields['username']);
+		}
+		catch (Exception $e)
+		{
+			throw $e;
+			return (FALSE);
+		}
+		$fields['encrypted_password'] = $encrypted_password;
+		$this->self->model->new_user($fields);
 
-	private function	check_password($password, $passwordbis)
-	{
-		$password_len = strlen($password);
-		if ($password != $passwordbis)
-			return ("Password and retyped password doesn't match");
-		if ($password_len < 8)
-			return ("Password too short");
-		if ($password_len > 50)
-			return ("Password too long");
-		if (!preg_match('/[A-Z]/', $password)
-			|| !preg_match('/[a-z]/', $password)
-			|| !preg_match('/[0-9]/', $password)
-			|| !preg_match('/@|!|\.|,|-|_/', $password))
-			return ('Password too easy. It must contain uppercase, lowercase, number, and special charactere like ( @ ! - _ , . )');
 		return (TRUE);
 	}
 
-	private function	hash_password($password)
+	public function	hash_password($password)
 	{
 		$hash = hash('whirlpool', $password);
 		// password_hash("rasmuslerdorf", PASSWORD_DEFAULT);
@@ -95,36 +75,66 @@ $user = 3;
 		return ($hash);
 	}
 
+	private function	check_password($password, $password_repeat)
+	{
+		try
+		{
+			if ($password != $password_repeat)
+				throw new Exception("Password and retyped password doesn't match");
+			$password_len = strlen($password);
+			if ($password_len < 8)
+				throw new Exception("Password too short");
+			if ($password_len > 50)
+				throw new Exception("Password too long");
+			if (!preg_match('/[A-Z]/', $password)
+				|| !preg_match('/[a-z]/', $password)
+				|| !preg_match('/[0-9]/', $password)
+				|| !preg_match('/@|!|\.|,|-|_/', $password))
+				throw new Exception('Password too easy. It must contain uppercase, lowercase, number, and special charactere like ( @ ! - _ , . )');
+		}
+		catch (Exception $e)
+		{
+			throw $e;
+			return (FALSE);
+		}
+		return (TRUE);
+	}
+
 	private function	check_email($email)
 	{
-		if (empty($email))
-			return ("Empty email");
-		if (filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE)
-			return ("Invalid email");
-		$load = new Loader();
-		$data['email'] = $email;
-		$nb = $load->model('register', 'count_user_by_email', $data);
-		if ($nb !== 0)
-			return ('Email taken');
+		try
+		{
+			if (filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE)
+				throw new Exception("Invalid email");
+			if ($this->self->model->is_taken_mail($email))
+				throw new Exception('Email taken');
+		} catch (Exception $e) {
+			throw $e;
+			return (FALSE);
+		}
 		return (TRUE);
 	}
 
 	private function	check_username($username)
 	{
-		if (strlen($username) < 3)
-			return ('Username too short');
-		if (strlen($username) > 30)
-			return ('Username too long');
-		if (!preg_match("/^[a-zA-Z0-9_\-\.]+$/", $username))
-			return ('Username characters can be min, maj, number, underscore, dash, or dot, noting else');
-		$load = new Loader();
-		$data['username'] = $username;
-		$nb = $load->model('register', 'count_user_by_username', $data);
-		if ($nb !== 0)
-			return ('Username taken');
+		try
+		{
+			if (strlen($username) < 3)
+				throw new Exception('Username too short');
+			if (strlen($username) > 30)
+				throw new Exception('Username too long');
+			if (!preg_match("/^[a-zA-Z0-9_\-\.]+$/", $username))
+				throw new Exception('Username characters can be min, maj, number, underscore, dash, or dot, noting else');
+			if ($this->self->model->get_user_by_login($username))
+				throw new Exception("Username already taken");
+		}
+		catch (Exception $e)
+		{
+			throw $e;
+			return (FALSE);
+		}
 		return (TRUE);
 	}
-
 }
 
 

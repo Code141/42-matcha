@@ -34,7 +34,6 @@ class c_setup extends c_controller
 			foreach ($seeds_files as $file)
 				$this->load->model("setup")->from_file_to_query("seed/" . $file);
 		}
-
 		echo "seed<br>";
 		$this->core->set_view("setup", "main");
 	}

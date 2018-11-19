@@ -2,11 +2,14 @@
 	<h1>
 		LOGIN
 	</h1>
-	<form method="post" action="<?php echo SITE_ROOT . "login/checklogin"; ?>">
+	<form method="post" action="<?php echo SITE_ROOT . "login/check"; ?>">
 		<input type="text" name="username" placeholder="username">
 		<input type="text" name="password" placeholder="password">
 		<button>
 			Login
 		</button>
 	</form>
+	<a href="<?php echo SITE_ROOT; ?>register/">
+		Register
+	</a>
 </section>

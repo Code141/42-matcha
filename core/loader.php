@@ -66,16 +66,15 @@ class loader
 		return ($model);
 	}
 
-
 	public function module(string $name = null)
 	{
-		$class_name_m = "m_" . $name;
-		$class_name_v = "v_" . $name;
-		$class_name_c = "c_" . $name;
+		$m_file = 'modules/' . $name . '/m_' . $name . '.php';
+		$v_file = 'modules/' . $name . '/v_' . $name. '.php';
+		$c_file = 'modules/' . $name . '/c_' . $name . '.php';
 
-		$m_file = 'modules/' . $name . '/' . $class_name_m . '.php';
-		$v_file = 'modules/' . $name . '/' . $class_name_v. '.php';
-		$c_file = 'modules/' . $name . '/' . $class_name_c . '.php';
+		$class_name_m = "m_module_" . $name;
+		$class_name_v = "v_module_" . $name;
+		$class_name_c = "c_module_" . $name;
 
 		if (!class_exists($class_name_m))
 			if (is_readable(CORE_PATH . $m_file))
@@ -95,6 +94,7 @@ class loader
 			$module->model->load =& $this;
 			$module->model->data =& $this->data;
 			$module->model->db = &$this->core->db;
+			$module->model->modules = &$this->core->module_loader;
 		}
 		if (class_exists($class_name_v))
 		{
@@ -102,6 +102,7 @@ class loader
 			$module->view->self =& $module;
 			$module->view->load =& $this;
 			$module->view->data =& $this->data;
+			$module->view->modules = &$this->core->module_loader;
 		}
 		if (class_exists($class_name_c))
 		{
@@ -109,6 +110,7 @@ class loader
 			$module->controller->self =& $module;
 			$module->controller->load =& $this;
 			$module->controller->data =& $this->data;
+			$module->controller->modules = &$this->core->module_loader;
 		}
 		return ($module);
 	}
