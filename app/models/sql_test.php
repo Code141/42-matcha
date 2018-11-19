@@ -29,7 +29,9 @@ class m_sql_test extends m_wrapper
 		$this->from[] = "user_orientation uo1";
 		$this->join[] = "user_gender ug1 ON ug1.id_user = uo1.id_user";
 		$this->join[] = "user_gender ug2 ON ug2.id_gender = uo1.id_gender";
-		$this->join[] = "user_orientation uo2 ON uo2.id_user = ug2.id_user";
+		$this->join[] = "user_gender_identity ugi2 ON ugi2.id_user = ug2.id_user";
+		$this->join[] = "user_gender_identity ugi1 ON ugi1.id_user = ug1.id_user";
+		$this->join[] = "user_orientation uo2 ON uo2.id_user = ug2.id_user AND uo2.id_user = ugi2.id_user";
 		$this->condition[] = "uo1.id_gender = ug2.id_gender
 							AND uo2.id_gender = ug1.id_gender
 							AND uo1.id_user = :" . $i . 
@@ -43,10 +45,12 @@ class m_sql_test extends m_wrapper
 	
 	public function matches_gender_identity()
 	{
-		$this->join[] = "user_gender_identity ugi1 ON ugi1.id_user = uo1.id_user";
-		$this->join[] = "user_gender_identity ugi2 ON ugi2.id_gender = uo1.id_gender_identity";
-		$this->condition[] = "uo1.id_gender_identity = ugi2.id_gender
-							AND uo2.id_gender_identity = ugi1.id_gender";
+//		$this->join[] = "user_gender_identity ugi1 ON ugi1.id_user = uo1.id_user";
+//		$this->join[] = "user_gender_identity ugi2 ON ugi2.id_gender = uo1.id_gender_identity";
+		$this->condition[] = "ugi2.id_gender = uo1.id_gender_identity
+			       				AND uo2.id_gender_identity = ugi1.id_gender"; 
+	//		"uo1.id_gender_identity = ugi2.id_gender
+	//						AND uo2.id_gender_identity = ugi1.id_gender";
 		return ($this);
 	}
 
