@@ -32,7 +32,7 @@ class c_register extends c_controller
 	public function validate_email($params = NULL)
 	{
 		if (!isset($params[0]) || !isset($params[1]))
-			$this->core->fail("All fields are required", 'register', 'main');
+			$this->core->fail("All fields are required", 'login', 'main');
 		$email = $params[0];
 		$token = $params[1];
 		$this->module_loader->session();
