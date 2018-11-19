@@ -2,8 +2,74 @@
 
 class m_wrapper
 {
-//	public	$pdo;
+	public $bind_param = array();
+	public $stm;
+	public	$sql;
+
+	public function make_query()
+	{
+		$query[] = "SELECT " . implode(", ", $this->select);
+		$query[] = "FROM " . implode (", ", $this->from);
+		$query[] = "JOIN " . implode(" JOIN ", $this->join);
+		$query[] = "WHERE (" . implode (") AND (", $this->condition) . " )";
+		$query[] = "ORDER BY " . implode(", ", $this->order);
+		var_dump($query);
+		$this->sql = implode(" ", $query) . ";";
+		return ($this);
+	}
+
+	public function fetchAll()
+	{
+		$returned_data = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		return($returned_data);
+	}
+
+	public function rowCount()
+	{
+		$returned_data = $this->stm->rowCount();
+		return($returned_data);
+	}
+
+	public function execute()
+	{
+		$this->make_query();
+		$this->prepare();
+		$this->bind_params();
+		try
+		{
+			$this->stm->execute();
+		}
+		catch (PDOException $exception)
+		{
+			exit("Something went wrong : " . $exception->getMessage());
+		}
+
+		if (!empty($stm->pdo_stm))
+			$this->stm->closeCursor();
 	
+		return ($this);
+	}
+	
+	public function prepare()
+	{
+		$this->stm = $this->db->pdo->prepare($this->sql);
+		return ($this);
+	}
+
+	public function bind_params()
+	{
+		echo "<br> bind params = ";
+		var_dump($this->bind_param);
+		echo "<br>";
+		foreach ($this->bind_param as $key => $value)
+			$this->stm->bindParam(":" . $key, $value);
+
+ 		echo  "<br>-------BINDED STMT-------------<br>";		
+
+		$this->stm->debugDumpParams();
+		return ($this);
+	}
+
 	public function insert(string $table, array $columns, array $values)
 	{
 		if ($count($columns) != count($values))
@@ -13,7 +79,7 @@ class m_wrapper
 		$stm = "INSERT INTO " . $table . " (" . $c . ") VALUES (" . $v . ")";
 		$this->sql = $this->sql . $stm;
 		foreach ($values as $value)
-			$this->db->bind_param[":".$value] = $value;
+			$this->bind_param[":".$value] = $value;
 		return ($this);
 	}
 
@@ -24,7 +90,7 @@ class m_wrapper
 		for($i = 0; $i < $len; $i++)
 		{
 			$u .= $columns[$i] . " = :" . $values[$i] . ", ";
-			$this->db->bind_param[":" . $values[$i]] = $values[$i];
+			$this->bind_param[":" . $values[$i]] = $values[$i];
 		}
 		$u = rtrim($u,", ");
 		$stm = "UPDATE " . $table . " SET " . $u;
@@ -49,8 +115,8 @@ class m_wrapper
 	//	$stm = " WHERE " . $table . "." . $column . " " . $operator . " :" . $to_bind;
 		$stm = " WHERE " . $table . "." . $column . " " . $operator . " :" . $value;
 		$this->sql = $this->sql . $stm;
-		//$this->db->bind_param[":" . $to_bind] = $value;
-		$this->db->bind_param[":" . $value] = $value;
+		//$this->bind_param[":" . $to_bind] = $value;
+		$this->bind_param[":" . $value] = $value;
 		return ($this);
 	}
 
@@ -80,7 +146,7 @@ class m_wrapper
 
 	public function join(string $join_type, string $table1, string $table2, string $column1, string $column2)
 	{
-		$stm = " " . $join_type ." JOIN " . $table2 . " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2;
+		$stm = $join_type ." JOIN " . $table2 . " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
