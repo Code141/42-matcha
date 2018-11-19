@@ -6,10 +6,35 @@ class m_wrapper
 	public $stm;
 	public	$sql;
 
+	public function make_query()
+	{
+		$query[] = "SELECT " . implode(", ", $this->select);
+		$query[] = "FROM " . implode (", ", $this->from);
+		$query[] = "JOIN " . implode(" JOIN ", $this->join);
+		$query[] = "WHERE (" . implode (") AND (", $this->condition) . " )";
+		$query[] = "ORDER BY " . implode(", ", $this->order);
+		var_dump($query);
+		$this->sql = implode(" ", $query) . ";";
+		return ($this);
+	}
+
+	public function fetchAll()
+	{
+		$returned_data = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		return($returned_data);
+	}
+
+	public function rowCount()
+	{
+		$returned_data = $this->stm->rowCount();
+		return($returned_data);
+	}
+
 	public function execute()
 	{
-	
-		echo "<br>";
+		$this->make_query();
+		$this->prepare();
+		$this->bind_params();
 		try
 		{
 			$this->stm->execute();
@@ -18,12 +43,11 @@ class m_wrapper
 		{
 			exit("Something went wrong : " . $exception->getMessage());
 		}
-		$returned_data = $this->stm->fetchAll();
 
 		if (!empty($stm->pdo_stm))
 			$this->stm->closeCursor();
 	
-		return ($returned_data);
+		return ($this);
 	}
 	
 	public function prepare()
@@ -34,8 +58,9 @@ class m_wrapper
 
 	public function bind_params()
 	{
-		$this->bind_param = array_unique($this->bind_param);
+		echo "<br> bind params = ";
 		var_dump($this->bind_param);
+		echo "<br>";
 		foreach ($this->bind_param as $key => $value)
 			$this->stm->bindParam(":" . $key, $value);
 
@@ -121,7 +146,7 @@ class m_wrapper
 
 	public function join(string $join_type, string $table1, string $table2, string $column1, string $column2)
 	{
-		$stm = " " . $join_type ." JOIN " . $table2 . " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2;
+		$stm = $join_type ." JOIN " . $table2 . " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2;
 		$this->sql = $this->sql . $stm;
 		return ($this);
 	}
