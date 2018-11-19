@@ -62,8 +62,10 @@ class c_module_session extends c_controller
 			return (FALSE);
 		}
 		$fields['encrypted_password'] = $encrypted_password;
+		$fields['token_account'] = $this->hash_password($encrypted_password);
 		$this->self->model->new_user($fields);
-
+		$this->modules->email();
+		$this->modules->email->controller->to($fields['email'])->sing_up($fields['token_account']);
 		return (TRUE);
 	}
 
@@ -114,6 +116,24 @@ class c_module_session extends c_controller
 		}
 		return (TRUE);
 	}
+
+	public function	validate_email($email, $token)
+	{
+		try
+		{
+			$user = $this->self->model->get_user_by_email($email);
+			if ($user == NULL)
+				throw new Exception('Unknow email');
+			if ($user['token_account'] != $token)
+				throw new Exception('Invalid token');
+			$this->self->model->reset_token_account($email);
+		} catch (Exception $e) {
+			throw $e;
+			return (FALSE);
+		}
+		return (TRUE);
+	}
+
 
 	private function	check_username($username)
 	{

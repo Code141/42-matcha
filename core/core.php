@@ -66,12 +66,12 @@ class core
 		$controller_classes = get_class_methods($this->controller);
 
 		$public_classes = preg_grep("/^(?!__).+/", $controller_classes);
-
 		if (array_search($action_name, $public_classes) === FALSE)
 			$action = "error_404";
 		else
 			$action = $action_name;
 
+		$this->consolelog("[ACTION] : " . $action . "");
 		$this->controller->$action($this->request['params']);
 	}
 

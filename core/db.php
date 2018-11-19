@@ -20,21 +20,23 @@ class	db
 				if ($exception->getCode() == 1049)
 				{
 					$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
-					$this->core->fail("Database doesn't existe", "setup", "main");
+					
+//		PREASE INSTALL YOUR DB
+//		$this->core->fail("Database doesn't existe", "setup", "main");
+
 				}
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
 			else
 				header ('location:' . SITE_ROOT . '404');
-			die();
 		}
 	}
 
 	public function	execute_pdo()
 	{
-		$this->pdo_stm = $this->pdo->prepare($this->sql);
-
+		$pdo_stm = $this->pdo->prepare($this->sql);
+		$pdo_stm->execute();
 	}
 
 	public function	__destruct()

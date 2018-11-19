@@ -63,11 +63,7 @@ CREATE TABLE `user` (
   `lastname` varchar(30) NOT NULL,
   `birthdate` date NOT NULL,
   `account_valid` tinyint(1) NOT NULL DEFAULT '0',
-  `id_media` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `user_account` (
-  `id_user` int(11) NOT NULL,
+  `id_media` int(11),
   `password` varchar(256) NOT NULL,
   `email` varchar(64) NOT NULL,
   `new_email` varchar(64),

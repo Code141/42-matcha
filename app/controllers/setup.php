@@ -9,17 +9,18 @@ class c_setup extends c_controller
 
 	public function new($params = NULL)
 	{
+		echo "new<br>";
 		$this->load->model("setup")
 			->drop_db()
 			->create_db()
 			->from_file_to_query("tables.sql");
 
-		echo "new<br>";
 		$this->core->set_view("setup", "main");
 	}
 
 	public function seed($params = NULL)
 	{
+		echo "seed<br>";
 
 		$this->load->model("setup")
 			->drop_db()
@@ -34,14 +35,13 @@ class c_setup extends c_controller
 			foreach ($seeds_files as $file)
 				$this->load->model("setup")->from_file_to_query("seed/" . $file);
 		}
-		echo "seed<br>";
 		$this->core->set_view("setup", "main");
 	}
 
 	public function drop($params = NULL)
 	{
-		$this->load->model("setup")->drop_db();
 		echo "drop<br>";
+		$this->load->model("setup")->drop_db();
 		$this->core->set_view("setup", "main");
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-class entity_email
+class c_module_email
 {
 	public $from = "gelambin@e3r6p7.42.fr";
 	public $user_to = NULL;
@@ -10,17 +10,17 @@ class entity_email
 	public $header = NULL;
 	public $status = NULL;
 
-	public function	__construct(entity_user $user_to)
+	public function to($user_to)
 	{
-		$this->load = new loader();
 		$this->user_to = $user_to;
+		return ($this);
 	}
 
 	public function send_mail()
 	{
 		$this->set_header();
 		$this->subject = "[" . APP_NAME . "] " . $this->subject;
-		$this->status = mail($this->user_to->email, $this->subject, $this->message, $this->header);
+		$this->status = mail($this->user_to, $this->subject, $this->message, $this->header);
 	}
 
 	private function set_header()
@@ -33,10 +33,10 @@ class entity_email
 	public function	sing_up($token)
 	{
 		$this->subject = 'Signup';
-		$this->message = "Welcome " . $this->user_to->username . "\r\n
+		$this->message = "Welcome " . $this->user_to . "\r\n
 			Thanks for signing up in " . APP_NAME . " !\r\n
 			Now you just have to click this link to activate your account:\r\n
-			"  . SITE_ABSOLUTE . "register/validate_email/" . $this->user_to->email . "/" . $token;
+			"  . SITE_ABSOLUTE . "register/validate_email/" . $this->user_to . "/" . $token;
 		$this->send_mail();
 	}
 

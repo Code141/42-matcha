@@ -29,5 +29,21 @@ class c_register extends c_controller
 		$this->core->success("Registered", "login", "main");
 	}
 
+	public function validate_email($params = NULL)
+	{
+		if (!isset($params[0]) || !isset($params[1]))
+			$this->core->fail("All fields are required", 'register', 'main');
+		$email = $params[0];
+		$token = $params[1];
+		$this->module_loader->session();
+		try {
+			$this->module->session->validate_email($email, $token);
+		} catch (Exception $e) {
+			$this->core->fail($e->getMessage(), "login", "main");
+		}
+		$this->core->success("Email validated", "login", "main");
+	
+
+	}
 
 }

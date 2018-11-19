@@ -4,13 +4,8 @@ class m_setup extends m_wrapper
 {
 	public function create_db()
 	{
-		/*
-			if base doesn't existe
-		*/
-	//$this->db->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";USE `".APP_NAME."`";
-//	$this->db->execute_pdo();
-	$this->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";USE `".APP_NAME."`";
-	$this->prepare()->execute();
+		$this->db->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";USE `".APP_NAME."`";
+		$this->db->execute_pdo();
 		return ($this);
 	}
 
@@ -19,10 +14,8 @@ class m_setup extends m_wrapper
 		/*
 			if base existe
 		*/
-//		$this->db->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
-		//$this->db->execute_pdo();
-		$this->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
-		$this->prepare()->execute();
+		$this->db->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
+		$this->db->execute_pdo();
 		return ($this);
 	}
 
@@ -39,10 +32,8 @@ class m_setup extends m_wrapper
 				continue ;
 			$query .= $line;
 		}
-		//$this->db->sql = $query;
-		//$this->db->execute_pdo();
-		$this->sql = $query;
-		$this->prepare()->execute();
+		$this->db->sql = $query;
+		$this->db->execute_pdo();
 		return($this);
 	}
 
