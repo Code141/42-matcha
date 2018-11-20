@@ -46,7 +46,7 @@ class core
 		if ($this->request['controller'] != "setup")
 			$this->db->connect_base();
 		else
-			$this->db->connect();
+			$this->db->set_up_connect();
 
 		$this->new_controller($this->request['controller']);
 		$this->execute_controller($this->request['action']);

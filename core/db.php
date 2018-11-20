@@ -53,7 +53,16 @@ class	db
 	public function	execute_pdo()
 	{
 		$pdo_stm = $this->pdo->prepare($this->sql);
-		$pdo_stm->execute();
+		
+		try
+		{
+			$pdo_stm->execute();
+		}
+		catch (PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+	
 	}
 
 	public function	__destruct()

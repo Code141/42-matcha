@@ -140,8 +140,32 @@ section#register input
 
 section#register button#singup
 {
+	display:block;
+	margin: 20px auto 20px auto;
 	border-radius: 3px;
 	padding: 5px 10px 5px 10px;
 	border: none;
 	font-size: 25px;
+}
+
+section#register div.radio_gender
+{
+	width:50%;
+}
+
+section#register div.radio_gender:nth-child(odd)
+{
+	text-align: right;
+	float:left;
+}
+
+section#register div.radio_gender:nth-child(even)
+{
+	text-align: left;
+	float:right;
+}
+
+section#register div.radio_gender input
+{
+	margin: 7px;
 }

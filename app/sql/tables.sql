@@ -52,7 +52,7 @@ CREATE TABLE `reported` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tag` (
-  `id` int(11) NOT NULL,
+  `id` int(11),
   `tag_name` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,19 +62,14 @@ CREATE TABLE `user` (
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
   `birthdate` date NOT NULL,
-  `account_valid` tinyint(1) NOT NULL DEFAULT '0',
   `id_media` int(11),
   `password` varchar(256) NOT NULL,
   `email` varchar(64) NOT NULL,
+  `id_gender` int(11) NOT NULL,
   `new_email` varchar(64),
   `token_email` varchar(256),
   `token_password` varchar(256),
   `token_account` varchar(256)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `user_gender` (
-  `id_user` int(11) NOT NULL,
-  `id_gender` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_gender_identity` (
@@ -118,7 +113,7 @@ ALTER TABLE `msg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) AUTO_INCREMENT;
 
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
