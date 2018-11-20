@@ -60,38 +60,30 @@ class m_sql_test extends m_wrapper
 	
 	public function sort_matches_by_tag()
 	{
-	/*	$this->sql = 
-			"SELECT DISTINCT ug2.id_user as 'match', COUNT(DISTINCT ut2.id_tag) as c
+		$this->sql = 
+			"SELECT DISTINCT uo2.id_user, COUNT(DISTINCT ut2.id_tag) as c
 			FROM user_orientation uo1
-			LEFT JOIN user_gender ug1
-			ON ug1.id_user = uo1.id_user
-			LEFT JOIN user_gender ug2
-			ON ug2.id_gender = uo1.id_gender
-			LEFT JOIN user_orientation uo2
-			ON uo2.id_user = ug2.id_user
+LEFT JOIN user_gender ug1
+ON ug1.id_user = uo1.id_user
+JOIN user_gender ug2
+ON ug2.id_gender = uo1.id_gender
+LEFT JOIN user_orientation uo2
+ON uo2.id_user = ug2.id_user
 
+LEFT JOIN user_tags ut2
+ON ut2.id_user = uo2.id_user
+AND (ut2.id_tag = 290
+OR ut2.id_tag = 216)
 
+WHERE uo1.id_gender = ug2.id_gender
+AND uo2.id_gender = ug1.id_gender
 
-			LEFT JOIN user_tags ut1
-			ON ut1.id_user = uo1.id_user
+AND uo1.id_user = 1
+AND NOT uo2.id_user = 1
 
-			JOIN user_tags ut2
-			ON ut2.id_user = uo2.id_user
+GROUP BY uo2.id_user
 
-
-			WHERE uo1.id_gender = ug2.id_gender
-			AND uo2.id_gender = ug1.id_gender
-
-			AND ut1.id_tag = ut2.id_tag
-			AND NOT ut2.id_user = 1
-
-			AND uo1.id_user = 1
-
-			AND NOT ut2.id_user = 1
-
-			GROUP BY ug2.id_user
-
-			ORDER BY c DESC";*/
+ORDER BY c DESC";
 	}
 
 	public function only_matches_with_same_tags($user_id)
