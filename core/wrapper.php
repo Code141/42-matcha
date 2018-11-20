@@ -6,15 +6,22 @@ class m_wrapper
 	public $stm;
 	public	$sql;
 
+
 	public function make_query()
 	{
+		$join = "";
+
 		$query[] = "SELECT " . implode(", ", $this->select);
 		$query[] = "FROM " . implode (", ", $this->from);
-		$query[] = "JOIN " . implode(" JOIN ", $this->join);
+		$query[] = implode(" ", $this->join);
 		$query[] = "WHERE (" . implode (") AND (", $this->condition) . " )";
-		$query[] = "ORDER BY " . implode(", ", $this->order);
+		if (isset($this->group_by))
+			$query[] = "GROUP BY " . implode(", ", $this->group_by);
+		if (isset($this->order))
+			$query[] = "ORDER BY " . implode(", ", $this->order);
 		var_dump($query);
 		$this->sql = implode(" ", $query) . ";";
+		echo "<br>--------------- SQL QUERY --------------<br>" . $this->sql . "<br>";
 		return ($this);
 	}
 
@@ -35,6 +42,7 @@ class m_wrapper
 		$this->make_query();
 		$this->prepare();
 		$this->bind_params();
+
 		try
 		{
 			$this->stm->execute();
@@ -61,7 +69,7 @@ class m_wrapper
 		echo "<br> bind params = ";
 		var_dump($this->bind_param);
 		echo "<br>";
-		foreach ($this->bind_param as $key => $value)
+		foreach ($this->bind_param as $key => &$value)
 			$this->stm->bindParam(":" . $key, $value);
 
  		echo  "<br>-------BINDED STMT-------------<br>";		

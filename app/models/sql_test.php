@@ -2,140 +2,77 @@
 
 class m_sql_test extends m_wrapper
 {
-
-	public function test()
+	public function all_users($user_id)
 	{
-		$this->select(array("user" => "username"),"user")->where("user","id", "=" , "1");
+		$i = count($this->bind_param);
+		$this->select[] = "DISTINCT u2.id";
+		$this->from[] = "user_orientation uo1";
+		$this->join[] = "JOIN user u2 ON u2.id_gender = uo1.id_gender";
+		$this->condition[] ="NOT u2.id = :" . ($i);
+		$this->bind_param[] = $user_id;
 		return ($this);
-	}
-
-	public function sort_by_tags(array $tags)
-	{
-		foreach ($tags as $tag_id)
-		{
-			$this->and("ut2", "id", "=", $tag_id);
-		}
 	}
 
 	public function all_matches($user_id)
 	{
 		$i = count($this->bind_param);
-		echo "<br> count matches = " . $i . "<br>";
-	/*	$this->sql =
-		"SELECT DISTINCT ug2.id_user
-		FROM user_orientation uo1
-		LEFT JOIN user_gender ug1
-		ON ug1.id_user = uo1.id_user
-		LEFT JOIN user_gender ug2
-		ON ug2.id_gender = uo1.id_gender
-		LEFT JOIN user_orientation uo2
-		ON uo2.id_user = ug2.id_user
-		WHERE uo1.id_gender = ug2.id_gender
-		AND uo2.id_gender = ug1.id_gender
-		AND uo1.id_user = :" . $i;*/
-		$this->select[] = "DISTINCT ug2.id_user";
-		$this->from[] = "user_orientation uo1";
-		$this->join[] = "user_gender ug1 ON ug1.id_user = uo1.id_user";
-		$this->join[] = "user_gender ug2 ON ug2.id_gender = uo1.id_gender";
-		$this->join[] = "user_gender_identity ugi2 ON ugi2.id_user = ug2.id_user";
-		$this->join[] = "user_gender_identity ugi1 ON ugi1.id_user = ug1.id_user";
-		$this->join[] = "user_orientation uo2 ON uo2.id_user = ug2.id_user AND uo2.id_user = ugi2.id_user";
-		$this->condition[] = "uo1.id_gender = ug2.id_gender
-							AND uo2.id_gender = ug1.id_gender
-							AND uo1.id_user = :" . $i . 
-							" AND NOT uo2.id_user = :" . ($i+1) ;
-		$this->order[] = "ug2.id_user ASC";
-		
+		$this->join[] = "LEFT JOIN user u1 ON u1.id = uo1.id_user";
+		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
+		$this->condition[] = "uo1.id_gender = u2.id_gender
+							AND uo2.id_gender = u1.id_gender
+							AND uo1.id_user = :" . $i;
 		$this->bind_param[] = $user_id;
-		$this->bind_param[] = $user_id;
+//		$this->bind_param[] = $user_id;
 		return ($this);
 	}
 	
 	public function matches_gender_identity()
 	{
-		$this->condition[] = "ugi2.id_gender = uo1.id_gender_identity
-			       				AND uo2.id_gender_identity = ugi1.id_gender"; 
+		$this->condition[] = "u2.id_gender = uo1.id_gender_identity
+			       				AND uo2.id_gender_identity = u1.id_gender"; 
 		return ($this);
 	}
 	
-	public function sort_matches_by_tag()
-	{
-		$this->sql = 
-			"SELECT DISTINCT uo2.id_user, COUNT(DISTINCT ut2.id_tag) as c
-			FROM user_orientation uo1
-LEFT JOIN user_gender ug1
-ON ug1.id_user = uo1.id_user
-JOIN user_gender ug2
-ON ug2.id_gender = uo1.id_gender
-LEFT JOIN user_orientation uo2
-ON uo2.id_user = ug2.id_user
+	public function sort_by_tags(array $user_tags)
+	{	
+		$i = count($this->bind_param);
+		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as c";
 
-LEFT JOIN user_tags ut2
-ON ut2.id_user = uo2.id_user
-AND (ut2.id_tag = 290
-OR ut2.id_tag = 216)
+		$comp_tag = array();
+		foreach ($user_tags as $tag)
+		{
+			$comp_tag[] = "ut2.id_tag = :" . $i;
+			$this->bind_param[] = $tag;
+			$i++;
+		}
+		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
 
-WHERE uo1.id_gender = ug2.id_gender
-AND uo2.id_gender = ug1.id_gender
-
-AND uo1.id_user = 1
-AND NOT uo2.id_user = 1
-
-GROUP BY uo2.id_user
-
-ORDER BY c DESC";
+		//$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = uo2.id_user AND " . $comp_tag;
+		$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = u2.id AND " . $comp_tag;
+		//$this->group_by[] = "uo2.id_user";
+		$this->group_by[] = "u2.id";
+		$this->order[] = "c DESC";
+		return ($this);
 	}
 
-	public function only_matches_with_same_tags($user_id)
+	public function keep_only_with_same_tags(array $user_tags)
 	{
 		$i = count($this->bind_param);
-
-		$this->sql =
-/*			"SELECT DISTINCT ug2.id_user
-			FROM user_orientation uo1
-			LEFT JOIN user_gender ug1
-			ON ug1.id_user = uo1.id_user
-			LEFT JOIN user_gender ug2
-			ON ug2.id_gender = uo1.id_gender
-			LEFT JOIN user_orientation uo2
-			ON uo2.id_user = ug2.id_user
-
-
-
-			LEFT JOIN user_tags ut1
-			ON ut1.id_user = uo1.id_user
-
-			JOIN user_tags ut2
-			ON ut2.id_user = uo2.id_user
-
-			WHERE uo1.id_gender = ug2.id_gender
-			AND uo2.id_gender = ug1.id_gender
-
-			AND ut1.id_tag = ut2.id_tag
-			AND NOT ut2.id_user = :" . $i . 
-
-			"AND uo1.id_user = :" . $i;
- */
-
-
-			$this->join[] = "user_tags ut1 ON ut1.id_user = uo1.id_user";
-			$this->join[] = "user_tags ut2 ON ut2.id_user = uo2.id_user";
-
-			$this->condition[] = "ut1.id_tag = ut2.id_tag 
-				AND NOT ut2.id_user = :" . $i; 
-
-			$this->bind_param[$i] = $user_id;
-			return ($this);
-	}
-	
-	public function all_matches_sort_by_tags()
-	{
-		$this->all_matches();
+		//$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = uo2.id_user";
+		$comp_tag = array();
+		foreach ($user_tags as $tag)
+		{
+			$comp_tag[] = "ut2.id_tag = :" . $i;
+			$this->bind_param[] = $tag;
+			$i++;
+		}
+		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
+		$this->condition[] = $comp_tag; 
+		return ($this);
 	}
 	
 	public function user_from_username($username)
 	{
-
 		$i = count($this->bind_param);
 		$this->db->sql =
 			"SELECT u.id, u.username, u.firstname, u.lastname, u.birthdate,
