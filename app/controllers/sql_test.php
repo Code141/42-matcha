@@ -9,7 +9,7 @@ class c_sql_test extends c_controller
 			->all_users(1)
 			->all_matches(1)
 			->sort_by_tags(array(216,290))
-			->matches_gender_identity()
+//			->matches_gender_identity()
 //			->keep_only_with_same_tags(array(216,290))
 			->execute()
 			->fetchAll();
