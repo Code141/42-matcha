@@ -54,7 +54,6 @@ class v_view
 
 	public function layout_render()
 	{
-
 		$basic_css[] = 'reset';
 		$basic_css[] = 'style';
 		$this->css_files = array_merge($basic_css, $this->css_files);

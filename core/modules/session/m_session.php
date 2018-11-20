@@ -6,15 +6,16 @@ class m_module_session
 	{
 		$sql = "
 			INSERT INTO user
-			(username, firstname, lastname, birthdate, password, email, token_account)
+			(username, firstname, lastname, birthdate, gender, password, email, token_account)
 			VALUES
-			(:username, :firstname, :lastname, :birthdate, :password, :email, :token_account)
+			(:username, :firstname, :lastname, :birthdate, :gender, :password, :email, :token_account)
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("username", $user['username'], PDO::PARAM_STR);
 		$stm->bindparam("firstname", $user['firstname'], PDO::PARAM_STR);
 		$stm->bindparam("lastname", $user['lastname'], PDO::PARAM_STR);
 		$stm->bindparam("birthdate", $user['birthdate'], PDO::PARAM_STR);
+		$stm->bindparam("gender", $user['gender'], PDO::PARAM_STR);
 		$stm->bindparam("password", $user['encrypted_password'], PDO::PARAM_STR);
 		$stm->bindparam("email", $user['email'], PDO::PARAM_STR);
 		$stm->bindparam("token_account", $user['token_account'], PDO::PARAM_STR);
@@ -58,7 +59,7 @@ class m_module_session
 	{
 		$sql = "
 			UPDATE user
-			SET token_account = NULL, account_valid = 1
+			SET token_account = NULL
 			WHERE email = :email
 			";
 		$stm = $this->db->pdo->prepare($sql);

@@ -17,6 +17,7 @@ class c_register extends c_controller
 			"username",
 			"firstname",
 			"lastname",
+			"gender",
 			"birthdate");
 		$fields = $this->requiered_fields($fields, $_POST);
 		if ($fields === NULL)

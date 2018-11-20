@@ -1,4 +1,4 @@
-INSERT INTO user (id, username, firstname, lastname, birthdate, id_media, password, email, new_email, token_email, token_password, token_account, id_gender) VALUES
+INSERT INTO user (id, username, firstname, lastname, birthdate, id_media, password, email, new_email, token_email, token_password, token_account, gender) VALUES
 (1, 'oneild0', 'Oneida', 'Neild', '1947-05-12', 3,'L1a4pHeu', 'bchitty0@ebay.com', null, null, null, null, 3),
 (2, 'eblofeld1', 'Erl', 'Blofeld', '2017-01-03', 1, 'ifBrkc3Elo', 'fbocock1@independent.co.uk', null, null, null, null, 1),
 (3, 'elebang2', 'Estrellita', 'Lebang', '1909-05-11', 5, 'pdmkVa6PbsA', 'ghenniger2@mtv.com', null, null, null, null, 2),

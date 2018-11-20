@@ -65,7 +65,7 @@ CREATE TABLE `user` (
   `id_media` int(11),
   `password` varchar(256) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `id_gender` int(11) NOT NULL,
+  `gender` int(11) NOT NULL,
   `new_email` varchar(64),
   `token_email` varchar(256),
   `token_password` varchar(256),

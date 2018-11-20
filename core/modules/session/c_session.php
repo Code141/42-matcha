@@ -12,7 +12,7 @@ class c_module_session extends c_controller
 				throw new Exception("Unknow user");
 			if ($encrypted_password !== $user['password'])
 				throw new Exception("Bad password");
-			if ($user['account_valid'] != 1)
+			if ($user['token_account'] != NULL)
 				throw new Exception("Account not validated");
 		}
 		catch (Exception $e)
@@ -50,8 +50,11 @@ class c_module_session extends c_controller
 	public function	check_register($fields)
 	{
 		$encrypted_password = $this->hash_password($fields['password']);
+		$fields['gender'] = intval($fields['gender']);
 		try
 		{
+			if ($fields['gender'] < 1 || $fields['gender'] > 4)
+				throw new Exception("Invalid gender");
 			$this->check_email ($fields['email']);
 			$this->check_password ($fields['password'], $fields['password_repeat']);
 			$this->check_username ($fields['username']);
