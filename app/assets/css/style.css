@@ -92,14 +92,16 @@ main
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	justify-content: space-around;
 }
 
 /*- HOME -----------------------------------------------------------*/
 
 #home
 {
-	width:500px;
+	width:100%;
 	float:left;
+
 }
 
 /*- FOOTER ---------------------------------------------------------*/
@@ -126,6 +128,8 @@ section#login
 section#register
 {
 	width: 400px;
+	min-width: 400px;
+	margin:5px;
 	float: right;
 	padding:15px;
 }

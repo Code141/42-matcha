@@ -10,6 +10,8 @@ class c_login extends c_controller
 	public function check($params = NULL)
 	{
 		$this->module_loader->session();
+		if ($this->module_loader->session()->controller->is_loggued())
+			$this->core->fail("You are already loggued", 'home', 'main');
 
 		$fields = array( "username", "password");
 		$fields = $this->requiered_fields($fields, $_POST);

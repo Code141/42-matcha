@@ -65,16 +65,12 @@ CREATE TABLE `user` (
   `id_media` int(11),
   `password` varchar(256) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `gender` int(11) NOT NULL,
+  `id_gender` int(11) NOT NULL,
+  `id_gender_identity` int(11),
   `new_email` varchar(64),
   `token_email` varchar(256),
   `token_password` varchar(256),
   `token_account` varchar(256)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `user_gender_identity` (
-  `id_user` int(11) NOT NULL,
-  `id_gender` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_orientation` (

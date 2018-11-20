@@ -17,7 +17,7 @@ class c_register extends c_controller
 			"username",
 			"firstname",
 			"lastname",
-			"gender",
+			"id_gender",
 			"birthdate");
 		$fields = $this->requiered_fields($fields, $_POST);
 		if ($fields === NULL)
@@ -43,8 +43,5 @@ class c_register extends c_controller
 			$this->core->fail($e->getMessage(), "login", "main");
 		}
 		$this->core->success("Email validated", "login", "main");
-	
-
 	}
-
 }
