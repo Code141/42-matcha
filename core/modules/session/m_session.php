@@ -101,4 +101,20 @@ class m_module_session
 		return (TRUE);
 	}
 
+	public function reset_password($username, $token)
+	{
+		$sql = "
+			UPDATE user
+			SET token_password = :token
+			WHERE username = :username
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("username", $username, PDO::PARAM_STR);
+		$stm->bindparam("token", $token, PDO::PARAM_STR);
+		$stm->execute();
+		if ($stm->rowCount() != 1)
+			return (FALSE);
+		return (TRUE);
+	}
+
 }

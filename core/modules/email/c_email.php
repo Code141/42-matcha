@@ -43,10 +43,10 @@ class c_module_email
 	public function	reset_password($token)
 	{
 		$this->subject = 'Reset password';
-		$this->message = "Hi " . $this->user_to->username . "\r\n
+		$this->message = "Hi " . $this->user_to . "\r\n
 			You hasked to reset your password\r\n
 			Here is a link to reset your password:\r\n
-			"  . SITE_ABSOLUTE . "login/change_password/" . $this->user_to->email . "/" . $token;
+			"  . SITE_ABSOLUTE . "login/change_password/" . $this->user_to . "/" . $token;
 		$this->send_mail();
 	}
 

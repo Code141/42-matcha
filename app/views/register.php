@@ -8,3 +8,4 @@ class v_register extends v_view
 		$this->layout_render();
 	}
 }
+

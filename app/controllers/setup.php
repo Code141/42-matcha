@@ -9,7 +9,6 @@ class c_setup extends c_controller
 
 	public function new($params = NULL)
 	{
-		echo "new<br>";
 		$this->load->model("setup")
 			->drop_db()
 			->create_db()
@@ -20,8 +19,6 @@ class c_setup extends c_controller
 
 	public function seed($params = NULL)
 	{
-		echo "seed<br>";
-
 		$this->load->model("setup")
 			->drop_db()
 			->create_db()
@@ -42,7 +39,6 @@ class c_setup extends c_controller
 
 	public function drop($params = NULL)
 	{
-		echo "drop<br>";
 		$this->load->model("setup")->drop_db();
 		$this->core->set_view("setup", "main");
 	}
