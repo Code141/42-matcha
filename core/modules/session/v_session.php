@@ -22,4 +22,16 @@ class v_module_session extends v_module_view
 	{
 		$this->load_html('register');
 	}
+
+	public function forgot_password($params = NULL)
+	{
+		$this->load_html('forgot_password');
+	}
+
+	public function change_password($params = NULL)
+	{
+		$this->load_html('change_password');
+	}
+
+
 }

@@ -50,10 +50,10 @@ class c_module_session extends c_controller
 	public function	check_register($fields)
 	{
 		$encrypted_password = $this->hash_password($fields['password']);
-		$fields['gender'] = intval($fields['gender']);
 		try
 		{
-			if ($fields['gender'] < 1 || $fields['gender'] > 4)
+			$id_gender = intval($fields["id_gender"]);
+			if (!$this->self->model->is_valid_id_gender($id_gender))
 				throw new Exception("Invalid gender");
 			$this->check_email ($fields['email']);
 			$this->check_password ($fields['password'], $fields['password_repeat']);
@@ -65,7 +65,7 @@ class c_module_session extends c_controller
 			return (FALSE);
 		}
 		$fields['encrypted_password'] = $encrypted_password;
-		$fields['token_account'] = $this->hash_password($encrypted_password);
+		$fields['token_account'] = $token = $this->unique_id();
 		$this->self->model->new_user($fields);
 		$this->modules->email();
 		$this->modules->email->controller->to($fields['email'])->sing_up($fields['token_account']);
@@ -78,6 +78,17 @@ class c_module_session extends c_controller
 		// password_hash("rasmuslerdorf", PASSWORD_DEFAULT);
 		// bool password_verify ( string $password , string $hash )
 		return ($hash);
+	}
+
+	public function unique_id()
+	{
+		return implode('', [
+			bin2hex(random_bytes(4)),
+			bin2hex(random_bytes(2)),
+			bin2hex(chr((ord(random_bytes(1)) & 0x0F) | 0x40)) . bin2hex(random_bytes(1)),
+			bin2hex(chr((ord(random_bytes(1)) & 0x3F) | 0x80)) . bin2hex(random_bytes(1)),
+			bin2hex(random_bytes(6))
+		]);
 	}
 
 	private function	check_password($password, $password_repeat)
@@ -113,6 +124,22 @@ class c_module_session extends c_controller
 				throw new Exception("Invalid email");
 			if ($this->self->model->is_taken_mail($email))
 				throw new Exception('Email taken');
+		} catch (Exception $e) {
+			throw $e;
+			return (FALSE);
+		}
+		return (TRUE);
+	}
+
+	public function	reset_password($username)
+	{
+		try
+		{
+			$token = $this->unique_id();
+			if (!$this->self->model->reset_password($username, $token))
+				throw new Exception("Unknow username");
+			$user = $this->self->model->get_user_by_login($username);
+			$this->modules->email()->controller->to($user['email'])->reset_password($token);
 		} catch (Exception $e) {
 			throw $e;
 			return (FALSE);

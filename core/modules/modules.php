@@ -21,10 +21,8 @@ class module_loader
 		{
 			$module = $this->load->module($name);
 			$this->$name = &$module;
-			$this->core->consolelog("[LOAD MODULE] : " . $name . "");
+//			$this->core->consolelog("[LOAD MODULE] : " . $name . "");
 		}
-		else
-			$this->core->consolelog("[RECALL MODULE] : " . $name . "");
 		$this->link($name);
 		return ($this->$name);
 	}

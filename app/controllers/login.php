@@ -10,7 +10,9 @@ class c_login extends c_controller
 	public function check($params = NULL)
 	{
 		$this->module_loader->session();
-
+		if ($this->module_loader->session()->controller->is_loggued())
+			$this->core->fail("You are already loggued", 'home', 'main');
+		
 		$fields = array( "username", "password");
 		$fields = $this->requiered_fields($fields, $_POST);
 		if ($fields === NULL)
@@ -29,4 +31,31 @@ class c_login extends c_controller
 		$this->module->session->logout();
 		$this->core->set_view("home", "main");
 	}
+	
+	public function forgot_password($params = NULL)
+	{
+		$this->core->set_view("login", "forgot_password");
+	}
+	
+	public function change_password($params = NULL)
+	{
+		$this->core->set_view("login", "change_password");
+	}
+
+	public function reset_password($params = NULL)
+	{
+		$this->module_loader->session();
+		$fields = array("username");
+		$fields = $this->requiered_fields($fields, $_POST);
+
+		if ($fields === NULL)
+			$this->core->fail("All fields are required", 'login', 'forgot_password');
+		try {
+			$this->module->session->reset_password($fields['username']);
+		} catch (Exception $e) {
+			$this->core->fail($e->getMessage(), "login", "forgot_password");
+		}
+		$this->core->success("Reset password has be sent to your email", "login", "main");
+	}
+	
 }
