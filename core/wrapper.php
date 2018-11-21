@@ -66,15 +66,14 @@ class m_wrapper
 
 	public function bind_params()
 	{
-		echo "<br> bind params = ";
-		var_dump($this->bind_param);
+		echo "<br> ------------bind params ------------- <br>";
+		print_r($this->bind_param);
 		echo "<br>";
 		foreach ($this->bind_param as $key => &$value)
 			$this->stm->bindParam(":" . $key, $value);
-
- 		echo  "<br>-------BINDED STMT-------------<br>";		
-
+ 		echo  "<br>-------DEBUG DUMP-------------<br>";		
 		$this->stm->debugDumpParams();
+ 		echo  "<br>-------------------<br>";		
 		return ($this);
 	}
 
