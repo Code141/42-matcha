@@ -42,6 +42,13 @@ class	db
 					$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
 					$this->core->set_view("setup", "main");
 				}
+
+				if ($exception->getCode() == 1045)
+				{
+					echo "BAD BDD PASSWORD, PLEASE SEE config/database.php";
+					$this->core->set_view("setup", "main");
+				}
+	
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}

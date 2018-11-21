@@ -23,12 +23,52 @@ class m_module_session
 		return (NULL);
 	}
 
+	public function get_user_orientations($id_user)
+	{
+		$sql = "
+			SELECT uo.id_gender, g.gender_name, uo.id_gender_identity, gi.gender_identity_name
+			FROM user_orientation uo
+			LEFT JOIN gender g
+			ON uo.id_gender = g.id
+			LEFT JOIN gender_identity gi
+			ON uo.id_gender_identity = gi.id
+			WHERE uo.id_user = :id_user
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$stm->execute();
+		$orientation = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($orientation);
+	}
+
+	public function get_user_tags($id_user)
+	{
+		$sql = "
+			SELECT t.tag_name, t.id
+			FROM user_tags ut
+			LEFT JOIN tag t
+			ON t.id = ut.id_tag
+			WHERE ut.id_user = :id_user
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$stm->execute();
+		$orientation = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($orientation);
+	}
+
+
+
 	public function get_user_by_login($username)
 	{
 		$sql = "
-			SELECT *
-			FROM user
-			WHERE username = :username
+			SELECT u.*, g.gender_name, gi.gender_identity_name 
+			FROM user u
+			LEFT JOIN gender g
+			ON u.id_gender = g.id
+			LEFT JOIN gender_identity gi
+			ON u.id_gender_identity = gi.id
+			WHERE u.username = :username
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("username", $username, PDO::PARAM_STR);
