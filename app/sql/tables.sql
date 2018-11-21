@@ -26,6 +26,12 @@ CREATE TABLE `gender` (
   `gender_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `gender_identity` (
+  `id` int(11) NOT NULL,
+  `gender_identity_name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `like` (
   `id_user(from)` int(11) NOT NULL,
   `id_user(to)` int(11) NOT NULL,
@@ -87,6 +93,9 @@ CREATE TABLE `user_tags` (
 ALTER TABLE `gender`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `gender_identity`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `msg`
   ADD PRIMARY KEY (`id`);
 
@@ -104,6 +113,10 @@ INSERT INTO `gender` (`id`, `gender_name`) VALUES
 
 ALTER TABLE `gender`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+ALTER TABLE `gender_identity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 ALTER TABLE `msg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
