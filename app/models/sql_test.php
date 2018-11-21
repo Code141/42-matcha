@@ -6,33 +6,74 @@ class m_sql_test extends m_wrapper
 	{
 		$i = count($this->bind_param);
 		$this->select[] = "DISTINCT u2.id";
-		$this->from[] = "user_orientation uo1";
-		$this->join[] = "JOIN user u2 ON u2.id_gender = uo1.id_gender";
+		$this->from[] = "user u2";
 		$this->condition[] ="NOT u2.id = :" . ($i);
 		$this->bind_param[] = $user_id;
 		return ($this);
 	}
-
+/*
 	public function all_matches($user_id)
 	{
 		$i = count($this->bind_param);
+		$this->join[] = "JOIN user_orientation uo1 ON uo1.id_gender = u2.id_gender";
 		$this->join[] = "LEFT JOIN user u1 ON u1.id = uo1.id_user";
 		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
 		$this->condition[] = "uo1.id_gender = u2.id_gender
 							AND uo2.id_gender = u1.id_gender
 							AND uo1.id_user = :" . $i;
 		$this->bind_param[] = $user_id;
+		return ($this);
+	}
+ */
+	
+	public function all_matches($user_id, $orientations)
+	{
+		var_dump($orientations);
+		echo "<br>";
+		$i = count($this->bind_param);
+		$c = array();
+		$compg = "";
+		$compgi = "";
+		foreach ($orientations as $o)
+		{
+			if ($o["gender"] == NULL)
+				$compg = "(";
+			else if ($o["gender"])
+			{
+				$compg = "(u2.id_gender = :" . $i;
+				$this->bind_param[] = $o["gender"];
+				$i++;
+			}
+			if ($o["gender_identity"] == NULL)
+				$compgi = ")";
+			else if ($o["gender_identity"])
+			{
+				if ($compg)
+					$compgi = " AND ";
+				$compgi .= "u2.id_gender_identity = :" . $i . ")";
+				$this->bind_param[] = $o["gender_identity"];
+			}
+			$c[] = $compg . $compgi;
+			$i++;
+		}
+		$c = "( " . implode(" OR ", $c) . " )";		
+		//$this->join[] = "LEFT JOIN user u1 ON u1.id = uo1.id_user";
+		$this->join[] = "LEFT JOIN user u1 ON u1.id = u2.id";
+		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
+		$this->condition[] = $c . " AND uo2.id_gender = u1.id_gender";
 //		$this->bind_param[] = $user_id;
 		return ($this);
 	}
-	
-	public function matches_gender_identity()
+
+	public function matches_gender_identity($user_gender_identity)
 	{
-		$this->condition[] = "u2.id_gender = uo1.id_gender_identity
-			       				AND uo2.id_gender_identity = u1.id_gender"; 
+		$i = count($this->bind_param);
+		$this->condition[] = "u2.id_gender_identity = uo1.id_gender_identity
+			       				AND uo2.id_gender_identity = :" . $i; 
+		$this->bind_param[] = $user_gender_identity;
 		return ($this);
 	}
-	
+
 	public function sort_by_tags(array $user_tags)
 	{	
 		$i = count($this->bind_param);
@@ -46,14 +87,12 @@ class m_sql_test extends m_wrapper
 			$i++;
 		}
 		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
-
-		//$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = uo2.id_user AND " . $comp_tag;
+ 
 		$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = u2.id AND " . $comp_tag;
-		//$this->group_by[] = "uo2.id_user";
 		$this->group_by[] = "u2.id";
 		$this->order[] = "c DESC";
 		return ($this);
-	}
+}
 
 	public function keep_only_with_same_tags(array $user_tags)
 	{
