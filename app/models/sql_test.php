@@ -36,22 +36,22 @@ class m_sql_test extends m_wrapper
 		$compgi = "";
 		foreach ($orientations as $o)
 		{
-			if ($o["gender"] == NULL)
+			if ($o["id_gender"] == NULL)
 				$compg = "(";
-			else if ($o["gender"])
+			else if ($o["id_gender"])
 			{
 				$compg = "(u2.id_gender = :" . $i;
-				$this->bind_param[] = $o["gender"];
+				$this->bind_param[] = $o["id_gender"];
 				$i++;
 			}
-			if ($o["gender_identity"] == NULL)
+			if ($o["id_gender_identity"] == NULL)
 				$compgi = ")";
-			else if ($o["gender_identity"])
+			else if ($o["id_gender_identity"])
 			{
 				if ($compg)
 					$compgi = " AND ";
 				$compgi .= "u2.id_gender_identity = :" . $i . ")";
-				$this->bind_param[] = $o["gender_identity"];
+				$this->bind_param[] = $o["id_gender_identity"];
 			}
 			$c[] = $compg . $compgi;
 			$i++;
