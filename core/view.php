@@ -31,7 +31,7 @@ class v_view
 		else
 			$this->regular_render();
 	}
-	
+
 	private function ajax_render()
 	{
 		foreach($this->files['views'] as $key => $filename)

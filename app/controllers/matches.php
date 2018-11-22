@@ -1,6 +1,6 @@
 <?php
 
-class c_sql_test extends c_controller
+class c_matches extends c_controller
 {
 	public function main($params = NULL)
 	{
@@ -19,7 +19,7 @@ class c_sql_test extends c_controller
 //			->order_by_birthdate("ASC")
 			->execute()
 			->fetchAll();
-		$this->core->set_view("sql_test", "main");
+		$this->core->set_view("matches", "main");
 	}
 }
 

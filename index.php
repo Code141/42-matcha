@@ -18,7 +18,6 @@ require_once(CORE_PATH . 'controller.php');
 
 require_once(MODULES_PATH . 'modules.php');
 require_once(MODULES_PATH . 'modules_view.php');
-require_once(MODULES_PATH . 'modules.php');
 
 require_once(CORE_PATH . 'tool.php');
 

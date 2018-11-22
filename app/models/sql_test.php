@@ -76,7 +76,8 @@ class m_sql_test extends m_wrapper
 		return ($this);
 	}
  */
-	public function sort_by_tags(array $user_tags)
+
+	public function order_by_matching_tags(array $user_tags)
 	{	
 		$i = count($this->bind_param);
 		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as c";
@@ -90,19 +91,20 @@ class m_sql_test extends m_wrapper
 		}
 		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
 		$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = u2.id AND " . $comp_tag;
-		$this->group_by[] = "u2.id";
+	 	$this->group_by[] = "u2.id";
 		$this->order[] = "c DESC";
 		return ($this);
 	}
 
-	public function keep_only_with_same_tags(array $user_tags)
+	public function filter_by_tags(array $tags)
 	{
+		$this->join[] = "LEFT JOIN user_tags ut ON ut.id_user = u2.id";
 		$i = count($this->bind_param);
 		$comp_tag = array();
-		foreach ($user_tags as $tag)
+		foreach ($tags as $tag)
 		{
-			$comp_tag[] = "ut2.id_tag = :" . $i;
-			$this->bind_param[] = $tag['id'];
+			$comp_tag[] = "ut.id_tag = :" . $i;
+			$this->bind_param[] = $tag;
 			$i++;
 		}
 		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
@@ -110,7 +112,7 @@ class m_sql_test extends m_wrapper
 		return ($this);
 	}
 	
-	public function user_from_username($username)
+/*	public function user_from_username($username)
 	{
 		$i = count($this->bind_param);
 		$this->db->sql =
@@ -121,8 +123,28 @@ class m_sql_test extends m_wrapper
 			LEFT JOIN user_account ua
 			ON ua.id_user = u.id 
 			WHERE u.username = :" . $i;
-		$this->bind_param[$i] = $username;
+		$this->bind_param[] = $username;
+		return ($this);
+}*/
+
+	public function order_by_birthdate($direction)
+	{
+		$this->select[] = "u2.birthdate";
+		$this->order[] = "u2.birthdate " . $direction;
+		return ($this);
 	}
+	
+	public function filter_by_birthdate($from, $to)
+	{
+		$i = count($this->bind_param);
+		$this->condition[] = "u2.birthdate >= :" . $i .
+			" AND u2.birthdate <= :" . ($i+1);
+		 
+		$this->bind_param[] = "'".$from."'";
+		$this->bind_param[] = "'".$to."'";
+		return ($this);
+	}
+
 /*
 	public function redundant_orientations()
 	{
