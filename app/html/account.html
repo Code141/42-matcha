@@ -1,58 +1,65 @@
 <section id="account">
-<?php 
-$user = $this->module_loader->session()->controller->user_loggued();
-?>
+	<?php 
+	$user = $this->module_loader->session()->controller->user_loggued();
+	?>
+	<img id="profil_pic" src="toto">
 
-<p>
-	Username :
-	<?php echo $user['username']; ?>
-</p>
-<p>
-	Email :
-	<?php echo $user['email']; ?>
-</p>
-<p>
-	Firstname :
-	<?php echo $user['firstname']; ?>
-</p>
-<p>
-	Lastname :
-	<?php echo $user['lastname']; ?>
-</p>
-<p>
-	Pwd_len :
-	<?php echo $user['password_length']; ?>
-</p>
-<p>
-	Birthdate :
-	<?php echo $user['birthdate']; ?>
-</p>
-<p>
-	Gender :
-	<?php echo $user['gender_name']; ?>
-</p>
-<p>
-	Gender identity :
-	<?php echo $user['gender_identity_name']; ?>
-</p>
-<p>
-	Id_media :
-	<?php echo $user['id_media']; ?>
-</p>
-<?php foreach($user['orientations'] as $value) { ?>
-	<p>
-<?php echo $value['gender_name'] . " - " . $value['gender_identity_name'] ?>
-	</p>
-<?php } ?>
+	<div id="dogtag">
+		<p>
+		Username :
+		<?php echo $user['username']; ?>
+		</p>
+		<p>
+		Firstname :
+		<?php echo $user['firstname']; ?>
+		</p>
+		<p>
+		Lastname :
+		<?php echo $user['lastname']; ?>
+		</p>
+	</div>
 
+	<div id="more_info">
+		<p>
+		Email :
+		<?php echo $user['email']; ?>
+		</p>
+		<p>
+		Pwd_len :
+		<?php echo $user['password_length']; ?>
+		</p>
+		<p>
+		Birthdate :
+		<?php echo $user['birthdate']; ?>
+		</p>
+		<p>
+		Gender :
+		<?php echo $user['gender_name']; ?>
+		</p>
+		<p>
+		Gender identity :
+		<?php echo $user['gender_identity_name']; ?>
+		</p>
+		<p>
+		Id_media :
+		<?php echo $user['id_media']; ?>
+		</p>
+	</div>
 
+	<div id="orientations">
+		<?php foreach($user['orientations'] as $value) { ?>
+		<p>
+		<?php echo $value['gender_name'] . " - " . $value['gender_identity_name'] ?>
+		</p>
+		<?php } ?>
+	</div>
 
-<?php foreach($user['tags'] as $value) { ?>
-	<p>
-<?php echo $value['id'] . " - " . $value['tag_name'] ?>
-	</p>
-<?php } ?>
-
-
+	<div id="tag">
+		<?php foreach($user['tags'] as $value) { ?>
+		<p>
+		<?php echo $value['tag_name'] ?>
+		</p>
+		<?php } ?>
+	</div>
 
 </section>

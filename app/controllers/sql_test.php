@@ -17,7 +17,6 @@ class c_sql_test extends c_controller
 //			->keep_only_with_same_tags($user['tags'])
 			->execute()
 			->fetchAll();
-
 		$this->core->set_view("sql_test", "main");
 	}
 }
