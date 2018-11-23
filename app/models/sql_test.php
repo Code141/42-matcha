@@ -137,11 +137,11 @@ class m_sql_test extends m_wrapper
 	public function filter_by_birthdate($from, $to)
 	{
 		$i = count($this->bind_param);
-		$this->condition[] = "u2.birthdate >= :" . $i .
-			" AND u2.birthdate <= :" . ($i+1);
+		$this->condition[] = "u2.birthdate >= CAST( :" . $i .
+			" AS date) AND u2.birthdate <= CAST( :" . ($i+1) . " AS date)";
 		 
-		$this->bind_param[] = "'".$from."'";
-		$this->bind_param[] = "'".$to."'";
+		$this->bind_param[] = $from;
+		$this->bind_param[] = $to;
 		return ($this);
 	}
 
