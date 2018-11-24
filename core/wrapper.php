@@ -20,7 +20,7 @@ class m_wrapper
 			$query[] = "ORDER BY " . implode(", ", $this->order);
 		if (isset($this->limit))
 			$query[] = $this->limit;
-		var_dump($query);
+//		var_dump($query);
 		$this->sql = implode(" ", $query) . ";";
 		echo "<br>--------------- SQL QUERY --------------<br>" . $this->sql . "<br>";
 		return ($this);
@@ -69,21 +69,25 @@ class m_wrapper
 	{
 		echo "<br> ------------bind params ------------- <br>";
 		print_r($this->bind_param);
-		echo "<br>";
+echo "<br>";
 		foreach ($this->bind_param as $key => &$value)
 			$this->stm->bindParam(":" . $key, $value);
- 		echo  "<br>-------DEBUG DUMP-------------<br>";		
+/* 		echo  "<br>-------DEBUG DUMP-------------<br>";		
 		$this->stm->debugDumpParams();
- 		echo  "<br>-------------------<br>";		
+		echo  "<br>-------------------<br>";	*/	
 		return ($this);
 	}
 
 	public function limit($start, $end)
 	{
-		$i = count($this->bind_param);
-		$this->limit = "LIMIT :" . $i . ", :" . ($i+1);
-		$this->bind_param[] = $start;
-		$this->bind_param[] = $end;
+		$this->limit = "LIMIT " . $start . " , " . $end;
+		return ($this);
+	}
+
+	public function all_tags()
+	{
+		$this->select[] = "*";
+		$this->from[] = "tag";
 		return ($this);
 	}
 }

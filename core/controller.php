@@ -2,9 +2,6 @@
 
 class c_controller
 {
-	public $load;
-	public $data = array();
-
 	public function __construct()
 	{
 	}

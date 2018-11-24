@@ -1,0 +1,11 @@
+#tag_list{
+	max-height:100px;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+.container{
+	margin:1vh 1vw 1vh 1vw;
+}
+article{
+	margin:2vh 1vw 2vh 1vw;
+}

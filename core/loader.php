@@ -28,6 +28,7 @@ class loader
 		$controller->core =& $this->core;
 		$controller->data =& $this->data;
 		$controller->module_loader =& $this->core->module_loader;
+
 		return ($controller);
 	}
 
