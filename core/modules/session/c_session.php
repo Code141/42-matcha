@@ -14,14 +14,20 @@ class c_module_session extends c_controller
 				throw new Exception("Bad password");
 			if ($user['token_account'] != NULL)
 				throw new Exception("Account not validated");
+
 		}
 		catch (Exception $e)
 		{
 			throw $e;
 			return (FALSE);
 		}
+		$user['orientations'] = $this->self->model->get_user_orientations($user['id']);
+		$user['tags'] = $this->self->model->get_user_tags($user['id']);
 		$_SESSION['user'] = $user;
-		$_SESSION['user']['password_len'] = strlen($fields['password']);
+
+		$_SESSION['user']['password_length'] = strlen($fields['password']);
+
+
 		return (TRUE);
 	}
 
