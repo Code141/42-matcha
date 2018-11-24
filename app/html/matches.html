@@ -1,0 +1,89 @@
+<form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
+	<?php
+	foreach($this->data['filters'] as $name => $checked)	{ ?>
+	<input type="checkbox" name="<?php echo $name;?>" value="1"<?php if ($checked) echo "checked"?>><?php echo $name;?><br>
+	<?php } ?>
+	<div class="container">
+		<p>Filter by tags</p>
+	<input type="text" id="search_tags" placeholder="Search for tags..">
+	<div id="tag_list">
+	<ul id="myUL">
+		<?php foreach($this->data['all_tags'] as $tag) { ?>
+		<li>
+			<input type="checkbox" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>><?php echo $tag['tag_name']?>
+		</li>
+		<?php  }?>
+	</ul>
+	</div>
+	</div>
+	<button type="submit">SEARCH</button>
+	<button id="uncheck_tags">Clear tag filters</button>
+	<div class="container">
+		<p>Filter by age</p>
+		<p>Between 
+		<select name="age_select_from">
+			<?php for($i=0;$i<120;$i+=10){?>
+				<option value=<?php echo $i;?>><?php echo $i;?></option>
+			<?php } ?>
+		</select>
+		 and 
+		<select name="age_select_to">
+			<?php for($i=120;$i>0;$i-=10){?>
+				<option value=<?php echo $i;?>><?php echo $i;?></option>
+			<?php } ?>
+		</select>
+		years old</p>
+	</div>
+	<div class="container">
+		<p>Order by birthdate</p>
+		<select name="birthdate_order">
+				<option value=""></option>
+				<option value="ASC">ASC</option>
+				<option value="DESC">DESC</option>
+		</select>
+	</div>
+</form>
+<div class='container'>
+<?php foreach($this->data['executed'] as $profil) { ?>
+	<article>
+		<p><?php echo $profil['username']?></p>
+		<p>gender : <?php echo $profil['gender_name']?></p>
+		<p>gender identity : <?php echo $profil['gender_identity_name']?></p>
+		<p><?php echo $profil['birthdate']?></p>
+	</article>
+	<?php	} ?>
+</div>
+
+<script>
+document.getElementById("search_tags").addEventListener("keyup", function(event){
+//function search_tags() {
+	    // Declare variables
+	    var input_bar, filter, ul, li, a, i;
+   		input_bar = document.getElementById('search_tags');
+	    filter = input_bar.value.toUpperCase();
+	    ul = document.getElementById("myUL");
+	    li = ul.getElementsByTagName('li');
+
+// Loop through all list items, and hide those who don't match the search query
+	    for (i = 0; i < li.length; i++) {
+	        input = li[i].getElementsByTagName("input")[0];
+	        if (input.name.toUpperCase().indexOf(filter) > -1) {
+	            li[i].style.display = "";
+	        } else {
+   		        li[i].style.display = "none";
+	        }
+												    }
+});
+
+document.getElementById("uncheck_tags").addEventListener("click", function(event){
+	    event.preventDefault()
+	    ul = document.getElementById("myUL");
+	    li = ul.getElementsByTagName('li');
+	    for (i = 0; i < li.length; i++) {
+		input = li[i].getElementsByTagName("input")[0].checked = false;
+		console.log(input);
+		}
+});
+</script>
+
+
