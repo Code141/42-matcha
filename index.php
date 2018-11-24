@@ -21,6 +21,5 @@ require_once(MODULES_PATH . 'modules_view.php');
 
 require_once(CORE_PATH . 'tool.php');
 
-
 $core = new core();
 
