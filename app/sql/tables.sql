@@ -33,8 +33,8 @@ CREATE TABLE `gender_identity` (
 
 
 CREATE TABLE `like` (
-  `id_user(from)` int(11) NOT NULL,
-  `id_user(to)` int(11) NOT NULL,
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL,
   `seen` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

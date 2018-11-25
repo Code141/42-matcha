@@ -7,6 +7,7 @@ class	db
 	public function	set_up_connect()
 	{
 		require(CONFIG_PATH . 'database.php');
+		echo $DB_USER;
 		try
 		{
 			$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
@@ -60,7 +61,7 @@ class	db
 	public function	execute_pdo()
 	{
 		$pdo_stm = $this->pdo->prepare($this->sql);
-		
+
 		try
 		{
 			$pdo_stm->execute();
@@ -69,7 +70,7 @@ class	db
 		{
 			echo $e->getMessage();
 		}
-	
+		return ($pdo_stm);
 	}
 
 	public function	__destruct()

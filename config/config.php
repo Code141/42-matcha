@@ -15,8 +15,8 @@ define('DEFAULT_CONTROLLER', 'home');
 define('DEFAUT_ACTION', 'main');
 
 // ------- U Can't Touch This
-
-define('SITE_ABSOLUTE', $_SERVER['HTTP_HOST'] . SITE_ROOT);
+if (isset($_SERVER['HTTP_HOST']))
+	define('SITE_ABSOLUTE', $_SERVER['HTTP_HOST'] . SITE_ROOT);
 define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT'] . SITE_ROOT);
 
 define('CORE_PATH', SERVER_ROOT . 'core/');

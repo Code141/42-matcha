@@ -1,6 +1,6 @@
 INSERT INTO user (id, username, firstname, lastname, birthdate, id_media, password, email, new_email, token_email, token_password, token_account, id_gender, id_gender_identity) VALUES
-(1, 'code141', 'Geoffrey', 'Lambinet', '1991-07-12', 3,'6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'lambinet.141@gmail.com', null, null, null, null, 1,4),
-(2, 'eblofeld1', 'Erl', 'Blofeld', '2017-01-03', 1, 'ifBrkc3Elo', 'fbocock1@independent.co.uk', null, null, null, null, 1, 3),
+(1, 'code141', 'Geoffrey', 'Lambinet', '1991-07-12', 3,'6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'lambinet.141@gmail.com', null, null, null, null, 1,1),
+(2, 'fiofy', 'Fiona', 'Delsing', '1994-12-06', 3,'6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'fionadelsing@gmail.com', null, null, null, null, 2,2),
 (3, 'elebang2', 'Estrellita', 'Lebang', '1909-05-11', 5, 'pdmkVa6PbsA', 'ghenniger2@mtv.com', null, null, null, null, 2, 3),
 (4, 'etebald3', 'Errick', 'Tebald', '1938-12-19', 1, 'ZdLO1h', 'mlehr3@simplemachines.org', null, null, null, null, 3, 3),
 (5, 'gbouda4', 'Gennifer', 'Bouda', '1988-12-29', 2, 'ZUJlZIQA', 'rshorbrook4@dyndns.org', null, null, null, null, 3,3),

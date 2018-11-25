@@ -1,7 +1,11 @@
 <?php
+define('DEV_MODE', TRUE);
+define('CORE_PATH', 'core/');
+define('CONFIG_PATH', 'config/');
+
+require_once(CORE_PATH . "db.php");
 
 set_time_limit (0);
-
 define('HOST_NAME',"localhost"); 
 define('PORT',"8090");
 
@@ -12,11 +16,15 @@ class socket_server
 {
 	public function	__construct()
 	{
+		$this->db = new db();
+		$this->db->connect_base();
+
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 		socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
 		socket_bind($this->socket, 0, PORT);
 		socket_listen($this->socket);
 		$this->clientSocketArray = array($this->socket);
+		$this->user = array();
 	}
 
 	public function work()
@@ -33,7 +41,7 @@ class socket_server
 			$this->chat->doHandshake($header, $newSocket, HOST_NAME, PORT);
 
 			socket_getpeername($newSocket, $client_ip_address);
-			$connectionACK = $this->chat->newConnectionACK($client_ip_address);
+			//			$connectionACK = $this->chat->newConnectionACK($client_ip_address);
 			$this->chat->broadcast($this->clientSocketArray, $connectionACK);
 
 			$newSocketIndex = array_search($this->socket, $newSocketArray);
@@ -44,7 +52,6 @@ class socket_server
 		{
 			while(socket_recv($newSocketArrayResource, $socketData, 1024, 0) > 0)
 			{
-
 				$socketMessage = $this->chat->unseal($socketData);
 				$messageObj = json_decode($socketMessage);
 
@@ -55,23 +62,36 @@ class socket_server
 					session_start();
 					$id_user = $_SESSION['user']['id'];
 					$username = $_SESSION['user']['username'];
+					$this->user[$id_user] = $newSocketArrayResource;
+				}
+
+				if (!empty($messageObj->ssid))
+				{
+					$this->db->sql = "
+						SELECT *
+						FROM `like` l1
+						LEFT JOIN `like` l2
+						ON l1.id_user_to = l2.id_user_from
+						WHERE l1.id_user_from = " . $id_user . "
+						AND l2.id_user_to = " . $id_user;
+
+					$stm = $this->db->execute_pdo();
+					var_dump ($stm->fetchAll());
 					session_write_close();
 //					$this->clientSocketArray[$id_user] = $newSocket;
 				}
 
-				if (!empty($messageObj) && !empty($messageObj->chat_user) && !empty($messageObj->chat_message))
+				if (!empty($messageObj) && !empty($messageObj->chat_message))
 				{
 					$chat_box_message = $this->chat->createChatBoxMessage($username, $messageObj->chat_message);
 					$this->chat->broadcast($this->clientSocketArray, $chat_box_message);
 				}
 				break 2;
 			}
-
 			$socketData = socket_read($newSocketArrayResource, 1024, PHP_NORMAL_READ);
-
-			if ($socketData === false) { 
+			if ($socketData === false) {
 				socket_getpeername($newSocketArrayResource, $client_ip_address);
-				$connectionACK = $this->chat->connectionDisconnectACK($client_ip_address);
+//				$connectionACK = $this->chat->connectionDisconnectACK($client_ip_address);
 				$this->chat->broadcast($this->clientSocketArray, $connectionACK);
 				$newSocketIndex = array_search($newSocketArrayResource, $this->clientSocketArray);
 				unset($this->clientSocketArray[$newSocketIndex]);			
