@@ -8,7 +8,6 @@ class c_module_websocket extends c_controller
 
 		echo shell_exec('sh ./core/modules/websocket/start_server.sh');
 
-
 	}
 }
 
