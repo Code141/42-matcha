@@ -6,6 +6,6 @@ class v_sql_test extends v_view
 	{
 		$this->html_files[] = 'sql_test';
 		$this->css_files[] = 'sql_test';
-		$this->linear_render();
+		$this->layout_render();
 	}
 }

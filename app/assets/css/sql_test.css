@@ -1,11 +1,5 @@
-#map_holder{
-	width:500px;
-	height:500px;
-}
-#map_holder1{
-	width:500px;
-	height:500px;
-}
 #map{
+	position:unset;
+	width:500px;
 height:500px;
 }
