@@ -1,5 +1,8 @@
 <?php
+echo shell_exec("pwd");
+
 define('DEV_MODE', TRUE);
+
 define('CORE_PATH', 'core/');
 define('CONFIG_PATH', 'config/');
 
@@ -20,37 +23,43 @@ class socket_server
 		$this->db->connect_base();
 
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
 		socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
 		socket_bind($this->socket, 0, PORT);
 		socket_listen($this->socket);
+
 		$this->clientSocketArray = array($this->socket);
+		$this->working_sokets = array();
 		$this->user = array();
 	}
 
-	public function work()
+	public function loop_work()
 	{
-		$newSocketArray = $this->clientSocketArray;					// duplique une copie de traveil
-		socket_select($newSocketArray, $null, $null, 0, 10);		// FILTRE LES SOCKECT MODIFIE
+		$this->working_sokets = $this->clientSocketArray;			// DUPLIQUE UNE COPIE DE TRAVAIL
+		socket_select($this->working_sokets, $null, $null, 0, 10);	// FILTRE LES SOCKECT MODIFIE
 
-		if (in_array($this->socket, $newSocketArray)) // Si un des socket a ete modifie
-		{
+		if (in_array($this->socket, $this->working_sokets)) // Si un des socket a ete modifie
+			$this->connect();
+
+		foreach ($this->working_sokets as $current_socket)
+			$this->incoming($current_socket);
+	}
+
+	public function connect()
+	{
 			$newSocket = socket_accept($this->socket);
-			$this->clientSocketArray[] = $newSocket;
 
+			$this->clientSocketArray[] = $newSocket;
 			$header = socket_read($newSocket, 1024);
 			$this->chat->doHandshake($header, $newSocket, HOST_NAME, PORT);
 
-			socket_getpeername($newSocket, $client_ip_address);
-			//			$connectionACK = $this->chat->newConnectionACK($client_ip_address);
-			$this->chat->broadcast($this->clientSocketArray, $connectionACK);
+			$newSocketIndex = array_search($this->socket, $this->working_sokets);
+			unset($this->working_sokets[$newSocketIndex]);
+	}
 
-			$newSocketIndex = array_search($this->socket, $newSocketArray);
-			unset($newSocketArray[$newSocketIndex]);
-		}
-
-		foreach ($newSocketArray as $newSocketArrayResource)
-		{
-			while(socket_recv($newSocketArrayResource, $socketData, 1024, 0) > 0)
+	public function incoming($current_socket)
+	{
+			while(socket_recv($current_socket, $socketData, 1024, 0) > 0)
 			{
 				$socketMessage = $this->chat->unseal($socketData);
 				$messageObj = json_decode($socketMessage);
@@ -60,9 +69,10 @@ class socket_server
 					$ssid = $messageObj->ssid;
 					session_id($ssid);
 					session_start();
+					$user = $_SESSION['user'];
 					$id_user = $_SESSION['user']['id'];
-					$username = $_SESSION['user']['username'];
-					$this->user[$id_user] = $newSocketArrayResource;
+					$this->user[$id_user]['user'] = $_SESSION['user'];
+					$this->user[$id_user]['socket'] = $current_socket;
 				}
 
 				if (!empty($messageObj->ssid))
@@ -72,31 +82,35 @@ class socket_server
 						FROM `like` l1
 						LEFT JOIN `like` l2
 						ON l1.id_user_to = l2.id_user_from
-						WHERE l1.id_user_from = " . $id_user . "
-						AND l2.id_user_to = " . $id_user;
-
+						WHERE l1.id_user_from = " . $user['id'] . "
+						AND l2.id_user_to = " . $user['id'];
 					$stm = $this->db->execute_pdo();
-					var_dump ($stm->fetchAll());
+					$this->user[$id_user]['user'] = $_SESSION['user'];
+//					var_dump ($stm->fetchAll());
 					session_write_close();
 //					$this->clientSocketArray[$id_user] = $newSocket;
 				}
 
 				if (!empty($messageObj) && !empty($messageObj->chat_message))
 				{
-					$chat_box_message = $this->chat->createChatBoxMessage($username, $messageObj->chat_message);
+					$chat_box_message = $this->chat->createChatBoxMessage($user['username'], $messageObj->chat_message);
 					$this->chat->broadcast($this->clientSocketArray, $chat_box_message);
 				}
-				break 2;
+				return ;
 			}
-			$socketData = socket_read($newSocketArrayResource, 1024, PHP_NORMAL_READ);
-			if ($socketData === false) {
-				socket_getpeername($newSocketArrayResource, $client_ip_address);
-//				$connectionACK = $this->chat->connectionDisconnectACK($client_ip_address);
+
+			$socketData = socket_read($current_socket, 1024, PHP_NORMAL_READ);
+			if ($socketData === false)
+			{
+/*
+				socket_getpeername($current_socket, $client_ip_address);
+				$connectionACK = $this->chat->connectionDisconnectACK($client_ip_address);
 				$this->chat->broadcast($this->clientSocketArray, $connectionACK);
-				$newSocketIndex = array_search($newSocketArrayResource, $this->clientSocketArray);
+*/
+				$newSocketIndex = array_search($current_socket, $this->clientSocketArray);
 				unset($this->clientSocketArray[$newSocketIndex]);			
 			}
-		}
+
 	}
 
 	public function __destruct()
@@ -108,4 +122,4 @@ class socket_server
 $server = new socket_server();
 $server->chat = new ChatHandler();
 while (true)
-	$server->work();
+	$server->loop_work();

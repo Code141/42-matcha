@@ -17,7 +17,7 @@
 
 body 
 {
-	font-family: geo;
+	font-family: arial;
 	background-color: rgba(0, 0, 255, 1);
 }
 
@@ -194,3 +194,105 @@ section#account img
 section#account p
 {
 }
+
+
+/*- CHAT -----------------------------------------------------------*/
+
+	div#chat_list
+	{
+		position: fixed;
+		right: 0px;
+		bottom:0px;
+		float: right;
+	}
+
+	.conv
+	{
+		width: 250px;
+		height:300px;
+		position: fixed;
+		bottom: 39px;
+		box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+	}
+
+	.conv_name
+	{
+		color: #444444;
+		font-family: arial;
+		padding: 10px;
+		background: #ffdddd;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+
+	.conv_elem
+	{
+		height: 100%;
+		min-height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		border: 1px solid #ffdddd;
+	}
+
+	.msg_box
+	{
+		background: #ffe9e9;
+		padding: 10px;
+		overflow: hidden auto;
+		flex: 1;
+	}
+
+	.chat-input
+	{
+		width: 100%;
+		box-sizing: border-box;
+		padding: 10px 8px;
+		color: #191919;
+		border: none;
+	}
+
+	.btnSend
+	{
+		display: none;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	.error
+	{
+		color:#FF0000;
+	}
+
+	.chat-connection-ack
+	{
+		color: #26af26;
+	}
+
+
+	.chat-box-html
+	{
+		color: #09F;
+		margin: 10px 0px;
+		font-size:0.8em;
+	}
+
+	.chat-box-message
+	{
+		color: #09F;
+		padding: 5px 10px;
+		background-color: #fff;
+		border: 1px solid #ffdddd;
+		border-radius:4px;
+		display:inline-block;
+	}
+
