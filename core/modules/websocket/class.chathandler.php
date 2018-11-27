@@ -10,14 +10,11 @@ class ChatHandler {
 		return true;
 	}
 
-	function send($message)
+	function send($socket, $message)
 	{
-		global $clientSocketArray;
+		$message = $this->seal(json_encode($message));
 		$messageLength = strlen($message);
-		foreach($clientSocketArray as $clientSocket)
-		{
-			@socket_write($clientSocket,$message,$messageLength);
-		}
+		@socket_write($socket, $message, $messageLength);
 		return true;
 	}
 

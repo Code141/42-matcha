@@ -33,7 +33,6 @@ header, main, footer, section
 	border-color: black;
 	box-sizing: border-box;
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.4);
 }
 
 .center
@@ -204,14 +203,33 @@ section#account p
 		right: 0px;
 		bottom:0px;
 		float: right;
+		width:200px;
+		background-color: green;
+	}
+
+	div#chat_list p
+	{
+		padding: 7px;
+		border-bottom: 1px solid #ffdddd;
+	}
+
+	section#chat_conv
+	{
+		position: fixed;
+		right: 200px;
+		bottom: 0px;
+		float: right;
+		display: flex;
+		align-items: flex-end;
+		max-height:0px;
 	}
 
 	.conv
 	{
-		width: 250px;
-		height:300px;
-		position: fixed;
-		bottom: 39px;
+		position: relative;
+		margin-right: 15px;
+		float:left;
+		bottom: 0px;
 		box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
 	}
 
@@ -219,16 +237,25 @@ section#account p
 	{
 		color: #444444;
 		font-family: arial;
-		padding: 10px;
+		padding: 5px;
 		background: #ffdddd;
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+	}
+	
+	.name
+	{
+		padding: 0px 20px;
+	}
+
+	.close_conv
+	{
+		float: right;
+		margin-right:5px;
 	}
 
 	.conv_elem
 	{
-		height: 100%;
-		min-height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -237,32 +264,30 @@ section#account p
 
 	.msg_box
 	{
+		width:200px;
+		height:250px;
 		background: #ffe9e9;
 		padding: 10px;
 		overflow: hidden auto;
-		flex: 1;
 	}
 
-	.chat-input
+	.chat_input
 	{
 		width: 100%;
 		box-sizing: border-box;
 		padding: 10px 8px;
 		color: #191919;
 		border: none;
+		padding: 5px 10px;
+		background-color: #fff;
+		border: 1px solid #eecccc;
+		display:inline-block;
 	}
 
-	.btnSend
+	.button_send
 	{
 		display: none;
 	}
-
-
-
-
-
-
-
 
 
 
@@ -286,7 +311,7 @@ section#account p
 		font-size:0.8em;
 	}
 
-	.chat-box-message
+	.chat_box_message
 	{
 		color: #09F;
 		padding: 5px 10px;
