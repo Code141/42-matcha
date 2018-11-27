@@ -1,98 +1,143 @@
-<div class="container" id="form_container">
-	<form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
-		<div id="filter_container">
-		<?php foreach($this->data['filters'] as $name => $checked)	{ ?>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+					   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+		crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+  crossorigin=""></script>
+
+<form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
+	<?php foreach($this->data['filters'] as $name => $checked)	{ ?>
+	<div class="f_container">
 		<input type="checkbox" name="<?php echo $name;?>" id="<?php echo $name;?>" value="1"<?php if ($checked) echo "checked"?>>
-		<label for="<?php echo $name;?>"><?php echo $name;?></label> 
+		<label class="f_title" for="<?php echo $name;?>"><?php echo $name;?></label> 
+	</div>
+	<?php } ?>
+	<div class="f_container">
+		<p class="f_title">Filter by age</p>
+		<p>Between</p> 
+		<p>
+		<select name="age_select_from">
+			<?php for($i=0;$i<120;$i+=10){?>
+			<option value=<?php echo $i;?>><?php echo $i;?></option>
 			<?php } ?>
-			<div class="container">
-				<p>Filter by age</p>
-				<p>Between</p> 
-				<p>
-				<select name="age_select_from">
-					<?php for($i=0;$i<120;$i+=10){?>
-					<option value=<?php echo $i;?>><?php echo $i;?></option>
-					<?php } ?>
-				</select>
-				and 
-				<select name="age_select_to">
-					<?php for($i=120;$i>0;$i-=10){?>
-					<option value=<?php echo $i;?>><?php echo $i;?></option>
-					<?php } ?>
-				</select>
-				</p>
-				<p>years old</p>
-			</div>
-			<div class="container">
-				<p>Order by birthdate</p>
-				<select name="birthdate_order">
-					<option value=""></option>
-					<option value="ASC">ASC</option>
-					<option value="DESC">DESC</option>
-				</select>
-			</div>
-			<div class="container"  id="tag_container">
-				<p>Filter by tags
-				<input type="text" id="search_tags" placeholder="Search for tags.."></p>
-				<div id="tag_list">
-					<ul id="myUL">
-						<?php foreach($this->data['all_tags'] as $tag) { ?>
-						<li title="<?php echo $tag['tag_name'];?>">
-							<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>>
-							<label for="<?php echo $tag['tag_name'];?>">#<?php echo $tag['tag_name']?></label>
-						</li>
-						<?php  }?>
-					</ul>
-				</div>
-				<div>
-					<button id="uncheck_tags">Clear tag filters</button>
-				</div>
-			</div>
-			</div>
-		<button id="search_button" type="submit">SEARCH FOR THE PERFECT MATCH</button>
-	</form>
-</div>
-<div class='container' id="profils">
-	<?php foreach($this->data['executed'] as $profil) { ?>
-	<article>
-		<p><?php echo $profil['username']?></p>
-		<p>gender : <?php echo $profil['gender_name']?></p>
-		<p>gender identity : <?php echo $profil['gender_identity_name']?></p>
-		<p><?php echo $profil['birthdate']?></p>
-	</article>
-	<?php	} ?>
-</div>
+		</select>
+		and 
+		<select name="age_select_to">
+			<?php for($i=120;$i>0;$i-=10){?>
+			<option value=<?php echo $i;?>><?php echo $i;?></option>
+			<?php } ?>
+		</select>
+		</p>
+		<p>years old</p>
+	</div>
+	<div class="f_container">
+		<p class="f_title">Order by birthdate</p>
+		<select name="birthdate_order">
+			<option value=""></option>
+			<option value="ASC">ASC</option>
+			<option value="DESC">DESC</option>
+		</select>
+	</div>
+	<div class="f_container"  id="tag_container">
+		<p class="f_title">Filter by tags</p>
+		<input type="text" id="search_tags" placeholder="Search for tags..">
+		<div id="tag_list">
+			<ul id="myUL">
+				<?php foreach($this->data['all_tags'] as $tag) { ?>
+				<li title="<?php echo $tag['tag_name'];?>">
+					<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>>
+					<label for="<?php echo $tag['tag_name'];?>">#<?php echo $tag['tag_name']?></label>
+				</li>
+				<?php  }?>
+			</ul>
+		</div>
+		<div>
+			<button id="uncheck_tags">Clear tag filters</button>
+		</div>
+	</div>
+	<button id="search_button" type="submit">SEARCH FOR THE PERFECT MATCH</button>
+</form>
+<div class="right">
+	<div id=map>
+	</div>
 
+	<div class='container' id="profils">
+		<?php foreach($this->data['executed'] as $profil) { ?>
+		<article>
+			<p><?php echo $profil['username']?></p>
+			<p>gender : <?php echo $profil['gender_name']?></p>
+			<p>gender identity : <?php echo $profil['gender_identity_name']?></p>
+			<p>lat : <?php echo $profil['latitude']?></p>
+			<p>long : <?php echo $profil['longitude']?></p>
+			<p><?php echo $profil['birthdate']?></p>
+		</article>
+		<?php	} ?>
+	</div>
+</div>
 <script>
-document.getElementById("search_tags").addEventListener("keyup", function(event){
-	//function search_tags() {
-	// Declare variables
-	var input_bar, filter, ul, li, a, i;
-	input_bar = document.getElementById('search_tags');
-	filter = input_bar.value.toUpperCase();
-	ul = document.getElementById("myUL");
-	li = ul.getElementsByTagName('li');
 
-	// Loop through all list items, and hide those who don't match the search query
-	for (i = 0; i < li.length; i++) {
-		input = li[i].getElementsByTagName("input")[0];
-		if (input.name.toUpperCase().indexOf(filter) > -1) {
-			li[i].style.display = "";
-		} else {
-			li[i].style.display = "none";
-		}
-	}
-});
+window.onload = function(){
+	tag_handling();
+	initMap();
+}
 
-document.getElementById("uncheck_tags").addEventListener("click", function(event){
-	event.preventDefault()
+function	tag_handling(){
+	document.getElementById("search_tags").addEventListener("keyup", function(event){
+		//function search_tags() {
+		// Declare variables
+		var input_bar, filter, ul, li, a, i;
+		input_bar = document.getElementById('search_tags');
+		filter = input_bar.value.toUpperCase();
 		ul = document.getElementById("myUL");
-	li = ul.getElementsByTagName('li');
-	for (i = 0; i < li.length; i++) {
-		input = li[i].getElementsByTagName("input")[0].checked = false;
-		console.log(input);
+		li = ul.getElementsByTagName('li');
+
+		// Loop through all list items, and hide those who don't match the search query
+		for (i = 0; i < li.length; i++) {
+			input = li[i].getElementsByTagName("input")[0];
+			if (input.name.toUpperCase().indexOf(filter) > -1) {
+				li[i].style.display = "";
+			} else {
+				li[i].style.display = "none";
+			}
+		}
+	});
+
+	document.getElementById("uncheck_tags").addEventListener("click", function(event){
+		event.preventDefault()
+			ul = document.getElementById("myUL");
+		li = ul.getElementsByTagName('li');
+		for (i = 0; i < li.length; i++) {
+			input = li[i].getElementsByTagName("input")[0].checked = false;
+			console.log(input);
+		}
+	});
+}
+
+var villes = {
+	"Paris": { "lat": 48.852969, "lon": 2.349903 },
+	"Brest": { "lat": 48.383, "lon": -4.500 },
+	"Quimper": { "lat": 48.000, "lon": -4.100 },
+	"Bayonne": { "lat": 43.500, "lon": -1.467 }
+};
+
+function initMap() {
+	map = new L.map('map');
+
+	for (ville in villes) {
+		var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(map);
+		marker.bindPopup("<b>Hello "+ville+"!</b><br>").openPopup();
 	}
-});
+
+	var lat = 48.852969;
+	var lon = 2.349903;
+
+	map.setView([lat, lon], 13);
+
+	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+			minZoom: 2,
+			maxZoom: 18
+			}).addTo(map);
+
+}
 </script>
-
-

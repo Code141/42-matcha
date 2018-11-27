@@ -1,5 +1,11 @@
-main{
-display:block;
+form{
+	width:20%;
+	height:100%;
+}
+
+div.f_container{
+	width:100%;
+	padding:15px 0 15px 0;
 }
 
 input[type="checkbox"]{
@@ -20,45 +26,20 @@ input:checked + label{
 	color: blue;
 }
 
-.container #tag_container{
-	width:200px;
+.f_container #tag_container{
+	width:100%;
 }
-.container #tag_list{
+.f_container #tag_list{
 	text-align:justify;
-	max-height:70px;
+	max-height:150px;
 	overflow-y:scroll;
 	overflow-x:hidden;
 	margin:5px;
 }
-ul li{
+#tag_list ul li{
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-.container{
-	/*margin:1vh 1vw 1vh 1vw;*/
-}
-article{
-	margin:2vh 1vw 2vh 1vw;
-}
-div#form_container{
-	width:100%;
-	height:150px;
-}
-div#form_container form{
-	height:100%;
-}
-div#filter_container{
-width:100%;
-	display:flex;
-	justify-content: space-between;
-	justify-content: space-around;
-
-
-}
-
-#profils{
-width:100%;
 }
 
 button{
@@ -67,8 +48,37 @@ button{
     text-align: center;
     text-decoration: none;
     display: inline-block;
+	margin:10px;
     font-size: 16px;
 }
-button#search_button{
+
+.f_title{
+	text-transform:uppercase;
+	font-weight:bold;
+	font-size:13pt;
+	margin:10px auto 10px auto;
+}
+
+div.right{
+width:80%;
+height:100%;
+/*display:flex;
+flex-direction:column;*/
+}
+article{
+	margin:2vh 1vw 2vh 1vw;
+}
+
+div#profils{
+width:100%;
+max-height:750px;
+overflow:hidden;
+overflow-y:scroll;
+overflow-x:hidden;
+}
+
+#map{
 	width:100%;
+	height:200px;
+	overflow:hidden;
 }

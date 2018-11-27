@@ -39,7 +39,7 @@ class c_matches extends c_controller
 
 	public function main($params = NULL)
 	{
-		var_dump($_POST);	
+	//	var_dump($_POST);	
 		$this->prepare();
 		$this->data['filter_tags'] = array();
 		$this->data['filters'] = $this->init_filters();

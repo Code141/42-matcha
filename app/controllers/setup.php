@@ -31,7 +31,7 @@ class c_setup extends c_controller
 			$seeds_files = preg_grep("/.+\.sql$/", scandir($seed_dir));
 			foreach ($seeds_files as $file)
 			{
-				$this->load->model("setup")->from_file_to_query("seed/" . $file);
+					$this->load->model("setup")->from_file_to_query("seed/" . $file);
 			}
 		}
 		$this->core->set_view("setup", "main");

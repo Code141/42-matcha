@@ -5,7 +5,7 @@ class m_matches extends m_wrapper
 	public function all_users($user_id)
 	{
 		$i = count($this->bind_param);
-		$this->select[] = "DISTINCT u2.id, u2.username, u2.id_gender, gn.gender_name, u2.id_gender_identity, gin.gender_identity_name, u2.birthdate, u2.id_media";
+		$this->select[] = "DISTINCT u2.id, u2.username, u2.id_gender, gn.gender_name, u2.id_gender_identity, gin.gender_identity_name, u2.birthdate, u2.id_media, u2.latitude, u2.longitude";
 		$this->from[] = "user u2";
 		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user(to)` = u2.id";
 		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
