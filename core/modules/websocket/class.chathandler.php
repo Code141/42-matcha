@@ -3,11 +3,10 @@ class ChatHandler {
 
 	function broadcast($clientSocketArray, $message)
 	{
+		$message = $this->seal(json_encode($message));
 		$messageLength = strlen($message);
 		foreach($clientSocketArray as $clientSocket)
-		{
-			@socket_write($clientSocket,$message,$messageLength);
-		}
+			@socket_write($clientSocket, $message, $messageLength);
 		return true;
 	}
 
@@ -64,10 +63,7 @@ class ChatHandler {
 		$lines = preg_split("/\r\n/", $received_header);
 		foreach($lines as $line)
 			if(preg_match('/\A(\S+): (.*)\z/', chop($line), $matches))
-			{
 				$headers[$matches[1]] = $matches[2];
-				echo $line . "\n";
-			}
 		$secKey = $headers['Sec-WebSocket-Key'];
 		$secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
 		$buffer  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
@@ -82,25 +78,22 @@ class ChatHandler {
 	function newConnectionACK($client_ip_address)
 	{
 		$message = 'New client ' . $client_ip_address.' joined';
-		$messageArray = array('message'=>$message,'message_type'=>'chat-connection-ack');
-		$ACK = $this->seal(json_encode($messageArray));
-		return $ACK;
+		$message = array('message'=>$message,'message_type'=>'chat-connection-ack');
+		return $message;
 	}
 
 	function connectionDisconnectACK($client_ip_address)
 	{
 		$message = 'Client ' . $client_ip_address.' disconnected';
-		$messageArray = array('message'=>$message,'message_type'=>'chat-connection-ack');
-		$ACK = $this->seal(json_encode($messageArray));
-		return $ACK;
+		$message = array('message'=>$message,'message_type'=>'chat-connection-ack');
+		return $message;
 	}
 
 	function createChatBoxMessage($chat_user,$chat_box_message)
 	{
 		$message = $chat_user . ": <div class='chat-box-message'>" . $chat_box_message . "</div>";
-		$messageArray = array('message'=>$message,'message_type'=>'chat-box-html');
-		$chatMessage = $this->seal(json_encode($messageArray));
-		return $chatMessage;
+		$message = array('message'=>$message,'message_type'=>'chat-box-html');
+		return $message;
 	}
 }
 
