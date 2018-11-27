@@ -36,5 +36,4 @@ class m_setup extends m_wrapper
 		$this->db->execute_pdo();
 		return($this);
 	}
-
 }

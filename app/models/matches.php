@@ -5,7 +5,7 @@ class m_matches extends m_wrapper
 	public function all_users($user_id)
 	{
 		$i = count($this->bind_param);
-		$this->select[] = "DISTINCT u2.id, u2.username, u2.id_gender, gn.gender_name, u2.id_gender_identity, gin.gender_identity_name, u2.birthdate, u2.id_media";
+		$this->select[] = "DISTINCT u2.id, u2.username, u2.id_gender, gn.gender_name, u2.id_gender_identity, gin.gender_identity_name, u2.birthdate, u2.id_media, u2.latitude, u2.longitude";
 		$this->from[] = "user u2";
 		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user(to)` = u2.id";
 		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
@@ -107,5 +107,24 @@ class m_matches extends m_wrapper
 		$this->bind_param[] = $from;
 		$this->bind_param[] = $to;
 		return ($this);
+	}
+
+	public function order_by_location($lat, $lon, $direction)
+	{
+		$i = count($this->bind_param);
+		$this->condition[] = "u2.latitude IS NOT NULL";
+		$this->order[] = "((u2.latitude - :" . $i . " )*(u2.latitude - :" . ($i+1) . " ))
+		   	+ ((u2.longitude - :" . ($i+2) . " )*(u2.longitude - :" . ($i+3) . " )) " . $direction;
+		$this->bind_param[] = $lat;
+		$this->bind_param[] = $lat;
+		$this->bind_param[] = $lon;
+		$this->bind_param[] = $lon;
+		return ($this);
+	}
+
+	public function filter_by_distance($lat, $lon, $dist_km)
+	{
+		$dist_m = $dist_km * 1000;
+		$this->condition[] = "ST_Distance_Sphere( point(u2.latitude) point())";
 	}
 }
