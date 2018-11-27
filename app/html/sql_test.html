@@ -7,8 +7,8 @@
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
 		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
   crossorigin=""></script>
-
-
+<script src="Leaflet.Geonames/L.Control.Geonames.js"></script>
+<link rel="stylesheet" href="Leaflet.Geonames/L.Control.Geonames.css" />
 <script>
 window.addEventListener('load',load);
 window.addEventListener('load',initMap);
@@ -19,7 +19,6 @@ function load(){
 }
 
 var p = document.getElementById('response');
-
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -81,25 +80,28 @@ function initMap() {
 	var control = L.control.geonames({
 		//position: 'topcenter',  // in addition to standard 4 corner Leaflet control layout, this will position and size from top center
 		geonamesURL: '//api.geonames.org/searchJSON',  // override this if using a proxy to get connection to geonames
-			username: '',  // Geonames account username.  Must be provided
-			zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
+			username: 'fdelsing',  // Geonames account username.  Must be provided
+			lang: 'en', // language for results
+
 			maxresults: 5,  // Maximum number of results to display per search
 			className: 'leaflet-geonames-icon', //class for icon
 			workingClass: 'leaflet-geonames-icon-working', //class for search underway
-			featureClasses: ['A', 'H', 'L', 'P', 'R', 'T', 'U', 'V'],  // feature classes to search against.  See: http://www.geonames.org/export/codes.html
-			baseQuery: 'isNameRequired=true',  // The core query sent to GeoNames, later combined with other parameters above
-			position: 'topleft',
-			showMarker: true, //Show a marker at the location the selected location
+			showmarker: true, //show a marker at the location the selected location
 			showPopup: true, //Show a tooltip at the selected location
-			adminCodes: { // filter results by a country and state.  Values can be strings or return by a function.
+			zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
+			position: 'topleft',
+			alwaysOpen: false  //if true, search field is always visible
+			/*
+			baseQuery: 'isNameRequired=true',  // The core query sent to GeoNames, later combined with other parameters above
+			featureClasses: ['A', 'H', 'L', 'P', 'R', 'T', 'U', 'V'],  // feature classes to search against.  See: http://www.geonames.org/export/codes.html
+		adminCodes: { // filter results by a country and state.  Values can be strings or return by a function.
 				country: 'us',
 				adminCode1: function() {return 'wa'}
 			},
-			lang: 'en', // language for results
 			bbox: {east:-121, west: -123, north: 46, south: 45}, // bounding box filter for results (e.g., map extent).  Values can be an object with east, west, north, south, or a function that returns that object.
-			alwaysOpen: false,  //if true, search field is always visible
 			enablePostalCodes: false, // if true, use postalCodesRegex to test user provided string for a postal code.  If matches, then search against postal codes API instead.
 			postalCodesRegex: POSTALCODE_REGEX_US // regex used for testing user provided string for a postal code.  If this test fails, the default geonames API is used instead.
+				*/
 	});
 	map.addControl(control);
 }
