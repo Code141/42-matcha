@@ -7,8 +7,10 @@ class c_matches extends c_controller
 	{
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
-		$this->req = $this->load->model("matches")->all_users($this->user['id']);
-//			->limit(0,15);
+		$this->req = $this->load->model("matches")->all_users($this->user['id'])
+					->limit(0,5);
+		$this->data['user']['latitude'] = $this->user['latitude'];
+		$this->data['user']['longitude'] = $this->user['longitude'];
 		$this->data['all_tags'] = $this->load->model("wrapper")->all_tags()->execute()->fetchAll(); 
 	 }
 
@@ -39,7 +41,7 @@ class c_matches extends c_controller
 
 	public function main($params = NULL)
 	{
-	//	var_dump($_POST);	
+		var_dump($_POST);	
 		$this->prepare();
 		$this->data['filter_tags'] = array();
 		$this->data['filters'] = $this->init_filters();
@@ -49,6 +51,8 @@ class c_matches extends c_controller
 		{
 			if (preg_match("/tag_.+/", $filter))
 				$this->data['filter_tags'][]= $value;
+			if ($filter == "location_order")
+				$this->req->order_by_location($this->user['latitude'], $this->user['longitude'], $value);
 			if ($filter == "matches" || $filter == "order_by_matching_tags")
 			{
 				$this->req->$filter($this->user);
@@ -57,12 +61,15 @@ class c_matches extends c_controller
 					$this->data['filters'][$filter] = $value;
 			}
 		}
-		if ($direction = $_POST['birthdate_order'])
-			$this->req->order_by_birthdate($direction);
-		$this->data['executed'] = $this->req
+		if (isset($_POST['birthdate_order']))
+			$this->req->order_by_birthdate($_POST['birthdate_order']);
+		$this->data['matches'] = $this->req
 			->filter_by_tags($this->data['filter_tags'])
 			->execute()
 			->fetchAll();
+		foreach ($this->data['matches'] as &$profil)
+			$profil['age'] = date_diff(date_create($profil['birthdate']), date_create('today'))->y;
+		$this->data['js_matches'] = json_encode($this->data['matches']);
 		$this->core->set_view("matches", "main");
 		return $this;
 	}

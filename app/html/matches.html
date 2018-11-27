@@ -6,12 +6,27 @@
   crossorigin=""></script>
 
 <form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
-	<?php foreach($this->data['filters'] as $name => $checked)	{ ?>
+	<button id="search_button" type="submit">SEARCH FOR THE PERFECT MATCH</button>
+
 	<div class="f_container">
-		<input type="checkbox" name="<?php echo $name;?>" id="<?php echo $name;?>" value="1"<?php if ($checked) echo "checked"?>>
-		<label class="f_title" for="<?php echo $name;?>"><?php echo $name;?></label> 
+		<input type="checkbox" name="matches" id="matches" value="1"<?php if ($this->data['filters']['matches']) echo "checked"?>>
+		<label class="f_title" for="matches">matches</label> 
 	</div>
-	<?php } ?>
+	
+	<div class="f_container">
+		<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1"<?php if ($this->data['filters']['order by matching tags']) echo "checked"?>>
+		<label class="f_title" for="order by matching tags">order by matching tags</label> 
+	</div>
+
+	<div class="f_container">
+		<p class="f_title">Order by location</p>
+		<select name="location_order">
+			<option value=""></option>
+			<option value="ASC">CLOSEST</option>
+			<option value="DESC">FURTHEST</option>
+		</select>
+	</div>
+
 	<div class="f_container">
 		<p class="f_title">Filter by age</p>
 		<p>Between</p> 
@@ -55,14 +70,13 @@
 			<button id="uncheck_tags">Clear tag filters</button>
 		</div>
 	</div>
-	<button id="search_button" type="submit">SEARCH FOR THE PERFECT MATCH</button>
 </form>
 <div class="right">
 	<div id=map>
 	</div>
 
 	<div class='container' id="profils">
-		<?php foreach($this->data['executed'] as $profil) { ?>
+		<?php foreach($this->data['matches'] as $profil) { ?>
 		<article>
 			<p><?php echo $profil['username']?></p>
 			<p>gender : <?php echo $profil['gender_name']?></p>
@@ -70,11 +84,16 @@
 			<p>lat : <?php echo $profil['latitude']?></p>
 			<p>long : <?php echo $profil['longitude']?></p>
 			<p><?php echo $profil['birthdate']?></p>
+			<p><?php echo $profil['age']?> years old</p>
 		</article>
 		<?php	} ?>
 	</div>
 </div>
 <script>
+
+var user_location = { "lat" : <?php echo $this->data['user']['latitude'];?>, "lon" : <?php echo $this->data['user']['longitude'];?> };
+
+var matches = <?php echo $this->data['js_matches'];?>;
 
 window.onload = function(){
 	tag_handling();
@@ -83,15 +102,12 @@ window.onload = function(){
 
 function	tag_handling(){
 	document.getElementById("search_tags").addEventListener("keyup", function(event){
-		//function search_tags() {
-		// Declare variables
 		var input_bar, filter, ul, li, a, i;
 		input_bar = document.getElementById('search_tags');
 		filter = input_bar.value.toUpperCase();
 		ul = document.getElementById("myUL");
 		li = ul.getElementsByTagName('li');
 
-		// Loop through all list items, and hide those who don't match the search query
 		for (i = 0; i < li.length; i++) {
 			input = li[i].getElementsByTagName("input")[0];
 			if (input.name.toUpperCase().indexOf(filter) > -1) {
@@ -113,25 +129,19 @@ function	tag_handling(){
 	});
 }
 
-var villes = {
-	"Paris": { "lat": 48.852969, "lon": 2.349903 },
-	"Brest": { "lat": 48.383, "lon": -4.500 },
-	"Quimper": { "lat": 48.000, "lon": -4.100 },
-	"Bayonne": { "lat": 43.500, "lon": -1.467 }
-};
-
 function initMap() {
 	map = new L.map('map');
 
-	for (ville in villes) {
-		var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(map);
-		marker.bindPopup("<b>Hello "+ville+"!</b><br>").openPopup();
+	for (profil in matches ){
+		var marker = L.marker([matches[profil].latitude, matches[profil].longitude]).addTo(map);
+		marker.bindPopup("<b>"+matches[profil].username+"</b><br>").openPopup();
 	}
 
-	var lat = 48.852969;
-	var lon = 2.349903;
-
-	map.setView([lat, lon], 13);
+	var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
+		marker.bindPopup("<b>You</b><br>").openPopup();
+	
+	L.circle([user_location.lat, user_location.lon], 10000).addTo(map);
+	map.setView([user_location.lat, user_location.lon], 13);
 
 	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',

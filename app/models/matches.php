@@ -108,4 +108,23 @@ class m_matches extends m_wrapper
 		$this->bind_param[] = $to;
 		return ($this);
 	}
+
+	public function order_by_location($lat, $lon, $direction)
+	{
+		$i = count($this->bind_param);
+		$this->condition[] = "u2.latitude IS NOT NULL";
+		$this->order[] = "((u2.latitude - :" . $i . " )*(u2.latitude - :" . ($i+1) . " ))
+		   	+ ((u2.longitude - :" . ($i+2) . " )*(u2.longitude - :" . ($i+3) . " )) " . $direction;
+		$this->bind_param[] = $lat;
+		$this->bind_param[] = $lat;
+		$this->bind_param[] = $lon;
+		$this->bind_param[] = $lon;
+		return ($this);
+	}
+
+	public function filter_by_distance($lat, $lon, $dist_km)
+	{
+		$dist_m = $dist_km * 1000;
+		$this->condition[] = "ST_Distance_Sphere( point(u2.latitude) point())";
+	}
 }
