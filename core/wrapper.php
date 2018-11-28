@@ -16,6 +16,8 @@ class m_wrapper
 			$query[] = "WHERE (" . implode (") AND (", $this->condition) . " )";
 		if (isset($this->group_by))
 			$query[] = "GROUP BY " . implode(", ", $this->group_by);
+		if (isset($this->having))
+			$query[] = "HAVING " . implode(", ", $this->having);
 		if (isset($this->order))
 			$query[] = "ORDER BY " . implode(", ", $this->order);
 		if (isset($this->limit))
@@ -69,7 +71,7 @@ class m_wrapper
 	{
 		echo "<br> ------------bind params ------------- <br>";
 		print_r($this->bind_param);
-		echo "<br>";
+		echo "<br><br>";
 		foreach ($this->bind_param as $key => &$value)
 			$this->stm->bindParam(":" . $key, $value);
 		return ($this);

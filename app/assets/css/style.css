@@ -174,28 +174,6 @@ section#register div.radio_gender input
 	margin: 7px;
 }
 
-/*- ACCOUNT --------------------------------------------------------*/
-
-section#account
-{
-}
-
-section#account div
-{
-	border-top: 1px solid black;
-}
-
-section#account img
-{
-	width:300px;
-	height:300px;
-}
-
-section#account p
-{
-}
-
-
 /*- CHAT -----------------------------------------------------------*/
 
 	div#chat_list
