@@ -3,6 +3,7 @@
 $(document).ready(function()
 {
 	url = "ws://localhost:8090/";
+
 	if ("WebSocket" in window)
 		websocket = new WebSocket(url);
 	else if ("MozWebSocket" in window)
@@ -60,7 +61,6 @@ $(document).ready(function()
 	});
 
 
-
 	function showMessage(messageHTML) {
 		$('.msg_box').append(messageHTML);
 	}
@@ -98,7 +98,7 @@ $(document).ready(function()
 				this.list[id] = new conversation(id, username, chat_conv);
 				this.list[id].init();
 			}
-			this.list[id].show_msg(msg);
+			this.list[id].show_msg(msg, false);
 
 			if (this.list[id].open == "FALSE")
 			{
@@ -187,15 +187,20 @@ $(document).ready(function()
 				message : this.msg.value
 			};
 			websocket.send(JSON.stringify(messageJSON));
+			this.show_msg(this.msg.value, true);
 			this.msg.value = "";
 		}
 
-		this.show_msg = function(msg)
+		this.show_msg = function(msg, from_me)
 		{
 			console.log(msg);
 			msg_div = document.createElement('div');
-			msg_div.className = 'chat_box_message';
-			msg_div.innerHTML = msg;
+			msg_msg = document.createElement('p');
+			msg_msg.className = 'chat_box_message';
+			if (from_me)
+				msg_msg.className += ' from_me';
+			msg_msg.innerHTML = msg;
+			msg_div.appendChild(msg_msg);
 			this.msg_box.appendChild(msg_div);
 		}
 

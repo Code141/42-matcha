@@ -1,5 +1,7 @@
 <?php
-echo shell_exec("pwd");
+
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 'on');
 
 define('DEV_MODE', TRUE);
 
@@ -167,4 +169,7 @@ class socket_server
 $server = new socket_server();
 $server->chat = new ChatHandler();
 while (true)
+{
 	$server->loop_work();
+//	usleep(500);
+}

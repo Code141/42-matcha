@@ -271,6 +271,26 @@ section#account p
 		overflow: hidden auto;
 	}
 
+	.chat_box_message
+	{
+		color: #09F;
+		padding: 5px 10px;
+		background-color: #fff;
+		border: 1px solid #ffdddd;
+		border-radius:4px;
+		display:inline-block;
+	}
+	
+	.from_me
+	{
+		color: #0f9;
+	
+	}
+	
+
+	
+
+
 	.chat_input
 	{
 		width: 100%;
@@ -309,15 +329,5 @@ section#account p
 		color: #09F;
 		margin: 10px 0px;
 		font-size:0.8em;
-	}
-
-	.chat_box_message
-	{
-		color: #09F;
-		padding: 5px 10px;
-		background-color: #fff;
-		border: 1px solid #ffdddd;
-		border-radius:4px;
-		display:inline-block;
 	}
 
