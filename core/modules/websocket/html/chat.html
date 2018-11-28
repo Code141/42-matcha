@@ -1,25 +1,45 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script>
-
-function showMessage(messageHTML) {
-	$('.msg_box').append(messageHTML);
-}
-
 $(document).ready(function()
 {
-	url = "ws://localhost:8090/toto";
+	url = "ws://localhost:8090/";
+
 	if ("WebSocket" in window)
 		websocket = new WebSocket(url);
 	else if ("MozWebSocket" in window)
 		websocket = new MozWebSocket(url);
 
-
 	websocket.onopen = function(event)
 	{
-		showMessage("<div class='chat-connection-ack'>Connection is established!</div>");	
-		var messageJSON = {ssid: "<?php echo session_id(); ?>"};
+		chat_list.connected(true);
+		var messageJSON = {
+			ssid: "<?php echo session_id(); ?>",
+			action: "friends"
+		};
 		websocket.send(JSON.stringify(messageJSON));
 	}
+
+	websocket.onmessage = function(event)
+	{
+		var data = JSON.parse(event.data);
+
+		if (typeof data.friends != 'undefined')
+			chat_list.put_friends(data.friends);
+
+		if (typeof data.message != 'undefined')
+			chat_list.incoming_message(data.message);
+	};
+
+	websocket.onerror = function(event)
+	{
+		chat_list.connected(false);
+		console.log(event);
+	};
+
+	websocket.onclose = function(event)
+	{
+		chat_list.connected(false);
+	};
 
 	window.onbeforeunload = function()
 	{
@@ -27,52 +47,205 @@ $(document).ready(function()
 		websocket.close();
 	};
 
-	websocket.onmessage = function(event)
+	function chat_list(chat_list)
 	{
-		var data = JSON.parse(event.data);
-		console.log(data);
-		showMessage("<div class='"+data.message_type+"'>"+data.message+"</div>");
-		$('#chat-message').val('');
-	};
+		this.chat_list = chat_list;
+		this.list = Array();
 
-	websocket.onerror = function(event)
-	{
-		showMessage("<div class='error'>Problem due to some Error</div>");
-		console.log(event);
-	};
+		this.open_conv = function(id, username)
+		{
+			if (!(id in this.list))
+				this.list[id] = new conversation(id, username);
+			if (!this.list[id].open)
+				this.list[id].switch_open();
+			if (this.list[id].minized)
+				this.list[id].switch_mini();
+		}
 
-	websocket.onclose = function(event)
-	{
-		showMessage("<div class='chat-connection-ack'>Connection Closed</div>");
-	}; 
+		this.incoming_message = function(message)
+		{
+			id = message['from'];
+			mesg = message['msg'];
+			username = message['username'];
 
-	$('.frmChat').on("submit", function(event)
+			if (!(id in this.list))
+				this.list[id] = new conversation(id, username);
+			if (!this.list[id].open)
+			{
+				this.list[id].switch_open();
+				if (this.list[id].minized)
+					this.list[id].switch_mini();
+			}
+			this.list[id].show_msg(mesg, false);
+		}
+
+		this.put_friends = function(friends)
+		{
+			if (typeof friends !== 'undefied')
+			{
+				friends.forEach(function(element)
+				{
+					user = document.createElement('p');
+					user.className = 'user_log';
+					user.innerHTML = element.username;
+
+					is_connected = document.createElement('span');
+					console.log(element);
+					if (element.connected)
+						is_connected.className = 'connected';
+					else
+						is_connected.className = 'non_connected';
+					user.appendChild(is_connected);
+
+					this.friends_list.appendChild(user);
+					user.addEventListener('click', function(e){
+						this.open_conv(element.id, element.username);
+					}.bind(this))
+						console.log(element);
+				}.bind(this));
+			}
+		}
+
+		this.connected = function (status)
+		{
+			if (status)
+				this.status_chat.style.display = "none";
+			else
+				this.status_chat.style.display = "block";
+
+			if (status)
+				this.friends_list.style.opacity = "1";
+			else
+				this.friends_list.style.opacity = "0.2";
+		}
+
+		this.init = function ()
+		{
+			friends_list = document.createElement('div');
+			friends_list.className = 'friends_list';
+			this.chat_list.appendChild(friends_list);
+
+			status_chat = document.createElement('div');
+			status_chat.className = 'status_chat';
+			status_chat.innerHTML = "NON CONNECTED";
+			this.chat_list.appendChild(status_chat);
+			this.status_chat = status_chat;
+			this.friends_list = friends_list;
+		}
+	}
+
+	function conversation(id_user, username)
 	{
-		event.preventDefault();
-		var messageJSON = {
-		ssid: "<?php echo session_id(); ?>",
-			chat_message: $('#chat-message').val()
-		};
-		websocket.send(JSON.stringify(messageJSON));
-	});
+		this.chat_conv = document.getElementById("chat_conv");
+		this.open = Boolean(true);
+		this.minized =  Boolean(false);
+		this.id_user = id_user;
+		this.username = username;
+		this.conv = "";
+		this.msg_box = "";
+		this.msg = "";
+
+		this.switch_open = function()
+		{
+			if (this.open)
+				this.conv.style.display = "none";
+			else
+				this.conv.style.display = "block";
+			this.open = !this.open;
+		}
+
+		this.switch_mini = function()
+		{
+			if (this.minized)
+				this.conv_elem.style.display = "block";
+			else
+				this.conv_elem.style.display = "none";
+			this.minized = !this.minized;
+		}
+
+		this.send_msg = function(e)
+		{
+			e.preventDefault();
+			var messageJSON = {
+				action : "message",
+				to : this.id_user,
+				message : this.msg.value
+			};
+			websocket.send(JSON.stringify(messageJSON));
+			this.show_msg(this.msg.value, true);
+			this.msg.value = "";
+		}
+
+		this.show_msg = function(msg, from_me)
+		{
+			msg_div = document.createElement('div');
+			if (from_me)
+				msg_div.className = 'from_me';
+
+			msg_msg = document.createElement('p');
+			msg_msg.innerHTML = msg;
+			msg_div.appendChild(msg_msg);
+			this.msg_box.appendChild(msg_div);
+		}
+
+		this.init = function ()
+		{
+			this.conv = document.createElement('div');
+			this.conv.className = 'conv';
+
+			conv_name = document.createElement('div');
+			conv_name.className = 'conv_name';
+			this.conv.appendChild(conv_name);
+			conv_username = document.createElement('span');
+			conv_username.className = 'name';
+			conv_username.innerHTML = this.username;
+			conv_name.appendChild(conv_username);
+			close_conv = document.createElement('span');
+			close_conv.className = 'close_conv';
+			close_conv.innerHTML = "✘";
+			conv_name.appendChild(close_conv);
+			conv_elem = document.createElement('div');
+			conv_elem.className = 'conv_elem';
+			this.conv_elem = conv_elem;
+			this.conv.appendChild(conv_elem);
+			msg_box = document.createElement('div');
+			this.msg_box = msg_box;
+			msg_box.className = 'msg_box';
+			conv_elem.appendChild(msg_box);
+			form = document.createElement('form');
+			conv_elem.appendChild(form);
+			msg = document.createElement('input');
+			this.msg = msg;
+			msg.className = 'chat_input';
+			msg.placeholder = "Message";
+			msg.value = "";
+			form.appendChild(msg);
+			conv_name.addEventListener('click', function(e){
+				this.switch_mini(e);
+			}.bind(this))
+			close_conv.addEventListener('click', function(e){
+				this.switch_open(e);
+			}.bind(this))
+			form.addEventListener('submit', function(e){
+				this.send_msg(e);
+			}.bind(this))
+
+			this.chat_conv.insertBefore(this.conv, chat_conv.firstChild);
+		}
+		this.init();
+	}
+
+	chat_list_cont = document.getElementById("chat_list");
+	chat_list = new chat_list(chat_list_cont);
+	chat_list.init();
+
 });
 </script>
 
 	<div id="chat_list">
-		chatlist
 	</div>
 
-	<div class="conv">
-			<div class="conv_name">
-				Fiofy
-			</div>
-		<div class="conv_elem">
-			<div class="msg_box">
-			</div>
-			<form name="frmChat" class="frmChat">
-				<input type="text" name="chat-message" id="chat-message" placeholder="Message"  class="chat-input chat-message"   autocomplete="off"/>
-				<input type="submit" class="btnSend" name="send-chat-message" value="Send" >
-			</form>
-		</div>
-	</div>
+	<section id="chat_conv">
+	</section>
+
 

@@ -10,14 +10,11 @@ class ChatHandler {
 		return true;
 	}
 
-	function send($message)
+	function send($socket, $message)
 	{
-		global $clientSocketArray;
+		$message = $this->seal(json_encode($message));
 		$messageLength = strlen($message);
-		foreach($clientSocketArray as $clientSocket)
-		{
-			@socket_write($clientSocket,$message,$messageLength);
-		}
+		@socket_write($socket, $message, $messageLength);
 		return true;
 	}
 
@@ -73,27 +70,6 @@ class ChatHandler {
 		"WebSocket-Location: ws://$host_name:$port\r\n".
 		"Sec-WebSocket-Accept:$secAccept\r\n\r\n";
 		socket_write($client_socket_resource, $buffer, strlen($buffer));
-	}
-
-	function newConnectionACK($client_ip_address)
-	{
-		$message = 'New client ' . $client_ip_address.' joined';
-		$message = array('message'=>$message,'message_type'=>'chat-connection-ack');
-		return $message;
-	}
-
-	function connectionDisconnectACK($client_ip_address)
-	{
-		$message = 'Client ' . $client_ip_address.' disconnected';
-		$message = array('message'=>$message,'message_type'=>'chat-connection-ack');
-		return $message;
-	}
-
-	function createChatBoxMessage($chat_user,$chat_box_message)
-	{
-		$message = $chat_user . ": <div class='chat-box-message'>" . $chat_box_message . "</div>";
-		$message = array('message'=>$message,'message_type'=>'chat-box-html');
-		return $message;
 	}
 }
 
