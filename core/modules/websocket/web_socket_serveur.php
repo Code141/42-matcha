@@ -15,15 +15,11 @@ define('HOST_NAME',"localhost");
 define('PORT',"8090");
 
 $null = NULL;
-require_once("class.chathandler.php");
 
 class socket_server
 {
 	public function	__construct()
 	{
-		$this->db = new db();
-		$this->db->connect_base();
-
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
 		socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
@@ -48,25 +44,113 @@ class socket_server
 			$this->current_socket = $current_socket;
 			if (socket_recv($current_socket, $socketData, 2048, 0) > 0)
 				$this->incoming($socketData);
+			else
+			{
+				$socketData = @socket_read($this->current_socket, 2048, PHP_NORMAL_READ);
+				if ($socketData === false)
+					$this->disconnect();
+			}
+		}
+	}
+
+	public function disconnect()
+	{
+		$id = $this->find_id_user($this->current_socket);
+		if ($id != null)
+		{
+			$msg['logout'] = $id;
+			$friends = $this->get_friends($id);
+			if ($friends)
+				foreach ($friends as $user)
+					if (($sock = $this->find_socket($user['id'])))
+						$this->send($sock, $msg);
+		}
+		$index = array_search($this->current_socket, $this->clientSocketArray);
+		unset($this->clientSocketArray[$index]);
+	}
+
+	public function incoming($socketData)
+	{
+		$message = json_decode($this->unseal($socketData));
+		if (empty($message))
+			return;
+
+		if (isset($message->ssid))
+			if (!$this->auth_assoc($message->ssid, $this->current_socket))
+				return;
+
+		$id = $this->find_id_user($this->current_socket);
+		if ($id == null)
+			return;
+ 
+		$user = $this->user[$id];
+		if ($message->action == "friends")
+		{
+			$msg['friends'] = $this->get_friends($id);
+			$msg_log['login'] = $user['id'];
+			foreach($msg['friends'] as $key => $user)
+			{
+				if (isset($this->user[$user['id']]))
+					$msg['friends'][$key]['connected'] = true;
+				else
+					$msg['friends'][$key]['connected'] = false;
+
+				$sock = $this->find_socket($user['id']);
+				if ($sock)
+					$this->send($sock, $msg_log);
+
+			}
+			$this->send($this->current_socket, $msg);
+		}
+
+
+		if ($message->action == "message")
+		{
+			if (!empty($message->message) && !empty($message->to))
+			{
+				if (isset($this->user[$message->to]))
+				{
+					$socket_to = $this->user[$message->to]['socket'];
+					$msg['message'] = array();
+					$msg['message']['msg'] = $message->message;
+					$msg['message']['from'] = $id;
+					$msg['message']['username'] = $user['username'];
+					$this->send($socket_to, $msg);
+				}
+			}
 		}
 	}
 
 	public function connect()
 	{
 		$newSocket = socket_accept($this->socket);
-
-		$this->clientSocketArray[] = $newSocket;
 		$header = socket_read($newSocket, 1024);
-		$this->chat->doHandshake($header, $newSocket, HOST_NAME, PORT);
-
+		$lines = preg_split("/\r\n/", $header);
+		$headers = array();
+		foreach($lines as $line)
+			if(preg_match('/\A(\S+): (.*)\z/', chop($line), $matches))
+				$headers[$matches[1]] = $matches[2];
+		$secKey = $headers['Sec-WebSocket-Key'];
+		$secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
+		$buffer  =
+			"HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
+			"Upgrade: websocket\r\n" .
+			"Connection: keep-alive, Upgrade\r\n" .
+			"WebSocket-Origin: " . HOST_NAME . "\r\n" .
+			"WebSocket-Location: ws://" . HOST_NAME . ":" . PORT . "\r\n".
+			"Sec-WebSocket-Accept: " . $secAccept . "\r\n\r\n";
+		socket_write($newSocket, $buffer, strlen($buffer));
+		$this->clientSocketArray[] = $newSocket;
 		$newSocketIndex = array_search($this->socket, $this->working_sokets);
 		unset($this->working_sokets[$newSocketIndex]);
 	}
 
+
+
 	public function auth_assoc($ssid, $current_socket)
 	{
-		session_id($ssid);
-		session_start();
+		@session_id($ssid);
+		@session_start();
 		if (empty($_SESSION['user']))
 			return (false);
 		//		socket_getpeername($current_socket, $client_ip_address);
@@ -86,7 +170,7 @@ class socket_server
 	public function	find_socket($id_user)
 	{
 		if (isset($this->user[$id_user]))
-				return ($this->user[$id_user]['socket']);
+			return ($this->user[$id_user]['socket']);
 		return (null);
 	}
 
@@ -113,70 +197,73 @@ class socket_server
 		$stm = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return ($stm);
 	}
-	
-	public function incoming($socketData)
+
+	public function broadcast($clientSocketArray, $message)
 	{
-		$message = json_decode($this->chat->unseal($socketData));
-		if (empty($message))
-			return;
-
-		if (isset($message->ssid))
-			if (!$this->auth_assoc($message->ssid, $this->current_socket))
-				return;
-
-		$id = $this->find_id_user($this->current_socket);
-		if ($id == null)
-			return;
-
-		$user = $this->user[$id];
-		if ($message->action == "friends")
-		{
-			$msg['friends'] = $this->get_friends($id);
-			
-			foreach($msg['friends'] as $key => $user)
-			{
-				if ($this->user[$user['id']])
-					$msg['friends'][$key]['connected'] = true;
-				else
-					$msg['friends'][$key]['connected'] = false;
-			}
-			$this->chat->send($this->current_socket, $msg);
-		}
-
-		if ($message->action == "message")
-		{
-			if (!empty($message->message) && !empty($message->to))
-			{
-				if (isset($this->user[$message->to]))
-				{
-					$socket_to = $this->user[$message->to]['socket'];
-					$msg['message'] = array();
-					$msg['message']['msg'] = $message->message;
-					$msg['message']['from'] = $id;
-					$msg['message']['username'] = $user['username'];
-					$this->chat->send($socket_to, $msg);
-				}
-			}
-		}
-
-		$socketData = socket_read($this->current_socket, 2048, PHP_NORMAL_READ);
-		if ($socketData === false)
-		{
-			$newSocketIndex = array_search($this->current_socket, $this->clientSocketArray);
-			unset($this->clientSocketArray[$newSocketIndex]);
-		}
+		$message = $this->seal(json_encode($message));
+		$messageLength = strlen($message);
+		foreach($clientSocketArray as $clientSocket)
+			@socket_write($clientSocket, $message, $messageLength);
+		return true;
 	}
 
+	public function send($socket, $message)
+	{
+		$message = $this->seal(json_encode($message));
+		$messageLength = strlen($message);
+		@socket_write($socket, $message, $messageLength);
+		return true;
+	}
+
+	public function unseal($socketData)
+	{
+		$length = ord($socketData[1]) & 127;
+		if($length == 126) {
+			$masks = substr($socketData, 4, 4);
+			$data = substr($socketData, 8);
+		}
+		elseif($length == 127) {
+			$masks = substr($socketData, 10, 4);
+			$data = substr($socketData, 14);
+		}
+		else {
+			$masks = substr($socketData, 2, 4);
+			$data = substr($socketData, 6);
+		}
+		$socketData = "";
+		for ($i = 0; $i < strlen($data); ++$i) {
+			$socketData .= $data[$i] ^ $masks[$i%4];
+		}
+		return $socketData;
+	}
+
+	public function seal($socketData)
+	{
+		$b1 = 0x80 | (0x1 & 0x0f);
+		$length = strlen($socketData);
+
+		if($length <= 125)
+			$header = pack('CC', $b1, $length);
+		elseif($length > 125 && $length < 65536)
+			$header = pack('CCn', $b1, 126, $length);
+		elseif($length >= 65536)
+			$header = pack('CCNN', $b1, 127, $length);
+		return $header.$socketData;
+	}
 	public function __destruct()
 	{
 		socket_close($this->socket);
 	}
 }
 
+
 $server = new socket_server();
-$server->chat = new ChatHandler();
+
+$server->db = new db();
+$server->db->connect_base();
+
 while (true)
 {
 	$server->loop_work();
-	usleep(500);
+	usleep(100);
 }

@@ -2,6 +2,9 @@
 <script>
 $(document).ready(function()
 {
+	window.onunload = function() {
+    alert('Bye.');
+}
 	url = "ws://localhost:8090/";
 
 	if ("WebSocket" in window)
@@ -22,12 +25,18 @@ $(document).ready(function()
 	websocket.onmessage = function(event)
 	{
 		var data = JSON.parse(event.data);
-
+//		console.log(data);
 		if (typeof data.friends != 'undefined')
 			chat_list.put_friends(data.friends);
 
 		if (typeof data.message != 'undefined')
 			chat_list.incoming_message(data.message);
+
+		if (typeof data.logout != 'undefined')
+			chat_list.friends_logout(data.logout);
+
+		if (typeof data.login != 'undefined')
+			chat_list.friends_login(data.login);
 	};
 
 	websocket.onerror = function(event)
@@ -50,16 +59,29 @@ $(document).ready(function()
 	function chat_list(chat_list)
 	{
 		this.chat_list = chat_list;
+
+		this.conv = Array();
 		this.list = Array();
+
+		this.friends_logout = function(id)
+		{
+			this.list[id].className = "";
+		}
+
+		this.friends_login = function(id)
+		{
+			this.list[id].className = "connected";
+		}
+
 
 		this.open_conv = function(id, username)
 		{
-			if (!(id in this.list))
-				this.list[id] = new conversation(id, username);
-			if (!this.list[id].open)
-				this.list[id].switch_open();
-			if (this.list[id].minized)
-				this.list[id].switch_mini();
+			if (!(id in this.conv))
+				this.conv[id] = new conversation(id, username);
+			if (!this.conv[id].open)
+				this.conv[id].switch_open();
+			if (this.conv[id].minized)
+				this.conv[id].switch_mini();
 		}
 
 		this.incoming_message = function(message)
@@ -68,40 +90,36 @@ $(document).ready(function()
 			mesg = message['msg'];
 			username = message['username'];
 
-			if (!(id in this.list))
-				this.list[id] = new conversation(id, username);
-			if (!this.list[id].open)
+			if (!(id in this.conv))
+				this.conv[id] = new conversation(id, username);
+			if (!this.conv[id].open)
 			{
-				this.list[id].switch_open();
-				if (this.list[id].minized)
-					this.list[id].switch_mini();
+				this.conv[id].switch_open();
+				if (this.conv[id].minized)
+					this.conv[id].switch_mini();
 			}
-			this.list[id].show_msg(mesg, false);
+			this.conv[id].show_msg(mesg, false);
 		}
 
 		this.put_friends = function(friends)
 		{
-			if (typeof friends !== 'undefied')
+			if (typeof friends !== 'undefined')
 			{
 				friends.forEach(function(element)
 				{
 					user = document.createElement('p');
-					user.className = 'user_log';
 					user.innerHTML = element.username;
-
 					is_connected = document.createElement('span');
-					console.log(element);
 					if (element.connected)
-						is_connected.className = 'connected';
-					else
-						is_connected.className = 'non_connected';
+						user.className = 'connected';
 					user.appendChild(is_connected);
 
+					this.list[element.id] = user;
 					this.friends_list.appendChild(user);
+
 					user.addEventListener('click', function(e){
 						this.open_conv(element.id, element.username);
 					}.bind(this))
-						console.log(element);
 				}.bind(this));
 			}
 		}
@@ -127,7 +145,7 @@ $(document).ready(function()
 
 			status_chat = document.createElement('div');
 			status_chat.className = 'status_chat';
-			status_chat.innerHTML = "NON CONNECTED";
+			status_chat.innerHTML = "Connect to chat...";
 			this.chat_list.appendChild(status_chat);
 			this.status_chat = status_chat;
 			this.friends_list = friends_list;
