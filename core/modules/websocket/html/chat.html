@@ -10,19 +10,13 @@ $(document).ready(function()
 
 	websocket.onopen = function(event)
 	{
-		showMessage("<div class='chat-connection-ack'>Connection is established!</div>");	
+		chat_list.connected(true);
 		var messageJSON = {
 			ssid: "<?php echo session_id(); ?>",
 			action: "friends"
 		};
 		websocket.send(JSON.stringify(messageJSON));
 	}
-
-	window.onbeforeunload = function()
-	{
-		websocket.onclose = function () {}; // disable onclose handler first
-		websocket.close();
-	};
 
 	websocket.onmessage = function(event)
 	{
@@ -31,39 +25,26 @@ $(document).ready(function()
 
 		if (typeof data.friends != 'undefined')
 			chat_list.put_friends(data.friends);
-
 		if (typeof data.message != 'undefined')
 			chat_list.incoming_message(data.message);
-
-		
 	};
 
 	websocket.onerror = function(event)
 	{
-		showMessage("<div class='error'>Problem due to some Error</div>");
+		chat_list.connected(false);
 		console.log(event);
 	};
 
 	websocket.onclose = function(event)
 	{
-		showMessage("<div class='chat-connection-ack'>Connection Closed</div>");
-	}; 
+		chat_list.connected(false);
+	};
 
-	$('.frmChat').on("submit", function(event)
+	window.onbeforeunload = function()
 	{
-		event.preventDefault();
-		var messageJSON = {
-		ssid: "<?php echo session_id(); ?>",
-			chat_message: $('#chat-message').val()
-		};
-		websocket.send(JSON.stringify(messageJSON));
-	});
-
-
-
-	function showMessage(messageHTML) {
-		$('.msg_box').append(messageHTML);
-	}
+		websocket.onclose = function () {}; // disable onclose handler first
+		websocket.close();
+	};
 
 	function chat_list(chat_list)
 	{
@@ -113,27 +94,35 @@ $(document).ready(function()
 		{
 			if (typeof friends !== 'undefied')
 			{
-			friends.forEach(function(element)
-			{
-				user = document.createElement('p');
-				user.className = 'user_log';
-				user.innerHTML = element.username;
-				this.chat_list.appendChild(user);
-
-				user.addEventListener('click', function(e){
-					this.open_conv(element.id, element.username);
-				}.bind(this))
-
-				console.log(element);
-			}.bind(this));
+				friends.forEach(function(element)
+				{
+					user = document.createElement('p');
+					user.className = 'user_log';
+					user.innerHTML = element.username;
+					this.chat_list.appendChild(user);
+					user.addEventListener('click', function(e){
+						this.open_conv(element.id, element.username);
+					}.bind(this))
+					console.log(element);
+				}.bind(this));
 			}
+		}
+
+		this.connected = function (status)
+		{
+			if (status)
+				this.status_chat.style.display = "none";
+			else
+				this.status_chat.style.display = "block";
 		}
 
 		this.init = function ()
 		{
-			this.conv = document.createElement('div');
-			this.conv.className = 'conv';
-			chat_conv.appendChild(this.conv);
+			status_chat = document.createElement('div');
+			status_chat.className = 'status_chat';
+			status_chat.innerHTML = "NON CONNECTED";
+			this.chat_list.appendChild(status_chat);
+			this.status_chat = status_chat;
 		}
 	}
 
@@ -244,6 +233,8 @@ $(document).ready(function()
 
 	chat_list_cont = document.getElementById("chat_list");
 	chat_list = new chat_list(chat_list_cont);
+
+	chat_list.init();
 
 });
 </script>
