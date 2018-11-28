@@ -6,7 +6,7 @@ class c_module_websocket extends c_controller
 	{
 
 //		 CHECK IF SERV IS LUNCHED
-//		echo shell_exec('sh ./core/modules/websocket/start_server.sh');
+		echo shell_exec('sh ./core/modules/websocket/start_server.sh');
 //		$_SESSION['USER']['websocket_token'] == eirugh;
 
 	}
