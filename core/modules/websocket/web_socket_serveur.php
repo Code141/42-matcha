@@ -1,5 +1,7 @@
 <?php
-echo shell_exec("pwd");
+
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 'on');
 
 define('DEV_MODE', TRUE);
 
@@ -130,6 +132,14 @@ class socket_server
 		if ($message->action == "friends")
 		{
 			$msg['friends'] = $this->get_friends($id);
+			
+			foreach($msg['friends'] as $key => $user)
+			{
+				if ($this->user[$user['id']])
+					$msg['friends'][$key]['connected'] = true;
+				else
+					$msg['friends'][$key]['connected'] = false;
+			}
 			$this->chat->send($this->current_socket, $msg);
 		}
 
@@ -147,14 +157,13 @@ class socket_server
 					$this->chat->send($socket_to, $msg);
 				}
 			}
-
 		}
-		return;
-		$socketData = socket_read($this->current_socket, 1024, PHP_NORMAL_READ);
+
+		$socketData = socket_read($this->current_socket, 2048, PHP_NORMAL_READ);
 		if ($socketData === false)
 		{
 			$newSocketIndex = array_search($this->current_socket, $this->clientSocketArray);
-			unset($this->clientSocketArray[$newSocketIndex]);			
+			unset($this->clientSocketArray[$newSocketIndex]);
 		}
 	}
 
@@ -167,4 +176,7 @@ class socket_server
 $server = new socket_server();
 $server->chat = new ChatHandler();
 while (true)
+{
 	$server->loop_work();
+	usleep(500);
+}

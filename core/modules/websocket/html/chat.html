@@ -3,6 +3,7 @@
 $(document).ready(function()
 {
 	url = "ws://localhost:8090/";
+
 	if ("WebSocket" in window)
 		websocket = new WebSocket(url);
 	else if ("MozWebSocket" in window)
@@ -21,10 +22,10 @@ $(document).ready(function()
 	websocket.onmessage = function(event)
 	{
 		var data = JSON.parse(event.data);
-		console.log(data);
 
 		if (typeof data.friends != 'undefined')
 			chat_list.put_friends(data.friends);
+
 		if (typeof data.message != 'undefined')
 			chat_list.incoming_message(data.message);
 	};
@@ -54,40 +55,28 @@ $(document).ready(function()
 		this.open_conv = function(id, username)
 		{
 			if (!(id in this.list))
-			{
-				chat_conv = document.getElementById("chat_conv");
-				this.list[id] = new conversation(id, username, chat_conv);
-				this.list[id].init();
-			}
-
-			if (this.list[id].open == "FALSE")
+				this.list[id] = new conversation(id, username);
+			if (!this.list[id].open)
 				this.list[id].switch_open();
-
-			if (this.list[id].minized == "TRUE")
+			if (this.list[id].minized)
 				this.list[id].switch_mini();
 		}
 
 		this.incoming_message = function(message)
 		{
 			id = message['from'];
+			mesg = message['msg'];
 			username = message['username'];
-			msg = message['msg'];
 
 			if (!(id in this.list))
-			{
-				chat_conv = document.getElementById("chat_conv");
-				this.list[id] = new conversation(id, username, chat_conv);
-				this.list[id].init();
-			}
-			this.list[id].show_msg(msg);
-
-			if (this.list[id].open == "FALSE")
+				this.list[id] = new conversation(id, username);
+			if (!this.list[id].open)
 			{
 				this.list[id].switch_open();
-				if (this.list[id].minized == "TRUE")
+				if (this.list[id].minized)
 					this.list[id].switch_mini();
 			}
-
+			this.list[id].show_msg(mesg, false);
 		}
 
 		this.put_friends = function(friends)
@@ -99,11 +88,20 @@ $(document).ready(function()
 					user = document.createElement('p');
 					user.className = 'user_log';
 					user.innerHTML = element.username;
-					this.chat_list.appendChild(user);
+
+					is_connected = document.createElement('span');
+					console.log(element);
+					if (element.connected)
+						is_connected.className = 'connected';
+					else
+						is_connected.className = 'non_connected';
+					user.appendChild(is_connected);
+
+					this.friends_list.appendChild(user);
 					user.addEventListener('click', function(e){
 						this.open_conv(element.id, element.username);
 					}.bind(this))
-					console.log(element);
+						console.log(element);
 				}.bind(this));
 			}
 		}
@@ -114,23 +112,33 @@ $(document).ready(function()
 				this.status_chat.style.display = "none";
 			else
 				this.status_chat.style.display = "block";
+
+			if (status)
+				this.friends_list.style.opacity = "1";
+			else
+				this.friends_list.style.opacity = "0.2";
 		}
 
 		this.init = function ()
 		{
+			friends_list = document.createElement('div');
+			friends_list.className = 'friends_list';
+			this.chat_list.appendChild(friends_list);
+
 			status_chat = document.createElement('div');
 			status_chat.className = 'status_chat';
 			status_chat.innerHTML = "NON CONNECTED";
 			this.chat_list.appendChild(status_chat);
 			this.status_chat = status_chat;
+			this.friends_list = friends_list;
 		}
 	}
 
-
-	function conversation(id_user, username, chat_conv)
+	function conversation(id_user, username)
 	{
-		this.open = "TRUE";
-		this.minized = "FALSE";
+		this.chat_conv = document.getElementById("chat_conv");
+		this.open = Boolean(true);
+		this.minized =  Boolean(false);
 		this.id_user = id_user;
 		this.username = username;
 		this.conv = "";
@@ -139,32 +147,20 @@ $(document).ready(function()
 
 		this.switch_open = function()
 		{
-			if (this.open == "TRUE")
-			{
-				this.open = "FALSE";
+			if (this.open)
 				this.conv.style.display = "none";
-			}
 			else
-			{
-				this.open = "TRUE";
 				this.conv.style.display = "block";
-			}
+			this.open = !this.open;
 		}
 
 		this.switch_mini = function()
 		{
-			if (this.minized == "TRUE")
-			{
-				this.msg_box.style.display = "block";
-				this.msg.style.display = "block";
-				this.minized = "FALSE";
-			}
+			if (this.minized)
+				this.conv_elem.style.display = "block";
 			else
-			{
-				this.minized = "TRUE";
-				this.msg_box.style.display = "none";
-				this.msg.style.display = "none";
-			}
+				this.conv_elem.style.display = "none";
+			this.minized = !this.minized;
 		}
 
 		this.send_msg = function(e)
@@ -176,15 +172,19 @@ $(document).ready(function()
 				message : this.msg.value
 			};
 			websocket.send(JSON.stringify(messageJSON));
+			this.show_msg(this.msg.value, true);
 			this.msg.value = "";
 		}
 
-		this.show_msg = function(msg)
+		this.show_msg = function(msg, from_me)
 		{
-			console.log(msg);
 			msg_div = document.createElement('div');
-			msg_div.className = 'chat_box_message';
-			msg_div.innerHTML = msg;
+			if (from_me)
+				msg_div.className = 'from_me';
+
+			msg_msg = document.createElement('p');
+			msg_msg.innerHTML = msg;
+			msg_div.appendChild(msg_msg);
 			this.msg_box.appendChild(msg_div);
 		}
 
@@ -192,14 +192,10 @@ $(document).ready(function()
 		{
 			this.conv = document.createElement('div');
 			this.conv.className = 'conv';
-			chat_conv.appendChild(this.conv);
-			chat_conv.insertBefore(this.conv, chat_conv.firstChild);
+
 			conv_name = document.createElement('div');
 			conv_name.className = 'conv_name';
 			this.conv.appendChild(conv_name);
-			conv_name.addEventListener('click', function(e){
-				this.switch_mini(e);
-			}.bind(this))
 			conv_username = document.createElement('span');
 			conv_username.className = 'name';
 			conv_username.innerHTML = this.username;
@@ -207,12 +203,10 @@ $(document).ready(function()
 			close_conv = document.createElement('span');
 			close_conv.className = 'close_conv';
 			close_conv.innerHTML = "✘";
-			close_conv.addEventListener('click', function(e){
-				this.switch_open(e);
-			}.bind(this))
 			conv_name.appendChild(close_conv);
 			conv_elem = document.createElement('div');
 			conv_elem.className = 'conv_elem';
+			this.conv_elem = conv_elem;
 			this.conv.appendChild(conv_elem);
 			msg_box = document.createElement('div');
 			this.msg_box = msg_box;
@@ -224,16 +218,25 @@ $(document).ready(function()
 			this.msg = msg;
 			msg.className = 'chat_input';
 			msg.placeholder = "Message";
+			msg.value = "";
 			form.appendChild(msg);
+			conv_name.addEventListener('click', function(e){
+				this.switch_mini(e);
+			}.bind(this))
+			close_conv.addEventListener('click', function(e){
+				this.switch_open(e);
+			}.bind(this))
 			form.addEventListener('submit', function(e){
 				this.send_msg(e);
 			}.bind(this))
+
+			this.chat_conv.insertBefore(this.conv, chat_conv.firstChild);
 		}
+		this.init();
 	}
 
 	chat_list_cont = document.getElementById("chat_list");
 	chat_list = new chat_list(chat_list_cont);
-
 	chat_list.init();
 
 });

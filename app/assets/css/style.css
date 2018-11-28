@@ -204,13 +204,41 @@ section#account p
 		bottom:0px;
 		float: right;
 		width:200px;
-		background-color: green;
+		padding: 10px;
+		box-sizing: border-box;
+		border: 1px solid #ffdddd;
+		background: #ffe9e9;
+		border-top-left-radius: 5px;
 	}
 
 	div#chat_list p
 	{
 		padding: 7px;
-		border-bottom: 1px solid #ffdddd;
+	}
+
+	div#chat_list p + p
+	{
+		border-top: 1px solid #ffdddd;
+	}
+
+	div#chat_list p span
+	{
+		display: block;
+		height: 15px;
+		width: 15px;
+		border-radius: 100%;
+		background-color: grey;
+		float:right;
+	}
+
+	div#chat_list p span.connected
+	{
+		background-color: green;
+	}
+
+	.status_chat
+	{
+		text-align: center;
 	}
 
 	section#chat_conv
@@ -271,6 +299,42 @@ section#account p
 		overflow: hidden auto;
 	}
 
+	div.msg_box div
+	{
+		text-align: left;
+		color: #09F;
+	}
+
+	div.msg_box div.from_me
+	{
+		text-align: right;
+		color: #0f9;
+	}
+
+	div.msg_box div p
+	{
+		display:inline-block;
+		padding: 5px 10px;
+		box-sizing: border-box;
+		background-color: #fff;
+		border: 1px solid #ffdddd;
+		border-radius:4px;
+		word-wrap: break-word;
+		text-align: justify;
+		max-width:100%;
+	}
+
+	div.msg_box div.from_me p
+	{
+		text-align:right;
+	}
+
+
+
+
+
+
+
 	.chat_input
 	{
 		width: 100%;
@@ -309,15 +373,5 @@ section#account p
 		color: #09F;
 		margin: 10px 0px;
 		font-size:0.8em;
-	}
-
-	.chat_box_message
-	{
-		color: #09F;
-		padding: 5px 10px;
-		background-color: #fff;
-		border: 1px solid #ffdddd;
-		border-radius:4px;
-		display:inline-block;
 	}
 
