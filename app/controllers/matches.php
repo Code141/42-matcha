@@ -7,12 +7,14 @@ class c_matches extends c_controller
 	{
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
-		$this->req = $this->load->model("matches")->all_users($this->user['id'])
-					->limit(0,5);
+		$this->req = $this->load->model("matches")->all_users($this->user)
+					->limit(0,7);
 		$this->data['user']['latitude'] = $this->user['latitude'];
 		$this->data['user']['longitude'] = $this->user['longitude'];
 		$this->data['all_tags'] = $this->load->model("wrapper")->all_tags()->execute()->fetchAll(); 
-	 }
+		$this->data['filter_tags'] = array();
+		$this->data['filters'] = $this->init_filters();
+	}
 
 	private function init_filters()
 	{
@@ -41,28 +43,28 @@ class c_matches extends c_controller
 
 	public function main($params = NULL)
 	{
-		var_dump($_POST);	
 		$this->prepare();
-		$this->data['filter_tags'] = array();
-		$this->data['filters'] = $this->init_filters();
-		if (isset($_POST['age_select_from']) && isset($_POST['age_select_to']))
-			$this->filter_birthdate($_POST['age_select_from'],$_POST['age_select_to']);
 		foreach ($_POST as $filter => $value)
 		{
 			if (preg_match("/tag_.+/", $filter))
 				$this->data['filter_tags'][]= $value;
-			if ($filter == "location_order")
-				$this->req->order_by_location($this->user['latitude'], $this->user['longitude'], $value);
 			if ($filter == "matches" || $filter == "order_by_matching_tags")
 			{
 				$this->req->$filter($this->user);
 				$filter = preg_replace ("/_/", " ", $filter);
 				if (array_key_exists ($filter, $this->data['filters']))
 					$this->data['filters'][$filter] = $value;
-			}
+				}
+			if ($filter == "distance_order")
+				$this->req->order_by_distance($value);
+			if ($filter == "distance_filter_km" && $value)
+				$this->req->filter_by_distance($value);
+			if ($filter == "birthdate_order" && $value)
+				$this->req->order_by_birthdate($value);
+			if ($filter == "age_select_from" && isset($_POST['age_select_to']))
+				$this->filter_birthdate($value,$_POST['age_select_to']);
 		}
-		if (isset($_POST['birthdate_order']))
-			$this->req->order_by_birthdate($_POST['birthdate_order']);
+
 		$this->data['matches'] = $this->req
 			->filter_by_tags($this->data['filter_tags'])
 			->execute()

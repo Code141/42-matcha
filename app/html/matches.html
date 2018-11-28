@@ -19,12 +19,24 @@
 	</div>
 
 	<div class="f_container">
-		<p class="f_title">Order by location</p>
-		<select name="location_order">
+		<p class="f_title">Order by distance</p>
+		<select name="distance_order">
 			<option value=""></option>
 			<option value="ASC">CLOSEST</option>
 			<option value="DESC">FURTHEST</option>
 		</select>
+	</div>
+	<div class="f_container">
+		<p class="f_title">Order by birthdate</p>
+		<select name="birthdate_order">
+			<option value=""></option>
+			<option value="ASC">ASC</option>
+			<option value="DESC">DESC</option>
+		</select>
+	</div>
+	<div class="f_container">
+		<p class="f_title">Filter by distance</p>
+		<input type="number" name="distance_filter_km" min="1" max="20037"> km away
 	</div>
 
 	<div class="f_container">
@@ -44,14 +56,6 @@
 		</select>
 		</p>
 		<p>years old</p>
-	</div>
-	<div class="f_container">
-		<p class="f_title">Order by birthdate</p>
-		<select name="birthdate_order">
-			<option value=""></option>
-			<option value="ASC">ASC</option>
-			<option value="DESC">DESC</option>
-		</select>
 	</div>
 	<div class="f_container"  id="tag_container">
 		<p class="f_title">Filter by tags</p>
@@ -81,8 +85,7 @@
 			<p><?php echo $profil['username']?></p>
 			<p>gender : <?php echo $profil['gender_name']?></p>
 			<p>gender identity : <?php echo $profil['gender_identity_name']?></p>
-			<p>lat : <?php echo $profil['latitude']?></p>
-			<p>long : <?php echo $profil['longitude']?></p>
+			<p>dist : <?php echo number_format((float)($profil['distance'] / 1000), 2, '.', '');?> km away</p>
 			<p><?php echo $profil['birthdate']?></p>
 			<p><?php echo $profil['age']?> years old</p>
 		</article>
@@ -124,7 +127,6 @@ function	tag_handling(){
 		li = ul.getElementsByTagName('li');
 		for (i = 0; i < li.length; i++) {
 			input = li[i].getElementsByTagName("input")[0].checked = false;
-			console.log(input);
 		}
 	});
 }
