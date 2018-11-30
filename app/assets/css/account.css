@@ -23,6 +23,7 @@ fieldset#tag, fieldset#pictures{
 
 div#tag, div#more_info, p#bio{
 	text-align:justify;
+	min-height:100px;
 }
 
 div#more_info span{
@@ -66,4 +67,12 @@ p{
 }
 #map{
 	height:200px;
+}
+
+div.preferences{
+	width:100%;
+	min-height:100px;
+}
+fieldset:hover{
+background-color:rgba(25,255,255,0.2);
 }

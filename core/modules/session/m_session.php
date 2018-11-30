@@ -57,6 +57,21 @@ class m_module_session
 		return ($orientation);
 	}
 
+	public function get_bio($id_user)
+	{
+		$sql = "
+			SELECT bio
+			FROM bio
+			WHERE id_user = :id_user
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$stm->execute();
+		$bio = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($bio);
+	}
+
+
 
 
 	public function get_user_by_login($username)

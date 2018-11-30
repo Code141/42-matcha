@@ -3,6 +3,7 @@
 <?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
 <fieldset>
 	<legend></legend>
+<<<<<<< HEAD
 <?php 
 $user = $this->module_loader->session()->controller->user_loggued();
 ?>
@@ -63,6 +64,7 @@ $user = $this->module_loader->session()->controller->user_loggued();
 		</div>
 	</div>
 	<hr>
+	<div class="preferences">
 	<div id="o_gender">
 		<?php foreach($user['orientations'] as $value) { ?>
 		<p>
@@ -76,6 +78,7 @@ $user = $this->module_loader->session()->controller->user_loggued();
 		<?php echo $value['gender_identity_name']; ?>
 		</p>
 		<?php } ?>
+	</div>
 	</div>
 </fieldset>
 <fieldset id="pictures">
@@ -94,6 +97,32 @@ $user = $this->module_loader->session()->controller->user_loggued();
 </fieldset>
 <script>
 window.addEventListener('load',initMap);
+window.addEventListener('load',init_input);
+
+var fields = document.getElementsByTagName('fieldset');
+
+function init_input(){
+		fields[0].addEventListener('click', set_profil);
+		fields[1].addEventListener('click', set_general_info);
+		fields[2].addEventListener('click', set_preferences);
+		fields[3].addEventListener('click', set_pictures);
+		fields[4].addEventListener('click', set_tags);
+}
+
+function set_profil(){
+	console.log(fields[0]);
+	var form = document.createElement("FORM");
+	form.appendchild(fields[0]);
+	var username_p = document.getElementById('username');
+	var username = username_p.innerHTML;
+	var username_input = document.createElement("INPUT");
+	username_input.setAttribute("type", "text");
+	console.log(username);
+}
+function set_general_info(){}
+function set_preferences(){}
+function set_pictures(){}
+function set_tags(){}
 
 function initMap() {
 	map = new L.map('map');
