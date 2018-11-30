@@ -1,8 +1,8 @@
 <?php
 
-class m_module_session
+class m_message
 {
-	public function get_user_by_login($username)
+	public function get_message($id_user)
 	{
 		$sql = "
 			SELECT *

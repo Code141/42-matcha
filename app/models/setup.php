@@ -11,9 +11,6 @@ class m_setup extends m_wrapper
 
 	public function drop_db()
 	{
-		/*
-			if base existe
-		*/
 		$this->db->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
 		$this->db->execute_pdo();
 		return ($this);

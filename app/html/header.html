@@ -1,7 +1,5 @@
 <h1 id="title">
-	<a href="<?php echo SITE_ROOT; ?>">
-		<?php echo ucfirst(APP_NAME); ?>
-	</a>
+	<a href="<?php echo SITE_ROOT; ?>"><?php echo ucfirst(APP_NAME); ?></a>
 </h1>
 
 <?php
@@ -14,17 +12,17 @@ if ($this->module_loader->session()->controller->is_loggued())
 	<ul>
 		<li>
 		<a href="<?php echo SITE_ROOT; ?>account">
-				My account
+				Account
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>matches">
-				My matches 
+				Matches 
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo SITE_ROOT; ?>messages">
-				My messages 
+			<a href="<?php echo SITE_ROOT; ?>message">
+				Messages 
 			</a>
 		</li>
 	</ul> 

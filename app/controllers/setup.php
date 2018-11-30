@@ -34,6 +34,7 @@ class c_setup extends c_controller
 					$this->load->model("setup")->from_file_to_query("seed/" . $file);
 			}
 		}
+
 		$this->core->set_view("setup", "main");
 	}
 

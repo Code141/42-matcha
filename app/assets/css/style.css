@@ -18,7 +18,7 @@
 body 
 {
 	font-family: arial;
-	background-color: rgba(0, 0, 255, 1);
+	background-color: rgba(255, 250, 250, 1);
 }
 
 h1, h2, h3, h4, h5, h6
@@ -29,10 +29,19 @@ h1, h2, h3, h4, h5, h6
 
 header, main, footer, section
 {
-	border-style: solid;
-	border-color: black;
 	box-sizing: border-box;
 	text-align: center;
+}
+
+a
+{
+	color: rgba(255, 100, 100, 1);
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: rgba(200, 100, 100, 1);
 }
 
 .center
@@ -53,6 +62,9 @@ header
 	width: 100%;
 	position: sticky;
 	top: 0px;
+	background-color: rgba(255, 215, 215, 1);
+	box-shadow: 0px 0px 30px rgba(255, 70, 70, 0.6);
+	z-index: 2000;
 }
 
 header h1#title
@@ -75,7 +87,6 @@ header nav,
 header h1,
 header nav ul
 {
-	background-color: rgba(255, 255, 255, 0.4);
 	align-self: center;
 }
 
@@ -87,6 +98,7 @@ section#wrap
 
 main
 {
+	padding-top: 20px;
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -185,8 +197,21 @@ section#register div.radio_gender input
 		padding: 10px;
 		box-sizing: border-box;
 		border: 1px solid #ffdddd;
-		background: #ffe9e9;
+		background: rgba(255, 240, 240, 1);
 		border-top-left-radius: 5px;
+		max-height: calc(100vh - 60px);
+		overflow: hidden auto; 
+		z-index: 1000;
+		box-shadow: 0px 0px 20px rgba(255, 190, 190, 1);
+	}
+
+	@media only screen and (min-width: 1450px) {
+		div#chat_list {
+			border-top-left-radius: 0px;
+			border: none;
+			border-left: 1px solid #ffdddd;
+			height: calc(100vh - 60px);
+		}
 	}
 
 	div#chat_list p
@@ -199,7 +224,7 @@ section#register div.radio_gender input
 		border-top: 1px solid #ffdddd;
 	}
 
-	div#chat_list p span
+	span.non_connected
 	{
 		display: block;
 		border-radius: 100%;
@@ -212,15 +237,25 @@ section#register div.radio_gender input
 		transition: background-color 0s 0.3s, margin-top 0s 0.3s, margin-right 0s 0.3s, height 0s 0.3s, width 0s 0.3s;
 	}
 
-	div#chat_list p.connected span
+	div.conv span.connected,
+	div.conv span.non_connected
 	{
+		float: left;
+		margin-right : 15px;
+	}
 
+	span.connected
+	{
+		display: block;
+		border-radius: 100%;
+		float:right;
 		background-color: green;
 		margin-right: 0px;
 		margin-top: 0px;
 		height: 15px;
 		width: 15px;
 	}
+
 
 	.status_chat
 	{
@@ -235,7 +270,7 @@ section#register div.radio_gender input
 		float: right;
 		display: flex;
 		align-items: flex-end;
-		max-height:0px;
+		z-index: 1000;
 	}
 
 	.conv
@@ -244,7 +279,7 @@ section#register div.radio_gender input
 		margin-right: 15px;
 		float:left;
 		bottom: 0px;
-		box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+		box-shadow: 2px 2px 5px rgba(255, 100, 100, 0.2);
 	}
 
 	.conv_name
@@ -253,19 +288,18 @@ section#register div.radio_gender input
 		font-family: arial;
 		padding: 5px;
 		background: #ffdddd;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
 	}
 	
 	.name
 	{
-		padding: 0px 20px;
+		text-align: left;
 	}
 
 	.close_conv
 	{
 		float: right;
 		margin-right:5px;
+		margin-left: 15px;
 	}
 
 	.conv_elem
@@ -280,7 +314,8 @@ section#register div.radio_gender input
 	{
 		width:200px;
 		height:250px;
-		background: #ffe9e9;
+		max-height: calc(100vh - 134px);
+		background: rgba(255, 240, 240, 1);
 		padding: 10px;
 		overflow: hidden auto;
 	}
@@ -300,15 +335,15 @@ section#register div.radio_gender input
 
 	div.msg_box div p
 	{
-		display:inline-block;
+		display: inline-block;
 		padding: 5px 10px;
 		box-sizing: border-box;
 		background-color: #fff;
 		border: 1px solid #ffdddd;
-		border-radius:4px;
+		border-radius: 4px;
 		word-wrap: break-word;
 		text-align: justify;
-		max-width:100%;
+		max-width: 100%;
 	}
 
 	div.msg_box div.from_me p
@@ -317,12 +352,7 @@ section#register div.radio_gender input
 	}
 
 
-
-
-
-
-
-	.chat_input
+	input.chat_input
 	{
 		width: 100%;
 		box-sizing: border-box;
@@ -331,7 +361,6 @@ section#register div.radio_gender input
 		border: none;
 		padding: 5px 10px;
 		background-color: #fff;
-		border: 1px solid #eecccc;
 		display:inline-block;
 	}
 
@@ -348,12 +377,6 @@ section#register div.radio_gender input
 	{
 		color:#FF0000;
 	}
-
-	.chat-connection-ack
-	{
-		color: #26af26;
-	}
-
 
 	.chat-box-html
 	{

@@ -4,18 +4,27 @@ main{
 
 fieldset{
 	width:280px;
-	border-width:1px;
+	border-width:2px;
 	border-style:solid;
-	border-color:black;
-	padding:5px;
+    border-radius:8px;	 
+	border-color: rgba(255, 200, 200, 1);
+	padding:10px;
 	margin:10px;
 }
+
+fieldset legend
+{
+	color: rgba(255, 100, 100, 1);
+}
+
 fieldset#tag, fieldset#pictures{
 	width:100%;
 }
+
 div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
+
 div#more_info span{
 	display:inline-block;
 	width:75px;

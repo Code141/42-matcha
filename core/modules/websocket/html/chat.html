@@ -25,16 +25,12 @@ $(document).ready(function()
 	websocket.onmessage = function(event)
 	{
 		var data = JSON.parse(event.data);
-//		console.log(data);
 		if (typeof data.friends != 'undefined')
 			chat_list.put_friends(data.friends);
-
 		if (typeof data.message != 'undefined')
 			chat_list.incoming_message(data.message);
-
 		if (typeof data.logout != 'undefined')
 			chat_list.friends_logout(data.logout);
-
 		if (typeof data.login != 'undefined')
 			chat_list.friends_login(data.login);
 	};
@@ -65,14 +61,17 @@ $(document).ready(function()
 
 		this.friends_logout = function(id)
 		{
-			this.list[id].className = "";
+			this.list[id].className = "non_connected";
+			console.log(this.list[id]);
+			this.conv[id].is_connected(false);
 		}
 
 		this.friends_login = function(id)
 		{
 			this.list[id].className = "connected";
-		}
 
+			this.conv[id].is_connected(true);
+		}
 
 		this.open_conv = function(id, username)
 		{
@@ -111,7 +110,9 @@ $(document).ready(function()
 					user.innerHTML = element.username;
 					is_connected = document.createElement('span');
 					if (element.connected)
-						user.className = 'connected';
+						is_connected.className = 'connected';
+					else
+						is_connected.className = 'non_connected';
 					user.appendChild(is_connected);
 
 					this.list[element.id] = user;
@@ -145,7 +146,7 @@ $(document).ready(function()
 
 			status_chat = document.createElement('div');
 			status_chat.className = 'status_chat';
-			status_chat.innerHTML = "Connect to chat...";
+			status_chat.innerHTML = "Connecting to chat...";
 			this.chat_list.appendChild(status_chat);
 			this.status_chat = status_chat;
 			this.friends_list = friends_list;
@@ -156,7 +157,8 @@ $(document).ready(function()
 	{
 		this.chat_conv = document.getElementById("chat_conv");
 		this.open = Boolean(true);
-		this.minized =  Boolean(false);
+		this.minized = Boolean(false);
+		this.connected = Boolean(false);
 		this.id_user = id_user;
 		this.username = username;
 		this.conv = "";
@@ -170,6 +172,14 @@ $(document).ready(function()
 			else
 				this.conv.style.display = "block";
 			this.open = !this.open;
+		}
+
+		this.is_connected = function(status)
+		{
+			if (status)
+				this.
+			else
+
 		}
 
 		this.switch_mini = function()
@@ -214,14 +224,23 @@ $(document).ready(function()
 			conv_name = document.createElement('div');
 			conv_name.className = 'conv_name';
 			this.conv.appendChild(conv_name);
-			conv_username = document.createElement('span');
+
+			conv_username = document.createElement('p');
 			conv_username.className = 'name';
 			conv_username.innerHTML = this.username;
 			conv_name.appendChild(conv_username);
+
 			close_conv = document.createElement('span');
 			close_conv.className = 'close_conv';
 			close_conv.innerHTML = "✘";
-			conv_name.appendChild(close_conv);
+			conv_username.appendChild(close_conv);
+
+			conv_connected = document.createElement('span');
+			conv_connected.className = 'connected';
+
+			conv_username.appendChild(conv_connected);
+			this.conv_connected = conv_connected;
+
 			conv_elem = document.createElement('div');
 			conv_elem.className = 'conv_elem';
 			this.conv_elem = conv_elem;
