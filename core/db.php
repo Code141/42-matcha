@@ -7,7 +7,6 @@ class	db
 	public function	set_up_connect()
 	{
 		require(CONFIG_PATH . 'database.php');
-		echo $DB_USER;
 		try
 		{
 			$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
