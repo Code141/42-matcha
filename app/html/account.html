@@ -8,18 +8,23 @@
 <fieldset>
 	<legend></legend>
 	<?php 
-					   $user = $this->module_loader->session()->controller->user_loggued();
-					   ?>
-					   <p class="f_title">
-					   <?php echo $user['username']; ?>
-					   </p>
+  $user = $this->module_loader->session()->controller->user_loggued();
+  ?>
+  <p id="username" class="f_title">
+  <?php echo $user['username']; ?>
+  </p>
 
-					   <div id="profil_pic">
-						   <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-					   </div>
-					   <p id="bio">
-					   biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo
-					   </p>
+  <div id="profil_pic">
+	  <?php if ($user['id_media']) {?>
+	  <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+	  <?php } else { ?>
+	  <p class="placeholder">	Add a profil picture </p>
+	  <?php } ?>
+  </div>
+  <p id="bio">
+  <?php if ($user['bio']) { ?>
+  <?php echo $user['bio'];}?>
+  </p>
 
 </fieldset>
 <fieldset>
@@ -68,6 +73,7 @@
 		</div>
 	</div>
 	<hr>
+	<div class="preferences">
 	<div id="o_gender">
 		<?php foreach($user['orientations'] as $value) { ?>
 		<p>
@@ -81,6 +87,7 @@
 		<?php echo $value['gender_identity_name']; ?>
 		</p>
 		<?php } ?>
+	</div>
 	</div>
 </fieldset>
 <fieldset id="pictures">
@@ -99,6 +106,32 @@
 </fieldset>
 <script>
 window.addEventListener('load',initMap);
+window.addEventListener('load',init_input);
+
+var fields = document.getElementsByTagName('fieldset');
+
+function init_input(){
+		fields[0].addEventListener('click', set_profil);
+		fields[1].addEventListener('click', set_general_info);
+		fields[2].addEventListener('click', set_preferences);
+		fields[3].addEventListener('click', set_pictures);
+		fields[4].addEventListener('click', set_tags);
+}
+
+function set_profil(){
+	console.log(fields[0]);
+	var form = document.createElement("FORM");
+	form.appendchild(fields[0]);
+	var username_p = document.getElementById('username');
+	var username = username_p.innerHTML;
+	var username_input = document.createElement("INPUT");
+	username_input.setAttribute("type", "text");
+	console.log(username);
+}
+function set_general_info(){}
+function set_preferences(){}
+function set_pictures(){}
+function set_tags(){}
 
 function initMap() {
 	map = new L.map('map');
