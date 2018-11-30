@@ -110,7 +110,7 @@ ALTER TABLE `user`
 INSERT INTO `gender` (`id`, `gender_name`) VALUES
 (1, 'male'),
 (2, 'female'),
-(3, 'hermaphrodite'),
+(3, 'intersex'),
 (4, 'none');
 
 ALTER TABLE `gender`
