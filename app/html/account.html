@@ -1,58 +1,71 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
-<?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
-<fieldset>
-	<legend></legend>
-<?php 
-$user = $this->module_loader->session()->controller->user_loggued();
-?>
-	<p id="username" class="f_title">
-		<?php echo $user['username']; ?>
-	</p>
-	<div id="profil_pic">
-	    <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-	</div>
-	<p id="bio">
-		biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo
-	</p>
+<script src="Leaflet.Geonames/L.Control.Geonames.js"></script>
+<link rel="stylesheet" href="Leaflet.Geonames/L.Control.Geonames.css" />
 
+<?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
+<section class="user">
+<fieldset id="user">
+	<legend></legend>
+	 <p>
+	 <input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title modif" required>
+	 </p>
+	 <div id="profil_pic">
+	     <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+	 </div>
+	 <p id="bio">
+	 <textarea name=bio type="text" class="edit">
+		 <?php if (isset($user['bio']['bio'])) echo $user['bio']['bio']; 
+	 else echo "biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo";?>
+	 </textarea>
+	 	</p>
 </fieldset>
-<fieldset>
+</section>
+<section class="user_infos">
+<fieldset id="pictures">
+	<legend>pictures</legend>
+</fieldset>
+
+<fieldset id="general_informations">
 	<legend>General informations</legend>
-	<p>Position :</p>
-	<div id="map"></div>
 	<div id="more_info">
 		<p>
 		<span>Firstname</span>:
-		<?php echo $user['firstname']; ?>
+		<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
 		</p>
 		<p>
 		<span>Lastname</span>:
-		<?php echo $user['lastname']; ?>
+		<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
 		</p>
 		<p>
 		<span>Gender</span>:
-		<?php echo $user['gender_name']; ?>
+		<select name="gender" type="text" value="<?php echo $user['gender_name']; ?>" class="edit" placeholder="Add your gender">
+			  <?php foreach($this->data['all_genders'] as $g){ ?>
+			  <option value="<?php echo $g['gender_name']?>"><?php echo $g['gender_name']?></option>
+				<?php }?>
+		</select>
 		</p>
 		<p>
 		<span>Gender identity</span>:
-		<?php echo $user['gender_identity_name']; ?>
+		<input list="gender_identity" name="gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
+		  <datalist id="gender_identity">
+			  <?php foreach($this->data['all_gender_id'] as $g_i){ ?>
+			  <option value="<?php echo $g_i['gender_identity_name']?>">
+				<?php }?>
+		</datalist>
 		</p>
 		<p>
-		<span>Age</span>:
-		<?php echo date_diff(date_create($user['birthdate']), date_create('today'))->y . " years old"; ?>
-		</p>	
-		<p>
 		<span>Birthdate</span>:
-		<?php echo $user['birthdate']; ?>
+		<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate">
 		</p>	
 		<p>
 		<span>Email</span>:
-		<?php echo $user['email']; ?>
+		<input name="email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
 		</p>
 	</div>
+	<div id="map"></div>
 </fieldset>
-<fieldset>
+<fieldset id="matching_preferences">
 	<legend>Matching preferences</legend>
 	<div class="wrap">
 		<div id="o_gender">
@@ -64,26 +77,23 @@ $user = $this->module_loader->session()->controller->user_loggued();
 	</div>
 	<hr>
 	<div class="preferences">
-	<div id="o_gender">
-		<?php foreach($user['orientations'] as $value) { ?>
-		<p>
-		<?php echo $value['gender_name'];?>
-		</p>
-		<?php } ?>
-	</div>
-	<div id="o_gender_identity">
-		<?php foreach($user['orientations'] as $value) { ?>
-		<p>
-		<?php echo $value['gender_identity_name']; ?>
-		</p>
-		<?php } ?>
-	</div>
+		<div id="o_gender">
+			<?php foreach($user['orientations'] as $value) { ?>
+			<p>
+			<?php echo $value['gender_name'];?>
+			</p>
+			<?php } ?>
+		</div>
+		<div id="o_gender_identity">
+			<?php foreach($user['orientations'] as $value) { ?>
+			<p>
+			<?php echo $value['gender_identity_name']; ?>
+			</p>
+			<?php } ?>
+		</div>
 	</div>
 </fieldset>
-<fieldset id="pictures">
-	<legend>pictures</legend>
-</fieldset>
-<fieldset id="tag">
+<fieldset id="tags">
 	<legend>tags</legend>
 	<div id="tag">
 		<?php foreach($user['tags'] as $value) { ?>
@@ -94,53 +104,10 @@ $user = $this->module_loader->session()->controller->user_loggued();
 	</div>
 
 </fieldset>
+</section>
 <script>
+
 window.addEventListener('load',initMap);
-window.addEventListener('load',init_input);
-
-var fields = document.getElementsByTagName('fieldset');
-
-function init_input(){
-		fields[0].addEventListener('click', set_profil);
-		fields[1].addEventListener('click', set_general_info);
-		fields[2].addEventListener('click', set_preferences);
-		fields[3].addEventListener('click', set_pictures);
-		fields[4].addEventListener('click', set_tags);
-}
-
-function set_profil(){
-	fields[0].removeEventListener('click', set_profil);
-	var form = document.createElement("FORM");
-	fields[0].appendChild(form);
-	var username_p = document.getElementById('username');
-	username_p.remove();
-	var username = username_p.innerHTML;
-	var username_input = document.createElement("INPUT");
-	username_input.setAttribute("type", "text");
-	username_input.setAttribute("id", "username");
-	username_input.setAttribute("name", "username");
-	username_input.setAttribute("value", username);
-	var profil_pic = document.getElementById('profil_pic');
-	var bio_div = document.getElementById('bio');
-	bio_div.remove();
-	var bio = bio_div.innerHTML;
-	var bio_input = document.createElement("TEXTAREA");
-	bio_input.setAttribute("type", "text");
-	bio_input.setAttribute("id", "bio");
-	bio_input.setAttribute("name", "bio");
-	bio_input.innerHTML =  bio;
-	var button_valid = document.createElement("BUTTON");
-//	button_valid;
-	form.appendChild(username_input);
-	form.appendChild(profil_pic);
-	form.appendChild(bio_input);
-	form.appendChild(button_valid);
-
-}
-function set_general_info(){}
-function set_preferences(){}
-function set_pictures(){}
-function set_tags(){}
 
 function initMap() {
 	map = new L.map('map');
@@ -152,9 +119,52 @@ function initMap() {
 	map.setView([user_location.lat, user_location.lon], 13);
 
 	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-		minZoom: 2,
-		maxZoom: 18
-	}).addTo(map);
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+			minZoom: 2,
+			maxZoom: 18
+			}).addTo(map);
+
+	var control = L.control.geonames({
+		geonamesURL: '//api.geonames.org/searchJSON',
+			username: 'fdelsing',  // Geonames account username.  Must be provided
+			lang: 'en', // language for results
+
+			maxresults: 5,  // Maximum number of results to display per search
+			className: 'leaflet-geonames-icon', //class for icon
+			workingClass: 'leaflet-geonames-icon-working', //class for search underway
+			showmarker: true, //show a marker at the location the selected location
+			showPopup: true, //Show a tooltip at the selected location
+			zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
+			position: 'topleft',
+			alwaysOpen: false  //if true, search field is always visible
+	});
+	map.addControl(control);
+
 }
+
+function joe()
+{
+	var html_elem = document.getElementsByClassName("modif");
+	console.log(html_elem);
+	for (let element of html_elem)
+	{
+		element.addEventListener("click", function(e){ add_input(element); });
+	};
+}
+
+function add_input(element)
+{
+		if (element.classList.contains("toto"))
+		{
+			element.style.display="none";
+		}
+		else
+		{
+			console.log(element);
+		}
+			
+		var username_input = document.createElement("INPUT");
+	
+}
+
 </script>
