@@ -1,6 +1,6 @@
 
 <?php
-class m_profil extends m_wrapper
+class m_profil
 {
 	public function create_profil($id_profil, $id_user_logged)
 	{
