@@ -4,13 +4,13 @@ CREATE TABLE `bio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `blocked` (
-  `id_user(from)` int(11) NOT NULL,
-  `id_user(to)` int(11) NOT NULL
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `browsing_history` (
-  `id_user(from)` int(11) NOT NULL,
-  `id_user(to)` int(11) NOT NULL,
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `seen` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -31,7 +31,6 @@ CREATE TABLE `gender_identity` (
   `gender_identity_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 CREATE TABLE `like` (
   `id_user_from` int(11) NOT NULL,
   `id_user_to` int(11) NOT NULL,
@@ -43,18 +42,26 @@ CREATE TABLE `media` (
   `filename` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `conv` (
+  `id` int(11) NOT NULL,
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `msg` (
   `id` int(11) NOT NULL,
-  `id_user(from)` int(11) NOT NULL,
-  `id_user(to)` int(11) NOT NULL,
+  `id_conv` int(11) NOT NULL,
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL,
   `msg` text NOT NULL,
   `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `seen` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `reported` (
-  `id_user(from)` int(11) NOT NULL,
-  `id_user(to)` int(11) NOT NULL
+  `id_user_from` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tag` (

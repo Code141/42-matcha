@@ -1,0 +1,58 @@
+section#message
+{
+	position: absolute;
+	left : 0px;
+}
+
+aside#conv_list
+{
+	text-align: left;
+	border-right: 1px solid rgba(255, 200, 200, 1);
+	height: calc(100vh - 60px);
+	overflow: hidden ;
+}
+
+div.unseen
+{
+	background-color: rgba(255, 200, 200, 1);
+}
+
+div.unseen + div.unseen
+{
+	border-top: 1px solid rgba(255, 250, 250, 1);
+}
+
+aside#conv_list div.conversation,
+aside#conv_list div.new_conversation
+{
+	border-bottom: 1px solid rgba(255, 200, 200, 1);
+	height:50px;
+	width:350px;
+	padding: 5px;
+}
+
+aside#conv_list div.new_conversation
+{
+	background-color: rgba(255, 230, 230, 1);
+	height : 30px;
+}
+
+
+aside#conv_list img
+{
+	float:left;
+	height :50px;
+	width :50px;
+	border-radius: 100%;
+	margin-right: 10px;
+}
+
+p.username
+{
+	
+}
+
+p.username span.date
+{
+	float:right;
+}

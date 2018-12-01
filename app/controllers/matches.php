@@ -3,17 +3,22 @@
 class c_matches extends c_controller
 {
 	var $user;
-	private function prepare()
+
+	private function prepare(int $start = 0, int $offset = 10)
 	{
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
-		$this->req = $this->load->model("matches")->all_users($this->user)
-					->limit(0,7);
-		$this->data['user']['latitude'] = $this->user['latitude'];
-		$this->data['user']['longitude'] = $this->user['longitude'];
-		$this->data['all_tags'] = $this->load->model("wrapper")->all_tags()->execute()->fetchAll(); 
+		$this->req = $this->load->model("matches")
+			->all_users($this->user)
+			->limit($start, $offset);
+		$this->data['all_tags'] = $this->load->model("wrapper")
+			->all_tags()
+			->execute()
+			->fetchAll(); 
 		$this->data['filter_tags'] = array();
 		$this->data['filters'] = $this->init_filters();
+		$this->data['user']['latitude'] = $this->user['latitude'];
+		$this->data['user']['longitude'] = $this->user['longitude'];
 	}
 
 	private function init_filters()
