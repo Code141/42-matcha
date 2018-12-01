@@ -31,16 +31,30 @@
 	<section id="conv_content">
 		<div class="msg_box">
 
-<?php foreach($this->data['msg'] as $conv) { ?>
+<?php
+$user = $this->module_loader->session->controller->user_loggued();
+foreach($this->data['msg'] as $conv) {
+	$seen = ($conv['seen']) ? "" : "unseen";
+	if ($conv['id_user_from'] === $user['id'])
+	{
+?>
 
-			<div>
+	<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+	<div class="">
+	<?php // echo $conv['id_media']; ?>
 
-		<?php var_dump($conv); ?>
-
+<?php } else { ?>
+	<div class="from_me">
+	<?php } ?>
+			<p class="<?php echo $seen; ?>">
+				<?php echo $conv['msg']; ?>
+			</p>
+<!--		<span class="date">
+				<?php echo $conv['datetime']; ?>
+			</span>
+-->	
 			</div>
-
 <?php } ?>
-
 		</div>
 	</section>
 	<aside id="recap_user">

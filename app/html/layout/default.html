@@ -6,13 +6,6 @@
 		<?php if (!empty($this->data['title'])) { echo $this->data['title'] . " - ";} echo ucfirst(APP_NAME);?>
 	</title>
 	<link rel="icon" type="image/png" href="<?php echo IMG_PATH;?>favicon.png">
-	<?php foreach($this->css_files as $filename) { ?>
-		<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
-	<?php } ?>
-
-	<?php foreach($this->js_files as $filename) { ?>
-		<script src="<?php echo JS_PATH . $filename; ?>.js">
-	<?php } ?>
 </head>
 
 <body>
@@ -40,3 +33,11 @@
 </body>
 
 </html>
+
+<?php foreach($this->css_files as $filename) { ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
+<?php } foreach($this->js_files as $filename) { ?>
+	<script src="<?php echo JS_PATH . $filename; ?>.js">
+<?php } ?>
+
+

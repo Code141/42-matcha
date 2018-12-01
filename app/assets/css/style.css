@@ -15,7 +15,7 @@
 
 /*------------------------------------------------------------------*/
 
-body 
+body
 {
 	font-family: arial;
 	background-color: rgba(255, 250, 250, 1);
@@ -276,6 +276,8 @@ section#register div.radio_gender input
 
 	.conv
 	{
+		height:300px;
+		width:250px;
 		position: relative;
 		margin-right: 15px;
 		float:left;
@@ -305,17 +307,19 @@ section#register div.radio_gender input
 
 	.conv_elem
 	{
+		height:100%;
 		display: flex;
+		box-sizing: border-box;
 		flex-direction: column;
 		justify-content: center;
 		border: 1px solid #ffdddd;
+		align-items: stretch;
+		align-content: stretch;
 	}
 
 	.msg_box
 	{
-		width:200px;
-		height:250px;
-		max-height: calc(100vh - 134px);
+		box-sizing: border-box;
 		background: rgba(255, 240, 240, 1);
 		padding: 10px;
 		overflow: hidden auto;
@@ -337,11 +341,11 @@ section#register div.radio_gender input
 	div.msg_box div p
 	{
 		display: inline-block;
-		padding: 5px 10px;
+		padding: 8px 10px;
 		box-sizing: border-box;
 		background-color: #fff;
 		border: 1px solid #ffdddd;
-		border-radius: 4px;
+		border-radius: 10px;
 		word-wrap: break-word;
 		text-align: justify;
 		max-width: 100%;
@@ -369,7 +373,6 @@ section#register div.radio_gender input
 	{
 		display: none;
 	}
-
 
 
 

@@ -9,7 +9,8 @@ class m_message
 		$sql = "
 			SELECT msg.*,
 				u1.id as id_user_from, u2.id as id_user_to,
-				u1.username as username_from, u2.username as username_to
+				u1.username as username_from, u2.username as username_to,
+				(CASE WHEN u1.id = :id_user THEN u2.id_media ELSE u1.id_media END) AS id_media
 			FROM msg
 			LEFT JOIN user u1
 			ON msg.id_user_from = u1.id

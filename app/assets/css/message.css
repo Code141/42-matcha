@@ -28,7 +28,8 @@ section#conv_content
 {
 	width:100%;
 }
-div.unseen
+
+.unseen
 {
 	background-color: rgba(255, 200, 200, 1);
 	border-top: 1px solid rgba(255, 250, 250, 1);
@@ -66,4 +67,19 @@ p.username
 p.username span.date
 {
 	float:right;
+}
+
+section#conv_content img
+{
+	float:left;
+	height :34px;
+	width :35px;
+	border-radius: 100%;
+	margin-right: 10px;
+}
+
+
+section#conv_content span.date
+{
+	position: absolute;
 }
