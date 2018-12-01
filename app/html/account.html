@@ -111,7 +111,7 @@ function init_input(){
 function set_profil(){
 	console.log(fields[0]);
 	var form = document.createElement("FORM");
-	form.appendchild(fields[0]);
+	fields[0].appendChild(form);
 	var username_p = document.getElementById('username');
 	var username = username_p.innerHTML;
 	var username_input = document.createElement("INPUT");
