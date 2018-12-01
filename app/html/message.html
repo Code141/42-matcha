@@ -4,30 +4,45 @@
 		<div class="new_conversation">
 			New conversation
 		</div>
-<?php foreach($this->data['msg'] as $msg) {
+<?php foreach($this->data['all_conv'] as $conv) {
 ?>
-	<a href="<?php echo SITE_ROOT?>message/conversation/<?php echo $msg["id"]; ?>">
-			<div id="<?php echo $msg["id"]; ?>" class="conversation <?php echo ($msg["seen"]) ? "seen" : "unseen"; ?>">
+	<a href="<?php echo SITE_ROOT?>message/conversation/<?php echo $conv["id"]; ?>">
+			<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo ($conv["seen"]) ? "seen" : "unseen"; ?>">
 <!--	
-				<?php echo $msg["id"]; ?>
-				<?php echo $msg["id_user"]; ?>
-				<?php echo $msg["id_media"]; ?>
+				<?php echo $conv["id"]; ?>
+				<?php echo $conv["id_user"]; ?>
+				<?php echo $conv["id_media"]; ?>
 -->
 				<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
 				<p class="username">
-					<?php echo ucfirst($msg["username"]); ?>
+					<?php echo ucfirst($conv["username"]); ?>
 					<span class="date">
-						<?php echo $msg["datetime"]; ?>
+						<?php echo $conv["datetime"]; ?>
 					</span>
 				</p>
 				<p class="last_message">
-					<?php echo $msg["last_msg"]; ?>
+					<?php echo $conv["last_msg"]; ?>
 				</p>
 			</div>
 		</a>
 <?php } ?>
 	</aside>
-	<section id="">
-		messages content
+
+	<section id="conv_content">
+		<div class="msg_box">
+
+<?php foreach($this->data['msg'] as $conv) { ?>
+
+			<div>
+
+		<?php var_dump($conv); ?>
+
+			</div>
+
+<?php } ?>
+
+		</div>
 	</section>
+	<aside id="recap_user">
+	</aside>
 </section>

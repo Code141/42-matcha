@@ -4,6 +4,28 @@
 
 class m_message
 {
+	public function get_msg($id_conv, $id_user)
+	{
+		$sql = "
+			SELECT msg.*,
+				u1.id as id_user_from, u2.id as id_user_to,
+				u1.username as username_from, u2.username as username_to
+			FROM msg
+			LEFT JOIN user u1
+			ON msg.id_user_from = u1.id
+			LEFT JOIN user u2
+			ON msg.id_user_to = u2.id
+			WHERE msg.id_conv = :id_conv
+			AND (msg.id_user_to = :id_user OR msg.id_user_from = :id_user)
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$msgs = $stm->execute();
+		$msgs = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($msgs);
+	}
+
 	public function get_conv($id_user)
 	{
 		$sql = "
@@ -23,11 +45,10 @@ class m_message
 			WHERE m2.id is NULL
 			AND (conv.id_user_from = :id_user OR conv.id_user_to = :id_user)
 			";
-
 		$stm = $this->db->pdo->prepare($sql);
-		$stm->bindparam("id_user", $id_user, PDO::PARAM_STR);
-		$user = $stm->execute();
-		$user = $stm->fetchAll(PDO::FETCH_ASSOC);
-		return ($user);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$all_conv = $stm->execute();
+		$all_conv = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($all_conv);
 	}
 }
