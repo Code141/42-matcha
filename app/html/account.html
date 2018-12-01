@@ -3,11 +3,10 @@
 <?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
 <fieldset>
 	<legend></legend>
-<<<<<<< HEAD
 <?php 
 $user = $this->module_loader->session()->controller->user_loggued();
 ?>
-	<p class="f_title">
+	<p id="username" class="f_title">
 		<?php echo $user['username']; ?>
 	</p>
 	<div id="profil_pic">
@@ -110,14 +109,33 @@ function init_input(){
 }
 
 function set_profil(){
-	console.log(fields[0]);
+	fields[0].removeEventListener('click', set_profil);
 	var form = document.createElement("FORM");
 	fields[0].appendChild(form);
 	var username_p = document.getElementById('username');
+	username_p.remove();
 	var username = username_p.innerHTML;
 	var username_input = document.createElement("INPUT");
 	username_input.setAttribute("type", "text");
-	console.log(username);
+	username_input.setAttribute("id", "username");
+	username_input.setAttribute("name", "username");
+	username_input.setAttribute("value", username);
+	var profil_pic = document.getElementById('profil_pic');
+	var bio_div = document.getElementById('bio');
+	bio_div.remove();
+	var bio = bio_div.innerHTML;
+	var bio_input = document.createElement("TEXTAREA");
+	bio_input.setAttribute("type", "text");
+	bio_input.setAttribute("id", "bio");
+	bio_input.setAttribute("name", "bio");
+	bio_input.innerHTML =  bio;
+	var button_valid = document.createElement("BUTTON");
+//	button_valid;
+	form.appendChild(username_input);
+	form.appendChild(profil_pic);
+	form.appendChild(bio_input);
+	form.appendChild(button_valid);
+
 }
 function set_general_info(){}
 function set_preferences(){}
