@@ -26,9 +26,7 @@
 	<footer>
 	</footer>
 
-<?php
-	$this->module_loader->websocket()->view->chat();
-?>
+<?php $this->module_loader->websocket()->view->chat(); ?>
 
 </body>
 
@@ -36,8 +34,8 @@
 
 <?php foreach($this->css_files as $filename) { ?>
 	<link rel="stylesheet" href="<?php echo CSS_PATH . $filename; ?>.css">
-<?php } foreach($this->js_files as $filename) { ?>
-	<script src="<?php echo JS_PATH . $filename; ?>.js">
+<?php }
+foreach($this->js_files as $filename) { ?>
+	<script src="<?php echo JS_PATH . $filename; ?>.js"></script>
 <?php } ?>
-
 

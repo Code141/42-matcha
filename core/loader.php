@@ -92,6 +92,7 @@ class loader
 		if (class_exists($class_name_m))
 		{
 			$module->model = new $class_name_m();
+			$module->model->core =& $this->core;
 			$module->model->load =& $this;
 			$module->model->data =& $this->data;
 			$module->model->db = &$this->core->db;
@@ -100,6 +101,7 @@ class loader
 		if (class_exists($class_name_v))
 		{
 			$module->view = new $class_name_v();
+			$module->view->core =& $this->core;
 			$module->view->self =& $module;
 			$module->view->load =& $this;
 			$module->view->data =& $this->data;
@@ -108,6 +110,7 @@ class loader
 		if (class_exists($class_name_c))
 		{
 			$module->controller = new $class_name_c();
+			$module->controller->core =& $this->core;
 			$module->controller->self =& $module;
 			$module->controller->load =& $this;
 			$module->controller->data =& $this->data;

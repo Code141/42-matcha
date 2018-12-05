@@ -1,7 +1,5 @@
 <?php
 
-//		id		id_user_from		id_user_to		msg		datetime	seen 
-
 class m_message
 {
 	public function send_msg($id_conv, $id_user_from, $id_user_to, $msg)
@@ -17,6 +15,22 @@ class m_message
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 		$stm->bindparam("msg", $msg, PDO::PARAM_STR);
+		$stm->execute();
+		return (NULL);
+	}
+
+	public function seen($id_conv, $id_user)
+	{
+		$sql = "
+			UPDATE msg
+			SET
+			seen = 1
+			WHERE id_user_to = :id_user_to
+			AND id_conv = :id_conv
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user, PDO::PARAM_INT);
 		$stm->execute();
 		return (NULL);
 	}
@@ -53,7 +67,6 @@ class m_message
 					 ELSE conv.id_user_from END) AS id_user
 				FROM conv
 				WHERE id = :id_conv
-
 				AND (id_user_from = :id_user
 				OR id_user_to = :id_user)
 			";
@@ -70,7 +83,9 @@ class m_message
 	public function get_conv($id_user)
 	{
 		$sql = "
-			SELECT conv.*,
+			SELECT conv.id,
+				msg.datetime,
+				msg.id_user_from,
 				SUBSTRING(msg.msg, 1, 40) as last_msg,
 				msg.seen,
 				(CASE WHEN u1.id = :id_user THEN u2.username ELSE u1.username END) AS username,
@@ -87,6 +102,7 @@ class m_message
 			ON (msg.id < m2.id AND msg.id_conv = m2.id_conv)
 			WHERE m2.id is NULL
 			AND (conv.id_user_from = :id_user OR conv.id_user_to = :id_user)
+			ORDER BY msg.datetime DESC
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);

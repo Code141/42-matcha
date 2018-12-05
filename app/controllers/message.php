@@ -37,10 +37,12 @@ class c_message extends c_controller
 		$this->data['all_conv'] = $this->load->model("message")->get_conv($this->user['id']);
 
 		$this->data['msg'] = $this->load->model("message")->get_msg($id_conv, $this->user['id']);
+
+		$this->load->model("message")->seen($id_conv, $this->user['id']);
+
 		/*
 			UPDATE SEND SEEN ON ALL LAST MSGS
-		 */
+		*/
 		$this->core->set_view("message", "main");
 	}
-
 }

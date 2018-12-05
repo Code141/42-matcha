@@ -18,12 +18,12 @@ class m_matches extends m_wrapper
 		$this->select[] = "u2.birthdate";
 		$this->select[] = "u2.id_media";
 		$this->from[] = "user u2";
-		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user(to)` = u2.id";
+		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user_to` = u2.id";
 		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
 		$this->join[] = "LEFT OUTER JOIN gender_identity gin ON gin.id = u2.id_gender_identity";
 		$this->condition[] ="NOT u2.id = :" . $i . 
-			" AND (`b`.`id_user(from)` IS NULL 
-			OR NOT `b`.`id_user(from)` = :". ($i+1) ." )";
+			" AND (`b`.`id_user_from` IS NULL 
+			OR NOT `b`.`id_user_from` = :". ($i+1) ." )";
 		$this->bind_param[] = $user['id'];
 		$this->bind_param[] = $user['id'];
 		$this->bind_param[] = $user['longitude'];

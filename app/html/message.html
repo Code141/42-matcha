@@ -1,13 +1,19 @@
 <section id="message">
 	<aside id="conv_list">
-
 		<div class="new_conversation">
 			New conversation
 		</div>
-<?php foreach($this->data['all_conv'] as $conv) {
+<?php
+$user = $this->module_loader->session->controller->user_loggued();
+foreach($this->data['all_conv'] as $conv) {
+
+$seen = "";
+if ($conv['id_user_from'] !== $user['id'])
+	$seen = ($conv["seen"]) ? "seen" : "unseen";
+
 ?>
 	<a href="<?php echo SITE_ROOT?>message/conversation/<?php echo $conv["id"]; ?>">
-			<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo ($conv["seen"]) ? "seen" : "unseen"; ?>">
+			<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo $seen; ?>">
 <!--
 				<?php echo $conv["id"]; ?>
 				<?php echo $conv["id_user"]; ?>
@@ -21,23 +27,20 @@
 					</span>
 				</p>
 				<p class="last_message">
+<?php
+if ($conv['id_user_from'] === $user['id'])
+	echo "You : ";
+?>
 					<?php echo $conv["last_msg"]; ?>
 				</p>
 			</div>
 		</a>
 <?php } ?>
 	</aside>
-
 	<section id="conv_content">
-		<div class="msg_box">
-
-<?php if (!empty($this->data['msg'])) $this->load_html('conversation'); ?>
-		</div>
-		<form method="POST" target="<?php echo SITE_ROOT;?>message/conversation/<?php echo $this->data['id_conv'];?>">
-			<input name="msg" type="textarea" placeholder="Message ...">
-		</form>
-	</section>
-	<aside id="recap_user">
 <?php $this->load_html('conversation'); ?>
+	</section>
+
+	<aside id="recap_user">
 	</aside>
 </section>

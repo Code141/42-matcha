@@ -46,7 +46,6 @@ CREATE TABLE `conv` (
   `id` int(11) NOT NULL,
   `id_user_from` int(11) NOT NULL,
   `id_user_to` int(11) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `msg` (

@@ -50,7 +50,6 @@ section#conv_content input
 	border: 1px solid rgba(255, 150, 150, 1);
 }
 
-
 aside#conv_list div.conversation,
 aside#conv_list div.new_conversation
 {
@@ -76,12 +75,17 @@ aside#conv_list img
 
 p.username
 {
-	
+	margin-bottom: 10px;
 }
 
 p.username span.date
 {
 	float:right;
+}
+
+p.last_message
+{
+	color: grey;
 }
 
 section#conv_content img
