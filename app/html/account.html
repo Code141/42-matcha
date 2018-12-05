@@ -5,105 +5,152 @@
 
 <?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
 <section class="user">
-<fieldset id="user">
-	<legend></legend>
-	 <p>
-	 <input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title modif" required>
-	 </p>
-	 <div id="profil_pic">
-	     <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-	 </div>
-	 <p id="bio">
-	 <textarea name=bio type="text" class="edit">
-		 <?php if (isset($user['bio']['bio'])) echo $user['bio']['bio']; 
-	 else echo "biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo";?>
-	 </textarea>
-	 	</p>
-</fieldset>
+	<fieldset>
+		<form id="user_form" method="post">
+			<legend></legend>
+			<p>
+			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title modif" required>
+			</p>
+			<div id="profil_pic">
+				<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+			</div>
+			<div id="more_info">
+				<p>
+				<span>Firstname</span>:
+				<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
+				</p>
+				<p>
+				<span>Lastname</span>:
+				<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
+				</p>
+				<p>
+				<span>Gender</span>:
+				<select name="gender" type="text" value="<?php echo $user['gender_name']; ?>" class="edit" placeholder="Add your gender">
+					<?php foreach($this->data['all_genders'] as $g){ ?>
+					<option value="<?php echo $g['gender_name']?>"><?php echo $g['gender_name']?></option>
+					<?php }?>
+				</select>
+				</p>
+				<p>
+				<span>Gender identity</span>:
+				<input list="gender_identity" name="gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
+				<datalist id="gender_identity">
+					<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
+					<option value="<?php echo $g_i['gender_identity_name']?>">
+					<?php }?>
+				</datalist>
+				</p>
+				<p>
+				<span>Birthdate</span>:
+				<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate">
+				</p>	
+				<p>
+				<span>Email</span>:
+				<input name="email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
+				</p>
+				<div class="buttons">
+					<button class="cancel_button">Cancel</button>
+					<button class="edit_button">Edit information</button>
+				</div>
+			</div>
+		</form>
+	</fieldset>
 </section>
-<section class="user_infos">
-<fieldset id="pictures">
-	<legend>pictures</legend>
-</fieldset>
-
-<fieldset id="general_informations">
-	<legend>General informations</legend>
-	<div id="more_info">
-		<p>
-		<span>Firstname</span>:
-		<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
-		</p>
-		<p>
-		<span>Lastname</span>:
-		<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
-		</p>
-		<p>
-		<span>Gender</span>:
-		<select name="gender" type="text" value="<?php echo $user['gender_name']; ?>" class="edit" placeholder="Add your gender">
-			  <?php foreach($this->data['all_genders'] as $g){ ?>
-			  <option value="<?php echo $g['gender_name']?>"><?php echo $g['gender_name']?></option>
-				<?php }?>
-		</select>
-		</p>
-		<p>
-		<span>Gender identity</span>:
-		<input list="gender_identity" name="gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
-		  <datalist id="gender_identity">
-			  <?php foreach($this->data['all_gender_id'] as $g_i){ ?>
-			  <option value="<?php echo $g_i['gender_identity_name']?>">
-				<?php }?>
-		</datalist>
-		</p>
-		<p>
-		<span>Birthdate</span>:
-		<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate">
-		</p>	
-		<p>
-		<span>Email</span>:
-		<input name="email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
-		</p>
-	</div>
-	<div id="map"></div>
-</fieldset>
-<fieldset id="matching_preferences">
-	<legend>Matching preferences</legend>
-	<div class="wrap">
-		<div id="o_gender">
-			<p class="f_title">gender</p>
-		</div>
-		<div id="o_gender_identity">
-			<p class="f_title">gender identity</p>
-		</div>
-	</div>
-	<hr>
-	<div class="preferences">
-		<div id="o_gender">
-			<?php foreach($user['orientations'] as $value) { ?>
-			<p>
-			<?php echo $value['gender_name'];?>
+<section class="bio">
+	<fieldset>
+		<legend>Bio</legend>
+		<form id="bio_form" method="post">
+			<p id="bio">
+			<textarea name=bio type="text" class="edit">
+				<?php if (isset($user['bio']['bio'])) echo $user['bio']['bio'];
+								  else echo "biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo";?>
+			</textarea>
 			</p>
-			<?php } ?>
+			<div class="buttons">
+				<button class="cancel_button">Cancel</button>
+				<button class="edit_button">Edit bio</button>
+			</div>
+		</form>
+	</fieldset>
+	<fieldset>
+		<legend>Your position</legend>
+		<div id="map"></div>
+		<form id="map_form" method="post">
+		<div class="buttons">
+			<button class="cancel_button">Cancel</button>
+			<button class="edit_button">Edit position</button>
 		</div>
-		<div id="o_gender_identity">
+		</form>
+	</fieldset>
+	<fieldset>
+		<legend>Pictures</legend>
+	</fieldset>
+	<fieldset id="matching_preferences">
+		<legend>Matching preferences</legend>
+		<table style="width:100%">
+			<tr>
+				<th class="f_title">gender</th>
+				<th class="f_title">gender identity</th> 
+				<th></th>
+			</tr>
 			<?php foreach($user['orientations'] as $value) { ?>
-			<p>
-			<?php echo $value['gender_identity_name']; ?>
-			</p>
+			<tr>
+				<td><?php echo $value['gender_name'];?></td>
+				<td><?php echo $value['gender_identity_name'];?></td> 
+				<td>
+					<form id="del_matching_preferences_form" method="post">
+						<input type="hidden" name="gender" value="<?php echo $value['id_gender'];?>">
+						<input type="hidden" name="gender_identity" value="<?php echo $value['id_gender_identity'];?>">
+						<button type="submit" class="delete" title="Delete a preference">x</button>
+					</form>
+				</td>
+			</tr>
 			<?php } ?>
-		</div>
-	</div>
-</fieldset>
-<fieldset id="tags">
-	<legend>tags</legend>
-	<div id="tag">
-		<?php foreach($user['tags'] as $value) { ?>
-		<p>
-		<?php echo "#".$value['tag_name'] ?>
-		</p>
-		<?php } ?>
-	</div>
-
-</fieldset>
+			<tr>
+				<form id="add_matching_preferences_form" method="post">
+				<td>
+					<select name="gender" type="text" value="" class="edit">
+						<option value="NULL">ALL</option>
+						<?php foreach($this->data['all_genders'] as $g){ ?>
+						<option value="<?php echo $g['gender_name'];?>"><?php echo $g['gender_name'];?></option>
+						<?php }?>
+					</select>
+				</td>
+				<td>
+					<select name="gender_identity" type="text" value="" class="edit">
+						<option value="NULL">ALL</option>
+						<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
+						<option value="<?php echo $g_i['gender_identity_name'];?>"><?php echo $g_i['gender_identity_name'];?></option>
+						<?php }?>
+					</select>
+				</td>
+				<td><button type="submit" value="<?php echo $value['id_gender'] . '_' .$value['id_gender_identity'];?>" class="add" title="Add a preference">+</button></td>
+				</form>
+			</tr>
+		</table>
+	</fieldset>
+	<fieldset id="tags">
+		<legend>Tags</legend>
+			<div id="tag">
+				<?php foreach($user['tags'] as $value) { ?>
+				<form id="del_tag_form" method="post">
+				<p>
+				<?php echo "#".$value['tag_name'] ?>
+				<button type="submit" value="<?php echo $value['tag_name'];?>" class="delete" title="Delete a tag">x</button>
+				</p>
+				</form>
+				<?php } ?>
+				<form id="add_tag_form" method="post">
+				<input list="tag_list" name="tags" type="text" value="" class="edit" placeholder="# Add a tag">
+				<datalist id="tag_list">
+					<?php foreach($this->data['all_tags'] as $tag){ ?>
+					<option value="#<?php echo $tag['tag_name'];?>">
+					<?php }?>
+				</datalist>
+				<button type="submit" value="<?php echo $value['id_gender'] . '_' .$value['id_gender_identity'];?>" class="add" title="Add a tag">+</button>
+				</form>
+			</div>
+	</fieldset>
 </section>
 <script>
 
@@ -126,20 +173,20 @@ function initMap() {
 
 	var control = L.control.geonames({
 		geonamesURL: '//api.geonames.org/searchJSON',
-			username: 'fdelsing',  // Geonames account username.  Must be provided
-			lang: 'en', // language for results
+		username: 'fdelsing',  // Geonames account username.  Must be provided
+		lang: 'en', // language for results
 
-			maxresults: 5,  // Maximum number of results to display per search
-			className: 'leaflet-geonames-icon', //class for icon
-			workingClass: 'leaflet-geonames-icon-working', //class for search underway
-			showmarker: true, //show a marker at the location the selected location
-			showPopup: true, //Show a tooltip at the selected location
-			zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
-			position: 'topleft',
-			alwaysOpen: false  //if true, search field is always visible
+		maxresults: 5,  // Maximum number of results to display per search
+		className: 'leaflet-geonames-icon', //class for icon
+		workingClass: 'leaflet-geonames-icon-working', //class for search underway
+		showmarker: true, //show a marker at the location the selected location
+		showPopup: true, //Show a tooltip at the selected location
+		zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
+		position: 'topleft',
+		alwaysOpen: false  //if true, search field is always visible
 	});
 	map.addControl(control);
-
+	console.log(marker);
 }
 
 function joe()
@@ -154,17 +201,17 @@ function joe()
 
 function add_input(element)
 {
-		if (element.classList.contains("toto"))
-		{
-			element.style.display="none";
-		}
-		else
-		{
-			console.log(element);
-		}
-			
-		var username_input = document.createElement("INPUT");
-	
+	if (element.classList.contains("toto"))
+	{
+		element.style.display="none";
+	}
+	else
+	{
+		console.log(element);
+	}
+
+	var username_input = document.createElement("INPUT");
+
 }
 
 </script>

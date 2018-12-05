@@ -1,59 +1,37 @@
 main{
 	flex-wrap: wrap;
 }
-section.user{
-	padding:10px;
-	width:30%;
-	height:100%;
-}
+
 section.user_infos{
 	padding:10px;
-	width:70%;
-	height:100%;
 }
 fieldset{
-	padding:5px;
+	line-height:21px;
+	box-sizing:border-box;
+	padding:15px;
 	border-width:2px;
 	border-style:solid;
     border-radius:8px;	 
 	border-color: rgba(255, 200, 200, 1);
-	margin-bottom:10px;
+    margin: 10px 5px 10px 5px;
 }
 
 fieldset legend{
 	color: rgba(255, 100, 100, 1);
 }
 
-fieldset#user{
-	width:calc(100% - 10px);
-	height:100%;
-}
-
-fieldset#pictures, fieldset#general_informations{
-	width:calc(100% - 10px);
-	min-height:150px;
-	float:right;
-}
-
 fieldset#matching_preferences{
-	width:calc(50% - 20px);
 	float:left;
 }
 fieldset#tags{
-	width:calc(50% - 20px);
 	float:right;
-}
-
-p{
-	margin:5px;
 }
 
 div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
 #map{
-	float:right;
-	width:300px;
+	width:100%;
 	height:200px;
 }
 .leaflet-geonames-search ul {
@@ -73,24 +51,32 @@ hr{
 	border-style:solid;
 	border-color:black;
 }
+hr.delimiter{
+	border-color:rgba(0,0,0,0.1);
+}
 div#profil_pic{
-	width:100%;
+	margin:0 auto 0 auto;
+	width:250px;
 	object-fit:contain;
 }
 img#profil_pic{
-	width:calc(100% - 6px);
+	width:100%;
 	height:100%;
 }
-div.wrap{
-	width:100%;
+
+table{
+	border-collapse: collapse;
 }
-div#o_gender{
-	width:50%;
-	float:left;
+
+th,td{
+   	border-width:0 0 1px 0;
+   	border-style:solid;
+   	border-color:black;
 }
-div#o_gender_identity{
-	width:50%;
-	float:right;
+
+td{
+	padding: 0 10px 0 10px;
+   	border-color:rgba(0,0,0,0.1);
 }
 
 .f_title{
@@ -103,10 +89,47 @@ div#o_gender_identity{
 div.preferences{
 	width:100%;
 }
+div.buttons{
+	width:100%;
+	margin-top:10px;
+}
+button.cancel_button{
+	float:left;
+	border-radius:5px;
+	background-color:rgba(200,200,200,0.5);
+}
+button.edit_button{
+	float:right;
+	border-radius:5px;
+	background-color:rgba(0,255,0,0.5);
+}
+button.edit_button:hover{
+	background-color:rgba(0,255,0,1);
+}
+button.delete, button.add{
+	float:right;
+	color:rgba(255,0,0,0.5);
+	border:1px solid transparent;
+	background:none;
+}
+button.delete:hover{
+	color:rgba(255,0,0,1);
+}
+button.delete:focus, button.add:focus{
+	outline:unset;
+} 
+button.add{
+	color:rgba(0,255,0,0.5);
+}
+button.add:hover{
+	color:rgba(0,255,0,1);
+}
 
 textarea.edit{
-	width:calc(100% - 6px);
-	min-height:200px;
+	text-align:justify;
+	resize:none;
+	width:100%;
+	min-height:100px;
 }
 input.edit, select.edit, textarea.edit{
 	border:1px solid transparent;
@@ -118,8 +141,7 @@ input.edit:invalid
 	background:red;
 }
 
-input.edit:hover
-{
+input.edit:hover, textarea.edit:hover, select.edit:hover{
 	color: blue;
 }
 
