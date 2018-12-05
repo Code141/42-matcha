@@ -131,7 +131,7 @@ textarea.edit{
 	width:100%;
 	min-height:100px;
 }
-input.edit, select.edit, textarea.edit{
+input.edit, select.edit, textarea.edit, select.input, input.input{
 	border:1px solid transparent;
 	background:none;
 	font-size: 16px;
@@ -141,11 +141,11 @@ input.edit:invalid
 	background:red;
 }
 
-input.edit:hover, textarea.edit:hover, select.edit:hover{
+input.edit:hover, textarea.edit:hover, select.edit:hover, select.input:hover, input.input:hover{
 	color: blue;
 }
 
-input.edit:focus, select.edit:focus, textarea.edit:focus
+input.edit:focus, select.edit:focus, textarea.edit:focus, select.input:focus, input.input:focus
 {
 	outline:unset;
 	vertical-align:center;
@@ -156,3 +156,4 @@ input.edit:focus, select.edit:focus, textarea.edit:focus
 ::placeholder{
 	font-size:8pt;
 }
+
