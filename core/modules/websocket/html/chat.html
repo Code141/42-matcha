@@ -214,6 +214,7 @@ $(document).ready(function()
 			msg_msg.innerHTML = msg;
 			msg_div.appendChild(msg_msg);
 			this.msg_box.appendChild(msg_div);
+			this.msg_box.scrollTop = this.msg_box.scrollHeight;
 		}
 
 		this.init = function ()

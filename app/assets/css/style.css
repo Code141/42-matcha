@@ -257,7 +257,6 @@ section#register div.radio_gender input
 		width: 15px;
 	}
 
-
 	.status_chat
 	{
 		text-align: center;
@@ -276,7 +275,6 @@ section#register div.radio_gender input
 
 	.conv
 	{
-		height:300px;
 		width:250px;
 		position: relative;
 		margin-right: 15px;
@@ -307,22 +305,24 @@ section#register div.radio_gender input
 
 	.conv_elem
 	{
-		height:100%;
+		height:300px;
 		display: flex;
 		box-sizing: border-box;
 		flex-direction: column;
 		justify-content: center;
 		border: 1px solid #ffdddd;
 		align-items: stretch;
-		align-content: stretch;
 	}
 
 	.msg_box
 	{
+		max-height:100%;
 		box-sizing: border-box;
 		background: rgba(255, 240, 240, 1);
 		padding: 10px;
 		overflow: hidden auto;
+		bottom:0px;
+		height:100%;
 	}
 
 	div.msg_box div

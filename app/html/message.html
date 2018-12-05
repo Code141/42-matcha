@@ -8,7 +8,7 @@
 ?>
 	<a href="<?php echo SITE_ROOT?>message/conversation/<?php echo $conv["id"]; ?>">
 			<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo ($conv["seen"]) ? "seen" : "unseen"; ?>">
-<!--	
+<!--
 				<?php echo $conv["id"]; ?>
 				<?php echo $conv["id_user"]; ?>
 				<?php echo $conv["id_media"]; ?>
@@ -39,12 +39,12 @@ foreach($this->data['msg'] as $conv) {
 	{
 ?>
 
+	<div class="from_me">
+
+<?php } else { ?>
 	<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
 	<div class="">
 	<?php // echo $conv['id_media']; ?>
-
-<?php } else { ?>
-	<div class="from_me">
 	<?php } ?>
 			<p class="<?php echo $seen; ?>">
 				<?php echo $conv['msg']; ?>
@@ -56,6 +56,9 @@ foreach($this->data['msg'] as $conv) {
 			</div>
 <?php } ?>
 		</div>
+		<form method="POST" target="<?php echo SITE_ROOT;?>message/conversation/<?php echo $this->data['id_conv'];?>">
+			<input name="msg" type="textarea" placeholder="Message ...">
+		</form>
 	</section>
 	<aside id="recap_user">
 	</aside>

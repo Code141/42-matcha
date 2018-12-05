@@ -4,6 +4,23 @@
 
 class m_message
 {
+	public function send_msg($id_conv, $id_user_from, $id_user_to, $msg)
+	{
+		$sql = "
+			INSERT INTO msg
+			(id_conv, id_user_from, id_user_to, msg)
+			VALUES
+			(:id_conv, :id_user_from, :id_user_to, :msg)
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$stm->bindparam("msg", $msg, PDO::PARAM_STR);
+		$stm->execute();
+		return (NULL);
+	}
+
 	public function get_msg($id_conv, $id_user)
 	{
 		$sql = "
@@ -27,13 +44,38 @@ class m_message
 		return ($msgs);
 	}
 
+	public function is_user_conv($id_conv, $id_user)
+	{
+		$sql = "
+				SELECT *,
+				(CASE WHEN conv.id_user_from = :id_user
+					THEN conv.id_user_to
+					 ELSE conv.id_user_from END) AS id_user
+				FROM conv
+				WHERE id = :id_conv
+
+				AND (id_user_from = :id_user
+				OR id_user_to = :id_user)
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$stm->execute();
+		$conv = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (!$stm->rowCount())
+			return (NULL);
+		return ($conv[0]);
+	}
+
 	public function get_conv($id_user)
 	{
 		$sql = "
-			SELECT conv.*, SUBSTRING(msg.msg, 1, 40) as last_msg, msg.seen,
-			(CASE WHEN u1.id = :id_user THEN u2.username ELSE u1.username END) AS username,
-			(CASE WHEN u1.id = :id_user THEN u2.id ELSE u1.id END) AS id_user,
-			(CASE WHEN u1.id = :id_user THEN u2.id_media ELSE u1.id_media END) AS id_media
+			SELECT conv.*,
+				SUBSTRING(msg.msg, 1, 40) as last_msg,
+				msg.seen,
+				(CASE WHEN u1.id = :id_user THEN u2.username ELSE u1.username END) AS username,
+				(CASE WHEN u1.id = :id_user THEN u2.id ELSE u1.id END) AS id_user,
+				(CASE WHEN u1.id = :id_user THEN u2.id_media ELSE u1.id_media END) AS id_media
 			FROM conv
 			LEFT JOIN user u1
 			ON conv.id_user_from = u1.id
