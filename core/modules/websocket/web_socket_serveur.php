@@ -25,8 +25,6 @@ class socket_server
 	{
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
-		$this->message_model->
-
 		socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
 		socket_bind($this->socket, 0, PORT);
 		socket_listen($this->socket);
@@ -123,14 +121,16 @@ class socket_server
 					$msg['message']['username'] = $user['username'];
 					$this->send($socket_to, $msg);
 				}
-				$this->new_msg($message->to, $message->message);
+				$this->new_msg($id, $message->to, $message->message);
 			}
 		}
 	}
 
-	public function new_msg($id_to, $msg)
+	public function new_msg($id_user_from, $id_user_to, $msg)
 	{
-		
+		$conv = $this->m_message->find_conv($id_user_from, $id_user_to);
+		if ($conv === NULL)
+			return ();
 	}
 
 	public function connect()
@@ -274,6 +274,10 @@ $server = new socket_server();
 
 $server->db = new db();
 $server->db->connect_base();
+
+$server->m_message = new m_message();
+$server->m_message->db = &$server->db;
+
 
 while (true)
 {
