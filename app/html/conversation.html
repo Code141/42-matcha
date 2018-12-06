@@ -1,7 +1,8 @@
 <script>
-var id_conv = <?php echo $this->data['id_conv']?>;
-var id_user = <?php echo $this->data['id_user']?>;
+	var id_conv = <?php echo $this->data['id_conv']?>;
+	var id_user = <?php echo $this->data['id_user']?>;
 </script>
+
 <div id="convers" class="msg_box">
 <?php
 $user = $this->module_loader->session->controller->user_loggued();
@@ -13,17 +14,11 @@ foreach($this->data['msg'] as $conv)
 		$seen = "";
 ?>
 	<div class="from_me">
-<?php
-	}
-	else
-	{
-?>
+<?php } else { ?>
 		<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
 		<div class="">
 		<?php // echo $conv['id_media']; ?>
-<?php
-	}
-?>
+<?php } ?>
 			<p class="<?php echo $seen; ?>">
 				<?php echo $conv['msg']; ?>
 			</p>
@@ -32,9 +27,7 @@ foreach($this->data['msg'] as $conv)
 			</span>
 -->
 			</div>
-<?php
-}
-?>
+<?php } ?>
 		</div>
 		<form id="convers_form" method="POST" target="<?php echo SITE_ROOT;?>message/conversation/<?php echo $this->data['id_conv'];?>">
 			<input id="convers_input" name="msg" type="textarea" placeholder="Message ...">

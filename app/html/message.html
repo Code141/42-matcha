@@ -4,14 +4,12 @@
 <?php
 $user = $this->module_loader->session->controller->user_loggued();
 foreach($this->data['all_conv'] as $conv) {
-
-$seen = "";
-if ($conv['id_user_from'] !== $user['id'])
-	$seen = ($conv["seen"]) ? "seen" : "unseen";
-
+	$seen = "";
+	if ($conv['id_user_from'] !== $user['id'])
+		$seen = ($conv["seen"]) ? "seen" : "unseen";
 ?>
 	<a href="<?php echo SITE_ROOT?>message/conversation/<?php echo $conv["id"]; ?>">
-			<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo $seen; ?>">
+		<div id="<?php echo $conv["id"]; ?>" class="conversation <?php echo $seen; ?>">
 <!--
 				<?php echo $conv["id"]; ?>
 				<?php echo $conv["id_user"]; ?>

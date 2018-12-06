@@ -31,12 +31,10 @@ class c_controller
 	{
 		$this->data['title'] = "Error 404";
 		$this->files['views']['center'] = '404';
-
 		http_response_code(404);
 		echo '404';
 		//	$this->view();
 	}
-
 }
 
 class c_logged_only extends c_controller

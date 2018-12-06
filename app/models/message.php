@@ -80,6 +80,28 @@ class m_message
 		return ($conv[0]);
 	}
 
+	public function find_conv($id_user_from, $id_user_to)
+	{
+		$sql = "
+				SELECT *
+				FROM conv
+
+				WHERE 
+				(id_user_from = :id_user AND id_user_from = :id_user)
+				OR
+				(id_user_from = :id_user AND id_user_from = :id_user)
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+		$conv = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (!$stm->rowCount())
+			return (NULL);
+		return ($conv[0]);
+	}
+
+
 	public function get_all_conv($id_user)
 	{
 		$sql = "

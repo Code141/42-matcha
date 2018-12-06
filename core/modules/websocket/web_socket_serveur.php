@@ -3,13 +3,15 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 'on');
 
-define('DEV_MODE', TRUE);
-
 define('CORE_PATH', 'core/');
 define('APP_PATH', 'app/');
+define('CONFIG_PATH', 'config/');
+
+define('DEV_MODE', TRUE);
 
 require_once(CORE_PATH . "db.php");
 require_once(APP_PATH . "models/message.php");
+
 
 set_time_limit (0);
 define('HOST_NAME',"localhost"); 
@@ -22,6 +24,8 @@ class socket_server
 	public function	__construct()
 	{
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
+		$this->message_model->
 
 		socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
 		socket_bind($this->socket, 0, PORT);
@@ -124,19 +128,10 @@ class socket_server
 		}
 	}
 
-
 	public function new_msg($id_to, $msg)
 	{
-			
+		
 	}
-
-
-
-
-
-
-
-
 
 	public function connect()
 	{

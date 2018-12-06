@@ -92,6 +92,7 @@ class loader
 		if (class_exists($class_name_m))
 		{
 			$module->model = new $class_name_m();
+			$module->model->self =& $module;
 			$module->model->core =& $this->core;
 			$module->model->load =& $this;
 			$module->model->data =& $this->data;
