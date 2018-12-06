@@ -64,6 +64,7 @@ class loader
 		$model->core =& $this->core;
 		$model->data =& $this->data;
 		$model->db = &$this->core->db;
+		$model->module_loader =& $this->core->module_loader;
 		return ($model);
 	}
 

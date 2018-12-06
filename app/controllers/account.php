@@ -25,11 +25,21 @@ class c_account extends c_controller
 		return FALSE;
 	}
 
+	private function update_session($user, $pw_len)
+	{
+		$module = $this->module_loader->session();
+		$user = $module->model->get_user_by_login($user['username']);
+
+		$user['orientations'] = $module->model->get_user_orientations($user['id']);
+		$user['tags'] = $module->model->get_user_tags($user['id']);
+		$user['bio'] = $module->model->get_bio($user['id']);
+		$_SESSION['user'] = $user;
+		$_SESSION['user']['password_length'] = $pw_len;
+	}
+
 	public function edit_user()
 	{
 		$user = $this->module_loader->session()->controller->user_loggued();
-		var_dump($_POST);
-		echo '<br>'.$user['birthdate'].'<br>';
 		$fields = array("username", "firstname", "lastname", "email");
 		$fields = $this->requiered_fields($fields, $_POST);
 		if ($fields === NULL)
@@ -56,12 +66,15 @@ class c_account extends c_controller
 			catch (Exception $e)
 			{
 				$this->core->fail($e->getMessage(), "account", "main");
-				echo $e->getMessage();
 			}
-			$fields['femail'] = $user['email'];
+			$fields['email'] = $user['email'];
 			$model = $this->load->model("account");
-			var_dump($model->update_user($user['id'], $fields));
-			$this->core->set_view("account", "main");
+			$model->update_user($user['id'], $fields);
+			$this->update_session($fields, $user['password_length']);
+			/*
+			 * add success log of email for pw and email validation
+			 */
+			$this->core->success("Your profil has successfully been updated", 'account', 'main');
 	}	
 
 	public function add_match_pref()
