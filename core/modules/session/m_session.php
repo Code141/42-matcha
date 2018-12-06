@@ -71,9 +71,6 @@ class m_module_session
 		return ($bio);
 	}
 
-
-
-
 	public function get_user_by_login($username)
 	{
 		$sql = "

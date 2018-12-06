@@ -65,6 +65,7 @@ class c_module_session extends c_controller
 			$this->check_email ($fields['email']);
 			$this->check_password ($fields['password'], $fields['password_repeat']);
 			$this->check_username ($fields['username']);
+			$this->check_date ($fields['birthdate']);
 		}
 		catch (Exception $e)
 		{
@@ -98,7 +99,7 @@ class c_module_session extends c_controller
 		]);
 	}
 
-	private function	check_password($password, $password_repeat)
+	public function	check_password($password, $password_repeat)
 	{
 		try
 		{
@@ -123,7 +124,27 @@ class c_module_session extends c_controller
 		return (TRUE);
 	}
 
-	private function	check_email($email)
+	public function check_date($date)
+	{
+		$now = new DateTime('now');
+		$x_years_ago = $now->modify('-16 years')->format('Y-m-d');
+		try
+		{
+			if ($date > $x_years_ago)
+					throw new Exception("You are too young to be on this website");
+			$date = explode('-', $date);
+			if ((count($date) != 3) || ($ret = checkdate($date[1], $date[2], $date[0])) == FALSE)
+					throw new Exception("Date badly formated");
+		} catch (Exception $e)
+		{
+			throw $e;
+			return (FALSE);
+		}
+		return (TRUE);
+	}
+
+
+	public function	check_email($email)
 	{
 		try
 		{
@@ -171,7 +192,7 @@ class c_module_session extends c_controller
 		return (TRUE);
 	}
 
-	private function	check_username($username)
+	public function	check_username($username)
 	{
 		try
 		{
