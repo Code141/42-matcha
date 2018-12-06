@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
-<script src="Leaflet.Geonames/L.Control.Geonames.js"></script>
-<link rel="stylesheet" href="Leaflet.Geonames/L.Control.Geonames.css" />
+<script src="<?php echo SITE_ROOT;?>Leaflet.Geonames/L.Control.Geonames.js"></script>
+<link rel="stylesheet" href="<?php echo SITE_ROOT;?>Leaflet.Geonames/L.Control.Geonames.css" />
 
 <?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
 <section class="user">
 	<fieldset>
-		<form id="user_form" method="post">
-			<legend></legend>
+		<legend></legend>
+		<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
 			<p>
 			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title modif" required>
 			</p>
@@ -48,10 +48,18 @@
 				<span>Email</span>:
 				<input name="email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
 				</p>
-				<div class="buttons">
-					<button class="cancel_button">Cancel</button>
-					<button class="edit_button">Edit information</button>
-				</div>
+				<p>
+				<span>Password</span>:
+				<input id="pw_input" name="password" type="password" value="" placeholder="<?php echo str_repeat('*', $user['password_length']); ?>" class="edit">
+				</p>
+				<p id="pw_conf">
+				<span>Password confirmation</span>:
+				<input name="password2" type="password" value="" class="edit">
+				</p>
+			</div>
+			<div class="buttons">
+				<button type="reset" class="cancel_button">Cancel</button>
+				<button class="edit_button">Edit information</button>
 			</div>
 		</form>
 	</fieldset>
@@ -61,13 +69,13 @@
 		<legend>Bio</legend>
 		<form id="bio_form" method="post">
 			<p id="bio">
-			<textarea name=bio type="text" class="edit">
+			<textarea name="bio" type="text" class="edit">
 				<?php if (isset($user['bio']['bio'])) echo $user['bio']['bio'];
 								  else echo "biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo";?>
 			</textarea>
 			</p>
 			<div class="buttons">
-				<button class="cancel_button">Cancel</button>
+				<button type="reset" class="cancel_button">Cancel</button>
 				<button class="edit_button">Edit bio</button>
 			</div>
 		</form>
@@ -76,10 +84,12 @@
 		<legend>Your position</legend>
 		<div id="map"></div>
 		<form id="map_form" method="post">
-		<div class="buttons">
-			<button class="cancel_button">Cancel</button>
-			<button class="edit_button">Edit position</button>
-		</div>
+			<input type="hidden" name="latitude" value="<?php $user['latitude'];?>">
+			<input type="hidden" name="longitude" value="<?php echo $user['longitude'];?>">
+			<div class="buttons">
+				<button type="reset" class="cancel_button">Cancel</button>
+				<button class="edit_button">Edit position</button>
+			</div>
 		</form>
 	</fieldset>
 	<fieldset>
@@ -98,63 +108,67 @@
 				<td><?php echo $value['gender_name'];?></td>
 				<td><?php echo $value['gender_identity_name'];?></td> 
 				<td>
-					<form id="del_matching_preferences_form" method="post">
+					<form class="del_matching_preferences_form" method="post">
 						<input type="hidden" name="gender" value="<?php echo $value['id_gender'];?>">
 						<input type="hidden" name="gender_identity" value="<?php echo $value['id_gender_identity'];?>">
-						<button type="submit" class="delete" title="Delete a preference">x</button>
+						<button type="submit" class="delete submit" title="Delete a preference">x</button>
 					</form>
 				</td>
 			</tr>
 			<?php } ?>
+			<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_match_pref'; ?>">
 			<tr>
-				<form id="add_matching_preferences_form" method="post">
-				<td>
-					<select name="gender" type="text" value="" class="edit">
-						<option value="NULL">ALL</option>
-						<?php foreach($this->data['all_genders'] as $g){ ?>
-						<option value="<?php echo $g['gender_name'];?>"><?php echo $g['gender_name'];?></option>
-						<?php }?>
-					</select>
-				</td>
-				<td>
-					<select name="gender_identity" type="text" value="" class="edit">
-						<option value="NULL">ALL</option>
-						<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
-						<option value="<?php echo $g_i['gender_identity_name'];?>"><?php echo $g_i['gender_identity_name'];?></option>
-						<?php }?>
-					</select>
-				</td>
-				<td><button type="submit" value="<?php echo $value['id_gender'] . '_' .$value['id_gender_identity'];?>" class="add" title="Add a preference">+</button></td>
-				</form>
+					<td>
+						<select form="add_matching_preferences_form" name="gender" value="" class="input" required>
+							<option class="placeholder" value="" disabled selected hidden></option>
+							<option value="NULL">ALL</option>
+							<?php foreach($this->data['all_genders'] as $g){ ?>
+							<option value="<?php echo $g['gender_name'];?>"><?php echo $g['gender_name'];?></option>
+							<?php }?>
+						</select>
+					</td>
+					<td>
+						<select form="add_matching_preferences_form" name="gender_identity" value="" class="input" required>
+							<option class="placeholder" value="" disabled selected hidden></option>
+							<option></option> 
+							<option value="NULL">ALL</option>
+							<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
+							<option value="<?php echo $g_i['gender_identity_name'];?>"><?php echo $g_i['gender_identity_name'];?></option>
+							<?php }?>
+						</select>
+					</td>
+					<td><button type="submit" class="add submit" title="Add a preference">+</button></td>
 			</tr>
+				</form>
 		</table>
 	</fieldset>
 	<fieldset id="tags">
 		<legend>Tags</legend>
-			<div id="tag">
-				<?php foreach($user['tags'] as $value) { ?>
-				<form id="del_tag_form" method="post">
+		<div id="tag">
+			<?php foreach($user['tags'] as $value) { ?>
+			<form class="del_tag_form" method="post">
 				<p>
 				<?php echo "#".$value['tag_name'] ?>
-				<button type="submit" value="<?php echo $value['tag_name'];?>" class="delete" title="Delete a tag">x</button>
+				<button type="submit" value="<?php echo $value['tag_name'];?>" class="delete submit" title="Delete a tag">x</button>
 				</p>
-				</form>
-				<?php } ?>
-				<form id="add_tag_form" method="post">
-				<input list="tag_list" name="tags" type="text" value="" class="edit" placeholder="# Add a tag">
+			</form>
+			<?php } ?>
+			<form id="add_tag_form" method="post">
+				<input list="tag_list" name="tags" type="text" class="input" placeholder="# Add a tag">
 				<datalist id="tag_list">
 					<?php foreach($this->data['all_tags'] as $tag){ ?>
 					<option value="#<?php echo $tag['tag_name'];?>">
 					<?php }?>
 				</datalist>
-				<button type="submit" value="<?php echo $value['id_gender'] . '_' .$value['id_gender_identity'];?>" class="add" title="Add a tag">+</button>
-				</form>
-			</div>
+				<button type="submit" class="add submit" title="Add a tag">+</button>
+			</form>
+		</div>
 	</fieldset>
 </section>
 <script>
 
 window.addEventListener('load',initMap);
+window.addEventListener('load',set_events);
 
 function initMap() {
 	map = new L.map('map');
@@ -186,7 +200,47 @@ function initMap() {
 		alwaysOpen: false  //if true, search field is always visible
 	});
 	map.addControl(control);
-	console.log(marker);
+}
+
+function set_events(){
+	var forms = document.forms;
+	for (let form of forms){
+		form.addEventListener("submit",function(e){
+			console.log(form);
+//			e.preventDefault();
+		});
+	};
+	console.log(forms);
+	var pw_conf = document.getElementById("pw_conf");
+	var pw_input = document.getElementById("pw_input");
+	pw_conf.style.display = 'none';
+	var buttons = document.getElementsByClassName("buttons");		
+	for (let div of buttons)
+	{
+		div.style.display = 'none';
+		div.getElementsByClassName("cancel_button")[0].addEventListener("click",function(e){
+					div.style.display = 'none';
+					pw_conf.getElementsByTagName("input")[0].required = false;
+					pw_input.required = false;
+					pw_conf.style.display = 'none';
+				});
+	}
+	var editables = document.getElementsByClassName("edit");
+	var submit_buttons = document.getElementsByClassName("submit");
+	for (let element of editables)
+	{
+		element.addEventListener("change", function(e){
+			console.log(element);
+			if (element.name == "password"){
+				pw_conf.style.display = 'block';
+				pw_input.required = true;
+				pw_conf.getElementsByTagName("input")[0].required = true;
+			}
+			var button_div = element.form.getElementsByClassName("buttons")[0];
+				button_div.style.display = 'block';
+		});
+	};
+
 }
 
 function joe()

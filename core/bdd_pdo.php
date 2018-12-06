@@ -28,7 +28,7 @@ class db_pdo
 		}
 
 	}
-
+/*
 	public function	execute_pdo()
 	{
 		$this->pdo_stm = $this->pdo->prepare($this->sql);
@@ -42,7 +42,19 @@ class db_pdo
 		}
 		return ($this->pdo_stm);
 	}
-
+ */
+	public function	execute_pdo()
+	{
+		try
+		{
+			$this->pdo_stm->execute();
+		}
+		catch (PDOException $exception)
+		{
+			exit("Something went wrong : " . $exception);//->getMessage());
+		}
+		return ($this->pdo_stm);
+	}
 	public function	__destruct()
 	{
 		if (!empty($this->pdo_stm))

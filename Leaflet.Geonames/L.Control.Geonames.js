@@ -299,7 +299,6 @@ L.Control.Geonames = L.Control.extend({
         document.body.appendChild(script);
     },
     _processResponse: function (response) {
-		console.log(response);
         var jsonResponse;
         if (typeof response.geonames != 'undefined') {
             jsonResponse = response.geonames;
@@ -322,7 +321,6 @@ L.Control.Geonames = L.Control.extend({
                 L.DomEvent.addListener(li, 'click', function () {
                     //The user picks a location and it changes the search text to be that location
                     this._input.value = primaryName;
-
                     if (this.options.alwaysOpen) {
                         this.hideResults();
                     } else {
@@ -333,6 +331,10 @@ L.Control.Geonames = L.Control.extend({
                         geoname: geoname
                     });
                     this.addPoint(geoname);
+					var map_form = document.getElementById("map_form");
+					map_form.getElementsByClassName("buttons")[0].style.display = 'block';
+					map_form.latitude.value = geoname.lat;
+					map_form.longitude.value = geoname.lng;
                 }, this);
             }, this);
         } else {
