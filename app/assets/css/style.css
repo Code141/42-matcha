@@ -190,6 +190,7 @@ section#register div.radio_gender input
 
 	div#chat_list
 	{
+		display:none;
 		position: fixed;
 		right: 0px;
 		bottom:0px;

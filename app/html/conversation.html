@@ -1,4 +1,8 @@
-<div class="msg_box">
+<script>
+var id_conv = <?php echo $this->data['id_conv']?>;
+var id_user = <?php echo $this->data['id_user']?>;
+</script>
+<div id="convers" class="msg_box">
 <?php
 $user = $this->module_loader->session->controller->user_loggued();
 foreach($this->data['msg'] as $conv)
@@ -32,6 +36,6 @@ foreach($this->data['msg'] as $conv)
 }
 ?>
 		</div>
-		<form method="POST" target="<?php echo SITE_ROOT;?>message/conversation/<?php echo $this->data['id_conv'];?>">
-			<input name="msg" type="textarea" placeholder="Message ...">
+		<form id="convers_form" method="POST" target="<?php echo SITE_ROOT;?>message/conversation/<?php echo $this->data['id_conv'];?>">
+			<input id="convers_input" name="msg" type="textarea" placeholder="Message ...">
 		</form>

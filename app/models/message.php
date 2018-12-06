@@ -80,7 +80,7 @@ class m_message
 		return ($conv[0]);
 	}
 
-	public function get_conv($id_user)
+	public function get_all_conv($id_user)
 	{
 		$sql = "
 			SELECT conv.id,
@@ -111,3 +111,4 @@ class m_message
 		return ($all_conv);
 	}
 }
+

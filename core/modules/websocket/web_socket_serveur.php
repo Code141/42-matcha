@@ -6,9 +6,10 @@ ini_set('display_errors', 'on');
 define('DEV_MODE', TRUE);
 
 define('CORE_PATH', 'core/');
-define('CONFIG_PATH', 'config/');
+define('APP_PATH', 'app/');
 
 require_once(CORE_PATH . "db.php");
+require_once(APP_PATH . "models/message.php");
 
 set_time_limit (0);
 define('HOST_NAME',"localhost"); 
@@ -103,9 +104,10 @@ class socket_server
 			$this->send($this->current_socket, $msg);
 		}
 
-
 		if ($message->action == "message")
 		{
+			if (strlen($message->message) == 0)
+				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
 				if (isset($this->user[$message->to]))
@@ -117,9 +119,24 @@ class socket_server
 					$msg['message']['username'] = $user['username'];
 					$this->send($socket_to, $msg);
 				}
+				$this->new_msg($message->to, $message->message);
 			}
 		}
 	}
+
+
+	public function new_msg($id_to, $msg)
+	{
+			
+	}
+
+
+
+
+
+
+
+
 
 	public function connect()
 	{
@@ -250,6 +267,7 @@ class socket_server
 			$header = pack('CCNN', $b1, 127, $length);
 		return $header.$socketData;
 	}
+
 	public function __destruct()
 	{
 		socket_close($this->socket);

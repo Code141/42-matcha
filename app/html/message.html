@@ -1,8 +1,6 @@
 <section id="message">
+
 	<aside id="conv_list">
-		<div class="new_conversation">
-			New conversation
-		</div>
 <?php
 $user = $this->module_loader->session->controller->user_loggued();
 foreach($this->data['all_conv'] as $conv) {
@@ -37,6 +35,7 @@ if ($conv['id_user_from'] === $user['id'])
 		</a>
 <?php } ?>
 	</aside>
+
 	<section id="conv_content">
 <?php $this->load_html('conversation'); ?>
 	</section>
