@@ -1,5 +1,5 @@
 <?php
-class m_account
+class m_account 
 {
 	public function fetch_all_from($table)
 	{
@@ -25,15 +25,13 @@ class m_account
 			UPDATE user
 			SET " . $set . 
 			" WHERE id = :id_user";
-
-		echo '<br>'.$sql.'<br>';
 		$stm = $this->db->pdo->prepare($sql);
 		foreach ($fields as $column => &$value)
 		{
 			$stm->bindparam(":" . $column, $value);
 		}
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
-		$update = $stm->execute();
+		$update = $this->db->execute_pdo($stm, "account", "main");
 		$update = $stm->rowCount();
 		return ($update);
 	}

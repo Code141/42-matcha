@@ -56,7 +56,7 @@ class	db
 				header ('location:' . SITE_ROOT . '404');
 		}
 	}
-
+/*
 	public function	execute_pdo()
 	{
 		$pdo_stm = $this->pdo->prepare($this->sql);
@@ -70,6 +70,20 @@ class	db
 			echo $e->getMessage();
 		}
 		return ($pdo_stm);
+	}*/
+
+	public function	execute_pdo($pdo_stm, $page, $action)
+	{
+		try
+		{
+			$pdo_stm->execute();
+		}
+		catch (PDOException $e)
+		{
+			$this->core->fail($e->getMessage(), $page, $action);
+			//echo "ERROR :" . $e->getMessage();
+		}
+		return ($pdo_stm);
 	}
 
 	public function	__destruct()
@@ -80,4 +94,3 @@ class	db
 		$this->pdo = NULL;
 	}
 }
-
