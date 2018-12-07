@@ -50,6 +50,17 @@ class c_module_email
 		$this->send_mail();
 	}
 
+	public function	change_email($token)
+	{
+		$link = "http://"  . SITE_ABSOLUTE . "account/change_email/" . $this->user_to . "/" . $token; 
+		$this->subject = 'Validate your new e-mail';
+		$this->message = "Hi " . $this->user_to . "\r\n
+			You hasked to change your e-mail\r\n
+			Here is a link to validate your new e-mail:\r\n" . $link;
+		$this->message = wordwrap($this->message,70);
+		$this->send_mail();
+	}
+
 	public function	notif_like($user_from, $media, $grade)
 	{
 		if (!$this->user_to->notif['like'])

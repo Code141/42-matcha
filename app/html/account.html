@@ -25,16 +25,17 @@
 				</p>
 				<p>
 				<span>Gender</span>:
-				<select name="gender" type="text" value="<?php echo $user['gender_name']; ?>" class="edit" placeholder="Add your gender">
+				<select name="id_gender" class="edit" placeholder="Add your gender">
+					<option class="placeholder" value="" disabled selected hidden><?php echo $user['gender_name']; ?></option>
 					<?php foreach($this->data['all_genders'] as $g){ ?>
-					<option value="<?php echo $g['gender_name']?>"><?php echo $g['gender_name']?></option>
+					<option value="<?php echo $g['id']?>"><?php echo $g['gender_name']?></option>
 					<?php }?>
 				</select>
 				</p>
 				<p>
 				<span>Gender identity</span>:
-				<input list="gender_identity" name="gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
-				<datalist id="gender_identity">
+				<input list="gender_identity_list" name="id_gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
+				<datalist id="gender_identity_list">
 					<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
 					<option value="<?php echo $g_i['gender_identity_name']?>">
 					<?php }?>
@@ -46,7 +47,7 @@
 				</p>	
 				<p>
 				<span>Email</span>:
-				<input name="email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
+				<input name="new_email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
 				</p>
 				<p>
 				<span>Password</span>:
@@ -69,10 +70,7 @@
 		<legend>Bio</legend>
 		<form id="bio_form" method="post">
 			<p id="bio">
-			<textarea name="bio" type="text" class="edit">
-				<?php if (isset($user['bio']['bio'])) echo $user['bio']['bio'];
-								  else echo "biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo";?>
-			</textarea>
+			<textarea name="bio" type="text" class="edit" placeholder="Describe yourself..."><?php echo $user['bio'];?></textarea>
 			</p>
 			<div class="buttons">
 				<button type="reset" class="cancel_button">Cancel</button>
@@ -117,7 +115,7 @@
 			</tr>
 			<?php } ?>
 			<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_match_pref'; ?>">
-			<tr>
+				<tr>
 					<td>
 						<select form="add_matching_preferences_form" name="gender" value="" class="input" required>
 							<option class="placeholder" value="" disabled selected hidden></option>
@@ -138,8 +136,8 @@
 						</select>
 					</td>
 					<td><button type="submit" class="add submit" title="Add a preference">+</button></td>
-			</tr>
-				</form>
+				</tr>
+			</form>
 		</table>
 	</fieldset>
 	<fieldset id="tags">
@@ -207,7 +205,7 @@ function set_events(){
 	for (let form of forms){
 		form.addEventListener("submit",function(e){
 			console.log(form);
-//			e.preventDefault();
+			//			e.preventDefault();
 		});
 	};
 	console.log(forms);
@@ -219,11 +217,11 @@ function set_events(){
 	{
 		div.style.display = 'none';
 		div.getElementsByClassName("cancel_button")[0].addEventListener("click",function(e){
-					div.style.display = 'none';
-					pw_conf.getElementsByTagName("input")[0].required = false;
-					pw_input.required = false;
-					pw_conf.style.display = 'none';
-				});
+			div.style.display = 'none';
+			pw_conf.getElementsByTagName("input")[0].required = false;
+			pw_input.required = false;
+			pw_conf.style.display = 'none';
+		});
 	}
 	var editables = document.getElementsByClassName("edit");
 	var submit_buttons = document.getElementsByClassName("submit");
@@ -237,7 +235,7 @@ function set_events(){
 				pw_conf.getElementsByTagName("input")[0].required = true;
 			}
 			var button_div = element.form.getElementsByClassName("buttons")[0];
-				button_div.style.display = 'block';
+			button_div.style.display = 'block';
 		});
 	};
 
