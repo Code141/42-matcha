@@ -1,5 +1,5 @@
 CREATE TABLE `bio` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL, UNIQUE (`id_user`),
   `bio` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -45,7 +45,7 @@ CREATE TABLE `media` (
 CREATE TABLE `conv` (
   `id` int(11) NOT NULL,
   `id_user_from` int(11) NOT NULL,
-  `id_user_to` int(11) NOT NULL,
+  `id_user_to` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `msg` (

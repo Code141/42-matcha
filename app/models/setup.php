@@ -5,14 +5,16 @@ class m_setup extends m_wrapper
 	public function create_db()
 	{
 		$this->db->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";USE `".APP_NAME."`";
-		$this->db->execute_pdo();
+		$stm = $this->db->pdo->prepare($this->db->sql);
+		$this->db->execute_pdo($stm, "setup", "main");
 		return ($this);
 	}
 
 	public function drop_db()
 	{
 		$this->db->sql = "DROP DATABASE IF EXISTS " . APP_NAME;
-		$this->db->execute_pdo();
+		$stm = $this->db->pdo->prepare($this->db->sql);
+		$this->db->execute_pdo($stm, "setup", "main");
 		return ($this);
 	}
 
@@ -30,7 +32,8 @@ class m_setup extends m_wrapper
 			$query .= $line;
 		}
 		$this->db->sql = $query;
-		$this->db->execute_pdo();
+		$stm = $this->db->pdo->prepare($this->db->sql);
+		$this->db->execute_pdo($stm, "setup", "main");
 		return($this);
 	}
 }

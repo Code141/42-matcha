@@ -9,7 +9,7 @@
 		<legend></legend>
 		<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
 			<p>
-			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title modif" required>
+			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
 			</p>
 			<div id="profil_pic">
 				<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
@@ -68,7 +68,7 @@
 <section class="bio">
 	<fieldset>
 		<legend>Bio</legend>
-		<form id="bio_form" method="post">
+		<form id="bio_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_bio';?>">
 			<p id="bio">
 			<textarea name="bio" type="text" class="edit" placeholder="Describe yourself..."><?php echo $user['bio'];?></textarea>
 			</p>
@@ -106,7 +106,7 @@
 				<td><?php echo $value['gender_name'];?></td>
 				<td><?php echo $value['gender_identity_name'];?></td> 
 				<td>
-					<form class="del_matching_preferences_form" method="post">
+					<form class="del_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/del_preference';?>">
 						<input type="hidden" name="gender" value="<?php echo $value['id_gender'];?>">
 						<input type="hidden" name="gender_identity" value="<?php echo $value['id_gender_identity'];?>">
 						<button type="submit" class="delete submit" title="Delete a preference">x</button>
@@ -144,10 +144,10 @@
 		<legend>Tags</legend>
 		<div id="tag">
 			<?php foreach($user['tags'] as $value) { ?>
-			<form class="del_tag_form" method="post">
+			<form class="del_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/del_tag';?>">
 				<p>
 				<?php echo "#".$value['tag_name'] ?>
-				<button type="submit" value="<?php echo $value['tag_name'];?>" class="delete submit" title="Delete a tag">x</button>
+				<button type="submit" name="tag" value="<?php echo $value['tag_name'];?>" class="delete submit" title="Delete a tag">x</button>
 				</p>
 			</form>
 			<?php } ?>
