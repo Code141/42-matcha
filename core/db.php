@@ -48,7 +48,6 @@ class	db
 					echo "BAD BDD PASSWORD, PLEASE SEE config/database.php";
 					$this->core->set_view("setup", "main");
 				}
-	
 				else
 					echo 'Erreur : ' . $exception->getMessage();
 			}
@@ -73,6 +72,20 @@ class	db
 	}*/
 
 	public function	execute_pdo($pdo_stm, $page, $action)
+	{
+		try
+		{
+			$pdo_stm->execute();
+		}
+		catch (PDOException $e)
+		{
+			$this->core->fail($e->getMessage(), $page, $action);
+			//echo "ERROR :" . $e->getMessage();
+		}
+		return ($pdo_stm);
+	}
+
+	public function	execute()
 	{
 		try
 		{

@@ -5,7 +5,6 @@ window.onload = function ()
 	client = new websock();
 	client.init();
 
-
 };
 
 
@@ -39,27 +38,23 @@ function websock()
 		this.websocket.onmessage = function(event)
 		{
 			var data = JSON.parse(event.data);
-
-			if (typeof data.friends != 'undefined')
-				this.chat_list.put_friends(data.friends);
-			if (typeof data.message != 'undefined')
-				this.chat_list.incoming_message(data.message);
-			if (typeof data.logout != 'undefined')
-				this.chat_list.friends_logout(data.logout);
-			if (typeof data.login != 'undefined')
-				this.chat_list.friends_login(data.login);
+			this.chat_list.do(data);
+			console.log(data);
 		}.bind(this);
 
 		this.websocket.onerror = function(event)
 		{
 			this.chat_list.connected(false);
-			this.init();
 		}.bind(this);
 
 		this.websocket.onclose = function(event)
 		{
-			this.chat_list.connected(false);
-			this.init();
+			if (typeof this.chat_list != 'undefined')
+				this.chat_list.connected(false);
+			setTimeout(function ()
+			{
+				this.init();
+			}.bind(this), 5000);
 		}.bind(this);
 	}
 }
@@ -172,6 +167,18 @@ function messagerie()
 		*/
 	}
 
+	this.do = function (data)
+	{
+		if (typeof data.friends != 'undefined')
+			this.put_friends(data.friends);
+		if (typeof data.message != 'undefined')
+			this.incoming_message(data.message);
+		if (typeof data.logout != 'undefined')
+			this.friends_logout(data.logout);
+		if (typeof data.login != 'undefined')
+			this.friends_login(data.login);
+	}
+
 	this.init = function ()
 	{
 		this.id_user = id_user;
@@ -185,7 +192,6 @@ function messagerie()
 		form.addEventListener('submit', function(e){
 			this.send_msg(e);
 		}.bind(this))
-	
 	}
 }
 
@@ -199,15 +205,16 @@ function chat_list(chat_list)
 
 	this.friends_logout = function(id)
 	{
-		console.log(id);
-		this.list[id].className = "non_connected";
+		if (typeof this.list[id] != "undefined")
+			this.list[id].className = "non_connected";
 		if (typeof this.conv[id] != "undefined")
 			this.conv[id].is_connected(false);
 	}
 
 	this.friends_login = function(id)
 	{
-		this.list[id].className = "connected";
+		if (typeof this.list[id] != "undefined")
+			this.list[id].className = "connected";
 		if (typeof this.conv[id] != "undefined")
 			this.conv[id].is_connected(true);
 	}
@@ -250,10 +257,11 @@ function chat_list(chat_list)
 		if (typeof friends !== 'undefined')
 		{
 			this.list.forEach(function(element) {
-    			element.parentNode.removeChild(element);
+				element.parentNode.removeChild(element);
 			});
 			this.list = Array();
-			friends.forEach(function(element)
+			friends.forEach(
+				function(element)
 				{
 					user = document.createElement('p');
 					user.innerHTML = element.username;
@@ -265,10 +273,14 @@ function chat_list(chat_list)
 					user.appendChild(is_connected);
 					this.list[element.id] = user;
 					this.friends_list.appendChild(user);
-					user.addEventListener('click', function(e){
-						this.open_conv(element.id, element.username);
-					}.bind(this))
-				}.bind(this));
+					user.addEventListener('click',
+						function(e)
+						{
+							this.open_conv(element.id, element.username);
+						}.bind(this)
+					)
+				}.bind(this)
+			);
 		}
 	}
 
@@ -286,6 +298,32 @@ function chat_list(chat_list)
 		}
 	}
 
+	this.put_previous_msg = function(prev)
+	{
+			console.log(this.conv);
+		id = prev.id;
+		prev.msgs.forEach(function(e) {
+			from_me = (e.id_user_to == id) ? 1 : 0;
+
+
+			this.conv[id].show_msg(e.msg, from_me);
+		}.bind(this));
+	}
+
+	this.do = function(data)
+	{
+		if (typeof data.friends != 'undefined')
+			this.put_friends(data.friends);
+		if (typeof data.message != 'undefined')
+			this.incoming_message(data.message);
+		if (typeof data.logout != 'undefined')
+			this.friends_logout(data.logout);
+		if (typeof data.login != 'undefined')
+			this.friends_login(data.login);
+		if (typeof data.previous_message != 'undefined')
+			this.put_previous_msg(data.previous_message);
+	}
+
 	this.init = function ()
 	{
 		friends_list = document.createElement('div');
@@ -298,6 +336,7 @@ function chat_list(chat_list)
 		this.status_chat = status_chat;
 		this.friends_list = friends_list;
 		chat_list_cont.style.display = "block";
+		console.log("init");
 	}
 }
 
@@ -407,6 +446,13 @@ function conversation(id_user, username)
 			this.send_msg(e);
 		}.bind(this))
 		this.chat_conv.insertBefore(this.conv, chat_conv.firstChild);
+
+		var messageJSON = {
+				action : "previous_message",
+				id : id_user,
+			};
+		client.websocket.send(JSON.stringify(messageJSON));
+
 	}
 }
 

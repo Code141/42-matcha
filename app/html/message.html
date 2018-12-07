@@ -35,7 +35,10 @@ if ($conv['id_user_from'] === $user['id'])
 	</aside>
 
 	<section id="conv_content">
-<?php $this->load_html('conversation'); ?>
+<?php
+	if (!empty($this->data['id_conv']))
+		$this->load_html('conversation');
+?>
 	</section>
 
 	<aside id="recap_user">

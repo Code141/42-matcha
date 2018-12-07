@@ -144,5 +144,4 @@ class core
 		$this->request = $request;
 	}
 
-
 }

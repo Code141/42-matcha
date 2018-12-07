@@ -3,15 +3,11 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 'on');
 
+define('DEV_MODE', TRUE);
+
 define('CORE_PATH', 'core/');
 define('APP_PATH', 'app/');
 define('CONFIG_PATH', 'config/');
-
-define('DEV_MODE', TRUE);
-
-require_once(CORE_PATH . "db.php");
-require_once(APP_PATH . "models/message.php");
-
 
 set_time_limit (0);
 define('HOST_NAME',"localhost"); 
@@ -19,9 +15,136 @@ define('PORT',"8090");
 
 $null = NULL;
 
+class	db
+{
+	public	$pdo;
+
+	public function __construct()
+	{
+		$this->connect();
+	}
+
+	public function	connect()
+	{
+		require(CONFIG_PATH . 'database.php');
+		try
+		{
+			$this->pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		}
+		catch(PDOException $exception)
+		{
+			if ($exception->getCode() == 1045)
+				die ("BAD BDD PASSWORD, PLEASE SEE config/database.php");
+			else
+				die ($exception->getMessage());
+		}
+	}
+
+	public function	execute()
+	{
+		try
+		{
+			$this->stm->execute();
+		}
+		catch (PDOException $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function get_friends($user_id)
+	{
+		$this->sql = "
+			SELECT u.id, u.username
+			FROM `like` l1
+			LEFT JOIN `like` l2
+			ON l1.id_user_to = l2.id_user_from
+			LEFT JOIN user u
+			ON l2.id_user_from = u.id
+			WHERE l1.id_user_from = " . $user_id . "
+			AND l2.id_user_to = " . $user_id;
+		$this->stm = $this->pdo->prepare($this->sql);
+		$this->execute();
+		$friends = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($friends);
+	}
+
+	public function send($id_conv, $id_user_from, $id_user_to, $msg)
+	{
+		$this->sql = "
+			INSERT INTO msg
+			(id_conv, id_user_from, id_user_to, msg)
+			VALUES
+			(:id_conv, :id_user_from, :id_user_to, :msg)
+			";
+		$this->stm = $this->pdo->prepare($this->sql);
+		$this->stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$this->stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$this->stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$this->stm->bindparam("msg", $msg, PDO::PARAM_STR);
+		$this->execute();
+		return (NULL);
+	}
+
+	public function get_msg($id_conv)
+	{
+		$this->sql = "
+			SELECT id, id_user_from, id_user_to, msg, datetime
+			FROM msg
+			WHERE id_conv = :id_conv
+			";
+		$this->stm = $this->pdo->prepare($this->sql);
+		$this->stm->bindparam("id_conv", $id_conv, PDO::PARAM_INT);
+		$this->execute();
+		$msgs = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($msgs);
+	}
+
+	public function find_conv($id_user_from, $id_user_to)
+	{
+		$this->sql = "
+				SELECT *
+				FROM conv
+				
+				WHERE
+				(id_user_from = :id_user_from AND id_user_to = :id_user_to)
+				OR
+				(id_user_to = :id_user_from AND id_user_from = :id_user_to)
+			";
+		$this->stm = $this->pdo->prepare($this->sql);
+		$this->stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$this->stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+//		$this->execute();
+
+		try
+		{
+			$this->stm->execute();
+		}
+		catch (PDOException $e)
+		{
+			die("HEHO" . $e->getMessage());
+		}
+	
+		$conv = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		if (!$this->stm->rowCount())
+			return (NULL);
+		return ($conv[0]);
+	}
+
+
+	public function __destruct()
+	{
+		if (!empty($this->stm))
+			$this->stm->closeCursor();
+		$this->stm = NULL;
+		$this->pdo = NULL;
+	}
+}
+
 class socket_server
 {
-	public function	__construct()
+	public function __construct()
 	{
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
@@ -56,22 +179,6 @@ class socket_server
 		}
 	}
 
-	public function disconnect()
-	{
-		$id = $this->find_id_user($this->current_socket);
-		if ($id != null)
-		{
-			$msg['logout'] = $id;
-			$friends = $this->get_friends($id);
-			if ($friends)
-				foreach ($friends as $user)
-					if (($sock = $this->find_socket($user['id'])))
-						$this->send($sock, $msg);
-		}
-		$index = array_search($this->current_socket, $this->clientSocketArray);
-		unset($this->clientSocketArray[$index]);
-	}
-
 	public function incoming($socketData)
 	{
 		$message = json_decode($this->unseal($socketData));
@@ -87,9 +194,10 @@ class socket_server
 			return;
  
 		$user = $this->user[$id];
+
 		if ($message->action == "friends")
 		{
-			$msg['friends'] = $this->get_friends($id);
+			$msg['friends'] = $this->db->get_friends($id);
 			$msg_log['login'] = $user['id'];
 			foreach($msg['friends'] as $key => $user)
 			{
@@ -112,6 +220,10 @@ class socket_server
 				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
+				// ARE THEY FRIENDS ????
+				// ARE THEY FRIENDS ????
+				// ARE THEY FRIENDS ????
+				// ARE THEY FRIENDS ????
 				if (isset($this->user[$message->to]))
 				{
 					$socket_to = $this->user[$message->to]['socket'];
@@ -121,16 +233,95 @@ class socket_server
 					$msg['message']['username'] = $user['username'];
 					$this->send($socket_to, $msg);
 				}
-				$this->new_msg($id, $message->to, $message->message);
+				$conv = $this->db->find_conv($id,  $message->to);
+				if ($conv === NULL)
+					return ;
+				$this->db->send($conv['id'], $id, $message->to, $message->message);
+			}
+		}
+
+		if ($message->action == "previous_message")
+		{
+			if (!empty($message->id))
+			{
+				$conv = $this->db->find_conv($id,  $message->id);
+				if ($conv === NULL)
+					return ;
+				$msgs = $this->db->get_msg($conv['id']);
+				$msg['previous_message'] = array();
+				$msg['previous_message']['id'] = $message->id;
+				$msg['previous_message']['msgs'] = $msgs;
+				$this->send($this->current_socket, $msg);
 			}
 		}
 	}
 
-	public function new_msg($id_user_from, $id_user_to, $msg)
+	public function auth_assoc($ssid, $current_socket)
 	{
-		$conv = $this->m_message->find_conv($id_user_from, $id_user_to);
-		if ($conv === NULL)
-			return ();
+		@session_id($ssid);
+		@session_start();
+		if (empty($_SESSION['user']))
+			return (false);
+		//		socket_getpeername($current_socket, $client_ip_address);
+		//			|| empty($_SESSION['USER']['IP']) != socket_ip)
+		//			|| empty($_SESSION['USER']['websocket_token']))
+
+		$user = $_SESSION['user'];
+
+		$this->user[$user['id']] = $user;
+		$this->user[$user['id']]['socket'] = $current_socket;
+
+		session_write_close();
+
+		return (true);
+	}
+
+	public function disconnect()
+	{
+		$id = $this->find_id_user($this->current_socket);
+		if ($id != null)
+		{
+			$msg['logout'] = $id;
+			$friends = $this->db->get_friends($id);
+			if ($friends)
+				foreach ($friends as $user)
+					if (($sock = $this->find_socket($user['id'])))
+						$this->send($sock, $msg);
+		}
+		$index = array_search($this->current_socket, $this->clientSocketArray);
+		unset($this->clientSocketArray[$index]);
+	}
+
+	public function	find_socket($id_user)
+	{
+		if (isset($this->user[$id_user]))
+			return ($this->user[$id_user]['socket']);
+		return (null);
+	}
+
+	public function	find_id_user($socket)
+	{
+		foreach ($this->user as $id => $user)
+			if ($this->user[$id]['socket'] == $socket)
+				return ($id);
+		return (null);
+	}
+
+	public function broadcast($clientSocketArray, $message)
+	{
+		$message = $this->seal(json_encode($message));
+		$messageLength = strlen($message);
+		foreach($clientSocketArray as $clientSocket)
+			@socket_write($clientSocket, $message, $messageLength);
+		return true;
+	}
+
+	public function send($socket, $message)
+	{
+		$message = $this->seal(json_encode($message));
+		$messageLength = strlen($message);
+		@socket_write($socket, $message, $messageLength);
+		return true;
 	}
 
 	public function connect()
@@ -155,76 +346,6 @@ class socket_server
 		$this->clientSocketArray[] = $newSocket;
 		$newSocketIndex = array_search($this->socket, $this->working_sokets);
 		unset($this->working_sokets[$newSocketIndex]);
-	}
-
-
-
-	public function auth_assoc($ssid, $current_socket)
-	{
-		@session_id($ssid);
-		@session_start();
-		if (empty($_SESSION['user']))
-			return (false);
-		//		socket_getpeername($current_socket, $client_ip_address);
-		//			|| empty($_SESSION['USER']['IP']) != socket_ip)
-		//			|| empty($_SESSION['USER']['websocket_token']))
-
-		$user = $_SESSION['user'];
-
-		$this->user[$user['id']] = $user;
-		$this->user[$user['id']]['socket'] = $current_socket;
-
-		session_write_close();
-
-		return (true);
-	}
-
-	public function	find_socket($id_user)
-	{
-		if (isset($this->user[$id_user]))
-			return ($this->user[$id_user]['socket']);
-		return (null);
-	}
-
-	public function	find_id_user($socket)
-	{
-		foreach ($this->user as $id => $user)
-			if ($this->user[$id]['socket'] == $socket)
-				return ($id);
-		return (null);
-	}
-
-	public function get_friends($user_id)
-	{
-		$this->db->sql = "
-			SELECT u.id, u.username
-			FROM `like` l1
-			LEFT JOIN `like` l2
-			ON l1.id_user_to = l2.id_user_from
-			LEFT JOIN user u
-			ON l2.id_user_from = u.id
-			WHERE l1.id_user_from = " . $user_id . "
-			AND l2.id_user_to = " . $user_id;
-		$stm = $this->db->execute_pdo();
-		$stm = $stm->fetchAll(PDO::FETCH_ASSOC);
-		return ($stm);
-	}
-
-	public function broadcast($clientSocketArray, $message)
-	{
-		$message = $this->seal(json_encode($message));
-		$messageLength = strlen($message);
-		foreach($clientSocketArray as $clientSocket)
-			@socket_write($clientSocket, $message, $messageLength);
-		return true;
-	}
-
-	public function send($socket, $message)
-	{
-		$message = $this->seal(json_encode($message));
-		$messageLength = strlen($message);
-		@socket_write($socket, $message, $messageLength);
-		return true;
 	}
 
 	public function unseal($socketData)
@@ -269,14 +390,10 @@ class socket_server
 	}
 }
 
-
 $server = new socket_server();
 
 $server->db = new db();
-$server->db->connect_base();
 
-$server->m_message = new m_message();
-$server->m_message->db = &$server->db;
 
 
 while (true)
