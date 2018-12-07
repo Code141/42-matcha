@@ -1,10 +1,12 @@
-
 <?php
+
 class m_profil
 {
 	public function create_profil($id_profil, $id_user_logged)
 	{
 		$profil = $this->fetch_user($id_profil, $id_user_logged);
+		if ($profil == NULL)
+			return (NULL);
 		$profil['tags'] = $this->fetch_user_tags($id_profil);
 		$profil['orientations'] = $this->fetch_orientations($id_profil);
 		return ($profil);
@@ -20,10 +22,10 @@ class m_profil
 			LEFT JOIN gender_identity gi
 			ON u.id_gender_identity = gi.id
 			LEFT JOIN blocked b
-			ON b.`id_user(to)` = u.id
+			ON b.`id_user_to` = u.id
 			WHERE u.id = :0
-			AND (b.`id_user(to)` IS NULL OR
-		   	NOT b.`id_user(from)` = :1 )
+			AND (b.`id_user_to` IS NULL OR
+			NOT b.`id_user_from` = :1 )
 		";
 
 		$stm = $this->db->pdo->prepare($sql);
