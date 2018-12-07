@@ -13,8 +13,7 @@ class c_setup extends c_controller
 			->drop_db()
 			->create_db()
 			->from_file_to_query("tables.sql");
-
-		$this->core->set_view("setup", "main");
+		$this->core->success("New empty database has been created", 'setup', 'main');
 	}
 
 	public function seed($params = NULL)
@@ -35,12 +34,12 @@ class c_setup extends c_controller
 			}
 		}
 
-		$this->core->set_view("setup", "main");
+		$this->core->success("New database with mock data has been created", 'setup', 'main');
 	}
 
 	public function drop($params = NULL)
 	{
 		$this->load->model("setup")->drop_db();
-		$this->core->set_view("setup", "main");
+		$this->core->success("Database has been successfully deleted", 'setup', 'main');
 	}
 }

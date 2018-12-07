@@ -86,22 +86,35 @@ class c_account extends c_controller
 		$this->update_session($fields['username'], $pw_len);
 		$this->core->success("Your profil has successfully been updated<br>" . $successmsg, 'account', 'main');
 	}	
-
-	public function add_match_pref()
+	
+	public function edit_bio()
 	{
+		if (!isset($_POST['bio']) || trim($_POST['bio']) == "")
+			$this->core->fail("Your bio can not be empty", 'account', 'main');
+		$user = $this->module_loader->session()->controller->user_loggued();
 		$model = $this->load->model("account");
-		$all_genders = $model->fetch_all_from("gender");
-		$all_gender_id = $model->fetch_all_from("gender_identity");
+		$model->edit_bio($user['id'], $_POST['bio']);
+		$this->update_session($user['username'], $user['password_length']);
+		$this->core->success("Bio added successfully", 'account', 'main');
+	}
 
-		$fields = array("username", "firstname", "lastname", "email", "password");
-		$fields = $this->requiered_fields($fields, $_POST);
-		if ($fields === NULL)
-			$this->core->fail("Please fill in required fields", 'account', 'main');
-		if (($_POST['gender'] !== 'NULL' && !$this->recursive_in_array($all_genders, $_POST['gender'])) ||
-			($_POST['gender_identity'] !== 'NULL' && !$this->recursive_in_array($all_gender_id, $_POST['gender_identity'])))
-			$this->core->fail("This orientation is not available (yet)", 'account', 'main');
-		echo "ok";
-		return TRUE;
+	public function del_preference()
+	{
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$model = $this->load->model("account");
+		$model->del_preference($user['id'], $_POST['gender'], $_POST['gender_identity']);
+		$this->update_session($user['username'], $user['password_length']);
+		$this->core->success("Preference successfully deleted", 'account', 'main');
+	}
+
+	public function del_tag()
+	{
+		var_dump($_POST);
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$model = $this->load->model("account");
+//		$model->del_tag($user['id'], $_POST['tag']);
+//		$this->update_session($user['username'], $user['password_length']);
+//		$this->core->success("Tag successfully deleted", 'account', 'main');
 	}
 
 	public function change_email($params = NULL)
