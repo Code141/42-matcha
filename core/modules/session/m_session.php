@@ -67,7 +67,7 @@ class m_module_session
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
 		$stm->execute();
-		$bio = $stm->fetchAll(PDO::FETCH_ASSOC);
+		$bio = $stm->fetch()['bio'];
 		return ($bio);
 	}
 
@@ -125,9 +125,7 @@ class m_module_session
 		$sql = "
 			SELECT *
 			FROM user
-			WHERE email = :email
-			OR new_email = :email
-			";
+			WHERE email = :email";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("email", $email, PDO::PARAM_STR);
 		$user = $stm->execute();

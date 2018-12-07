@@ -80,8 +80,10 @@ class	db
 		}
 		catch (PDOException $e)
 		{
-			$this->core->fail($e->getMessage(), $page, $action);
-			//echo "ERROR :" . $e->getMessage();
+			if (DEV_MODE)
+				die($e->getMessage());
+			else
+				$this->core->fail('An error has occured', $page, $action);
 		}
 		return ($pdo_stm);
 	}
