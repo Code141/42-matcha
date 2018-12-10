@@ -65,7 +65,7 @@ CREATE TABLE `reported` (
 
 CREATE TABLE `tag` (
   `id` int(11),
-  `tag_name` varchar(64) NOT NULL
+  `tag_name` varchar(64) NOT NULL, UNIQUE (`tag_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `user` (

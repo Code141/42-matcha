@@ -264,7 +264,6 @@ INSERT INTO tag (id, tag_name) VALUES
 (NULL, 'Locksport'),
 (NULL, 'Machining'),
 (NULL, 'Macramé'),
-(NULL, 'Macrame'),
 (NULL, 'Magic'),
 (NULL, 'Mahjong'),
 (NULL, 'Making Model Cars'),

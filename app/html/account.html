@@ -114,14 +114,14 @@
 				</td>
 			</tr>
 			<?php } ?>
-			<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_match_pref'; ?>">
+			<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_preference'; ?>">
 				<tr>
 					<td>
 						<select form="add_matching_preferences_form" name="gender" value="" class="input" required>
 							<option class="placeholder" value="" disabled selected hidden></option>
 							<option value="NULL">ALL</option>
 							<?php foreach($this->data['all_genders'] as $g){ ?>
-							<option value="<?php echo $g['gender_name'];?>"><?php echo $g['gender_name'];?></option>
+							<option value="<?php echo $g['id'];?>"><?php echo $g['gender_name'];?></option>
 							<?php }?>
 						</select>
 					</td>
@@ -131,7 +131,7 @@
 							<option></option> 
 							<option value="NULL">ALL</option>
 							<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
-							<option value="<?php echo $g_i['gender_identity_name'];?>"><?php echo $g_i['gender_identity_name'];?></option>
+							<option value="<?php echo $g_i['id'];?>"><?php echo $g_i['gender_identity_name'];?></option>
 							<?php }?>
 						</select>
 					</td>
@@ -147,12 +147,12 @@
 			<form class="del_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/del_tag';?>">
 				<p>
 				<?php echo "#".$value['tag_name'] ?>
-				<button type="submit" name="tag" value="<?php echo $value['tag_name'];?>" class="delete submit" title="Delete a tag">x</button>
+				<button type="submit" name="tag" value="<?php echo $value['id'];?>" class="delete submit" title="Delete a tag">x</button>
 				</p>
 			</form>
 			<?php } ?>
-			<form id="add_tag_form" method="post">
-				<input list="tag_list" name="tags" type="text" class="input" placeholder="# Add a tag">
+			<form id="add_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/add_tag';?>">
+				<input list="tag_list" name="tag" type="text" class="input" title="multiple spaces and/or # at the beginning will be ignored" placeholder="# Add a tag">
 				<datalist id="tag_list">
 					<?php foreach($this->data['all_tags'] as $tag){ ?>
 					<option value="#<?php echo $tag['tag_name'];?>">
