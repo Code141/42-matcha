@@ -25,7 +25,13 @@ if ($this->module_loader->session()->controller->is_loggued())
 				Messages 
 			</a>
 		</li>
-	</ul> 
+		<li>
+			<?php
+				$this->module_loader->notifications();
+				$this->module->notifications->show();
+			?>
+		</li>
+	</ul>
 </nav>
 <?php } ?>
 

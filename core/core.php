@@ -21,15 +21,13 @@ class core
 
 	public function consolelog($msg)
 	{
-		echo "
-<script>console.log('" . $msg . "');</script>
-";
+		echo "<script>console.log('" . $msg . "');</script>";
 	}
 
 
 	public function __construct()
 	{
-		$this->parse_uri($_SERVER['REQUEST_URI']);
+		$this->request = $this->parse_uri($_SERVER['REQUEST_URI']);
 
 		$this->load = new loader();
 		$this->module_loader = new module_loader();
@@ -130,7 +128,7 @@ class core
 			return (NULL);
 	}
 
-	private function	parse_uri(string $uri)
+	public function	parse_uri(string $uri)
 	{
 		$pattern = "~^" . SITE_ROOT . "~";
 		$uri = preg_replace($pattern, "", $uri);
@@ -141,7 +139,7 @@ class core
 		$request['controller'] = ($exploded_uri[0] != '') ? $exploded_uri[0] : DEFAULT_CONTROLLER;
 		$request['action'] = (isset($exploded_uri[1])) ? $exploded_uri[1] : DEFAUT_ACTION;
 		$request['params'] = (isset($exploded_uri[2])) ? array_slice($exploded_uri, 2) : NULL;
-		$this->request = $request;
+		return ($request);
 	}
 
 }

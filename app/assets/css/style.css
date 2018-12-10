@@ -102,7 +102,6 @@ main
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	justify-content: space-around;
 }
 
 /*- HOME -----------------------------------------------------------*/
@@ -386,3 +385,57 @@ section#register div.radio_gender input
 		font-size:0.8em;
 	}
 
+/*- CHAT -----------------------------------------------------------*/
+
+	div#notif
+	{
+		color :rgba(255, 100, 100, 1);
+	}
+
+	div#notif div#detail
+	{
+
+		font-size: 13px;
+		padding-right:15px;
+		text-align: left;
+/*
+		display:none;
+*/
+		max-height:300px;
+		overflow: hidden auto;
+
+		position:absolute;
+		top: 50px;
+		background-color: rgba(255, 200, 200, 1);
+		border: 1px solid rgba(255, 150, 150, 1);
+		border-radius: 4px;
+		color: rgba(100, 100, 100, 1);
+		box-shadow: 10px 10px 30px rgba(150, 70, 70, 0.6);
+	}
+
+	div#notif div#detail p
+	{
+		width:300px;
+		padding:7px;
+	}
+
+	div#notif div#detail p a
+	{
+		font-size: 14px;
+		font-weight: bolder;
+	}
+
+	div#notif div#detail p + p
+	{
+		border-top: 1px solid rgba(255, 150, 150, 0.5);
+	}
+
+	div#notif div#detail p span.date
+	{
+		float:right;
+	}
+
+	div#notif:hover div#detail
+	{
+		display:block;
+	}

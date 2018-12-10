@@ -109,7 +109,7 @@ class c_account extends c_controller
 
 	public function del_tag()
 	{
-		var_dump($_POST);
+//		var_dump($_POST);
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$model = $this->load->model("account");
 //		$model->del_tag($user['id'], $_POST['tag']);

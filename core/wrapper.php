@@ -24,7 +24,7 @@ class m_wrapper
 			$query[] = $this->limit;
 //		var_dump($query);
 		$this->sql = implode(" ", $query) . ";";
-		echo "<br>--------------- SQL QUERY --------------<br>" . $this->sql . "<br>";
+//		echo "<br>--------------- SQL QUERY --------------<br>" . $this->sql . "<br>";
 		return ($this);
 	}
 
@@ -69,9 +69,9 @@ class m_wrapper
 
 	public function bind_params()
 	{
-		echo "<br> ------------bind params ------------- <br>";
-		print_r($this->bind_param);
-		echo "<br><br>";
+//		echo "<br> ------------bind params ------------- <br>";
+//		print_r($this->bind_param);
+//		echo "<br><br>";
 		foreach ($this->bind_param as $key => &$value)
 			$this->stm->bindParam(":" . $key, $value);
 		return ($this);

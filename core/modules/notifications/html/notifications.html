@@ -1,0 +1,22 @@
+<div id="notif">
+	Notifications
+
+<?php
+	$history = $this->self->controller->show_history(); 
+	echo "(" . count($history) . ")";
+?>
+	<div id="detail">
+	<?php foreach ($history as $key => $value) { ?>
+		<p>
+		<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
+				<?php echo $value['username']; ?>
+			</a>
+			has visited your profile 
+			<span class="date">
+				<?php echo human_date($value['timestamp']); ?>
+			</span>
+		</p>
+	<?php } ?>
+	</div>
+</div>
+

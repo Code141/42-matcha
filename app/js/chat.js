@@ -4,9 +4,7 @@ window.onload = function ()
 
 	client = new websock();
 	client.init();
-
 };
-
 
 function websock()
 {
@@ -58,8 +56,6 @@ function websock()
 		}.bind(this);
 	}
 }
-
-
 
 function messagerie()
 {
@@ -194,7 +190,6 @@ function messagerie()
 		}.bind(this))
 	}
 }
-
 
 function chat_list(chat_list)
 {

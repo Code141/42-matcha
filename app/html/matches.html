@@ -1,155 +1,215 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-					   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-		crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-  crossorigin=""></script>
+<section id="matches">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
 
-<form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
-	<button id="search_button" type="submit">SEARCH FOR THE PERFECT MATCH</button>
+	<aside>
+		<form action="<?php echo SITE_ROOT;?>matches/main/1" method="post" >
+			<button id="search_button" type="submit">
+				SEARCH FOR THE PERFECT MATCH
+			</button>
 
-	<div class="f_container">
-		<input type="checkbox" name="matches" id="matches" value="1"<?php if ($this->data['filters']['matches']) echo "checked"?>>
-		<label class="f_title" for="matches">matches</label> 
-	</div>
-	
-	<div class="f_container">
-		<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1"<?php if ($this->data['filters']['order by matching tags']) echo "checked"?>>
-		<label class="f_title" for="order by matching tags">order by matching tags</label> 
-	</div>
+			<div class="f_container">
+				<input type="checkbox" name="matches" id="matches" value="1"<?php if ($this->data['filters']['matches']) echo "checked"?>>
+				<label class="f_title" for="matches">
+					matches
+				</label> 
+			</div>
+			
+			<div class="f_container">
+				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1"<?php if ($this->data['filters']['order by matching tags']) echo "checked"?>>
+				<label class="f_title" for="order by matching tags">order by matching tags</label> 
+			</div>
 
-	<div class="f_container">
-		<p class="f_title">Order by distance</p>
-		<select name="distance_order">
-			<option value=""></option>
-			<option value="ASC">CLOSEST</option>
-			<option value="DESC">FURTHEST</option>
-		</select>
-	</div>
-	<div class="f_container">
-		<p class="f_title">Order by birthdate</p>
-		<select name="birthdate_order">
-			<option value=""></option>
-			<option value="ASC">ASC</option>
-			<option value="DESC">DESC</option>
-		</select>
-	</div>
-	<div class="f_container">
-		<p class="f_title">Filter by distance</p>
-		<input type="number" name="distance_filter_km" min="1" max="20037"> km away
-	</div>
+			<div class="f_container">
+				<p class="f_title">
+					Order by distance
+				</p>
+				<select name="distance_order">
+					<option value="">
+					</option>
+					<option value="ASC">
+						CLOSEST
+					</option>
+					<option value="DESC">
+						FURTHEST
+					</option>
+				</select>
+			</div>
+			<div class="f_container">
+				<p class="f_title">
+					Order by birthdate
+				</p>
+				<select name="birthdate_order">
+					<option value="">
+					</option>
+					<option value="ASC">
+						ASC
+					</option>
+					<option value="DESC">
+						DESC
+					</option>
+				</select>
+			</div>
+			<div class="f_container">
+				<p class="f_title">
+					Filter by distance
+				</p>
+				<input type="number" name="distance_filter_km" min="1" max="20037">
+				km away
+			</div>
 
-	<div class="f_container">
-		<p class="f_title">Filter by age</p>
-		<p>Between</p> 
-		<p>
-		<select name="age_select_from">
-			<?php for($i=0;$i<120;$i+=10){?>
-			<option value=<?php echo $i;?>><?php echo $i;?></option>
-			<?php } ?>
-		</select>
-		and 
-		<select name="age_select_to">
-			<?php for($i=120;$i>0;$i-=10){?>
-			<option value=<?php echo $i;?>><?php echo $i;?></option>
-			<?php } ?>
-		</select>
-		</p>
-		<p>years old</p>
-	</div>
-	<div class="f_container"  id="tag_container">
-		<p class="f_title">Filter by tags</p>
-		<input type="text" id="search_tags" placeholder="Search for tags..">
-		<div id="tag_list">
-			<ul id="myUL">
-				<?php foreach($this->data['all_tags'] as $tag) { ?>
-				<li title="<?php echo $tag['tag_name'];?>">
-					<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>>
-					<label for="<?php echo $tag['tag_name'];?>">#<?php echo $tag['tag_name']?></label>
-				</li>
-				<?php  }?>
-			</ul>
+			<div class="f_container">
+				<p class="f_title">
+					Filter by age
+				</p>
+				<p>
+					Between
+				</p> 
+				<p>
+				<select name="age_select_from">
+				<?php for($i=0; $i<120; $i+=10) {?>
+					<option value=<?php echo $i;?>>
+						<?php echo $i;?>
+					</option>
+				<?php } ?>
+				</select>
+				and 
+				<select name="age_select_to">
+					<?php for($i=120;$i>0;$i-=10){?>
+					<option value=<?php echo $i;?>>
+						<?php echo $i;?>
+					</option>
+					<?php } ?>
+				</select>
+				</p>
+				<p>
+					years old
+				</p>
+			</div>
+			<div class="f_container" id="tag_container">
+				<p class="f_title">
+					Filter by tags
+				</p>
+				<input type="text" id="search_tags" placeholder="Search for tags..">
+				<div id="tag_list">
+					<ul id="myUL">
+						<?php foreach($this->data['all_tags'] as $tag) { ?>
+						<li title="<?php echo $tag['tag_name'];?>">
+							<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>>
+							<label for="<?php echo $tag['tag_name'];?>">#<?php echo $tag['tag_name']?></label>
+						</li>
+						<?php  }?>
+					</ul>
+				</div>
+				<div>
+					<button id="uncheck_tags">
+						Clear tag filters
+					</button>
+				</div>
+			</div>
+		</form>
+	</aside>
+
+	<div class="right">
+		<div id=map>
 		</div>
-		<div>
-			<button id="uncheck_tags">Clear tag filters</button>
+		<div class='container' id="profils">
+			<?php foreach($this->data['matches'] as $profil) { ?>
+			<a href="<?php echo SITE_ROOT . "profil/main/" . $profil['id']; ?>">
+				<article>
+					<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+					<p>
+						<?php echo $profil['username']?>
+					</p>
+					<p>
+						gender : <?php echo $profil['gender_name']?>
+					</p>
+					<p>
+						gender identity : <?php echo $profil['gender_identity_name']?>
+					</p>
+					<p>
+						<?php if ($profil['distance'] != NULL) { ?>
+						dist : <?php echo number_format((float)($profil['distance'] / 1000), 2, '.', '');?> km away
+						<?php } ?>
+					</p>
+					<p>
+						<?php echo $profil['birthdate']?>
+					</p>
+					<p>
+						<?php echo $profil['age']?> years old
+					</p>
+					<a href="<?php echo SITE_ROOT . "ajax/like/" . $profil['id']?>">
+						LIKE
+					</a>
+				</article>
+			</a>
+			<?php	} ?>
 		</div>
 	</div>
-</form>
-<div class="right">
-	<div id=map>
-	</div>
 
-	<div class='container' id="profils">
-		<?php foreach($this->data['matches'] as $profil) { ?>
-		<article>
-			<p><?php echo $profil['username']?></p>
-			<p>gender : <?php echo $profil['gender_name']?></p>
-			<p>gender identity : <?php echo $profil['gender_identity_name']?></p>
-			<p>dist : <?php echo number_format((float)($profil['distance'] / 1000), 2, '.', '');?> km away</p>
-			<p><?php echo $profil['birthdate']?></p>
-			<p><?php echo $profil['age']?> years old</p>
-		</article>
-		<?php	} ?>
-	</div>
-</div>
-<script>
+	<script>
 
-var user_location = { "lat" : <?php echo $this->data['user']['latitude'];?>, "lon" : <?php echo $this->data['user']['longitude'];?> };
+	var user_location = { "lat" : <?php echo $this->data['user']['latitude'];?>, "lon" : <?php echo $this->data['user']['longitude'];?> };
 
-var matches = <?php echo $this->data['js_matches'];?>;
+	var matches = <?php echo $this->data['js_matches'];?>;
 
-window.onload = function(){
-	tag_handling();
-	initMap();
-}
+window.addEventListener('load',tag_handling);
+window.addEventListener('load',initMap);
 
-function	tag_handling(){
-	document.getElementById("search_tags").addEventListener("keyup", function(event){
-		var input_bar, filter, ul, li, a, i;
-		input_bar = document.getElementById('search_tags');
-		filter = input_bar.value.toUpperCase();
-		ul = document.getElementById("myUL");
-		li = ul.getElementsByTagName('li');
-
-		for (i = 0; i < li.length; i++) {
-			input = li[i].getElementsByTagName("input")[0];
-			if (input.name.toUpperCase().indexOf(filter) > -1) {
-				li[i].style.display = "";
-			} else {
-				li[i].style.display = "none";
-			}
-		}
-	});
-
-	document.getElementById("uncheck_tags").addEventListener("click", function(event){
-		event.preventDefault()
+	function	tag_handling(){
+		document.getElementById("search_tags").addEventListener("keyup", function(event){
+			var input_bar, filter, ul, li, a, i;
+			input_bar = document.getElementById('search_tags');
+			filter = input_bar.value.toUpperCase();
 			ul = document.getElementById("myUL");
-		li = ul.getElementsByTagName('li');
-		for (i = 0; i < li.length; i++) {
-			input = li[i].getElementsByTagName("input")[0].checked = false;
-		}
-	});
-}
+			li = ul.getElementsByTagName('li');
+
+			for (i = 0; i < li.length; i++) {
+				input = li[i].getElementsByTagName("input")[0];
+				if (input.name.toUpperCase().indexOf(filter) > -1) {
+					li[i].style.display = "";
+				} else {
+					li[i].style.display = "none";
+				}
+			}
+		});
+
+		document.getElementById("uncheck_tags").addEventListener("click", function(event){
+			event.preventDefault()
+				ul = document.getElementById("myUL");
+			li = ul.getElementsByTagName('li');
+			for (i = 0; i < li.length; i++) {
+				input = li[i].getElementsByTagName("input")[0].checked = false;
+			}
+		});
+	}
+
+
 
 function initMap() {
 	map = new L.map('map');
 
 	for (profil in matches ){
-		var marker = L.marker([matches[profil].latitude, matches[profil].longitude]).addTo(map);
-		marker.bindPopup("<b>"+matches[profil].username+"</b><br>").openPopup();
+		if (matches[profil].latitude != null && matches[profil].longitude != null)
+		{
+			console.log(matches[profil].latitude, matches[profil].longitude);
+			var marker = L.marker([matches[profil].latitude, matches[profil].longitude]).addTo(map);
+			marker.bindPopup("<b>"+matches[profil].username+"</b><br>").openPopup();
+		}
 	}
 
 	var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
-		marker.bindPopup("<b>You</b><br>").openPopup();
-	
+	marker.bindPopup("<b>You</b><br>").openPopup();
+
 	L.circle([user_location.lat, user_location.lon], 10000).addTo(map);
-	map.setView([user_location.lat, user_location.lon], 13);
+	map.setView([user_location.lat, user_location.lon], 10);
 
 	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-			minZoom: 2,
-			maxZoom: 18
-			}).addTo(map);
-
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+		minZoom: 2,
+		maxZoom: 18
+	}).addTo(map);
 }
-</script>
+
+	</script>
+</section>

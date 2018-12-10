@@ -56,12 +56,15 @@ class	db
 	public function get_friends($user_id)
 	{
 		$this->sql = "
-			SELECT u.id, u.username
+			SELECT DISTINCT u.id, u.username
 			FROM `like` l1
+
 			LEFT JOIN `like` l2
 			ON l1.id_user_to = l2.id_user_from
+
 			LEFT JOIN user u
 			ON l2.id_user_from = u.id
+
 			WHERE l1.id_user_from = " . $user_id . "
 			AND l2.id_user_to = " . $user_id;
 		$this->stm = $this->pdo->prepare($this->sql);
@@ -106,7 +109,6 @@ class	db
 		$this->sql = "
 				SELECT *
 				FROM conv
-				
 				WHERE
 				(id_user_from = :id_user_from AND id_user_to = :id_user_to)
 				OR
@@ -115,17 +117,8 @@ class	db
 		$this->stm = $this->pdo->prepare($this->sql);
 		$this->stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$this->stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
-//		$this->execute();
+		$this->stm->execute();
 
-		try
-		{
-			$this->stm->execute();
-		}
-		catch (PDOException $e)
-		{
-			die("HEHO" . $e->getMessage());
-		}
-	
 		$conv = $this->stm->fetchAll(PDO::FETCH_ASSOC);
 		if (!$this->stm->rowCount())
 			return (NULL);
@@ -355,7 +348,7 @@ class socket_server
 			$masks = substr($socketData, 4, 4);
 			$data = substr($socketData, 8);
 		}
-		elseif($length == 127) {
+		else if($length == 127) {
 			$masks = substr($socketData, 10, 4);
 			$data = substr($socketData, 14);
 		}
@@ -377,10 +370,10 @@ class socket_server
 
 		if($length <= 125)
 			$header = pack('CC', $b1, $length);
-		elseif($length > 125 && $length < 65536)
+		else if($length > 125 && $length < 65536)
 			$header = pack('CCn', $b1, 126, $length);
-		elseif($length >= 65536)
-			$header = pack('CCNN', $b1, 127, $length);
+		else if($length >= 65536)
+			$header = pack('CCN', $b1, 127, $length);
 		return $header.$socketData;
 	}
 
