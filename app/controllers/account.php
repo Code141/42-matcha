@@ -106,15 +106,47 @@ class c_account extends c_controller
 		$this->update_session($user['username'], $user['password_length']);
 		$this->core->success("Preference successfully deleted", 'account', 'main');
 	}
+	
+	public function add_preference()
+	{
+		var_dump($_POST);
+		if (empty($_POST['gender']) || empty($_POST['gender_identity']) ||
+			((!is_numeric($_POST['gender']) || $_POST['gender'] > 4) && $_POST['gender'] != 'NULL') ||
+			(!is_numeric($_POST['gender_identity']) && $_POST['gender_identity'] != 'NULL'))
+			$this->core->fail("Bad/wrong input for this field", 'account', 'main');
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$model = $this->load->model("account");
+		if (!$model->add_preference($user['id'], $_POST['gender'], $_POST['gender_identity']))
+			$this->core->fail("No preference to add", 'account', 'main');
+		$this->update_session($user['username'], $user['password_length']);
+		$this->core->success("Matching preference successfully added", 'account', 'main');
+	}
 
 	public function del_tag()
 	{
-		var_dump($_POST);
+		if (!isset($_POST['tag']) || !is_numeric($_POST['tag']))
+			$this->core->fail("No tag specified", 'account', 'main');
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$model = $this->load->model("account");
-//		$model->del_tag($user['id'], $_POST['tag']);
-//		$this->update_session($user['username'], $user['password_length']);
-//		$this->core->success("Tag successfully deleted", 'account', 'main');
+		$model->del_tag($user['id'], $_POST['tag']);
+		$this->update_session($user['username'], $user['password_length']);
+		$this->core->success("Tag successfully deleted", 'account', 'main');
+	}
+
+	public function add_tag()
+	{
+		if (!isset($_POST['tag']) || $_POST['tag'] == "")
+			$this->core->fail("Tag must contain at least one character", 'account', 'main');
+		$tag_name = preg_replace("/^\s*#*\s*/", "", $_POST['tag']);
+		$tag_name = rtrim($tag_name);
+		if ($tag_name == "")
+			$this->core->fail("Tag is badly formated", 'account', 'main');
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$model = $this->load->model("account");
+		if (!$model->add_tag($user['id'], $tag_name))
+			$this->core->fail("No tag to add", 'account', 'main');
+		$this->update_session($user['username'], $user['password_length']);
+		$this->core->success("Tag successfully added", 'account', 'main');
 	}
 
 	public function change_email($params = NULL)
