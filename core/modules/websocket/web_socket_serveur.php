@@ -125,7 +125,6 @@ class	db
 		return ($conv[0]);
 	}
 
-
 	public function __destruct()
 	{
 		if (!empty($this->stm))
@@ -153,6 +152,9 @@ class socket_server
 	public function loop_work()
 	{
 		$this->working_sokets = $this->clientSocketArray;			// DUPLIQUE UNE COPIE DE TRAVAIL
+		if (empty($this->working_sokets))
+			return;
+
 		socket_select($this->working_sokets, $null, $null, 0, 10);	// FILTRE LES SOCKECT MODIFIE
 
 		if (in_array($this->socket, $this->working_sokets)) // Si un des socket a ete modifie
@@ -179,8 +181,13 @@ class socket_server
 			return;
 
 		if (isset($message->ssid))
-			if (!$this->auth_assoc($message->ssid, $this->current_socket))
+		{
+			$user = $this->auth($message->ssid);
+			if (!$user)
 				return;
+			$this->user[$user['id']] = $user;
+			$this->user[$user['id']]['socket'] = $this->current_socket;
+		}
 
 		$id = $this->find_id_user($this->current_socket);
 		if ($id == null)
@@ -198,15 +205,11 @@ class socket_server
 					$msg['friends'][$key]['connected'] = true;
 				else
 					$msg['friends'][$key]['connected'] = false;
-
-				$sock = $this->find_socket($user['id']);
-				if ($sock)
-					$this->send($sock, $msg_log);
+				$this->send($user['id'], $msg_log);
 
 			}
-			$this->send($this->current_socket, $msg);
+			$this->send($id, $msg);
 		}
-
 		if ($message->action == "message")
 		{
 			if (strlen($message->message) == 0)
@@ -219,12 +222,11 @@ class socket_server
 				// ARE THEY FRIENDS ????
 				if (isset($this->user[$message->to]))
 				{
-					$socket_to = $this->user[$message->to]['socket'];
 					$msg['message'] = array();
 					$msg['message']['msg'] = $message->message;
 					$msg['message']['from'] = $id;
 					$msg['message']['username'] = $user['username'];
-					$this->send($socket_to, $msg);
+					$this->send($message->to, $msg);
 				}
 				$conv = $this->db->find_conv($id,  $message->to);
 				if ($conv === NULL)
@@ -232,7 +234,6 @@ class socket_server
 				$this->db->send($conv['id'], $id, $message->to, $message->message);
 			}
 		}
-
 		if ($message->action == "previous_message")
 		{
 			if (!empty($message->id))
@@ -244,12 +245,32 @@ class socket_server
 				$msg['previous_message'] = array();
 				$msg['previous_message']['id'] = $message->id;
 				$msg['previous_message']['msgs'] = $msgs;
-				$this->send($this->current_socket, $msg);
+				$this->send($id, $msg);
 			}
+		}
+
+	}
+
+	public function get_literal($msg)
+	{
+		$message = json_decode($msg);
+		if (empty($message->ssid_non_relink))
+			return;
+		$user = $this->auth($message->ssid_non_relink);
+		if (!$user)
+			return;
+		if ($message->action == "like")
+		{
+			$msg = array();
+			$msg['like'] = array();
+			$msg['like']['from'] = intval($user['id']);
+			$msg['like']['username'] = $user['username'];
+			$msg['like']['to'] = $message->to;
+			$this->send($message->to, $msg);
 		}
 	}
 
-	public function auth_assoc($ssid, $current_socket)
+	public function auth($ssid)
 	{
 		@session_id($ssid);
 		@session_start();
@@ -260,13 +281,8 @@ class socket_server
 		//			|| empty($_SESSION['USER']['websocket_token']))
 
 		$user = $_SESSION['user'];
-
-		$this->user[$user['id']] = $user;
-		$this->user[$user['id']]['socket'] = $current_socket;
-
 		session_write_close();
-
-		return (true);
+		return ($user);
 	}
 
 	public function disconnect()
@@ -278,8 +294,7 @@ class socket_server
 			$friends = $this->db->get_friends($id);
 			if ($friends)
 				foreach ($friends as $user)
-					if (($sock = $this->find_socket($user['id'])))
-						$this->send($sock, $msg);
+					$this->send($user['id'], $msg);
 		}
 		$index = array_search($this->current_socket, $this->clientSocketArray);
 		unset($this->clientSocketArray[$index]);
@@ -309,23 +324,33 @@ class socket_server
 		return true;
 	}
 
-	public function send($socket, $message)
+	public function send($id, $message)
 	{
+		$socket = $this->find_socket($id);
+		if (!$socket)
+			return;
 		$message = $this->seal(json_encode($message));
 		$messageLength = strlen($message);
 		@socket_write($socket, $message, $messageLength);
-		return true;
 	}
 
 	public function connect()
 	{
 		$newSocket = socket_accept($this->socket);
-		$header = socket_read($newSocket, 1024);
+		$msg = socket_read($newSocket, 1024);
+		$header = $msg;
 		$lines = preg_split("/\r\n/", $header);
 		$headers = array();
 		foreach($lines as $line)
 			if(preg_match('/\A(\S+): (.*)\z/', chop($line), $matches))
 				$headers[$matches[1]] = $matches[2];
+		if (empty($headers['Sec-WebSocket-Key']))
+		{
+			$this->get_literal($msg);
+			$newSocketIndex = array_search($this->socket, $this->working_sokets);
+			unset($this->working_sokets[$newSocketIndex]);
+			return;
+		}
 		$secKey = $headers['Sec-WebSocket-Key'];
 		$secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
 		$buffer  =
@@ -392,5 +417,5 @@ $server->db = new db();
 while (true)
 {
 	$server->loop_work();
-	usleep(100);
+//									usleep(100);
 }

@@ -34,7 +34,8 @@ CREATE TABLE `gender_identity` (
 CREATE TABLE `like` (
   `id_user_from` int(11) NOT NULL,
   `id_user_to` int(11) NOT NULL,
-  `seen` tinyint(1) NOT NULL DEFAULT '0'
+  `seen` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `media` (

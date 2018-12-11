@@ -19,6 +19,7 @@ function websock()
 
 		this.websocket.onopen = function(event)
 		{
+			this.notif = new notif();
 			if (typeof id_conv == "undefined")
 				this.chat_list = new chat_list(chat_list_cont);
 			else
@@ -30,14 +31,17 @@ function websock()
 				ssid: ssid,
 				action: "friends"
 			};
+
 			this.websocket.send(JSON.stringify(messageJSON));
 		}.bind(this)
 
 		this.websocket.onmessage = function(event)
 		{
 			var data = JSON.parse(event.data);
-			this.chat_list.do(data);
-			console.log(data);
+			if (typeof data.like != 'undefined')
+				this.notif.like(data.like);
+			else
+				this.chat_list.do(data);
 		}.bind(this);
 
 		this.websocket.onerror = function(event)
@@ -54,6 +58,14 @@ function websock()
 				this.init();
 			}.bind(this), 5000);
 		}.bind(this);
+	}
+}
+
+function notif()
+{
+	this.like = function(data)
+	{
+		console.log("You have been like by " + data.username + " id = [" + data.from+"]");
 	}
 }
 

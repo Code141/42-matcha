@@ -115,8 +115,8 @@
 		</div>
 		<div class='container' id="profils">
 			<?php foreach($this->data['matches'] as $profil) { ?>
-			<a href="<?php echo SITE_ROOT . "profil/main/" . $profil['id']; ?>">
 				<article>
+					<a href="<?php echo SITE_ROOT . "profil/main/" . $profil['id']; ?>">
 					<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
 					<p>
 						<?php echo $profil['username']?>
@@ -138,11 +138,14 @@
 					<p>
 						<?php echo $profil['age']?> years old
 					</p>
-					<a href="<?php echo SITE_ROOT . "ajax/like/" . $profil['id']?>">
-						LIKE
-					</a>
-				</article>
+
 			</a>
+
+					<button onclick="like(<?php echo $profil['id']?>)">
+						LIKE
+					</button>
+
+				</article>
 			<?php	} ?>
 		</div>
 	</div>
@@ -150,11 +153,15 @@
 	<script>
 
 	var user_location = { "lat" : <?php echo $this->data['user']['latitude'];?>, "lon" : <?php echo $this->data['user']['longitude'];?> };
-
 	var matches = <?php echo $this->data['js_matches'];?>;
 
-window.addEventListener('load',tag_handling);
-window.addEventListener('load',initMap);
+	window.addEventListener('load',tag_handling);
+	window.addEventListener('load',initMap);
+
+	function	like(id)
+	{
+		ajax_request('<?php echo SITE_ROOT; ?>' + 'ajax/like/' + id);
+	}
 
 	function	tag_handling(){
 		document.getElementById("search_tags").addEventListener("keyup", function(event){
@@ -192,7 +199,6 @@ function initMap() {
 	for (profil in matches ){
 		if (matches[profil].latitude != null && matches[profil].longitude != null)
 		{
-			console.log(matches[profil].latitude, matches[profil].longitude);
 			var marker = L.marker([matches[profil].latitude, matches[profil].longitude]).addTo(map);
 			marker.bindPopup("<b>"+matches[profil].username+"</b><br>").openPopup();
 		}

@@ -18,4 +18,20 @@ class m_module_notifications
 		$history = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return ($history);
 	}
+
+	public function get_like($id_user)
+	{
+		$sql = "
+			SELECT l.*, u.username, u.id
+			FROM `like` l
+			LEFT JOIN user u
+			ON u.id = l.id_user_from
+			WHERE l.id_user_to = :id_user
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_STR);
+		$history = $stm->execute();
+		$history = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($history);
+	}
 }

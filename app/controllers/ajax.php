@@ -4,21 +4,18 @@ class c_ajax extends c_controller
 {
 	public function like($params)
 	{
-		if (isset($_SERVER['HTTP_REFERER']))
-		{
-		}
-		else
-			$fields = array("controller" => "home", "action" => "main");
-
-		if (empty($params[0]))
-			$this->core->fail("Unknow user", $request['controller'], $request['action']);
-
-		$id_user_to = intval($params[0]);
-
+		$response = Array ();
 		$user = $this->module_loader->session()->controller->user_loggued();
+		$id_user_to = intval($params[0]);
+		$response['row'] = $this->load->model("interactions")->like($user["id"], $id_user_to);
+		$response['status'] = "success";
 
-//		$this->req = $this->load->model("interactions")->like($user["id"], $id_user_to);
+		$this->module_loader->websocket()->controller->send_like($id_user_to);
 
-		$this->core->success("You liked this user", "matches", "main");
+		if (!is_ajax_query())
+			$this->core->success("You liked it !", "matches", "main");
+		else
+			echo json_encode($response);
 	}
 }
+
