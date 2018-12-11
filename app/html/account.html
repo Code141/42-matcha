@@ -27,8 +27,8 @@
 				<span>Gender</span>:
 				<select name="id_gender" class="edit" placeholder="Add your gender">
 					<option class="placeholder" value="" disabled selected hidden><?php echo $user['gender_name']; ?></option>
-					<?php foreach($this->data['all_genders'] as $g){ ?>
-					<option value="<?php echo $g['id']?>"><?php echo $g['gender_name']?></option>
+					<?php for($i = 1; $i < count($this->data['all_genders']);$i++){ ?>
+					<option value="<?php echo $this->data['all_genders'][$i]['id']?>"><?php echo $this->data['all_genders'][$i]['gender_name']?></option>
 					<?php }?>
 				</select>
 				</p>
@@ -36,8 +36,8 @@
 				<span>Gender identity</span>:
 				<input list="gender_identity_list" name="id_gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
 				<datalist id="gender_identity_list">
-					<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
-					<option value="<?php echo $g_i['gender_identity_name']?>">
+					<?php for($i = 1; $i < count($this->data['all_gender_id']);$i++){ ?>
+					<option value="<?php echo $this->data['all_gender_id'][$i]['gender_identity_name']?>">
 					<?php }?>
 				</datalist>
 				</p>
@@ -119,7 +119,6 @@
 					<td>
 						<select form="add_matching_preferences_form" name="gender" value="" class="input" required>
 							<option class="placeholder" value="" disabled selected hidden></option>
-							<option value="NULL">ALL</option>
 							<?php foreach($this->data['all_genders'] as $g){ ?>
 							<option value="<?php echo $g['id'];?>"><?php echo $g['gender_name'];?></option>
 							<?php }?>
@@ -128,8 +127,6 @@
 					<td>
 						<select form="add_matching_preferences_form" name="gender_identity" value="" class="input" required>
 							<option class="placeholder" value="" disabled selected hidden></option>
-							<option></option> 
-							<option value="NULL">ALL</option>
 							<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
 							<option value="<?php echo $g_i['id'];?>"><?php echo $g_i['gender_identity_name'];?></option>
 							<?php }?>
@@ -170,12 +167,31 @@ window.addEventListener('load',set_events);
 
 function initMap() {
 	map = new L.map('map');
-
-	var user_location = { "lat" : <?php echo $user['latitude'];?>, "lon" : <?php echo $user['longitude'];?> };
-	var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
-	marker.bindPopup("<b>Your location</b><br>").openPopup();
-
-	map.setView([user_location.lat, user_location.lon], 13);
+	var user = <?php echo $this->data['user']?>;
+	console.log(user.latitude);
+	if (user.latitude !== null && user.longitude !== null)
+	{
+		var user_location = { "lat" : user.latitude, "lon" : user.longitude };
+		console.log("HOLLLAAAAAAAAAAAA");
+	}
+	else
+	{
+		console.log("heeeeeeeeeeeeeeeeehoooooooooooooooooooo");
+		if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(location) {
+//		  user_location = new L.LatLng(location.coords.latitude, location.coords.longitude);
+		  user_location = { "lat" : location.coords.latitude, "lon" : location.coords.longitude};
+		console.log(user_location);
+		  //		  map.setView(user_location, 13);
+		});
+		} else{
+		console.log("GEOLOCALISATION NOT PERMITTED BY USER")}
+	}
+//	var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
+//	marker.bindPopup("<b>Your location</b><br>").openPopup();
+//	console.log(map.locate({setView : true}));
+		  map.setView(user_location, 13);
+//	map.setView([user_location.lat, user_location.lon], 13);
 
 	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',

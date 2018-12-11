@@ -115,6 +115,7 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 INSERT INTO `gender` (`id`, `gender_name`) VALUES
+(-1, 'ALL'),
 (1, 'male'),
 (2, 'female'),
 (3, 'intersex'),
