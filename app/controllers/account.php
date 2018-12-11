@@ -8,8 +8,31 @@ class c_account extends c_controller
 		$this->data['all_tags'] = $model->fetch_all_from("tag");
 		$this->data['all_genders'] = $model->fetch_all_from("gender");
 		$this->data['all_gender_id'] = $model->fetch_all_from("gender_identity");
+		var_dump($this->data['user'] = json_encode($_SESSION['user']));
+		var_dump($PublicIP = $this->get_client_ip());
 		$this->core->set_view("account", "main");
 	}
+
+	private function get_client_ip() 
+	{
+		$ipaddress = '';
+		if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		else if(isset($_SERVER['HTTP_X_FORWARDED']))
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		else if(isset($_SERVER['HTTP_FORWARDED']))
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		else if(isset($_SERVER['REMOTE_ADDR']))
+		   $ipaddress = $_SERVER['REMOTE_ADDR'];
+	   else
+		   $ipaddress = 'UNKNOWN';
+      return $ipaddress;
+	}
+
 
 	private function recursive_in_array($haystack, $needle)
 	{

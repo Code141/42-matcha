@@ -78,7 +78,7 @@ class m_account
 		$this->db->execute_pdo($stm, "account", "main");
 		return (TRUE);
 	}
-	
+
 	public function del_preference($id_user, $id_gender, $id_gender_identity)
 	{
 		$sql = "
@@ -93,40 +93,89 @@ class m_account
 		$this->db->execute_pdo($stm, "account", "main");
 		return (TRUE);
 	}
-	
+
 	public function add_preference($id_user, $id_gender, $id_gender_identity)
 	{
 		$sql = "
 			INSERT INTO user_orientation (id_user, id_gender, id_gender_identity)
 			SELECT user.id, g.id, gi.id
 			FROM gender g
-
 			LEFT OUTER JOIN user
 			ON user.id = :id_user
-
 			LEFT OUTER JOIN gender_identity gi
 			ON gi.id = :id_gender_identity
-
 			LEFT OUTER JOIN user_orientation uo
 			ON uo.id_user = :id_user
-			AND uo.id_gender = :id_gender
-			AND uo.id_gender_identity = :id_gender_identity
-
+			AND ((uo.id_gender = -1 AND uo.id_gender_identity = :id_gender_identity)
+			OR (uo.id_gender_identity = -1 AND uo.id_gender = :id_gender)
+			OR (uo.id_gender = :id_gender AND uo.id_gender_identity = :id_gender_identity)
+			OR (uo.id_gender = -1 AND uo.id_gender_identity = -1))
 			WHERE g.id = :id_gender
 			AND uo.id_gender is NULL
-			AND uo.id_gender_identity is NULL
-			AND uo.id_user is NULL";
-		echo $sql;
+			AND uo.id_gender_identity is NULL";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam(":id_user", $id_user);
 		$stm->bindparam(":id_gender", $id_gender);
 		$stm->bindparam(":id_gender_identity", $id_gender_identity);
 		$this->db->execute_pdo($stm, "account", "main");
-		if ($stm->rowCount())
+		$ret = $stm->rowCount();
+		if ($id_gender == '-1' || $id_gender_identity == '-1')
+		{
+			if ($id_gender == -1 && $id_gender_identity == -1)
+			{
+				$sql = "DELETE uo
+					FROM user_orientation uo
+					WHERE uo.id_user = :id_user
+					AND NOT (uo.id_gender = -1 AND uo.id_gender_identity = -1)";
+			}
+			else 
+			{
+				$sql = "DELETE uo2
+					FROM user_orientation uo
+					LEFT JOIN user_orientation uo2
+					ON uo2.id_user = :id_user
+					AND ((NOT uo2.id_gender = -1 AND uo.id_gender = -1 AND uo2.id_gender_identity = uo.id_gender_identity)
+					OR (NOT uo2.id_gender_identity = -1 AND uo.id_gender_identity = -1 AND uo2.id_gender = uo.id_gender))
+					WHERE uo.id_user = :id_user
+					AND (uo.id_gender = -1
+					OR uo.id_gender_identity = -1)
+					AND uo2.id_user IS NOT NULL";
+			}
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam(":id_user", $id_user);
+			$this->db->execute_pdo($stm, "account", "main");
+		}
+		else if ($id_gender_identity != -1 && $ret)
+		{
+			$sql = "SELECT *
+				FROM user_orientation uo
+				WHERE uo.id_user = :id_user
+				AND uo.id_gender_identity = :id_gender_identity
+				GROUP BY uo.id_gender_identity
+				HAVING COUNT(DISTINCT uo.id_gender) >= 4";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam(":id_user", $id_user);
+			$stm->bindparam(":id_gender_identity", $id_gender_identity);
+			$this->db->execute_pdo($stm, "account", "main");
+			if ($stm->rowCount())
+			{
+				$sql = "DELETE uo
+					FROM user_orientation uo
+					WHERE uo.id_user = :id_user
+					AND uo.id_gender_identity = :id_gender_identity;
+				INSERT INTO user_orientation(id_user, id_gender, id_gender_identity)
+				VALUES (:id_user , -1, :id_gender_identity)";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam(":id_user", $id_user);
+			$stm->bindparam(":id_gender_identity", $id_gender_identity);
+			$this->db->execute_pdo($stm, "account", "main");
+			}
+		}
+		if ($ret)
 			return (TRUE);
 		return (FALSE);
 	}
-	
+
 	public function del_tag($id_user, $id_tag)
 	{
 		$sql = "
@@ -143,8 +192,8 @@ class m_account
 	public function add_tag($id_user, $tag_name)
 	{
 		$sql = "SELECT id
-				FROM tag
-				WHERE tag_name = :tag_name";
+			FROM tag
+			WHERE tag_name = :tag_name";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam(":tag_name", $tag_name);
 		$this->db->execute_pdo($stm, "account", "main");
