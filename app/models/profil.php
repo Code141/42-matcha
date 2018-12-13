@@ -42,22 +42,22 @@ class m_profil
 	private function like($id_profil, $id_user_logged)
 	{
 		$sql = "
-SELECT 
-l1.id_user_from as u1,
-l2.id_user_from as u2,
-l1.revoked as u1_revoked,
-l2.revoked as u2_revoked,
-l1.timestamp as u1_date,
-l2.timestamp as u2_date
-FROM `like` l1
-LEFT JOIN `like` l2
-ON ((l1.id_user_from = l2.id_user_to)
-       AND
-    (l2.id_user_from = l1.id_user_to))
-WHERE ((l1.id_user_from = :0 AND l1.id_user_to = :1)
-       OR
-       (l1.id_user_from = :1 AND l1.id_user_to = :0))
-LIMIT 1
+			SELECT
+				(CASE WHEN l1.id_user_from = :0 THEN l1.id_user_from ELSE l2.id_user_from END) AS u1,
+				(CASE WHEN l1.id_user_from = :0 THEN l2.id_user_from ELSE l1.id_user_from END) AS u2,
+				(CASE WHEN l1.id_user_from = :0 THEN l1.revoked ELSE l2.revoked END) AS u1_revoked,
+				(CASE WHEN l1.id_user_from = :0 THEN l2.revoked ELSE l1.revoked END) AS u2_revoked,
+				(CASE WHEN l1.id_user_from = :0 THEN l1.timestamp ELSE l2.timestamp END) AS u1_date,
+				(CASE WHEN l1.id_user_from = :0 THEN l2.timestamp ELSE l1.timestamp END) AS u2_date
+			FROM `like` l1
+			LEFT JOIN `like` l2
+				ON ((l1.id_user_from = l2.id_user_to)
+				AND
+				(l2.id_user_from = l1.id_user_to))
+			WHERE ((l1.id_user_from = :0 AND l1.id_user_to = :1)
+				OR
+				(l1.id_user_from = :1 AND l1.id_user_to = :0))
+			LIMIT 1
 		";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam(":0", $id_user_logged, PDO::PARAM_STR);

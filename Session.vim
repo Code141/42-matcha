@@ -35,7 +35,7 @@ badd +72 core/modules/session/c_session.php
 badd +9 core/modules/session/html/register.html
 badd +2 app/sql/seed/user.sql
 badd +46 app/sql/seed/user_gender.sql
-badd +50 app/sql/tables.sql
+badd +38 app/sql/tables.sql
 badd +16 app/controllers/setup.php
 badd +3 app/sql/seed/tag.sql
 badd +7 app/models/setup.php
@@ -62,8 +62,8 @@ badd +1 core/modules/modules_view.php
 badd +1 app/html/account.html
 badd +1 core/modules/websocket/class.chathandler.php
 badd +2 core/modules/websocket/html/chat.html
-badd +1 core/modules/websocket/web_socket_serveur.php
-badd +1 core/modules/websocket/c_websocket.php
+badd +119 core/modules/websocket/web_socket_serveur.php
+badd +4 core/modules/websocket/c_websocket.php
 badd +1 core/modules/websocket/v_websocket.php
 badd +1 core/modules/websocket/start_server.sh
 badd +2 app/sql/seed/like(1).sql
@@ -80,9 +80,9 @@ badd +1 app/html/setup/setup.html
 badd +1 app/controllers/message.php
 badd +10 app/views/message.php
 badd +1 ~/cursus/matcha
-badd +1 app/models/message.php
+badd +40 app/models/message.php
 badd +27 app/models/matches.php
-badd +2 app/models/profil.php
+badd +36 app/models/profil.php
 badd +17 app/models/user.php
 badd +1 app/html/messages.html
 badd +1 app/html/message.html
@@ -153,20 +153,22 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 12 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 12 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 24 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 88 + 181) / 362)
-exe 'vert 6resize ' . ((&columns * 88 + 181) / 362)
-exe '7resize ' . ((&lines * 20 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 55 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
+exe '1resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 24 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 88 + 182) / 364)
+exe '6resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 88 + 182) / 364)
+exe '7resize ' . ((&lines * 20 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 91 + 182) / 364)
+exe '8resize ' . ((&lines * 55 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 91 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -335,20 +337,22 @@ normal! zt
 64
 normal! 09|
 wincmd w
-exe '1resize ' . ((&lines * 12 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 12 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 24 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 88 + 181) / 362)
-exe 'vert 6resize ' . ((&columns * 88 + 181) / 362)
-exe '7resize ' . ((&lines * 20 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 55 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
+exe '1resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 24 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 88 + 182) / 364)
+exe '6resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 88 + 182) / 364)
+exe '7resize ' . ((&lines * 20 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 91 + 182) / 364)
+exe '8resize ' . ((&lines * 55 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 91 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/core/controller.php
 set splitbelow splitright
@@ -372,15 +376,16 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 58 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 41 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 34 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
+exe '1resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 120 + 182) / 364)
+exe '2resize ' . ((&lines * 58 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 17 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 120 + 182) / 364)
+exe '5resize ' . ((&lines * 34 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 120 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -473,15 +478,16 @@ normal! zt
 5
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 58 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 41 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 34 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
+exe '1resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 120 + 182) / 364)
+exe '2resize ' . ((&lines * 58 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 17 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 120 + 182) / 364)
+exe '5resize ' . ((&lines * 34 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 120 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/app/controllers/home.php
 set splitbelow splitright
@@ -529,30 +535,30 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe '4resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
-exe '6resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 84 + 181) / 362)
-exe '8resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 84 + 181) / 362)
-exe '9resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 84 + 181) / 362)
-exe '10resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 84 + 181) / 362)
-exe '11resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 22 + 181) / 362)
-exe '12resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 12resize ' . ((&columns * 22 + 181) / 362)
+exe '1resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe '4resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe '5resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 84 + 182) / 364)
+exe '6resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 84 + 182) / 364)
+exe '7resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 84 + 182) / 364)
+exe '8resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 84 + 182) / 364)
+exe '9resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 84 + 182) / 364)
+exe '10resize ' . ((&lines * 17 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 84 + 182) / 364)
+exe '11resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 22 + 182) / 364)
+exe '12resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 12resize ' . ((&columns * 22 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -776,30 +782,30 @@ normal! zt
 1
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe '4resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
-exe '6resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 84 + 181) / 362)
-exe '8resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 84 + 181) / 362)
-exe '9resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 84 + 181) / 362)
-exe '10resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 84 + 181) / 362)
-exe '11resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 22 + 181) / 362)
-exe '12resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 12resize ' . ((&columns * 22 + 181) / 362)
+exe '1resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe '4resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe '5resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 84 + 182) / 364)
+exe '6resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 84 + 182) / 364)
+exe '7resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 84 + 182) / 364)
+exe '8resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 84 + 182) / 364)
+exe '9resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 84 + 182) / 364)
+exe '10resize ' . ((&lines * 17 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 84 + 182) / 364)
+exe '11resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 22 + 182) / 364)
+exe '12resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 12resize ' . ((&columns * 22 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/app/html/layout/default.html
 set splitbelow splitright
@@ -830,20 +836,20 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 39 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 91 + 181) / 362)
-exe '2resize ' . ((&lines * 36 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 91 + 181) / 362)
-exe '3resize ' . ((&lines * 39 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 138 + 181) / 362)
-exe '4resize ' . ((&lines * 36 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 138 + 181) / 362)
-exe '5resize ' . ((&lines * 30 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 131 + 181) / 362)
-exe '6resize ' . ((&lines * 30 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 131 + 181) / 362)
-exe '7resize ' . ((&lines * 14 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 131 + 181) / 362)
+exe '1resize ' . ((&lines * 39 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 91 + 182) / 364)
+exe '2resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 91 + 182) / 364)
+exe '3resize ' . ((&lines * 39 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 138 + 182) / 364)
+exe '4resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 138 + 182) / 364)
+exe '5resize ' . ((&lines * 30 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 131 + 182) / 364)
+exe '6resize ' . ((&lines * 30 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 131 + 182) / 364)
+exe '7resize ' . ((&lines * 14 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 131 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -976,20 +982,20 @@ normal! zt
 1
 normal! 03|
 wincmd w
-exe '1resize ' . ((&lines * 39 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 91 + 181) / 362)
-exe '2resize ' . ((&lines * 36 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 91 + 181) / 362)
-exe '3resize ' . ((&lines * 39 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 138 + 181) / 362)
-exe '4resize ' . ((&lines * 36 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 138 + 181) / 362)
-exe '5resize ' . ((&lines * 30 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 131 + 181) / 362)
-exe '6resize ' . ((&lines * 30 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 131 + 181) / 362)
-exe '7resize ' . ((&lines * 14 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 131 + 181) / 362)
+exe '1resize ' . ((&lines * 39 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 91 + 182) / 364)
+exe '2resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 91 + 182) / 364)
+exe '3resize ' . ((&lines * 39 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 138 + 182) / 364)
+exe '4resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 138 + 182) / 364)
+exe '5resize ' . ((&lines * 30 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 131 + 182) / 364)
+exe '6resize ' . ((&lines * 30 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 131 + 182) / 364)
+exe '7resize ' . ((&lines * 14 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 131 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/core/modules/email/c_email.php
 set splitbelow splitright
@@ -1025,23 +1031,24 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 27 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 22 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
-exe '6resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 120 + 181) / 362)
-exe '7resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 120 + 181) / 362)
-exe '8resize ' . ((&lines * 10 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 120 + 181) / 362)
-exe '9resize ' . ((&lines * 7 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 120 + 181) / 362)
+exe '1resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 120 + 182) / 364)
+exe '2resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 27 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 22 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 120 + 182) / 364)
+exe '5resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 120 + 182) / 364)
+exe '6resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 120 + 182) / 364)
+exe '7resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 120 + 182) / 364)
+exe '8resize ' . ((&lines * 10 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 120 + 182) / 364)
+exe '9resize ' . ((&lines * 7 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 120 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -1236,23 +1243,24 @@ normal! zt
 6
 normal! 027|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
-exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
-exe '3resize ' . ((&lines * 27 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
-exe '4resize ' . ((&lines * 22 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
-exe '5resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
-exe '6resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 120 + 181) / 362)
-exe '7resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 120 + 181) / 362)
-exe '8resize ' . ((&lines * 10 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 120 + 181) / 362)
-exe '9resize ' . ((&lines * 7 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 120 + 181) / 362)
+exe '1resize ' . ((&lines * 76 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 120 + 182) / 364)
+exe '2resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 120 + 182) / 364)
+exe '3resize ' . ((&lines * 27 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 120 + 182) / 364)
+exe '4resize ' . ((&lines * 22 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 120 + 182) / 364)
+exe '5resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 120 + 182) / 364)
+exe '6resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 120 + 182) / 364)
+exe '7resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 120 + 182) / 364)
+exe '8resize ' . ((&lines * 10 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 120 + 182) / 364)
+exe '9resize ' . ((&lines * 7 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 120 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/app/assets/css/style.css
 set splitbelow splitright
@@ -1296,28 +1304,28 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 9 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 40 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe '4resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
-exe '7resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 92 + 181) / 362)
-exe '8resize ' . ((&lines * 59 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 92 + 181) / 362)
-exe '9resize ' . ((&lines * 16 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 92 + 181) / 362)
-exe '10resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 91 + 181) / 362)
-exe '11resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 91 + 181) / 362)
+exe '1resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 9 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 43 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe '4resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 92 + 182) / 364)
+exe '6resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 21 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 92 + 182) / 364)
+exe '8resize ' . ((&lines * 59 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 92 + 182) / 364)
+exe '9resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 92 + 182) / 364)
+exe '10resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 93 + 182) / 364)
+exe '11resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 93 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -1369,8 +1377,6 @@ normal! zo
 normal! zo
 22
 normal! zo
-11
-normal! zc
 65
 normal! zo
 72
@@ -1455,12 +1461,12 @@ normal! zo
 normal! zo
 457
 normal! zo
-let s:l = 64 - ((63 * winheight(0) + 20) / 40)
+let s:l = 18 - ((14 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-64
-normal! 0
+18
+normal! 051|
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/core/modules/websocket/c_websocket.php') | buffer ~/cursus/matcha/core/modules/websocket/c_websocket.php | else | edit ~/cursus/matcha/core/modules/websocket/c_websocket.php | endif
@@ -1472,7 +1478,11 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 9 - ((8 * winheight(0) + 9) / 19)
+5
+normal! zo
+9
+normal! zo
+let s:l = 9 - ((6 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1527,7 +1537,7 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 2 - ((1 * winheight(0) + 9) / 18)
+let s:l = 2 - ((1 * winheight(0) + 10) / 21)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1562,15 +1572,15 @@ normal! zo
 normal! zo
 203
 normal! zo
-let s:l = 273 - ((44 * winheight(0) + 29) / 59)
+let s:l = 191 - ((5 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-273
-normal! 0
+191
+normal! 027|
 wincmd w
 argglobal
-terminal ++curwin ++cols=92 ++rows=16 
+terminal ++curwin ++cols=92 ++rows=19 
 setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -1579,7 +1589,7 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 8) / 16)
+let s:l = 1 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1619,35 +1629,35 @@ normal! zo
 normal! zo
 86
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 19) / 38)
+let s:l = 3 - ((2 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+3
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 9 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 40 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe '4resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
-exe '7resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 92 + 181) / 362)
-exe '8resize ' . ((&lines * 59 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 92 + 181) / 362)
-exe '9resize ' . ((&lines * 16 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 92 + 181) / 362)
-exe '10resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 91 + 181) / 362)
-exe '11resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 91 + 181) / 362)
+exe '1resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 9 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 43 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe '4resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 92 + 182) / 364)
+exe '6resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 21 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 92 + 182) / 364)
+exe '8resize ' . ((&lines * 59 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 92 + 182) / 364)
+exe '9resize ' . ((&lines * 19 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 92 + 182) / 364)
+exe '10resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 93 + 182) / 364)
+exe '11resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 93 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/app/js/chat.js
 set splitbelow splitright
@@ -1681,21 +1691,21 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
-exe '6resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 84 + 182) / 364)
+exe '6resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 84 + 182) / 364)
+exe '7resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 93 + 182) / 364)
+exe '8resize ' . ((&lines * 40 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 93 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -1713,7 +1723,7 @@ normal! zo
 normal! zc
 11
 normal! zc
-let s:l = 3 - ((2 * winheight(0) + 38) / 76)
+let s:l = 3 - ((2 * winheight(0) + 39) / 79)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1803,7 +1813,7 @@ normal! zo
 normal! zo
 107
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1848,11 +1858,11 @@ normal! zo
 normal! zo
 30
 normal! zo
-let s:l = 31 - ((23 * winheight(0) + 18) / 37)
+let s:l = 32 - ((24 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-31
+32
 normal! 0
 lcd ~/cursus/matcha
 wincmd w
@@ -1872,7 +1882,7 @@ normal! zo
 normal! zo
 28
 normal! zo
-let s:l = 12 - ((11 * winheight(0) + 19) / 38)
+let s:l = 12 - ((11 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1910,7 +1920,7 @@ setlocal fdn=20
 setlocal fen
 190
 normal! zo
-let s:l = 52 - ((21 * winheight(0) + 18) / 37)
+let s:l = 52 - ((23 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1918,21 +1928,21 @@ normal! zt
 normal! 018|
 lcd ~/cursus/matcha
 wincmd w
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 18 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
-exe '6resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 18 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 84 + 182) / 364)
+exe '6resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 84 + 182) / 364)
+exe '7resize ' . ((&lines * 38 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 93 + 182) / 364)
+exe '8resize ' . ((&lines * 40 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 93 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/app/controllers/profil.php
 set splitbelow splitright
@@ -1955,14 +1965,14 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 27 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 15 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 32 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 192 + 181) / 362)
+exe '1resize ' . ((&lines * 26 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 15 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 5resize ' . ((&columns * 194 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -1982,17 +1992,12 @@ normal! zo
 normal! zo
 16
 normal! zo
-let s:l = 18 - ((17 * winheight(0) + 13) / 27)
+let s:l = 1 - ((0 * winheight(0) + 13) / 26)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-18
-let s:c = 17 - ((4 * winwidth(0) + 42) / 84)
-if s:c > 0
-  exe 'normal! ' . s:c . '|zs' . 17 . '|'
-else
-  normal! 017|
-endif
+1
+normal! 05|
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/app/views/profil.php') | buffer ~/cursus/matcha/app/views/profil.php | else | edit ~/cursus/matcha/app/views/profil.php | endif
@@ -2012,6 +2017,54 @@ normal! zt
 normal! 0
 wincmd w
 argglobal
+if bufexists('~/cursus/matcha/app/models/profil.php') | buffer ~/cursus/matcha/app/models/profil.php | else | edit ~/cursus/matcha/app/models/profil.php | endif
+setlocal fdm=indent
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=3
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+5
+normal! zo
+7
+normal! zo
+18
+normal! zo
+75
+normal! zo
+92
+normal! zo
+let s:l = 12 - ((11 * winheight(0) + 18) / 36)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+12
+normal! 09|
+wincmd w
+argglobal
+if bufexists('~/cursus/matcha/app/models/history.php') | buffer ~/cursus/matcha/app/models/history.php | else | edit ~/cursus/matcha/app/models/history.php | endif
+setlocal fdm=indent
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=3
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+5
+normal! zo
+7
+normal! zo
+let s:l = 17 - ((16 * winheight(0) + 39) / 79)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+17
+normal! 020|
+wincmd w
+argglobal
 if bufexists('~/cursus/matcha/app/html/profil.html') | buffer ~/cursus/matcha/app/html/profil.html | else | edit ~/cursus/matcha/app/html/profil.html | endif
 setlocal fdm=indent
 setlocal fde=0
@@ -2029,73 +2082,34 @@ normal! zo
 normal! zo
 2
 normal! zo
-9
+27
 normal! zo
-10
+28
 normal! zo
-10
+28
 normal! zo
-10
+28
 normal! zo
-86
+107
 normal! zo
-100
+121
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 16) / 32)
+let s:l = 18 - ((17 * winheight(0) + 39) / 79)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+18
+normal! 037|
 wincmd w
-argglobal
-if bufexists('~/cursus/matcha/app/models/history.php') | buffer ~/cursus/matcha/app/models/history.php | else | edit ~/cursus/matcha/app/models/history.php | endif
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=3
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-5
-normal! zo
-7
-normal! zo
-let s:l = 13 - ((12 * winheight(0) + 38) / 76)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-13
-normal! 0
-wincmd w
-argglobal
-if bufexists('~/cursus/matcha/app/models/profil.php') | buffer ~/cursus/matcha/app/models/profil.php | else | edit ~/cursus/matcha/app/models/profil.php | endif
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=3
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-5
-normal! zo
-let s:l = 1 - ((0 * winheight(0) + 38) / 76)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-1
-normal! 0
-wincmd w
-exe '1resize ' . ((&lines * 27 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 84 + 181) / 362)
-exe '2resize ' . ((&lines * 15 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 84 + 181) / 362)
-exe '3resize ' . ((&lines * 32 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 84 + 181) / 362)
-exe 'vert 5resize ' . ((&columns * 192 + 181) / 362)
+2wincmd w
+exe '1resize ' . ((&lines * 26 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 84 + 182) / 364)
+exe '2resize ' . ((&lines * 15 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 84 + 182) / 364)
+exe '3resize ' . ((&lines * 36 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 4resize ' . ((&columns * 84 + 182) / 364)
+exe 'vert 5resize ' . ((&columns * 194 + 182) / 364)
 tabnext
 edit ~/cursus/matcha/core/modules/notifications/c_notifications.php
 set splitbelow splitright
@@ -2142,30 +2156,30 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 24 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 15 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 34 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
-exe '7resize ' . ((&lines * 20 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
-exe '9resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 91 + 181) / 362)
-exe '10resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 91 + 181) / 362)
-exe '11resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 84 + 181) / 362)
-exe '12resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 12resize ' . ((&columns * 84 + 181) / 362)
+exe '1resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 10 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 42 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 15 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 92 + 182) / 364)
+exe '6resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 31 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 91 + 182) / 364)
+exe '8resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 91 + 182) / 364)
+exe '9resize ' . ((&lines * 11 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 91 + 182) / 364)
+exe '10resize ' . ((&lines * 22 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 91 + 182) / 364)
+exe '11resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 86 + 182) / 364)
+exe '12resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 12resize ' . ((&columns * 86 + 182) / 364)
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -2175,16 +2189,16 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-16
+14
 normal! zo
-25
+23
 normal! zo
-let s:l = 34 - ((12 * winheight(0) + 12) / 25)
+let s:l = 32 - ((18 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-34
-normal! 011|
+32
+normal! 045|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2197,12 +2211,12 @@ setlocal fdl=3
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 9 - ((8 * winheight(0) + 12) / 25)
+let s:l = 1 - ((0 * winheight(0) + 5) / 10)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-9
-normal! 0
+1
+normal! 05|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2215,12 +2229,18 @@ setlocal fdl=20
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 7 - ((6 * winheight(0) + 12) / 24)
+5
+normal! zo
+24
+normal! zo
+40
+normal! zo
+let s:l = 26 - ((8 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
-normal! 016|
+26
+normal! 025|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2329,12 +2349,12 @@ normal! zo
 normal! zo
 457
 normal! zo
-let s:l = 81 - ((20 * winheight(0) + 17) / 34)
+let s:l = 58 - ((5 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-81
-normal! 040|
+58
+normal! 027|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2353,12 +2373,12 @@ normal! zo
 normal! zo
 21
 normal! zo
-let s:l = 11 - ((8 * winheight(0) + 10) / 20)
+let s:l = 24 - ((23 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
-normal! 09|
+24
+normal! 058|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2373,7 +2393,9 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 43 - ((10 * winheight(0) + 8) / 17)
+9
+normal! zo
+let s:l = 43 - ((7 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2405,7 +2427,7 @@ normal! zo
 normal! zo
 144
 normal! zo
-let s:l = 163 - ((11 * winheight(0) + 8) / 17)
+let s:l = 163 - ((5 * winheight(0) + 5) / 11)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2427,14 +2449,14 @@ setlocal fen
 normal! zo
 7
 normal! zo
-31
+32
 normal! zo
-let s:l = 14 - ((13 * winheight(0) + 9) / 19)
+let s:l = 12 - ((10 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
-normal! 013|
+12
+normal! 0
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2475,31 +2497,31 @@ normal! zo
 normal! zo
 242
 normal! zo
-259
+258
 normal! zo
-267
+266
 normal! zo
-278
+277
 normal! zo
-291
+290
 normal! zo
-306
+305
 normal! zo
-309
+308
 normal! zo
-345
+344
 normal! zo
-355
+354
 normal! zo
-361
+360
 normal! zo
-365
+364
 normal! zo
-let s:l = 285 - ((31 * winheight(0) + 18) / 37)
+let s:l = 284 - ((31 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-285
+284
 normal! 09|
 lcd ~/cursus/matcha
 wincmd w
@@ -2517,7 +2539,7 @@ setlocal fen
 normal! zo
 438
 normal! zo
-let s:l = 440 - ((35 * winheight(0) + 19) / 38)
+let s:l = 440 - ((38 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2525,31 +2547,31 @@ normal! zt
 normal! 031|
 lcd ~/cursus/matcha
 wincmd w
-exe '1resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 24 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 15 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 34 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
-exe '7resize ' . ((&lines * 20 + 40) / 80)
-exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
-exe '8resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 8resize ' . ((&columns * 91 + 181) / 362)
-exe '9resize ' . ((&lines * 17 + 40) / 80)
-exe 'vert 9resize ' . ((&columns * 91 + 181) / 362)
-exe '10resize ' . ((&lines * 19 + 40) / 80)
-exe 'vert 10resize ' . ((&columns * 91 + 181) / 362)
-exe '11resize ' . ((&lines * 37 + 40) / 80)
-exe 'vert 11resize ' . ((&columns * 84 + 181) / 362)
-exe '12resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 12resize ' . ((&columns * 84 + 181) / 362)
-tabnext 9
+exe '1resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 1resize ' . ((&columns * 92 + 182) / 364)
+exe '2resize ' . ((&lines * 10 + 41) / 83)
+exe 'vert 2resize ' . ((&columns * 92 + 182) / 364)
+exe '3resize ' . ((&lines * 42 + 41) / 83)
+exe 'vert 3resize ' . ((&columns * 92 + 182) / 364)
+exe '4resize ' . ((&lines * 15 + 41) / 83)
+exe 'vert 4resize ' . ((&columns * 92 + 182) / 364)
+exe '5resize ' . ((&lines * 25 + 41) / 83)
+exe 'vert 5resize ' . ((&columns * 92 + 182) / 364)
+exe '6resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 6resize ' . ((&columns * 92 + 182) / 364)
+exe '7resize ' . ((&lines * 31 + 41) / 83)
+exe 'vert 7resize ' . ((&columns * 91 + 182) / 364)
+exe '8resize ' . ((&lines * 12 + 41) / 83)
+exe 'vert 8resize ' . ((&columns * 91 + 182) / 364)
+exe '9resize ' . ((&lines * 11 + 41) / 83)
+exe 'vert 9resize ' . ((&columns * 91 + 182) / 364)
+exe '10resize ' . ((&lines * 22 + 41) / 83)
+exe 'vert 10resize ' . ((&columns * 91 + 182) / 364)
+exe '11resize ' . ((&lines * 37 + 41) / 83)
+exe 'vert 11resize ' . ((&columns * 86 + 182) / 364)
+exe '12resize ' . ((&lines * 41 + 41) / 83)
+exe 'vert 12resize ' . ((&columns * 86 + 182) / 364)
+tabnext 8
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

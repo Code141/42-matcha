@@ -6,24 +6,22 @@
   crossorigin=""></script>
 <?php $user = $this->data['profil'];?>
 
-<?php
 
+
+
+<?php
 $like = $user['like'];
 
 if ($like['u1'] && $like['u2'] && !$like['u1_revoked'] && !$like['u2_revoked'])
 	echo 'MATCHED';
 else if ($like['u1'] && !$like['u1_revoked']
 	&& (!$like['u2'] || $like['u2_revoked']))
-	echo 'THIS USER LIKE YOU';
+	echo 'YOU LIKE THIS USER';
 else if ($like['u2'] && !$like['u2_revoked']
 	&& (!$like['u1'] || $like['u1_revoked']))
-	echo 'YOU LIKE THIS USER';
+	echo 'THIS USER LIKE YOU';
 else
 	echo 'LIKE STATUS NON REKONIZED';
-
-
-
-
 ?>
 
 <fieldset>

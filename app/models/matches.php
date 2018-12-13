@@ -11,7 +11,7 @@ class m_matches extends m_wrapper
 		$this->select[] = "gn.gender_name";
 		$this->select[] = "u2.id_gender_identity";
 		$this->select[] = "gin.gender_identity_name";
-		$this->select[] = "ST_Distance_Sphere( point( :" . ($i+2) ." , :" . ($i+3) . " ),
+		$this->select[] = "ST_Distance_Sphere( point( :" . ($i+1) ." , :" . ($i+2) . " ),
 							point(u2.longitude, u2.latitude) ) as distance";
 		$this->select[] = "u2.latitude";
 		$this->select[] = "u2.longitude";
@@ -23,8 +23,7 @@ class m_matches extends m_wrapper
 		$this->join[] = "LEFT OUTER JOIN gender_identity gin ON gin.id = u2.id_gender_identity";
 		$this->condition[] ="NOT u2.id = :" . $i . 
 			" AND (`b`.`id_user_from` IS NULL 
-			OR NOT `b`.`id_user_from` = :". ($i+1) ." )";
-		$this->bind_param[] = $user['id'];
+			OR NOT `b`.`id_user_from` = :". ($i) ." )";
 		$this->bind_param[] = $user['id'];
 		$this->bind_param[] = $user['longitude'];
 		$this->bind_param[] = $user['latitude'];
