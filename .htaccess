@@ -1,3 +1,5 @@
+Header set Access-Control-Allow-Origin "https://freegeoip.net/"
+
 AddHandler application/x-httpd-php .html
 
 RewriteEngine On

@@ -8,31 +8,38 @@ class c_account extends c_controller
 		$this->data['all_tags'] = $model->fetch_all_from("tag");
 		$this->data['all_genders'] = $model->fetch_all_from("gender");
 		$this->data['all_gender_id'] = $model->fetch_all_from("gender_identity");
-		var_dump($this->data['user'] = json_encode($_SESSION['user']));
-		var_dump($PublicIP = $this->get_client_ip());
+		$ip = $this->getUserIp();
+		$this->data['ip_location'] = file_get_contents("http://ipinfo.io/{$ip}/json");
+		$this->data['user'] = json_encode($_SESSION['user']);
 		$this->core->set_view("account", "main");
 	}
 
-	private function get_client_ip() 
+	function getUserIP()
 	{
-		$ipaddress = '';
-		if (isset($_SERVER['HTTP_CLIENT_IP']))
-            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-		else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		else if(isset($_SERVER['HTTP_X_FORWARDED']))
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-		else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-		else if(isset($_SERVER['HTTP_FORWARDED']))
-			$ipaddress = $_SERVER['HTTP_FORWARDED'];
-		else if(isset($_SERVER['REMOTE_ADDR']))
-		   $ipaddress = $_SERVER['REMOTE_ADDR'];
-	   else
-		   $ipaddress = 'UNKNOWN';
-      return $ipaddress;
+		// Get real visitor IP behind CloudFlare network
+		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+		}
+		$client  = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+		$remote  = $_SERVER['REMOTE_ADDR'];
+		if(filter_var($client, FILTER_VALIDATE_IP))
+		{
+			$ip = $client;
+		}
+		elseif(filter_var($forward, FILTER_VALIDATE_IP))
+		{
+			$ip = $forward;
+		}
+		else
+		{
+			$ip = $remote;
+		}
+		if ($ip == "::1" || $ip = "127.0.0.1")
+			$ip = file_get_contents("http://ipecho.net/plain");
+		return $ip;
 	}
-
 
 	private function recursive_in_array($haystack, $needle)
 	{
@@ -109,7 +116,7 @@ class c_account extends c_controller
 		$this->update_session($fields['username'], $pw_len);
 		$this->core->success("Your profil has successfully been updated<br>" . $successmsg, 'account', 'main');
 	}	
-	
+
 	public function edit_bio()
 	{
 		if (!isset($_POST['bio']) || trim($_POST['bio']) == "")
@@ -120,6 +127,23 @@ class c_account extends c_controller
 		$this->update_session($user['username'], $user['password_length']);
 		$this->core->success("Bio added successfully", 'account', 'main');
 	}
+	
+	public function edit_location()
+	{
+		if (!isset($_POST['lat']) || !isset($_POST['lng']) || $_POST['lat'] == "" || $_POST['lng'] == "")
+	$this->core->fail("There was a problem with location input", 'account', 'main');
+		$user = $this->module_loader->session()->controller->user_loggued();
+		if ($_POST['lat'] == $user['latitude'] && $_POST['lng'] == $user['longitude'])
+	$this->core->fail("Nothing to update", 'account', 'main');
+		$model = $this->load->model("account");
+		$model->edit_location($user['id'], $_POST['lat'], $_POST['lng']);
+		$this->update_session($user['username'], $user['password_length']);
+		$json_reponse['status'] = "Success !";
+		if (is_ajax_query())
+			echo json_encode($json_reponse); 
+		else
+			$this->core->success("Position added successfully", 'account', 'main');
+	}
 
 	public function del_preference()
 	{
@@ -129,10 +153,9 @@ class c_account extends c_controller
 		$this->update_session($user['username'], $user['password_length']);
 		$this->core->success("Preference successfully deleted", 'account', 'main');
 	}
-	
+
 	public function add_preference()
 	{
-		var_dump($_POST);
 		if (empty($_POST['gender']) || empty($_POST['gender_identity']) ||
 			((!is_numeric($_POST['gender']) || $_POST['gender'] > 4) && $_POST['gender'] != 'NULL') ||
 			(!is_numeric($_POST['gender_identity']) && $_POST['gender_identity'] != 'NULL'))
