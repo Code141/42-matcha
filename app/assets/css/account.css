@@ -30,6 +30,9 @@ fieldset#tags{
 div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
+p#map_prompt{
+color:green;
+}
 #map{
 	width:100%;
 	height:200px;

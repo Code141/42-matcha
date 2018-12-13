@@ -79,6 +79,20 @@ class m_account
 		return (TRUE);
 	}
 
+	public function edit_location($id_user, $latitude, $longitude)
+	{
+		$sql = "
+			UPDATE user
+			SET latitude = :latitude , longitude = :longitude
+			WHERE id = :id_user";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":id_user", $id_user);
+		$stm->bindparam(":latitude", $latitude);
+		$stm->bindparam(":longitude", $longitude);
+		$this->db->execute_pdo($stm, "account", "main");
+		return (TRUE);
+	}
+
 	public function del_preference($id_user, $id_gender, $id_gender_identity)
 	{
 		$sql = "
