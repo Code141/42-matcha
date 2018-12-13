@@ -1,4 +1,5 @@
 AddHandler application/x-httpd-php .html
+AddHandler application/x-httpd-php .js
 
 RewriteEngine On
-RewriteRule !(css|js|jpg|png|ttf)$ index.php 
+RewriteRule !(css|js|jpg|png|ttf)$ index.php
