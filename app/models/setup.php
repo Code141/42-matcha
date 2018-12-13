@@ -4,7 +4,10 @@ class m_setup extends m_wrapper
 {
 	public function create_db()
 	{
-		$this->db->sql = "CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";USE `".APP_NAME."`";
+		$this->db->sql = "
+			SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+			CREATE DATABASE IF NOT EXISTS " . APP_NAME . ";
+			USE `".APP_NAME."`";
 		$stm = $this->db->pdo->prepare($this->db->sql);
 		$this->db->execute_pdo($stm, "setup", "main");
 		return ($this);

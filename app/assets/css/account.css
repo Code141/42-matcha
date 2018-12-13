@@ -31,7 +31,8 @@ div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
 p#map_prompt{
-color:green;
+	display:none;
+	color:green;
 }
 #map{
 	width:100%;
