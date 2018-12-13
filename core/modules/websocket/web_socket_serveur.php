@@ -251,7 +251,6 @@ class socket_server
 				$this->send($id, $msg);
 			}
 		}
-
 	}
 
 	public function get_literal($msg)
