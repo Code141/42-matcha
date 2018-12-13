@@ -12,7 +12,10 @@ class c_profil extends c_controller
 				$this->core->fail("Unknow user", "404");
 			else
 				if ($user['id'] != $params[0])
+				{
 					$this->load->model("history")->add($user['id'], $params[0]);
+					$this->module_loader->websocket()->controller->send_visit($params[0]);
+				}
 		}
 		else
 			$this->data['profil'] = $user;

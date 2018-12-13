@@ -27,12 +27,12 @@ function websock()
 			this.chat_list.init();
 
 			this.chat_list.connected(true);
+
 			var messageJSON = {
-				ssid: ssid,
 				action: "friends"
 			};
-
 			this.websocket.send(JSON.stringify(messageJSON));
+
 		}.bind(this)
 
 		this.websocket.onmessage = function(event)
@@ -40,6 +40,8 @@ function websock()
 			var data = JSON.parse(event.data);
 			if (typeof data.like != 'undefined')
 				this.notif.like(data.like);
+			if (typeof data.history != 'undefined')
+				this.notif.history(data.history);
 			else
 				this.chat_list.do(data);
 		}.bind(this);
@@ -53,20 +55,62 @@ function websock()
 		{
 			if (typeof this.chat_list != 'undefined')
 				this.chat_list.connected(false);
-			setTimeout(function ()
-			{
-				this.init();
-			}.bind(this), 5000);
+			setTimeout(function () { this.init(); }.bind(this), 5000);
 		}.bind(this);
 	}
 }
 
 function notif()
 {
+	this.notif_div = document.getElementById("notif");
+	this.notif_detail_div = document.getElementById("detail");
+	this.notif_nb_div = document.getElementById("nb_notif");
+	this.open = Boolean(false);
+
+
+	this.notif_div.addEventListener("click", function(){
+		if(this.open)
+			this.notif_detail_div.style.display = "none";
+		else
+		{
+			ajax_request(SITE_ROOT + 'ajax/see_notifs/');
+			this.notif_nb_div.innerHTML = "";
+			this.notif_detail_div.style.display = "block";
+			this.notif_detail_div.scrollTop = 0;
+			this.notif_detail_div.childNodes.forEach(function(item){
+				item.className = "seen";
+			});
+		}
+		this.open = !this.open;
+	}.bind(this));
+
 	this.like = function(data)
 	{
-		console.log("You have been like by " + data.username + " id = [" + data.from+"]");
+		new_node = document.createElement('p');
+		user_name = document.createElement('a');
+		user_name.innerHTML = data.username;
+		new_node.innerHTML = '<a href="' + SITE_ROOT + '/profil/main/' + data.from + '"> ' + data.username + ' </a> has liked you<span class="date">' + data.date + '</span> ';
+		this.notif_detail_div.prepend(new_node);
+		this.add_a_notif();
 	}
+
+	this.history = function(data)
+	{
+		new_node = document.createElement('p');
+		user_name = document.createElement('a');
+		user_name.innerHTML = data.username;
+		new_node.innerHTML = '<a href="' + SITE_ROOT + '/profil/main/' + data.from + '"> ' + data.username + ' </a> has visited your profile<span class="date">' + data.date + '</span> ';
+		this.notif_detail_div.prepend(new_node);
+		this.add_a_notif();
+	}
+
+	this.add_a_notif = function()
+	{
+		nb = parseInt(this.notif_nb_div.innerHTML);
+		nb = (isNaN(nb)) ? 0 : nb;
+		this.notif_nb_div.innerHTML = nb + 1;
+	}
+
 }
 
 function messagerie()

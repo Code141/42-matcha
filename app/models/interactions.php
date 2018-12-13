@@ -2,6 +2,31 @@
 
 class m_interactions
 {
+	public function see_notifs($id_user)
+	{
+		$sql = "
+			UPDATE `like`
+			SET seen = '1'
+			WHERE id_user_to = :id_user;
+
+			UPDATE `browsing_history`
+			SET seen = '1'
+			WHERE id_user_to = :id_user;
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		try
+		{
+			$stm->execute();
+		}
+		catch(PDOException $exception)
+		{
+			echo 'Erreur : ' . $exception->getMessage();
+		}
+		return ($stm->rowCount());
+
+	}
+
 	public function like($id_user_from, $id_user_to)
 	{
 		$sql = "

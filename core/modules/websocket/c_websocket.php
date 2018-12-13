@@ -32,5 +32,14 @@ class c_module_websocket extends c_controller
 		$msg['to'] = $id;
 		$this->send($msg);
 	}
+
+	public function	send_visit($id)
+	{
+		$msg = array();
+		$msg['action'] = "history";
+		$msg['to'] = $id;
+		$this->send($msg);
+	}
+
 }
 

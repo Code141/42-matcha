@@ -9,6 +9,7 @@ class m_profil
 			return (NULL);
 		$profil['tags'] = $this->fetch_user_tags($id_profil);
 		$profil['orientations'] = $this->fetch_orientations($id_profil);
+		$profil['like'] = $this->like($id_profil, $id_user_logged);
 		return ($profil);
 	}
 
@@ -37,6 +38,37 @@ class m_profil
 			return ($user[0]);
 		return (NULL);
 	}
+
+	private function like($id_profil, $id_user_logged)
+	{
+		$sql = "
+SELECT 
+l1.id_user_from as u1,
+l2.id_user_from as u2,
+l1.revoked as u1_revoked,
+l2.revoked as u2_revoked,
+l1.timestamp as u1_date,
+l2.timestamp as u2_date
+FROM `like` l1
+LEFT JOIN `like` l2
+ON ((l1.id_user_from = l2.id_user_to)
+       AND
+    (l2.id_user_from = l1.id_user_to))
+WHERE ((l1.id_user_from = :0 AND l1.id_user_to = :1)
+       OR
+       (l1.id_user_from = :1 AND l1.id_user_to = :0))
+LIMIT 1
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":0", $id_user_logged, PDO::PARAM_STR);
+		$stm->bindparam(":1", $id_profil, PDO::PARAM_STR);
+		$user = $stm->execute();
+		$user = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (count($user) == 1)
+			return ($user[0]);
+		return (NULL);
+	}
+
 
 	private function fetch_user_tags($id_profil)
 	{

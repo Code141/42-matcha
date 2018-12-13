@@ -1,6 +1,8 @@
 <?php
 
 error_reporting(E_ALL | E_STRICT);
+ini_set('date.timezone', 'Europe/Paris');
+
 ini_set('display_errors', 'on');
 
 define('DEV_MODE', TRUE);
@@ -179,7 +181,7 @@ class socket_server
 		$message = json_decode($this->unseal($socketData));
 		if (empty($message))
 			return;
-
+/*
 		if (isset($message->ssid))
 		{
 			$user = $this->auth($message->ssid);
@@ -188,6 +190,7 @@ class socket_server
 			$this->user[$user['id']] = $user;
 			$this->user[$user['id']]['socket'] = $this->current_socket;
 		}
+*/
 
 		$id = $this->find_id_user($this->current_socket);
 		if ($id == null)
@@ -266,8 +269,21 @@ class socket_server
 			$msg['like']['from'] = intval($user['id']);
 			$msg['like']['username'] = $user['username'];
 			$msg['like']['to'] = $message->to;
+			$msg['like']['date'] = date("G:i");
 			$this->send($message->to, $msg);
 		}
+
+		if ($message->action == "history")
+		{
+			$msg = array();
+			$msg['history'] = array();
+			$msg['history']['from'] = intval($user['id']);
+			$msg['history']['username'] = $user['username'];
+			$msg['history']['to'] = $message->to;
+			$msg['history']['date'] = date("G:i");
+			$this->send($message->to, $msg);
+		}
+
 	}
 
 	public function auth($ssid)
@@ -352,6 +368,18 @@ class socket_server
 			return;
 		}
 		$secKey = $headers['Sec-WebSocket-Key'];
+		if (empty($headers['Cookie']))
+			return;
+		$cookie = $headers['Cookie'];
+		$ssid = explode("=", $cookie)[1];
+		if (isset($ssid))
+		{
+			$user = $this->auth($ssid);
+			if (!$user)
+				return;
+			$this->user[$user['id']] = $user;
+			$this->user[$user['id']]['socket'] = $newSocket;
+		}
 		$secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
 		$buffer  =
 			"HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .

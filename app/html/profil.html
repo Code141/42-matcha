@@ -5,6 +5,27 @@
 		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
   crossorigin=""></script>
 <?php $user = $this->data['profil'];?>
+
+<?php
+
+$like = $user['like'];
+
+if ($like['u1'] && $like['u2'] && !$like['u1_revoked'] && !$like['u2_revoked'])
+	echo 'MATCHED';
+else if ($like['u1'] && !$like['u1_revoked']
+	&& (!$like['u2'] || $like['u2_revoked']))
+	echo 'YOU LIKE THIS USER';
+else if ($like['u1'] && !$like['u1_revoked']
+	&& (!$like['u2'] || $like['u2_revoked']))
+	echo 'THIS USER LIKE YOU';
+else
+	echo 'LIKE STATUS NON REKONIZED';
+
+
+
+
+?>
+
 <fieldset>
 	<legend></legend>
 				<p class="f_title">
@@ -18,6 +39,9 @@
 				</p>
 
 </fieldset>
+
+
+
 <fieldset>
 	<legend>General informations</legend>
 	<p>Position :</p>

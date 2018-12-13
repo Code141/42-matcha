@@ -385,7 +385,7 @@ section#register div.radio_gender input
 		font-size:0.8em;
 	}
 
-/*- CHAT -----------------------------------------------------------*/
+/*- NOTIFICATIONS --------------------------------------------------*/
 
 	div#notif
 	{
@@ -398,9 +398,9 @@ section#register div.radio_gender input
 		font-size: 13px;
 		padding-right:15px;
 		text-align: left;
-/*
+
 		display:none;
-*/
+
 		max-height:300px;
 		overflow: hidden auto;
 
@@ -435,7 +435,8 @@ section#register div.radio_gender input
 		float:right;
 	}
 
-	div#notif:hover div#detail
+	p.seen
 	{
-		display:block;
+		background-color: rgba(255, 255, 255, 1);
+		transition: background-color 3s 1s;
 	}

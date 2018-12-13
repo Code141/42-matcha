@@ -1,12 +1,21 @@
 <div id="notif">
 	Notifications
+	<span id="nb_notif">
 <?php
 	$notif = $this->self->controller->get_notifications();
-	echo "(" . count($notif) . ")";
+	$count = 0;
+	foreach ($notif as $value)
+		$count += ($value['seen']) ? 0 : 1;
+	if ($count != 0)
+		echo $count;
 ?>
+	</span>
 	<div id="detail">
-	<?php foreach ($notif as $key => $value) { ?>
-		<p>
+	<?php foreach ($notif as $key => $value) {
+	$seen =  ($value['seen']) ? " seen " : "" ;
+?>
+
+	<p class="<?php echo $seen;?>">
 		<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
 				<?php echo $value['username']; ?>
 			</a>
