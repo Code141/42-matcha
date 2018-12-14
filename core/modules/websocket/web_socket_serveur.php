@@ -270,7 +270,20 @@ class socket_server
 			$msg['like']['to'] = $message->to;
 			$msg['like']['date'] = date("G:i");
 			$this->send($message->to, $msg);
+			echo 'LIKE\n';
 		}
+		if ($message->action == "dislike")
+		{
+			$msg = array();
+			$msg['dislike'] = array();
+			$msg['dislike']['from'] = intval($user['id']);
+			$msg['dislike']['username'] = $user['username'];
+			$msg['dislike']['to'] = $message->to;
+			$msg['dislike']['date'] = date("G:i");
+			$this->send($message->to, $msg);
+			echo 'DISLIKE\n';
+		}
+
 
 		if ($message->action == "history")
 		{

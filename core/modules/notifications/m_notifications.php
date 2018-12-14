@@ -27,6 +27,7 @@ class m_module_notifications
 			LEFT JOIN user u
 			ON u.id = l.id_user_from
 			WHERE l.id_user_to = :id_user
+			AND revoked != 1
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_STR);

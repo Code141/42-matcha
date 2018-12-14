@@ -5,7 +5,7 @@ class c_module_websocket extends c_controller
 	public function	__construct()
 	{
 		//		 CHECK IF SERV IS LUNCHED
-//				echo shell_exec('sh ./core/modules/websocket/start_server.sh');
+		//		echo shell_exec('sh ./core/modules/websocket/start_server.sh');
 		//		$_SESSION['USER']['websocket_token'] == eirugh;
 	}
 
@@ -32,6 +32,15 @@ class c_module_websocket extends c_controller
 		$msg['to'] = $id;
 		$this->send($msg);
 	}
+
+	public function	send_dislike($id)
+	{
+		$msg = array();
+		$msg['action'] = "dislike";
+		$msg['to'] = $id;
+		$this->send($msg);
+	}
+
 
 	public function	send_visit($id)
 	{

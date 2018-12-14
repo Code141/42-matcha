@@ -195,7 +195,7 @@ section#register div.radio_gender input
 		bottom:0px;
 		float: right;
 		width:200px;
-		padding: 10px;
+		padding: 0px 10px 0px 10px;
 		box-sizing: border-box;
 		border: 1px solid #ffdddd;
 		background: rgba(255, 240, 240, 1);
@@ -217,7 +217,9 @@ section#register div.radio_gender input
 
 	div#chat_list p
 	{
-		padding: 7px;
+		padding-top: 7px;
+		padding-bottom: 4px;
+		cursor:pointer;
 	}
 
 	div#chat_list p + p
@@ -287,6 +289,7 @@ section#register div.radio_gender input
 		font-family: arial;
 		padding: 5px;
 		background: #ffdddd;
+		cursor:pointer;
 	}
 	
 	.name

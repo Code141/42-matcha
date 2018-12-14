@@ -1,7 +1,11 @@
 window.onload = function ()
 {
 	chat_list_cont = document.getElementById("chat_list");
-
+	ctrl_like = new like_ctrl();
+	user_like_data.forEach(function(user){
+		ctrl_like.new_user(user.id, user.u1, user.u1_revoked, user.u2, user.u2_revoked);
+	});
+	notif = new notif();
 	client = new websock();
 	client.init();
 };
@@ -19,19 +23,13 @@ function websock()
 
 		this.websocket.onopen = function(event)
 		{
-			this.notif = new notif();
 			if (typeof id_conv == "undefined")
 				this.chat_list = new chat_list(chat_list_cont);
 			else
 				this.chat_list = new messagerie();
 			this.chat_list.init();
-
 			this.chat_list.connected(true);
-
-			var messageJSON = {
-				action: "friends"
-			};
-			this.websocket.send(JSON.stringify(messageJSON));
+			this.websocket.send(JSON.stringify({ action: "friends" }));
 
 		}.bind(this)
 
@@ -39,9 +37,11 @@ function websock()
 		{
 			var data = JSON.parse(event.data);
 			if (typeof data.like != 'undefined')
-				this.notif.like(data.like);
+				notif.like(data.like);
+			if (typeof data.dislike != 'undefined')
+				notif.dislike(data.dislike);
 			if (typeof data.history != 'undefined')
-				this.notif.history(data.history);
+				notif.history(data.history);
 			else
 				this.chat_list.do(data);
 		}.bind(this);
@@ -50,13 +50,82 @@ function websock()
 		{
 			this.chat_list.connected(false);
 		}.bind(this);
-
 		this.websocket.onclose = function(event)
 		{
 			if (typeof this.chat_list != 'undefined')
 				this.chat_list.connected(false);
 			setTimeout(function () { this.init(); }.bind(this), 5000);
 		}.bind(this);
+	}
+}
+
+function like_ctrl()
+{
+	this.user = Array();
+
+	this.new_user = function(id_user, u1, u1_revoked, u2, u2_revoked)
+	{
+		u1 = (u1 && !u1_revoked) ? 1 : 0;
+		u2 = (u2 && !u2_revoked) ? 1 : 0;
+		this.user[id_user] = new user_like(id_user, u1, u2);
+		this.user[id_user].refresh();
+	}
+
+	this.like = function(id)
+	{
+		this.user[id].u2 = 1;
+		this.user[id].u2_revoked = 0;
+		this.user[id].refresh();
+	}
+
+	this.dislike = function(id)
+	{
+		this.user[id].u2 = 0;
+		this.user[id].refresh();
+	}
+
+}
+
+function user_like(id_user, u1, u2)
+{
+	this.main_div = document.getElementById("user_like_" + id_user);
+	this.id = id_user;
+	this.u1 = u1;
+	this.u2 = u2;
+
+	this.refresh = function()
+	{
+		this.main_div.innerHTML = "";
+		span = document.createElement('span');
+		button = document.createElement('button');
+		if (this.u1)
+		{
+			if (this.u2)
+				span.innerHTML = "MATCHED";
+			else
+				span.innerHTML = "YOU LIKE THIS USER";
+			button.innerHTML = "Dislike";
+			button.onclick = function(){
+				dislike(this.id);
+				this.u1 = 0;
+				this.refresh();
+			}.bind(this);
+		}
+		else
+		{
+			if (this.u2)
+				span.innerHTML = "THIS USER LIKES YOU";
+			else
+				span.innerHTML = "NOTHING TO SAY";
+			button.innerHTML = "Like";
+			button.onclick = function(){
+				like(this.id);
+				this.u1 = 1;
+				this.refresh();
+			}.bind(this);
+		}
+		this.main_div.appendChild(span);
+		this.main_div.appendChild(button);
 	}
 }
 
@@ -84,6 +153,17 @@ function notif()
 		this.open = !this.open;
 	}.bind(this));
 
+	this.dislike = function(data)
+	{
+		new_node = document.createElement('p');
+		user_name = document.createElement('a');
+		user_name.innerHTML = data.username;
+		new_node.innerHTML = '<a href="' + SITE_ROOT + '/profil/main/' + data.from + '"> ' + data.username + ' </a> has revoked you<span class="date">' + data.date + '</span> ';
+		this.notif_detail_div.prepend(new_node);
+		this.add_a_notif();
+		ctrl_like.dislike(data.from);
+	}
+
 	this.like = function(data)
 	{
 		new_node = document.createElement('p');
@@ -92,6 +172,7 @@ function notif()
 		new_node.innerHTML = '<a href="' + SITE_ROOT + '/profil/main/' + data.from + '"> ' + data.username + ' </a> has liked you<span class="date">' + data.date + '</span> ';
 		this.notif_detail_div.prepend(new_node);
 		this.add_a_notif();
+		ctrl_like.like(data.from);
 	}
 
 	this.history = function(data)
@@ -163,7 +244,6 @@ function messagerie()
 		msg_msg = document.createElement('p');
 		msg_msg.innerHTML = msg;
 		msg_div.appendChild(msg_msg);
-
 		this.msg_box.appendChild(msg_div);
 		this.msg_box.scrollTop = this.msg_box.scrollHeight;
 	}
@@ -173,11 +253,8 @@ function messagerie()
 		id = message['from'];
 		mesg = message['msg'];
 		username = message['username'];
-
 		if (id == this.id_user)
 			this.show_msg(mesg, false);
-		else
-			console.log("new msg");
 	}
 
 	this.put_friends = function(friends)
@@ -288,7 +365,6 @@ function chat_list(chat_list)
 		id = message['from'];
 		mesg = message['msg'];
 		username = message['username'];
-
 		if (!(id in this.conv))
 		{
 			this.conv[id] = new conversation(id, username);
@@ -351,12 +427,9 @@ function chat_list(chat_list)
 
 	this.put_previous_msg = function(prev)
 	{
-			console.log(this.conv);
 		id = prev.id;
 		prev.msgs.forEach(function(e) {
 			from_me = (e.id_user_to == id) ? 1 : 0;
-
-
 			this.conv[id].show_msg(e.msg, from_me);
 		}.bind(this));
 	}
@@ -387,7 +460,6 @@ function chat_list(chat_list)
 		this.status_chat = status_chat;
 		this.friends_list = friends_list;
 		chat_list_cont.style.display = "block";
-		console.log("init");
 	}
 }
 

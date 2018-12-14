@@ -9,36 +9,32 @@
 
 
 
-<?php
-$like = $user['like'];
+<?php $like = $user['like'];?>
 
-if ($like['u1'] && $like['u2'] && !$like['u1_revoked'] && !$like['u2_revoked'])
-	echo 'MATCHED';
-else if ($like['u1'] && !$like['u1_revoked']
-	&& (!$like['u2'] || $like['u2_revoked']))
-	echo 'YOU LIKE THIS USER';
-else if ($like['u2'] && !$like['u2_revoked']
-	&& (!$like['u1'] || $like['u1_revoked']))
-	echo 'THIS USER LIKE YOU';
-else
-	echo 'LIKE STATUS NON REKONIZED';
-?>
+<div id="user_like_<?php echo $user['id']?>" class="user_like_status">
+</div>
+<script>
+	user_like_data[<?php echo $user['id']?>] = Array();
+	user_like_data[<?php echo $user['id']?>]['id'] = <?php echo $user['id']?>;
+	user_like_data[<?php echo $user['id']?>]['u1'] = <?php echo $like['u1'];?>;
+	user_like_data[<?php echo $user['id']?>]['u1_revoked'] = <?php echo $like['u1_revoked'];?>;
+	user_like_data[<?php echo $user['id']?>]['u2'] = <?php echo $like['u2'];?>;
+	user_like_data[<?php echo $user['id']?>]['u2_revoked'] = <?php echo $like['u2_revoked'];?>;
+</script>
 
 <fieldset>
-	<legend></legend>
-				<p class="f_title">
-					<?php echo $user['username']; ?>
-				</p>
-				<div id="profil_pic">
-				    <img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-				</div>
-				<p id="bio">
-					biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo
-				</p>
-
+	<legend>
+	</legend>
+	<p class="f_title">
+		<?php echo $user['username']; ?>
+	</p>
+	<div id="profil_pic">
+		<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+	</div>
+	<p id="bio">
+		biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo
+	</p>
 </fieldset>
-
-
 
 <fieldset>
 	<legend>General informations</legend>

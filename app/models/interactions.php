@@ -52,6 +52,48 @@ class m_interactions
 		{
 			echo 'Erreur : ' . $exception->getMessage();
 		}
+		if ($stm->rowCount() == 0)
+		{
+			$sql = "
+				UPDATE `like`
+				SET `revoked` = 0, timestamp = now()
+				WHERE id_user_from = :id_user_from
+				AND id_user_to = :id_user_to
+			";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+			try
+			{
+				$stm->execute();
+			}
+			catch(PDOException $exception)
+			{
+				echo 'Erreur : ' . $exception->getMessage();
+			}
+		}
+	}
+
+	public function dislike($id_user_from, $id_user_to)
+	{
+		$sql = "
+			UPDATE `like`
+			SET `revoked` = 1, timestamp = now()
+			WHERE id_user_from = :id_user_from
+			AND id_user_to = :id_user_to
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		try
+		{
+			$stm->execute();
+		}
+		catch(PDOException $exception)
+		{
+			echo 'Erreur : ' . $exception->getMessage();
+		}
 		return ($stm->rowCount());
 	}
+
 }

@@ -158,11 +158,6 @@
 	window.addEventListener('load',tag_handling);
 	window.addEventListener('load',initMap);
 
-	function	like(id)
-	{
-		ajax_request('<?php echo SITE_ROOT; ?>' + 'ajax/like/' + id);
-	}
-
 	function	tag_handling(){
 		document.getElementById("search_tags").addEventListener("keyup", function(event){
 			var input_bar, filter, ul, li, a, i;

@@ -13,3 +13,17 @@ function ajax_request(target)
 	xhr.send();
 }
 
+function	like(id)
+{
+	console.log(id);
+	ajax_request(SITE_ROOT + 'ajax/like/' + id);
+}
+
+function	dislike(id)
+{
+	console.log(id);
+	ajax_request(SITE_ROOT + 'ajax/dislike/' + id);
+}
+
+
+

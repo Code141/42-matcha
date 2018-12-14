@@ -5,10 +5,11 @@ class c_module_notifications extends c_controller
 /*
 //		L’utilisateur a reçu un “like”.
 //		L’utilisateur a reçu une visite.
-	Un utilisateur “liké” a “liké” en retour.
-	L’utilisateur a reçu un message.
-	Un utilisateur matché ne vous “like” plus.
+//		Un utilisateur matché ne vous “like” plus.
 
+	Un utilisateur “liké” a “liké” en retour.
+
+	L’utilisateur a reçu un message.
 */
 
 	private function	tag_notif($array, $str)
