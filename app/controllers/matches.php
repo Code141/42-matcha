@@ -49,7 +49,7 @@ class c_matches extends c_controller
 	public function main($params = NULL)
 	{
 		$this->prepare();
-		foreach ($_GET as $filter => $value)
+		foreach ($_POST as $filter => $value)
 		{
 			if (preg_match("/tag_.+/", $filter))
 				$this->data['filter_tags'][]= $value;
@@ -66,8 +66,8 @@ class c_matches extends c_controller
 				$this->req->filter_by_distance($value);
 			if ($filter == "birthdate_order" && $value)
 				$this->req->order_by_birthdate($value);
-			if ($filter == "age_select_from" && isset($_GET['age_select_to']))
-				$this->filter_birthdate($value,$_GET['age_select_to']);
+			if ($filter == "age_select_from" && isset($_POST['age_select_to']))
+				$this->filter_birthdate($value,$_POST['age_select_to']);
 		}
 
 		$this->data['matches'] = $this->req
