@@ -161,6 +161,8 @@ var matches = <?php echo $this->data['js_matches'];?>;
 window.addEventListener('load',tag_handling);
 window.addEventListener('load',initMap);
 
+<<<<<<< HEAD
+=======
 document.getElementById('search_button').addEventListener('click', function(event){
 	event.preventDefault();
 	var form = document.getElementById("matches_form");
@@ -234,6 +236,7 @@ document.getElementById('search_button').addEventListener('click', function(even
 	   ajax_request('<?php echo SITE_ROOT; ?>' + 'ajax/like/' + id);
 	   }*/
 
+>>>>>>> ecc52acef78231aebdaf5949cae7f6ac0c2ba18c
 	function	tag_handling(){
 		document.getElementById("search_tags").addEventListener("keyup", function(event){
 			var input_bar, filter, ul, li, a, i;

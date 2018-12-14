@@ -30,7 +30,7 @@ class m_matches extends m_wrapper
 		return ($this);
 	}
 	
-	public function matches($user)
+	public function match($user)
 	{
 		$i = count($this->bind_param);
 		$c = array();
@@ -70,7 +70,7 @@ class m_matches extends m_wrapper
 	public function order_by_matching_tags(array $user)
 	{	
 		$i = count($this->bind_param);
-		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as 'nb matching tags'";
+		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as 'nb_matching_tags'";
 
 		$comp_tag = array();
 		foreach ($user['tags'] as $tag)
@@ -82,7 +82,7 @@ class m_matches extends m_wrapper
 		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
 		$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = u2.id AND " . $comp_tag;
 	 	$this->group_by[] = "u2.id";
-		$this->order[] = "'nb matching tags' DESC";
+		$this->order[] = "COUNT(DISTINCT ut2.id_tag) DESC";
 		return ($this);
 	}
 

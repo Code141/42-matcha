@@ -24,7 +24,7 @@ class c_matches extends c_controller
 	private function init_filters()
 	{
 		$filters = array(
-			'matches' => NULL,
+			'match' => NULL,
 			'order by matching tags' => NULL);
 		return ($filters);
 	}
@@ -53,23 +53,25 @@ class c_matches extends c_controller
 		{
 			if (preg_match("/tag_.+/", $filter))
 				$this->data['filter_tags'][]= $value;
-			if ($filter == "matches" || $filter == "order_by_matching_tags")
+			if ($filter == "match" || $filter == "order_by_matching_tags")
 			{
 				$this->req->$filter($this->user);
 				$filter = preg_replace ("/_/", " ", $filter);
 				if (array_key_exists ($filter, $this->data['filters']))
 					$this->data['filters'][$filter] = $value;
-				}
+			}
+			else if ($value)
+			{
 			if ($filter == "distance_order")
 				$this->req->order_by_distance($value);
-			if ($filter == "distance_filter_km" && $value)
+			if ($filter == "distance_filter_km")
 				$this->req->filter_by_distance($value);
-			if ($filter == "birthdate_order" && $value)
+			if ($filter == "birthdate_order")
 				$this->req->order_by_birthdate($value);
-			if ($filter == "age_select_from" && isset($_POST['age_select_to']))
+			if ($filter == "age_select_from" && isset($_POST['age_select_to']) && $_POST['age_select_to'] !== "")
 				$this->filter_birthdate($value,$_POST['age_select_to']);
+			}
 		}
-
 		$this->data['matches'] = $this->req
 			->filter_by_tags($this->data['filter_tags'])
 			->execute()
@@ -77,7 +79,10 @@ class c_matches extends c_controller
 		foreach ($this->data['matches'] as &$profil)
 			$profil['age'] = date_diff(date_create($profil['birthdate']), date_create('today'))->y;
 		$this->data['js_matches'] = json_encode($this->data['matches']);
-		$this->core->set_view("matches", "main");
-		return $this;
+		if (is_ajax_query())
+			echo $this->data['js_matches'];
+		else
+			$this->core->set_view("matches", "main");
+//		return $this;
 	}
 }
