@@ -127,22 +127,35 @@ class c_account extends c_controller
 		$this->update_session($user['username'], $user['password_length']);
 		$this->core->success("Bio added successfully", 'account', 'main');
 	}
-	
+
 	public function edit_location()
 	{
-		if (!isset($_POST['lat']) || !isset($_POST['lng']) || $_POST['lat'] == "" || $_POST['lng'] == "")
-	$this->core->fail("There was a problem with location input", 'account', 'main');
-		$user = $this->module_loader->session()->controller->user_loggued();
-		if ($_POST['lat'] == $user['latitude'] && $_POST['lng'] == $user['longitude'])
-	$this->core->fail("Nothing to update", 'account', 'main');
-		$model = $this->load->model("account");
-		$model->edit_location($user['id'], $_POST['lat'], $_POST['lng']);
-		$this->update_session($user['username'], $user['password_length']);
-		$json_reponse['status'] = "Success !";
-		if (is_ajax_query())
-			echo json_encode($json_reponse); 
-		else
-			$this->core->success("Position added successfully", 'account', 'main');
+		if (!is_ajax_query())
+			$this->core->fail("There was a problem with location input", 'account', 'main');
+		else 
+		{
+			if (isset($_POST['lat']) && isset($_POST['lng']) &&
+				$_POST['lat'] != "" && $_POST['lng'] != "")	
+			{
+				$user = $this->module_loader->session()->controller->user_loggued();
+				if ($_POST['lat'] == $user['latitude'] && $_POST['lng'] == $user['longitude'])
+				{
+					$json_reponse['fail'] = "Nothing to update";
+					echo json_encode($json_reponse); 
+					return;
+				}
+				$model = $this->load->model("account");
+				$model->edit_location($user['id'], $_POST['lat'], $_POST['lng']);
+				$this->update_session($user['username'], $user['password_length']);
+				$json_reponse['success'] = "Location has been successfully updated";
+				echo json_encode($json_reponse); 
+			}
+			else
+			{
+				$json_reponse['fail'] = "There was a problem with location input";
+				echo json_encode($json_reponse); 			
+			}
+		}
 	}
 
 	public function del_preference()
