@@ -15,18 +15,11 @@ class c_matches extends c_controller
 			->all_tags()
 			->execute()
 			->fetchAll(); 
-		$this->data['filter_tags'] = array();
-		$this->data['filters'] = $this->init_filters();
+		$this->data['user']['location']['latitude'] = $this->user['latitude'];
+		$this->data['user']['location']['longitude'] = $this->user['longitude'];
+		$this->data['user']['location'] = json_encode($this->data['user']['location']);
 		$this->data['user']['latitude'] = $this->user['latitude'];
 		$this->data['user']['longitude'] = $this->user['longitude'];
-	}
-
-	private function init_filters()
-	{
-		$filters = array(
-			'match' => NULL,
-			'order by matching tags' => NULL);
-		return ($filters);
 	}
 
 	private function get_date($age)
@@ -49,17 +42,13 @@ class c_matches extends c_controller
 	public function main($params = NULL)
 	{
 		$this->prepare();
+		$filter_tags = array();
 		foreach ($_POST as $filter => $value)
 		{
 			if (preg_match("/tag_.+/", $filter))
-				$this->data['filter_tags'][]= $value;
+				$filter_tags[]= $value;
 			if ($filter == "match" || $filter == "order_by_matching_tags")
-			{
 				$this->req->$filter($this->user);
-				$filter = preg_replace ("/_/", " ", $filter);
-				if (array_key_exists ($filter, $this->data['filters']))
-					$this->data['filters'][$filter] = $value;
-			}
 			else if ($value)
 			{
 			if ($filter == "distance_order")
@@ -73,7 +62,7 @@ class c_matches extends c_controller
 			}
 		}
 		$this->data['matches'] = $this->req
-			->filter_by_tags($this->data['filter_tags'])
+			->filter_by_tags($filter_tags)
 			->execute()
 			->fetchAll();
 		foreach ($this->data['matches'] as &$profil)
@@ -83,6 +72,5 @@ class c_matches extends c_controller
 			echo $this->data['js_matches'];
 		else
 			$this->core->set_view("matches", "main");
-//		return $this;
 	}
 }
