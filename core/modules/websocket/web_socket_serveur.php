@@ -181,23 +181,18 @@ class socket_server
 		$message = json_decode($this->unseal($socketData));
 		if (empty($message))
 			return;
-/*
-		if (isset($message->ssid))
-		{
-			$user = $this->auth($message->ssid);
-			if (!$user)
-				return;
-			$this->user[$user['id']] = $user;
-			$this->user[$user['id']]['socket'] = $this->current_socket;
-		}
-*/
-
 		$id = $this->find_id_user($this->current_socket);
 		if ($id == null)
 			return;
- 
 		$user = $this->user[$id];
-
+		if ($message->action == "close")
+		{
+			$index = array_search($this->current_socket, $this->clientSocketArray);
+			unset($this->clientSocketArray[$index]);
+			socket_shutdown($this->current_socket);
+			socket_close($this->current_socket);
+			return ;
+		}
 		if ($message->action == "friends")
 		{
 			$msg['friends'] = $this->db->get_friends($id);
@@ -209,7 +204,6 @@ class socket_server
 				else
 					$msg['friends'][$key]['connected'] = false;
 				$this->send($user['id'], $msg_log);
-
 			}
 			$this->send($id, $msg);
 		}
@@ -219,10 +213,17 @@ class socket_server
 				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
+
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
+
+				$conv = $this->db->find_conv($id,  $message->to);
+				if ($conv === NULL)
+					return ;
+				$this->db->send($conv['id'], $id, $message->to, $message->message);
+
 				if (isset($this->user[$message->to]))
 				{
 					$msg['message'] = array();
@@ -231,10 +232,6 @@ class socket_server
 					$msg['message']['username'] = $user['username'];
 					$this->send($message->to, $msg);
 				}
-				$conv = $this->db->find_conv($id,  $message->to);
-				if ($conv === NULL)
-					return ;
-				$this->db->send($conv['id'], $id, $message->to, $message->message);
 			}
 		}
 		if ($message->action == "previous_message")
@@ -270,8 +267,18 @@ class socket_server
 			$msg['like']['to'] = $message->to;
 			$msg['like']['date'] = date("G:i");
 			$this->send($message->to, $msg);
-			echo 'LIKE\n';
 		}
+		if ($message->action == "matche")
+		{
+			$msg = array();
+			$msg['matche'] = array();
+			$msg['matche']['from'] = intval($user['id']);
+			$msg['matche']['username'] = $user['username'];
+			$msg['matche']['to'] = $message->to;
+			$msg['matche']['date'] = date("G:i");
+			$this->send($message->to, $msg);
+		}
+	
 		if ($message->action == "dislike")
 		{
 			$msg = array();
@@ -281,9 +288,7 @@ class socket_server
 			$msg['dislike']['to'] = $message->to;
 			$msg['dislike']['date'] = date("G:i");
 			$this->send($message->to, $msg);
-			echo 'DISLIKE\n';
 		}
-
 
 		if ($message->action == "history")
 		{
@@ -366,6 +371,8 @@ class socket_server
 	{
 		$newSocket = socket_accept($this->socket);
 		$msg = socket_read($newSocket, 1024);
+
+
 		$header = $msg;
 		$lines = preg_split("/\r\n/", $header);
 		$headers = array();
@@ -409,6 +416,7 @@ class socket_server
 	public function unseal($socketData)
 	{
 		$length = ord($socketData[1]) & 127;
+
 		if($length == 126) {
 			$masks = substr($socketData, 4, 4);
 			$data = substr($socketData, 8);
@@ -439,7 +447,7 @@ class socket_server
 			$header = pack('CCn', $b1, 126, $length);
 		else if($length >= 65536)
 			$header = pack('CCN', $b1, 127, $length);
-		return $header.$socketData;
+		return $header . $socketData;
 	}
 
 	public function __destruct()
@@ -452,10 +460,5 @@ $server = new socket_server();
 
 $server->db = new db();
 
-
-
 while (true)
-{
 	$server->loop_work();
-//									usleep(100);
-}

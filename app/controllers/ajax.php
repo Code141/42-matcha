@@ -11,14 +11,25 @@ class c_ajax extends c_controller
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "matches", "main");
 			else
+			{
 				echo json_encode($response);
+				die ();
+			}
 		}
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
 		$response['row'] = $this->load->model("interactions")->like($user["id"], $id_user_to);
 		$response['status'] = "success";
 
-		$this->module_loader->websocket()->controller->send_like($id_user_to);
+		if ($this->load->model("interactions")->does_match($user["id"], $id_user_to))
+		{
+			if (!$this->load->model("message")->find_conv($user["id"], $id_user_to))
+				$this->load->model("message")->crea_conv($user["id"], $id_user_to);
+
+			$this->module_loader->websocket()->controller->send_matche($id_user_to);
+		}
+		else
+			$this->module_loader->websocket()->controller->send_like($id_user_to);
 
 		if (!is_ajax_query())
 			$this->core->success("You liked it !", "matches", "main");

@@ -109,6 +109,10 @@ ALTER TABLE `gender_identity`
 ALTER TABLE `msg`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `conv`
+  ADD PRIMARY KEY (`id`);
+
+
 ALTER TABLE `tag`
   ADD PRIMARY KEY (`id`);
 
@@ -136,6 +140,10 @@ ALTER TABLE `tag`
   MODIFY `id` int(11) AUTO_INCREMENT;
 
 ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+ALTER TABLE `conv`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

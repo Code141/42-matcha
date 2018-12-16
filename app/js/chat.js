@@ -15,7 +15,6 @@ function websock()
 	this.init = function()
 	{
 		url = "ws://localhost:8090/";
-
 		if ("WebSocket" in window)
 			this.websocket = new WebSocket(url);
 		else if ("MozWebSocket" in window)
@@ -23,21 +22,29 @@ function websock()
 
 		this.websocket.onopen = function(event)
 		{
+
 			if (typeof id_conv == "undefined")
 				this.chat_list = new chat_list(chat_list_cont);
 			else
 				this.chat_list = new messagerie();
+
 			this.chat_list.init();
 			this.chat_list.connected(true);
 			this.websocket.send(JSON.stringify({ action: "friends" }));
 
-		}.bind(this)
+			window.addEventListener('beforeunload', function() {
+				if (client.websocket.readyState == 1)
+					client.websocket.send(JSON.stringify({ action: "close" }));
+			}, false)
+		}.bind(this);
 
 		this.websocket.onmessage = function(event)
 		{
 			var data = JSON.parse(event.data);
 			if (typeof data.like != 'undefined')
 				notif.like(data.like);
+			if (typeof data.matche != 'undefined')
+				notif.matche(data.matche);
 			if (typeof data.dislike != 'undefined')
 				notif.dislike(data.dislike);
 			if (typeof data.history != 'undefined')
@@ -50,11 +57,16 @@ function websock()
 		{
 			this.chat_list.connected(false);
 		}.bind(this);
+
 		this.websocket.onclose = function(event)
 		{
-			if (typeof this.chat_list != 'undefined')
-				this.chat_list.connected(false);
-			setTimeout(function () { this.init(); }.bind(this), 5000);
+			console.log("CLOSE");
+			setTimeout(function () {
+				if (typeof this.chat_list != 'undefined')
+					this.chat_list.connected(false);
+				console.log("TRYING RECONNECT");
+				this.init();
+			}.bind(this), 5000);
 		}.bind(this);
 	}
 }
@@ -78,12 +90,12 @@ function like_ctrl()
 		this.user[id].refresh();
 	}
 
+
 	this.dislike = function(id)
 	{
 		this.user[id].u2 = 0;
 		this.user[id].refresh();
 	}
-
 }
 
 function user_like(id_user, u1, u2)
@@ -174,6 +186,19 @@ function notif()
 		this.add_a_notif();
 		ctrl_like.like(data.from);
 	}
+
+	this.matche = function(data)
+	{
+		console.log("hello");
+		new_node = document.createElement('p');
+		user_name = document.createElement('a');
+		user_name.innerHTML = data.username;
+		new_node.innerHTML = '<a href="' + SITE_ROOT + '/profil/main/' + data.from + '"> ' + data.username + ' </a> has matched you<span class="date">' + data.date + '</span> ';
+		this.notif_detail_div.prepend(new_node);
+		this.add_a_notif();
+		ctrl_like.like(data.from);
+	}
+
 
 	this.history = function(data)
 	{
