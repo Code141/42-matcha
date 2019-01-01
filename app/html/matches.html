@@ -1,7 +1,4 @@
 <section id="matches">
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
-	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
-
 	<aside>
 		<form action="<?php echo SITE_ROOT;?>matches/main" method="post" id="matches_form">
 			<button id="search_button" type="submit">
@@ -9,12 +6,12 @@
 			</button>
 
 			<div class="f_container">
-				<input type="checkbox" name="match" id="match" value="1"<?php if ($this->data['filters']['match']) echo "checked"?>>
+				<input type="checkbox" name="match" id="match" value="1">
 				<label class="f_title" for="match">matches</label> 
 			</div>
 
 			<div class="f_container">
-				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1"<?php if ($this->data['filters']['order by matching tags']) echo "checked"?>>
+				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1">
 				<label class="f_title" for="order by matching tags">order by matching tags</label> 
 			</div>
 
@@ -23,9 +20,7 @@
 				Order by distance
 				</p>
 				<select name="distance_order">
-					<option value="<?php if (!empty($_POST['distance_order'])) echo $_POST['distance_order'];?>">
-					<?php if (!empty($_POST['distance_order'])){ if($_POST['distance_order'] == 'ASC') echo "CLOSEST"; else echo "FURTHEST";}?>
-					</option>
+					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="ASC">
 					CLOSEST
 					</option>
@@ -39,9 +34,7 @@
 				Order by birthdate
 				</p>
 				<select name="birthdate_order">
-					<option value="<?php if (!empty($_POST['birthdate_order'])) echo $_POST['birthdate_order'];?>">
-					<?php if (!empty($_POST['birthdate_order'])) echo $_POST['birthdate_order'];?>
-					</option>
+					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="DESC">
 					ASC
 					</option>
@@ -54,8 +47,7 @@
 				<p class="f_title">
 				Filter by distance
 				</p>
-				<input type="number" name="distance_filter_km" min="1" max="20037" value="<?php if (!empty($_POST['distance_filter_km']) &&
-				$_POST['distance_filter_km'] > 0 && $_POST['distance_filter_km'] <= 20037) echo $_POST['distance_filter_km'];?>">
+				<input type="number" name="distance_filter_km" min="1" max="20037">
 				km away
 			</div>
 
@@ -68,10 +60,8 @@
 				</p> 
 				<p>
 				<select name="age_select_from">
-					<option value="<?php if(isset($_POST['age_select_from'])) echo $_POST['age_select_from'];?>">
-					<?php if(isset($_POST['age_select_from'])) echo $_POST['age_select_from'];?>
-					</option>
-					<?php for($i=0; $i<120; $i+=10) {?>
+					<option class="placeholder" value="" disabled selected hidden></option>
+					<?php for($i=16; $i<120; $i+=10) {?>
 					<option value=<?php echo $i;?>>
 					<?php echo $i;?>
 					</option>
@@ -79,10 +69,8 @@
 				</select>
 				and 
 				<select name="age_select_to">
-					<option value="<?php if(isset($_POST['age_select_to'])) echo $_POST['age_select_to'];?>">
-					<?php if(isset($_POST['age_select_to'])) echo $_POST['age_select_to'];?>
-					</option>
-					<?php for($i=120;$i>0;$i-=10){?>
+					<option class="placeholder" value="" disabled selected hidden></option>
+					<?php for($i=16; $i<120; $i+=10) {?>
 					<option value=<?php echo $i;?>>
 					<?php echo $i;?>
 					</option>
@@ -102,7 +90,7 @@
 					<ul id="myUL">
 						<?php foreach($this->data['all_tags'] as $tag) { ?>
 						<li title="<?php echo $tag['tag_name'];?>">
-							<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>"<?php if (in_array($tag['id'],$this->data['filter_tags'])) echo "checked";?>>
+							<input type="checkbox" id="<?php echo $tag['tag_name'];?>" name="tag_<?php echo $tag['tag_name'];?>" value = "<?php echo $tag['id'];?>">
 							<label for="<?php echo $tag['tag_name'];?>">#<?php echo $tag['tag_name']?></label>
 						</li>
 						<?php  }?>
@@ -114,7 +102,7 @@
 					</button>
 				</div>
 			</div>
-			<button type="reset" id="reset_button">Reset search options</button>
+			<button type="reset" id="reset_button">Reset all search options</button>
 		</form>
 	</aside>
 
@@ -122,169 +110,13 @@
 		<div id=map>
 		</div>
 		<div class='container' id="profils">
-			<?php if (!count($this->data['matches'])) echo "<p id=\"match_prompt\"> No matches corresponding your search </p>";
-			foreach($this->data['matches'] as $profil) { ?>
-			<article>
-				<a href="<?php echo SITE_ROOT . "profil/main/" . $profil['id']; ?>">
-					<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-					<p>
-					<?php echo $profil['username']?>
-					</p>
-					<p>
-					<?php if ($profil['distance'] != NULL) { ?>
-					dist : <?php echo number_format((float)($profil['distance'] / 1000), 2, '.', '');?> km away
-					<?php } ?>
-					</p>
-					<p>
-					<?php echo $profil['age']?> years old
-					</p>
-					<p>
-					<?php if(isset($profil['nb_matching_tags'])){?>
-					nb of matching tags:	<?php echo $profil['nb_matching_tags'];}?>
-					</p>
-				</a>
-
-				<button onclick="like(<?php echo $profil['id']?>)">
-					LIKE
-				</button>
-
-			</article>
-			<?php	} ?>
 		</div>
 	</div>
-
 	<script>
-
-var user_location = { "lat" : <?php echo $this->data['user']['latitude'];?>, "lon" : <?php echo $this->data['user']['longitude'];?> };
-var matches = <?php echo $this->data['js_matches'];?>;
-
-window.addEventListener('load',tag_handling);
-window.addEventListener('load',initMap);
-
-document.getElementById('search_button').addEventListener('click', function(event){
-	event.preventDefault();
-	var form = document.getElementById("matches_form");
-	formData = new FormData(form);
-
-	var url = <?php echo SITE_ROOT;?> + "matches/main";
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url + "?is_ajax=1", true);
-	xhr.onload = function () {
-		var status = xhr.status;
-		if (status == 200) {
-			profils = JSON.parse(xhr.responseText);
-			if (profils)
-				fill_profil_container(profils);
-			}
-			else {
-				console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
-			}
-		};
-		xhr.send(formData);
-	});
-
-	function	fill_profil_container(profils)
-	{
-		var container = document.getElementById("profils");
-		while (container.firstChild) {
-			container.removeChild(container.firstChild);
-		}
-		var article = document.createElement('article');
-		var a = document.createElement('a');
-		var img = document.createElement('img');
-		var username = document.createElement('p');
-		var dist = document.createElement('p');
-		var age = document.createElement('p');
-		var like_button = document.createElement('button');
-		like_button.innerHTML = 'LIKE';
-		like_button.className = 'like_button';
-		var matching_tags = document.createElement('p');
-		article.appendChild(a);
-		article.appendChild(like_button);
-		a.appendChild(img);
-		a.appendChild(username);
-		a.appendChild(dist);
-		a.appendChild(age);
-		a.appendChild(matching_tags);
-		for(i = 0; i < profils.length; i++)
-		{
-			var match = article.cloneNode(true);
-			a.href = <?php echo SITE_ROOT;?> + 'profil/main/' + profils[i].id;
-			img.id = 'profil_pic';
-			username.innerHTML = profils[i].username;
-			if (profils[i].distance)
-				dist.innerHTML = 'dist : ' + Number(profils[i].distance).toFixed(2) + ' km away';
-			else
-				dist.innerHTML = 'No location';
-			age.innerHTML = profils[i].age + 'years old';
-			matching_tags.innerHTML = 'Nb of matching tags : ' + profils[i].nb_matching_tags;
-			like_button.addEventListener('click', function(){
-				alert('like');
-				ajax_request('<?php echo SITE_ROOT; ?>' + 'ajax/like/' + profils[i].id);
-			});
-			container.appendChild(match);
-		}
-		var like_buttons = container.getElementsByClassName('like_button');
-	//	container.removeChild(container.firstChild);
-	}
-
-	/*
-	   function	like(id)
-	   {
-	   ajax_request('<?php echo SITE_ROOT; ?>' + 'ajax/like/' + id);
-	   }*/
-
-	function	tag_handling(){
-		document.getElementById("search_tags").addEventListener("keyup", function(event){
-			var input_bar, filter, ul, li, a, i;
-			input_bar = document.getElementById('search_tags');
-			filter = input_bar.value.toUpperCase();
-			ul = document.getElementById("myUL");
-			li = ul.getElementsByTagName('li');
-
-			for (i = 0; i < li.length; i++) {
-				input = li[i].getElementsByTagName("input")[0];
-				if (input.name.toUpperCase().indexOf(filter) > -1) {
-					li[i].style.display = "";
-				} else {
-					li[i].style.display = "none";
-				}
-			}
-		});
-
-		document.getElementById("uncheck_tags").addEventListener("click", function(event){
-			event.preventDefault();
-			ul = document.getElementById("myUL");
-			li = ul.getElementsByTagName('li');
-			for (i = 0; i < li.length; i++) {
-				input = li[i].getElementsByTagName("input")[0].checked = false;
-			}
-		});
-	}
-
-	function initMap() {
-		map = new L.map('map');
-
-		for (profil in matches ){
-			if (matches[profil].latitude != null && matches[profil].longitude != null)
-			{
-				var marker = L.marker([matches[profil].latitude, matches[profil].longitude]).addTo(map);
-				marker.bindPopup("<b>"+matches[profil].username+"</b><br>").openPopup();
-			}
-		}
-
-		var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
-		marker.bindPopup("<b>You</b><br>").openPopup();
-
-		L.circle([user_location.lat, user_location.lon], 10000).addTo(map);
-		map.setView([user_location.lat, user_location.lon], 10);
-
-		var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-				minZoom: 2,
-				maxZoom: 18
-				}).addTo(map);
-	}
-
+		var user_location = <?php echo $this->data['user']['location'];?>;
+		var profils = <?php echo $this->data['js_matches'];?>;
 	</script>
 </section>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+<script src="<?php echo SITE_ROOT;?>app/js/matches.js"></script>

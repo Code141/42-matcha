@@ -4,7 +4,7 @@ class c_register extends c_controller
 {
 	public function	main()
 	{
-		$this->core->set_view("register", "main");
+		$this->core->set_view("home", "main");
 	}
 	
 	public function check($params = NULL)

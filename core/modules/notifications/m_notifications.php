@@ -22,12 +22,17 @@ class m_module_notifications
 	public function get_like($id_user)
 	{
 		$sql = "
-			SELECT l.*, u.username, u.id
+			SELECT l.*, u.username, u.id,
+			(CASE WHEN (l2.id_user_from IS NOT NULL AND l.timestamp > l2.timestamp) THEN 1 ELSE 0 END) AS `matche`
 			FROM `like` l
 			LEFT JOIN user u
 			ON u.id = l.id_user_from
+			LEFT JOIN `like` l2
+			ON (l.id_user_to = l2.id_user_from
+			AND l.id_user_from = l2.id_user_to
+			AND l2.revoked = 0)
 			WHERE l.id_user_to = :id_user
-			AND revoked != 1
+			AND l.revoked = 0
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_STR);
@@ -39,7 +44,7 @@ class m_module_notifications
 	public function revoke($id_user)
 	{
 		$sql = "
-			SELECT l.*, u.username, u.id, l2.revoked
+			SELECT l.id_user_from, l.id_user_to, l.seen, l.revoked, u.username, u.id, l2.revoked, l2.timestamp
 			FROM `like` l
 			LEFT JOIN `like` l2
 			ON l.id_user_from = l2.id_user_to

@@ -23,7 +23,8 @@ body
 
 h1, h2, h3, h4, h5, h6
 {
-	font-family: din1451;
+	font-family: arial;
+	/*font-family: din1451;*/
 	font-size: 30px;
 }
 
@@ -52,6 +53,7 @@ a:hover
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	padding:5px;
 }
 
 /*- HEADER ---------------------------------------------------------*/
@@ -63,7 +65,6 @@ header
 	position: sticky;
 	top: 0px;
 	background-color: rgba(255, 215, 215, 1);
-	box-shadow: 0px 0px 30px rgba(255, 70, 70, 0.6);
 	z-index: 2000;
 }
 
@@ -124,67 +125,14 @@ footer
 }
 
 /*- LOGIN ----------------------------------------------------------*/
-
+/*
 section#login
 {
 	right: 0px;
 	top: 0px;
 	align-self: center;
 }
-
-/*- REGISTER -------------------------------------------------------*/
-
-section#register
-{
-	background-color: rgba(255, 220, 220, 1);
-	width: 400px;
-	min-width: 400px;
-	margin:5px;
-	float: right;
-	padding:15px;
-	border-radius: 10px;
-}
-
-section#register input
-{
-	margin: 10px;
-	border-radius: 3px;
-	padding: 5px;
-	border: none;
-}
-
-section#register button#singup
-{
-	display:block;
-	margin: 20px auto 20px auto;
-	border-radius: 3px;
-	padding: 5px 10px 5px 10px;
-	border: none;
-	font-size: 25px;
-}
-
-section#register div.radio_gender
-{
-	width:50%;
-}
-
-section#register div.radio_gender:nth-child(odd)
-{
-	text-align: right;
-	float:left;
-}
-
-section#register div.radio_gender:nth-child(even)
-{
-	text-align: left;
-	float:right;
-}
-
-section#register div.radio_gender input
-{
-	margin: 7px;
-}
-
+*/
 /*- CHAT -----------------------------------------------------------*/
 
 	div#chat_list

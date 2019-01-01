@@ -33,6 +33,15 @@ class c_module_websocket extends c_controller
 		$this->send($msg);
 	}
 
+	public function	send_matche($id)
+	{
+		$msg = array();
+		$msg['action'] = "matche";
+		$msg['to'] = $id;
+		$this->send($msg);
+	}
+
+
 	public function	send_dislike($id)
 	{
 		$msg = array();
