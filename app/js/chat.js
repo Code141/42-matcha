@@ -1,3 +1,4 @@
+
 window.onload = function ()
 {
 	chat_list_cont = document.getElementById("chat_list");
@@ -15,17 +16,27 @@ function websock()
 	this.init = function()
 	{
 		url = "ws://localhost:8090/";
+
 		try
 		{
 			if ("WebSocket" in window)
 				this.websocket = new WebSocket(url);
 			else if ("MozWebSocket" in window)
 				this.websocket = new MozWebSocket(url);
-			console.log('- Connecting . . . -');
 		}
 		catch(e)
 		{
 		}
+
+		window.addEventListener('beforeunload', function() {
+			if (this.websocket.readyState == 1)
+				this.websocket.send(JSON.stringify({ action: "close" }));
+			else if (this.websocket.readyState == 2)
+			this.websocket.close();
+			console.log("-- WS CLOSED ---");
+		}.bind(this), false)
+
+		this.websocket.onclose = function () {}; // disable onclose handler first
 
 		this.websocket.onopen = function(event)
 		{
@@ -33,29 +44,9 @@ function websock()
 				this.chat_list = new chat_list(chat_list_cont);
 			else
 				this.chat_list = new messagerie();
-
 			this.chat_list.init();
 			this.chat_list.connected(true);
 			this.websocket.send(JSON.stringify({ action: "friends" }));
-
-			window.addEventListener('beforeunload', function() {
-				this.websocket.close();
-	/*			if (this.websocket.readyState == 1)
-					this.websocket.send(JSON.stringify({ action: "close" }));
-	*/			console.log("-- closed --");
-    			console.log(this.websocket);
-			}.bind(this), false)
-
-/*
-window.addEventListener('beforeunload', function() {
-    console.log(this.websocket);
-    this.websocket.close();
-}.bind(this));
-    this.websocket.onclose = function () {}; // disable onclose handler first
-*/
-
-			
-
 		}.bind(this);
 
 		this.websocket.onmessage = function(event)
@@ -75,7 +66,8 @@ window.addEventListener('beforeunload', function() {
 
 		this.websocket.onerror = function(event)
 		{
-			this.chat_list.connected(false);
+			if (typeof this.chat_list !== "undefined")
+				this.chat_list.connected(false);
 		}.bind(this);
 /*
 		this.websocket.onclose = function(event)

@@ -158,10 +158,8 @@ class socket_server
 			return;
 
 		socket_select($this->working_sokets, $null, $null, 0, 10);	// FILTRE LES SOCKECT MODIFIE
-
 		if (in_array($this->socket, $this->working_sokets)) // Si un des socket a ete modifie
 			$this->connect();
-
 		foreach ($this->working_sokets as $current_socket)
 		{
 			$this->current_socket = $current_socket;
@@ -187,7 +185,6 @@ class socket_server
 		$user = $this->user[$id];
 		if ($message->action == "close")
 		{
-			echo("close");
 			$index = array_search($this->current_socket, $this->clientSocketArray);
 			unset($this->clientSocketArray[$index]);
 			socket_shutdown($this->current_socket);
