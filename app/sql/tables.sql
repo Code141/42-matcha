@@ -41,7 +41,7 @@ CREATE TABLE `like` (
 
 CREATE TABLE `media` (
   `id_user` int(11) NOT NULL,
-  `filename` int(11) NOT NULL
+  `id_media` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `conv` (
