@@ -187,6 +187,7 @@ class socket_server
 		$user = $this->user[$id];
 		if ($message->action == "close")
 		{
+			echo("close");
 			$index = array_search($this->current_socket, $this->clientSocketArray);
 			unset($this->clientSocketArray[$index]);
 			socket_shutdown($this->current_socket);
@@ -329,7 +330,7 @@ class socket_server
 				foreach ($friends as $user)
 					$this->send($user['id'], $msg);
 		}
-		socket_shutdown($this->current_socket);
+//		socket_shutdown($this->current_socket);
 		socket_close($this->current_socket);
 		$index = array_search($this->current_socket, $this->clientSocketArray);
 		unset($this->clientSocketArray[$index]);

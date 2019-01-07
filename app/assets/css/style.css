@@ -23,7 +23,8 @@ body
 
 h1, h2, h3, h4, h5, h6
 {
-	font-family: din1451;
+	font-family: arial;
+	/*font-family: din1451;*/
 	font-size: 30px;
 }
 
@@ -52,6 +53,7 @@ a:hover
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	padding:5px;
 }
 
 /*- HEADER ---------------------------------------------------------*/
@@ -63,7 +65,6 @@ header
 	position: sticky;
 	top: 0px;
 	background-color: rgba(255, 215, 215, 1);
-	box-shadow: 0px 0px 30px rgba(255, 70, 70, 0.6);
 	z-index: 2000;
 }
 
@@ -124,15 +125,14 @@ footer
 }
 
 /*- LOGIN ----------------------------------------------------------*/
-
+/*
 section#login
 {
 	right: 0px;
 	top: 0px;
 	align-self: center;
 }
-
-/*- REGISTER -------------------------------------------------------*/
+*/
 /*- CHAT -----------------------------------------------------------*/
 
 	div#chat_list
