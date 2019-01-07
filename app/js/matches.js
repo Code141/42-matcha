@@ -86,6 +86,10 @@ function	fill_profil_container(profils)
 
 			a.href = 'http://localhost:8080/matcha/profil/main/' + profils[i].id;
 			img.id = 'profil_pic';
+			if (profils[i].id_media)
+				img.src = MEDIA_PATH + profils[i].id_media + '.png';
+			else
+				img.src = default_pic;
 			username.innerHTML = profils[i].username;
 			if (profils[i].distance)
 				dist.innerHTML = 'dist : ' + Number(profils[i].distance).toFixed(2) + ' km away';

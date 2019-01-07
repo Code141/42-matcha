@@ -4,42 +4,48 @@
 
 <link rel="stylesheet" href="<?php echo SITE_ROOT;?>Leaflet.Geonames/L.Control.Geonames.css" />
 
-<?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
+<?php $user = $this->module_loader->session()->controller->user_loggued(); 
+var_dump($user);?>
 <section class="user">
-<fieldset>
-<legend></legend>
-<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
-<p>
-<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
-</p>
-<div id="profil_pic">
-<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
-</div>
-<div id="more_info">
-<p>
-<span>Firstname</span>:
-<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
-</p>
-<p>
-<span>Lastname</span>:
-<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
-</p>
-<p>
-<span>Gender</span>:
-<select name="id_gender" class="edit" placeholder="Add your gender">
-<option class="placeholder" value="" disabled selected hidden><?php echo $user['gender_name']; ?></option>
-<?php for($i = 1; $i < count($this->data['all_genders']);$i++){ ?>
-	<option value="<?php echo $this->data['all_genders'][$i]['id']?>"><?php echo $this->data['all_genders'][$i]['gender_name']?></option>
-		<?php }?>
-		</select>
-		</p>
-		<p>
-		<span>Gender identity</span>:
-		<input list="gender_identity_list" name="id_gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
-		<datalist id="gender_identity_list">
-		<?php for($i = 1; $i < count($this->data['all_gender_id']);$i++){ ?>
-			<option value="<?php echo $this->data['all_gender_id'][$i]['gender_identity_name']?>">
-				<?php }?>
+	<fieldset>
+		<legend></legend>
+		<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
+			<p>
+			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
+			</p>
+			<div id="profil_pic">
+				<?php if(!$user['id_media']){ ?>
+				<p class="prompt">Please add a profil picture</p>
+				<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+				<?php } else { ?>
+				<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+				<?php } ?>
+			</div>
+			<div id="more_info">
+				<p>
+				<span>Firstname</span>:
+				<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
+				</p>
+				<p>
+				<span>Lastname</span>:
+				<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
+				</p>
+				<p>
+				<span>Gender</span>:
+				<select name="id_gender" class="edit" placeholder="Add your gender">
+					<option class="placeholder" value="" disabled selected hidden><?php echo $user['gender_name']; ?></option>
+					<?php for($i = 1; $i < count($this->data['all_genders']);$i++){ ?>
+					<option value="<?php echo $this->data['all_genders'][$i]['id']?>"><?php echo $this->data['all_genders'][$i]['gender_name']?></option>
+					<?php }?>
+				</select>
+				</p>
+				<p>
+				<span>Gender identity</span>:
+				<input list="gender_identity_list" name="id_gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
+				<datalist id="gender_identity_list">
+					<?php for($i = 1; $i < count($this->data['all_gender_id']);$i++){ ?>
+					<option value="<?php echo $this->data['all_gender_id'][$i]['gender_identity_name']?>">
+					<?php }?>
 				</datalist>
 				</p>
 				<p>
@@ -58,240 +64,125 @@
 				<span>Password confirmation</span>:
 				<input name="password2" type="password" value="" class="edit">
 				</p>
-				</div>
-				<div class="buttons">
+			</div>
+			<div class="buttons">
 				<button type="reset" class="cancel_button">Cancel</button>
 				<button class="edit_button">Edit information</button>
-				</div>
-				</form>
-				</fieldset>
-				</section>
-				<section class="bio">
-				<fieldset>
-				<legend>Bio</legend>
-				<form id="bio_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_bio';?>">
-				<p id="bio">
-				<textarea name="bio" type="text" class="edit" placeholder="Describe yourself..."><?php echo $user['bio'];?></textarea>
-				</p>
-				<div class="buttons">
+			</div>
+		</form>
+	</fieldset>
+</section>
+<section class="bio">
+	<fieldset>
+		<legend>Bio</legend>
+		<form id="bio_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_bio';?>">
+			<p id="bio">
+			<textarea name="bio" type="text" class="edit" placeholder="Describe yourself..."><?php echo $user['bio'];?></textarea>
+			</p>
+			<div class="buttons">
 				<button type="reset" class="cancel_button">Cancel</button>
 				<button class="edit_button">Edit bio</button>
-				</div>
-				</form>
-				</fieldset>
-				<fieldset>
-				<legend>Your position</legend>
-				<div id="map"></div>
-				<p id="map_prompt">Please confirm your position</p>
-				<form id="map_form" method="post">
-				<input type="hidden" name="latitude" value="<?php $user['latitude'];?>">
-				<input type="hidden" name="longitude" value="<?php echo $user['longitude'];?>">
-				<div class="buttons">
+			</div>
+		</form>
+	</fieldset>
+	<fieldset>
+		<legend>Your position</legend>
+		<div id="map"></div>
+		<p id="map_prompt">Please confirm your position</p>
+		<form id="map_form" method="post">
+			<input type="hidden" name="latitude" value="<?php $user['latitude'];?>">
+			<input type="hidden" name="longitude" value="<?php echo $user['longitude'];?>">
+			<div class="buttons">
 				<button type="reset" class="cancel_button">Cancel</button>
 				<button class="edit_button">Edit position</button>
-				</div>
-				</form>
-				</fieldset>
-				<fieldset>
-				<legend>Pictures</legend>
-				</fieldset>
-				<fieldset id="matching_preferences">
-				<legend>Matching preferences</legend>
-				<table style="width:100%">
-				<tr>
+			</div>
+		</form>
+	</fieldset>
+	<fieldset>
+		<legend>Pictures</legend>
+		<?php if(count($user['media']))
+			foreach($user['media'] as $pic){?>
+			<a>
+			<div class="media">
+			<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
+			</div>
+			</a>
+			<?php } if(count($user['media']) < 5) { ?>
+			<button>Take picture</button>
+			<button>Upload picture</button>
+			<?php }?>
+	</fieldset>
+	<fieldset id="matching_preferences">
+		<legend>Matching preferences</legend>
+		<table style="width:100%">
+			<tr>
 				<th class="f_title">gender</th>
 				<th class="f_title">gender identity</th> 
 				<th></th>
-				</tr>
-				<?php foreach($user['orientations'] as $value) { ?>
-					<tr>
-						<td><?php echo $value['gender_name'];?></td>
-						<td><?php echo $value['gender_identity_name'];?></td> 
-						<td>
-						<form class="del_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/del_preference';?>">
+			</tr>
+			<?php foreach($user['orientations'] as $value) { ?>
+			<tr>
+				<td><?php echo $value['gender_name'];?></td>
+				<td><?php echo $value['gender_identity_name'];?></td> 
+				<td>
+					<form class="del_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/del_preference';?>">
 						<input type="hidden" name="gender" value="<?php echo $value['id_gender'];?>">
 						<input type="hidden" name="gender_identity" value="<?php echo $value['id_gender_identity'];?>">
 						<button type="submit" class="delete submit" title="Delete a preference">x</button>
-						</form>
-						</td>
-						</tr>
-						<?php } ?>
-						<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_preference'; ?>">
-						<tr>
-						<td>
+					</form>
+				</td>
+			</tr>
+			<?php } ?>
+			<form id="add_matching_preferences_form" method="post" action="<?php echo SITE_ROOT . 'account/add_preference'; ?>">
+				<tr>
+					<td>
 						<select form="add_matching_preferences_form" name="gender" value="" class="input" required>
-						<option class="placeholder" value="" disabled selected hidden></option>
-						<?php foreach($this->data['all_genders'] as $g){ ?>
+							<option class="placeholder" value="" disabled selected hidden></option>
+							<?php foreach($this->data['all_genders'] as $g){ ?>
 							<option value="<?php echo $g['id'];?>"><?php echo $g['gender_name'];?></option>
-								<?php }?>
-								</select>
-								</td>
-								<td>
-								<select form="add_matching_preferences_form" name="gender_identity" value="" class="input" required>
-								<option class="placeholder" value="" disabled selected hidden></option>
-								<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
-									<option value="<?php echo $g_i['id'];?>"><?php echo $g_i['gender_identity_name'];?></option>
-										<?php }?>
-										</select>
-										</td>
-										<td><button type="submit" class="add submit" title="Add a preference">+</button></td>
-										</tr>
-										</form>
-										</table>
-										</fieldset>
-										<fieldset id="tags">
-										<legend>Tags</legend>
-										<div id="tag">
-										<?php foreach($user['tags'] as $value) { ?>
-											<form class="del_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/del_tag';?>">
-												<p>
-												<?php echo "#".$value['tag_name'] ?>
-												<button type="submit" name="tag" value="<?php echo $value['id'];?>" class="delete submit" title="Delete a tag">x</button>
-												</p>
-												</form>
-												<?php } ?>
-												<form id="add_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/add_tag';?>">
-												<input list="tag_list" name="tag" type="text" class="input" title="multiple spaces and/or # at the beginning will be ignored" placeholder="# Add a tag">
-												<datalist id="tag_list">
-												<?php foreach($this->data['all_tags'] as $tag){ ?>
-													<option value="#<?php echo $tag['tag_name'];?>">
-														<?php }?>
-														</datalist>
-														<button type="submit" class="add submit" title="Add a tag">+</button>
-														</form>
-														</div>
-														</fieldset>
-														</section>
-														<script>
-
-														window.addEventListener('load',set_events);
-														window.addEventListener('load',initMap);
-
-
-														function initMap() {
-															map = new L.map('map');
-															var user = <?php echo $this->data['user']?>;
-															var ip_location = <?php echo $this->data['ip_location']?>;
-															ip_location = ip_location.loc.split(',');
-															if (user.latitude !== null && user.longitude !== null)
-															{
-																var user_location = { "lat" : user.latitude, "lng" : user.longitude };
-																map.setView(user_location, 13);
-																var marker = L.marker([user_location.lat, user_location.lng]).addTo(map);
-																marker.bindPopup("<b>Your location</b><br>").openPopup();
-															}
-															else
-															{
-																var button_div = document.getElementById('map_form').getElementsByClassName('buttons')[0];
-																button_div.style.display = 'block';
-																document.getElementById('map_prompt').style.display = 'block';
-																navigator.geolocation.getCurrentPosition(function(location) {
-																	var user_location = { "lat" : location.coords.latitude, "lng" : location.coords.longitude};
-																	map.setView(user_location, 13);
-																	var marker = L.marker([user_location.lat, user_location.lng]).addTo(map);
-																	marker.bindPopup("<b>Your location</b><br>").openPopup();
-																}, function(error){
-																	console.log(error.message);
-																	var user_location = { "lat" : ip_location[0], "lng" : ip_location[1]};
-																	map.setView(user_location, 13);
-																	var marker = L.marker([user_location.lat, user_location.lng]).addTo(map);
-																	marker.bindPopup("<b>Your location</b><br>").openPopup();
-																});
-															}
-															var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-																	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-																	minZoom: 2,
-																	maxZoom: 18
-																	}).addTo(map);
-
-															var control = L.control.geonames({
-																geonamesURL: '//api.geonames.org/searchJSON',
-																username: 'fdelsing',  // Geonames account username.  Must be provided
-																lang: 'en', // language for results
-
-																maxresults: 5,  // Maximum number of results to display per search
-																className: 'leaflet-geonames-icon', //class for icon
-																workingClass: 'leaflet-geonames-icon-working', //class for search underway
-																showmarker: true, //show a marker at the location the selected location
-																showPopup: true, //Show a tooltip at the selected location
-																zoomLevel: null,  // Max zoom level to zoom to for location.  If null, will use the map's max zoom level.
-																position: 'topleft',
-																alwaysOpen: false  //if true, search field is always visible
-															});
-															map.addControl(control);
-														}
-
-function set_events(){
-	var forms = document.forms;
-	for (let form of forms){
-		form.addEventListener("submit",function(e){
-			if (form.id == "map_form")
-			{
-				e.preventDefault();
-				edit_location(map._lastCenter.lat, map._lastCenter.lng);
-			}
-		});
-	};
-	var pw_conf = document.getElementById("pw_conf");
-	var pw_input = document.getElementById("pw_input");
-	pw_conf.style.display = 'none';
-	var buttons = document.getElementsByClassName("buttons");		
-	for (let div of buttons)
-	{
-		div.style.display = 'none';
-		div.getElementsByClassName("cancel_button")[0].addEventListener("click",function(e){
-			div.style.display = 'none';
-			pw_conf.getElementsByTagName("input")[0].required = false;
-			pw_input.required = false;
-			pw_conf.style.display = 'none';
-		});
-	}
-	var editables = document.getElementsByClassName("edit");
-	var submit_buttons = document.getElementsByClassName("submit");
-	for (let element of editables)
-	{
-		element.addEventListener("change", function(e){
-			console.log(element);
-			if (element.name == "password"){
-				pw_conf.style.display = 'block';
-				pw_input.required = true;
-				pw_conf.getElementsByTagName("input")[0].required = true;
-			}
-			var button_div = element.form.getElementsByClassName("buttons")[0];
-			button_div.style.display = 'block';
-		});
-	};
-}
-
-function edit_location(latitude, longitude)
-{
-	var formData = new FormData();
-	formData.append('lat',latitude);
-	formData.append('lng',longitude);
+							<?php }?>
+						</select>
+					</td>
+					<td>
+						<select form="add_matching_preferences_form" name="gender_identity" value="" class="input" required>
+							<option class="placeholder" value="" disabled selected hidden></option>
+							<?php foreach($this->data['all_gender_id'] as $g_i){ ?>
+							<option value="<?php echo $g_i['id'];?>"><?php echo $g_i['gender_identity_name'];?></option>
+							<?php }?>
+						</select>
+					</td>
+					<td><button type="submit" class="add submit" title="Add a preference">+</button></td>
+				</tr>
+			</form>
+		</table>
+	</fieldset>
+	<fieldset id="tags">
+		<legend>Tags</legend>
+		<div id="tag">
+			<?php foreach($user['tags'] as $value) { ?>
+			<form class="del_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/del_tag';?>">
+				<p>
+				<?php echo "#".$value['tag_name'] ?>
+				<button type="submit" name="tag" value="<?php echo $value['id'];?>" class="delete submit" title="Delete a tag">x</button>
+				</p>
+			</form>
+			<?php } ?>
+			<form id="add_tag_form" method="post" action="<?php echo SITE_ROOT . 'account/add_tag';?>">
+				<input list="tag_list" name="tag" type="text" class="input" title="multiple spaces and/or # at the beginning will be ignored" placeholder="# Add a tag">
+				<datalist id="tag_list">
+					<?php foreach($this->data['all_tags'] as $tag){ ?>
+					<option value="#<?php echo $tag['tag_name'];?>">
+					<?php }?>
+				</datalist>
+				<button type="submit" class="add submit" title="Add a tag">+</button>
+			</form>
+		</div>
+	</fieldset>
+</section>
+<script>
+	var user = <?php echo $this->data['user']?>;
+	var ip_location = <?php echo $this->data['ip_location']?>;
+	
 	var url = <?php echo SITE_ROOT;?> + "account/edit_location";
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url + "?is_ajax=1", true);
-	xhr.onload = function () {
-		var prompter = document.getElementById('prompter');
-		var status = xhr.status;
-		if (status == 200) {
-			response = JSON.parse(xhr.responseText);
-			if (response.fail)
-			{
-				prompter.innerHTML = response.fail;
-				prompter.style.backgroundColor = 'red';
-			}
-			else if (response.success)
-			{
-				prompter.innerHTML = response.success;
-				prompter.style.backgroundColor = 'green';
-			}
-			prompter.style.display = 'block';
-		} else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
-		}
-	};
-	xhr.send(formData);
-	set_events();
-}
 </script>
+<script src="<?php echo SITE_ROOT;?>app/js/account.js"></script>

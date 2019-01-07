@@ -23,6 +23,7 @@ class c_module_session extends c_controller
 		}
 		$user['orientations'] = $this->self->model->get_user_orientations($user['id']);
 		$user['tags'] = $this->self->model->get_user_tags($user['id']);
+		$user['media'] = $this->self->model->get_user_media($user['id']);
 		$user['bio'] = $this->self->model->get_bio($user['id']);
 
 		$_SESSION['user'] = $user;

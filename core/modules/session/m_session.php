@@ -53,8 +53,22 @@ class m_module_session
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
 		$stm->execute();
-		$orientation = $stm->fetchAll(PDO::FETCH_ASSOC);
-		return ($orientation);
+		$tags = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($tags);
+	}
+
+	public function get_user_media($id_user)
+	{
+		$sql = "
+			SELECT id_media
+			FROM media
+			WHERE id_user = :id_user
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
+		$stm->execute();
+		$medias = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($medias);
 	}
 
 	public function get_bio($id_user)

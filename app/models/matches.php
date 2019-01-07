@@ -11,6 +11,7 @@ class m_matches extends m_wrapper
 		$this->select[] = "gn.gender_name";
 		$this->select[] = "u2.id_gender_identity";
 		$this->select[] = "gin.gender_identity_name";
+		$this->select[] = "u2.id_media";
 		$this->select[] = "ST_Distance_Sphere( point( :" . ($i+1) ." , :" . ($i+2) . " ),
 							point(u2.longitude, u2.latitude) ) as distance";
 		$this->select[] = "u2.latitude";
