@@ -329,6 +329,8 @@ class socket_server
 				foreach ($friends as $user)
 					$this->send($user['id'], $msg);
 		}
+		socket_shutdown($this->current_socket);
+		socket_close($this->current_socket);
 		$index = array_search($this->current_socket, $this->clientSocketArray);
 		unset($this->clientSocketArray[$index]);
 	}
