@@ -12,18 +12,11 @@ class core
 		"success" => "",
 		"fail" => "")
 	);
+	public $json = array();
 
 	public $controller = NULL;
 	public $view = NULL;
 	public $module_loader = NULL;
-
-
-
-	public function consolelog($msg)
-	{
-		echo "<script>console.log('" . $msg . "');</script>";
-	}
-
 
 	public function __construct()
 	{
@@ -35,6 +28,7 @@ class core
 
 		$this->load->core =& $this;
 		$this->load->data =& $this->data;
+		$this->load->json =& $this->json;
 		$this->db->core =& $this;
 		$this->db->data =& $this->data;
 		$this->module_loader->core =& $this;

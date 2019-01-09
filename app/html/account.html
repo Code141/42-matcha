@@ -179,8 +179,8 @@
 	</fieldset>
 </section>
 <script>
-	var user = <?php echo $this->data['user']?>;
-	var ip_location = <?php echo $this->data['ip_location']?>;
+	var user = <?php echo $this->json['user']?>;
+	var ip_location = <?php echo $this->json['ip_location']?>;
 	var url_location = <?php echo SITE_ROOT;?> + "account/edit_location";
 </script>
 <script src="<?php echo JS_PATH;?>account.js"></script>

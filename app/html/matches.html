@@ -113,8 +113,8 @@
 		</div>
 	</div>
 	<script>
-		var user_location = <?php echo $this->data['user']['location'];?>;
-		var profils = <?php echo $this->data['js_matches'];?>;
+		var user_location = <?php echo $this->json['user_location'];?>;
+		var profils = <?php echo $this->json['matches'];?>;
 		var default_pic = "<?php echo IMG_PATH . 'default-user-image.png';?>";
 		var MEDIA_PATH = "<?php echo MEDIA_PATH;?>";
 	</script>

@@ -1,9 +1,5 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-					integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-		crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-  crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
 
 <?php $user = $this->data['profil'];?>
 <?php $like = $user['like'];?>
@@ -27,10 +23,10 @@
 		<?php echo $user['username']; ?>
 	</p>
 	<div id="profil_pic">
-		<img id="profil_pic" src="https://www.everymanlegal.com/wpcms/wp-content/uploads/2016/11/Geoffrey-Cotterill-2017-e1484233752609.jpg">
+		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
 	</div>
 	<p id="bio">
-		biLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputatepo
+			<?php echo $user['bio'];?>
 	</p>
 </fieldset>
 
@@ -41,31 +37,31 @@
 	<div id="more_info">
 		<p>
 		<span>Firstname</span>:
-		<?php echo $user['firstname']; ?>
+			<?php echo $user['firstname']; ?>
 		</p>
 		<p>
 		<span>Lastname</span>:
-		<?php echo $user['lastname']; ?>
+			<?php echo $user['lastname']; ?>
 		</p>
 		<p>
 		<span>Gender</span>:
-		<?php echo $user['gender_name']; ?>
+			<?php echo $user['gender_name']; ?>
 		</p>
 		<p>
 		<span>Gender identity</span>:
-		<?php echo $user['gender_identity_name']; ?>
+			<?php echo $user['gender_identity_name']; ?>
 		</p>
 		<p>
 		<span>Age</span>:
-		<?php echo date_diff(date_create($user['birthdate']), date_create('today'))->y . " years old"; ?>
+			<?php echo date_diff(date_create($user['birthdate']), date_create('today'))->y . " years old"; ?>
 		</p>	
 		<p>
 		<span>Birthdate</span>:
-		<?php echo $user['birthdate']; ?>
+			<?php echo $user['birthdate']; ?>
 		</p>	
 		<p>
 		<span>Email</span>:
-		<?php echo $user['email']; ?>
+			<?php echo $user['email']; ?>
 		</p>
 	</div>
 </fieldset>
@@ -83,14 +79,14 @@
 	<div id="o_gender">
 		<?php foreach($user['orientations'] as $value) { ?>
 		<p>
-		<?php echo $value['gender_name'];?>
+			<?php echo $value['gender_name'];?>
 		</p>
 		<?php } ?>
 	</div>
 	<div id="o_gender_identity">
 		<?php foreach($user['orientations'] as $value) { ?>
 		<p>
-		<?php echo $value['gender_identity_name']; ?>
+			<?php echo $value['gender_identity_name']; ?>
 		</p>
 		<?php } ?>
 	</div>
@@ -110,9 +106,11 @@
 
 </fieldset>
 <script>
-window.addEventListener('load',initMap);
 
-function initMap() {
+window.addEventListener('load', initMap);
+
+function initMap()
+{
 	map = new L.map('map');
 
 	var user_location = { "lat" : <?php echo $user['latitude'];?>, "lon" : <?php echo $user['longitude'];?> };

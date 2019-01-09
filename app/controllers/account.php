@@ -9,33 +9,28 @@ class c_account extends c_logged_only
 		$this->data['all_genders'] = $model->fetch_all_from("gender");
 		$this->data['all_gender_id'] = $model->fetch_all_from("gender_identity");
 		$ip = $this->getUserIp();
-		$this->data['ip_location'] = file_get_contents("http://ipinfo.io/{$ip}/json");
-		$this->data['user'] = json_encode($_SESSION['user']);
+		$this->json['ip_location'] = file_get_contents("http://ipinfo.io/{$ip}/json");
+		$this->json['user'] = json_encode($_SESSION['user']);
 		$this->core->set_view("account", "main");
 	}
 
 	function getUserIP()
 	{
 		// Get real visitor IP behind CloudFlare network
-		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+		{
 			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
 			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
 		}
 		$client  = @$_SERVER['HTTP_CLIENT_IP'];
 		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 		$remote  = $_SERVER['REMOTE_ADDR'];
-		if(filter_var($client, FILTER_VALIDATE_IP))
-		{
+		if (filter_var($client, FILTER_VALIDATE_IP))
 			$ip = $client;
-		}
-		elseif(filter_var($forward, FILTER_VALIDATE_IP))
-		{
+		else if (filter_var($forward, FILTER_VALIDATE_IP))
 			$ip = $forward;
-		}
 		else
-		{
 			$ip = $remote;
-		}
 		if ($ip == "::1" || $ip = "127.0.0.1")
 			$ip = file_get_contents("http://ipecho.net/plain");
 		return $ip;
@@ -55,7 +50,8 @@ class c_account extends c_logged_only
 		return FALSE;
 	}
 
-/*	private function update_session($username, $pw_len)
+/*
+	private function update_session($username, $pw_len)
 	{
 		$module = $this->module_loader->session();
 		$user = $module->model->get_user_by_login($username);
@@ -67,7 +63,8 @@ class c_account extends c_logged_only
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = $pw_len;
 	}
- */
+*/
+
 	public function edit_user()
 	{
 		$successmsg = "";
