@@ -87,6 +87,17 @@ div.media img{
 	object-fit:cover;
 }
 
+div.left{
+	text-align:left;
+	float:left;
+	height:100%;
+	width:20%;
+}
+
+div.right{
+	float:right;
+}
+
 table{
 	border-collapse: collapse;
 }

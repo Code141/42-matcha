@@ -55,19 +55,6 @@ class c_account extends c_controller
 		return FALSE;
 	}
 
-/*	private function update_session($username, $pw_len)
-	{
-		$module = $this->module_loader->session();
-		$user = $module->model->get_user_by_login($username);
-
-		$user['orientations'] = $module->model->get_user_orientations($user['id']);
-		$user['tags'] = $module->model->get_user_tags($user['id']);
-		$user['bio'] = $module->model->get_bio($user['id']);
-		$user['media'] = $module->model->get_user_media($user['id']);
-		$_SESSION['user'] = $user;
-		$_SESSION['user']['password_length'] = $pw_len;
-	}
- */
 	public function edit_user()
 	{
 		$successmsg = "";
@@ -216,4 +203,79 @@ class c_account extends c_controller
 			$this->core->fail("There was a probleme validating your new email. Please login and make a new request", 'login', 'main');
 		$this->core->success("Your email has been succesfully changed", 'login', 'main');
 	}
-}
+
+	private function check_file()
+	{
+		if (empty($_FILES["fileToUpload"]["tmp_name"]))
+			return "No file chosen";
+		if ($_FILES["fileToUpload"]["size"] > 10000000)
+			return ("File is too large");
+		if(isset($_POST["submit"])){
+			$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+			if($check === false) 
+				return("File is not an image");
+		}
+		$allowed_types = array ('image/jpeg', 'image/png' );
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+		$ext = array_search($finfo->file($_FILES["fileToUpload"]['tmp_name']), $allowed_types, true);
+		if (false === $ext)
+			return ("File is badly formatted");
+		return NULL;
+	}
+
+	private function format_file($photo,$media_path)
+	{
+		$photo_array = explode('/', $photo);
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+		if ($finfo->file($photo) === 'image/jpeg'){
+			$jpeg_photo = imagecreatefromjpeg($photo);
+			unlink($photo);
+			$end = preg_replace('/(\.jpg$)|(\.jpeg$)/', '.png', end($photo_array));
+			$photo =  $media_path.$end;
+			imagepng($jpeg_photo,$photo);
+			imagedestroy($jpeg_photo);
+		}
+		$src = imagecreatefrompng($photo);
+		$maxDim = 250;
+		list($width, $height, $type, $attr) = getimagesize($photo);
+		if ( $width > $maxDim || $height > $maxDim ) {
+			$target_filename = $photo;
+			$ratio = $width/$height;
+			if( $ratio > 1) {
+				$new_width = $maxDim;
+				$new_height = $maxDim/$ratio;
+			} else {
+				$new_width = $maxDim*$ratio;
+				$new_height = $maxDim;
+			}
+		}
+			$dst = imagecreatetruecolor( $new_width, $new_height );
+			imagecopyresampled( $dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+			imagedestroy( $src );
+			return ($dst);
+	}
+
+		public function upload_file()
+		{
+			if (($err = $this->check_file()))
+				$this->core->fail($err, 'account', 'main');
+
+			$media_path = APP_PATH . 'assets/media/';
+				if(!is_dir($media_path))
+					mkdir($media_path);
+		
+			$model = $this->load->model("account");
+			$media_id = $model->add_media($_SESSION['user']['id']);
+			$finalpath = $media_path . $media_id . '.png';
+			if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $finalpath))
+				$this->core->fail("There was an error uploading file", 'account', 'main');
+
+			$photo = $finalpath;
+			$dst = $this->format_file($finalpath, $media_path);
+			$ret = imagepng( $dst, $finalpath ); // adjust format as needed
+			imagedestroy( $dst );
+			$message = $ret ? "upload_success" : "merge_fail"; 
+			echo $message.'<br>';
+		$this->module_loader->session()->controller->update_session();
+		}
+	}

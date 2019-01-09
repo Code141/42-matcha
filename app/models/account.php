@@ -254,4 +254,17 @@ class m_account
 		$this->db->execute_pdo($stm, "login", "main");
 		return ($stm->rowCount());
 	}
+
+	public function add_media($id_user)
+	{
+		$sql =
+			"INSERT INTO `media`(`id_user`)
+			VALUES ( :id_user)";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":id_user", $id_user);
+		$this->db->execute_pdo($stm, "account", "main");
+		$stm = $this->db->pdo->prepare("SELECT LAST_INSERT_ID()");
+		$this->db->execute_pdo($stm, "account", "main");
+		return ($stm->fetch()[0]);
+	}
 }

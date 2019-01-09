@@ -99,6 +99,18 @@
 	</fieldset>
 	<fieldset>
 		<legend>Pictures</legend>
+		<?php if(count($user['media']) < 5) { ?>
+			<div class='left'>
+			 <form class="upload_file" id="upload_file" action="<?php echo SITE_ROOT;?>account/upload_file" method="post" enctype="multipart/form-data">
+			<input type="file" name="fileToUpload" id="fileToUpload"  required>
+			<input type="submit">
+			 </form>
+			 <form id='take_picture'>
+			<button>Take picture</button>
+			 </form> 
+			</div>
+			<?php }?>
+	<div class='right'>
 		<?php if(count($user['media']))
 			foreach($user['media'] as $pic){?>
 			<a>
@@ -106,10 +118,8 @@
 			<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
 			</div>
 			</a>
-			<?php } if(count($user['media']) < 5) { ?>
-			<button>Take picture</button>
-			<button>Upload picture</button>
-			<?php }?>
+			<?php } ?>
+		</div>
 	</fieldset>
 	<fieldset id="matching_preferences">
 		<legend>Matching preferences</legend>

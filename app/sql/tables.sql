@@ -119,6 +119,9 @@ ALTER TABLE `tag`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`id_media`);
+
 INSERT INTO `gender` (`id`, `gender_name`) VALUES
 (-1, 'ALL'),
 (1, 'male'),
@@ -128,6 +131,9 @@ INSERT INTO `gender` (`id`, `gender_name`) VALUES
 
 ALTER TABLE `gender`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+ALTER TABLE `media`
+  MODIFY `id_media` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `gender_identity`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
