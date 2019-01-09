@@ -45,9 +45,6 @@ class core
 			$this->db->connect_base();
 		else
 			$this->db->set_up_connect();
-
-		$this->new_controller($this->request['controller']);
-		$this->execute_controller($this->request['action']);
 	}
 
 	public function	new_controller(string $controller_name = NULL)
@@ -95,7 +92,7 @@ class core
 		$this->new_controller($controller);
 		$this->data['prompter']['fail'] = $msg;
 		$this->execute_controller($action);
-		die(); /////// REQUIERED SWITCH CONTROLLER DOESNT WORK YET
+		die(); /////// REQUIERED (SWITCH CONTROLLER DOESNT WORK YET)
 	}
 
 	public function success($msg = NULL, $controller = NULL, $action = NULL)
@@ -111,7 +108,7 @@ class core
 		$this->new_controller($controller);
 		$this->data['prompter']['success'] = $msg;
 		$this->execute_controller($action);
-		die(); /////// REQUIERED SWITCH CONTROLLER DOESNT WORK YET
+		die(); /////// REQUIERED (SWITCH CONTROLLER DOESNT WORK YET)
 	}
 
 	protected function cookie_set($cookie_key, $cookie_value)

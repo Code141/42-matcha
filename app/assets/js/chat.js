@@ -52,6 +52,7 @@ function websock()
 		this.websocket.onmessage = function(event)
 		{
 			var data = JSON.parse(event.data);
+			console.log(data);
 			if (typeof data.like != 'undefined')
 				notif.like(data.like);
 			if (typeof data.matche != 'undefined')
@@ -203,7 +204,6 @@ function notif()
 
 	this.matche = function(data)
 	{
-		console.log("hello");
 		new_node = document.createElement('p');
 		user_name = document.createElement('a');
 		user_name.innerHTML = data.username;

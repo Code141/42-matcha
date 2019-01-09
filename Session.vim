@@ -657,11 +657,11 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 10 - ((5 * winheight(0) + 16) / 33)
+let s:l = 1 - ((0 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+1
 normal! 0
 wincmd w
 argglobal
@@ -933,7 +933,7 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-190
+138
 normal! zo
 let s:l = 368 - ((29 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
@@ -1027,18 +1027,18 @@ set winminwidth=0
 set winwidth=1
 exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
 exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 122 + 181) / 362)
-exe '3resize ' . ((&lines * 28 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 122 + 181) / 362)
+exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
+exe '3resize ' . ((&lines * 27 + 40) / 80)
+exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
 exe '4resize ' . ((&lines * 22 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 122 + 181) / 362)
+exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
 exe '5resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
 exe '6resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 6resize ' . ((&columns * 120 + 181) / 362)
 exe '7resize ' . ((&lines * 19 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 120 + 181) / 362)
-exe '8resize ' . ((&lines * 11 + 40) / 80)
+exe '8resize ' . ((&lines * 10 + 40) / 80)
 exe 'vert 8resize ' . ((&columns * 120 + 181) / 362)
 exe '9resize ' . ((&lines * 7 + 40) / 80)
 exe 'vert 9resize ' . ((&columns * 120 + 181) / 362)
@@ -1055,7 +1055,7 @@ setlocal fen
 normal! zo
 45
 normal! zo
-let s:l = 3 - ((2 * winheight(0) + 38) / 77)
+let s:l = 3 - ((2 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1093,7 +1093,7 @@ setlocal fdn=20
 setlocal fen
 5
 normal! zo
-let s:l = 10 - ((8 * winheight(0) + 14) / 28)
+let s:l = 10 - ((8 * winheight(0) + 13) / 27)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1116,15 +1116,13 @@ normal! zo
 normal! zo
 76
 normal! zo
-96
+90
 normal! zo
-112
+110
 normal! zo
-125
+139
 normal! zo
-140
-normal! zo
-156
+154
 normal! zo
 let s:l = 107 - ((9 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
@@ -1206,7 +1204,7 @@ setlocal fen
 normal! zo
 3
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 5) / 11)
+let s:l = 1 - ((0 * winheight(0) + 5) / 10)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1238,18 +1236,18 @@ normal! 027|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 120 + 181) / 362)
 exe '2resize ' . ((&lines * 25 + 40) / 80)
-exe 'vert 2resize ' . ((&columns * 122 + 181) / 362)
-exe '3resize ' . ((&lines * 28 + 40) / 80)
-exe 'vert 3resize ' . ((&columns * 122 + 181) / 362)
+exe 'vert 2resize ' . ((&columns * 120 + 181) / 362)
+exe '3resize ' . ((&lines * 27 + 40) / 80)
+exe 'vert 3resize ' . ((&columns * 120 + 181) / 362)
 exe '4resize ' . ((&lines * 22 + 40) / 80)
-exe 'vert 4resize ' . ((&columns * 122 + 181) / 362)
+exe 'vert 4resize ' . ((&columns * 120 + 181) / 362)
 exe '5resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 5resize ' . ((&columns * 120 + 181) / 362)
 exe '6resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 6resize ' . ((&columns * 120 + 181) / 362)
 exe '7resize ' . ((&lines * 19 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 120 + 181) / 362)
-exe '8resize ' . ((&lines * 11 + 40) / 80)
+exe '8resize ' . ((&lines * 10 + 40) / 80)
 exe 'vert 8resize ' . ((&columns * 120 + 181) / 362)
 exe '9resize ' . ((&lines * 7 + 40) / 80)
 exe 'vert 9resize ' . ((&columns * 120 + 181) / 362)
@@ -1327,7 +1325,7 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-190
+138
 normal! zo
 let s:l = 4 - ((3 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
@@ -1363,132 +1361,80 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-15
+16
 normal! zo
-17
+18
 normal! zo
-26
+54
 normal! zo
-64
+73
 normal! zo
-68
+73
 normal! zo
-76
+90
 normal! zo
-83
-normal! zo
-91
-normal! zo
-98
-normal! zo
-103
-normal! zo
-104
-normal! zo
-106
-normal! zo
-109
-normal! zo
-116
+102
 normal! zo
 117
 normal! zo
-119
-normal! zo
-122
-normal! zo
-134
-normal! zo
-141
+124
 normal! zo
 142
 normal! zo
 145
 normal! zo
-150
+148
 normal! zo
-158
+160
 normal! zo
-169
+167
 normal! zo
-180
+184
 normal! zo
-190
-normal! zo
-199
+195
 normal! zo
 206
 normal! zo
-209
-normal! zo
-215
-normal! zo
-218
-normal! zo
-224
-normal! zo
-226
+219
 normal! zo
 229
 normal! zo
-241
+238
 normal! zo
-253
+263
 normal! zo
-262
-normal! zo
-265
-normal! zo
-265
+263
 normal! zc
-262
-normal! zc
-291
-normal! zo
-293
-normal! zo
-295
+292
 normal! zo
 301
 normal! zo
-313
+304
 normal! zo
-329
-normal! zo
-336
-normal! zo
-344
+340
 normal! zo
 352
 normal! zo
-365
+368
 normal! zo
-416
+404
 normal! zo
 423
 normal! zo
+425
+normal! zo
 430
 normal! zo
-439
+492
 normal! zo
-453
-normal! zo
-468
-normal! zo
-493
-normal! zo
-502
-normal! zo
-517
-normal! zo
-529
+507
 normal! zo
 let s:l = 21 - ((18 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 21
-normal! 042|
+normal! 09|
 wincmd w
 argglobal
 if bufexists('~/cursus/matcha/core/modules/websocket/c_websocket.php') | buffer ~/cursus/matcha/core/modules/websocket/c_websocket.php | else | edit ~/cursus/matcha/core/modules/websocket/c_websocket.php | endif
@@ -1584,13 +1530,11 @@ normal! zc
 normal! zo
 156
 normal! zo
-181
+179
 normal! zo
-195
+196
 normal! zo
-195
-normal! zo
-203
+200
 normal! zo
 let s:l = 215 - ((29 * winheight(0) + 28) / 57)
 if s:l < 1 | let s:l = 1 | endif
@@ -1646,8 +1590,6 @@ setlocal fen
 5
 normal! zo
 85
-normal! zo
-86
 normal! zo
 let s:l = 3 - ((2 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
@@ -1714,15 +1656,15 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
 exe '2resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 19 + 40) / 80)
+exe '3resize ' . ((&lines * 15 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
 exe '4resize ' . ((&lines * 41 + 40) / 80)
 exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
+exe '5resize ' . ((&lines * 34 + 40) / 80)
+exe 'vert 5resize ' . ((&columns * 82 + 181) / 362)
 exe '6resize ' . ((&lines * 41 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 39 + 40) / 80)
+exe 'vert 6resize ' . ((&columns * 82 + 181) / 362)
+exe '7resize ' . ((&lines * 35 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 93 + 181) / 362)
 exe '8resize ' . ((&lines * 40 + 40) / 80)
 exe 'vert 8resize ' . ((&columns * 93 + 181) / 362)
@@ -1735,35 +1677,19 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-15
+16
 normal! zo
-17
+18
 normal! zo
-17
+18
 normal! zc
-15
+16
 normal! zc
-64
+90
 normal! zo
-64
+90
 normal! zc
-91
-normal! zo
-98
-normal! zo
-103
-normal! zo
-103
-normal! zc
-116
-normal! zo
-116
-normal! zc
-98
-normal! zc
-91
-normal! zc
-let s:l = 3 - ((2 * winheight(0) + 40) / 80)
+let s:l = 3 - ((2 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1812,7 +1738,7 @@ setlocal fen
 normal! zo
 7
 normal! zo
-let s:l = 10 - ((9 * winheight(0) + 9) / 19)
+let s:l = 10 - ((7 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1847,11 +1773,9 @@ normal! zo
 normal! zo
 85
 normal! zo
-86
+100
 normal! zo
-106
-normal! zo
-107
+101
 normal! zo
 let s:l = 1 - ((0 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
@@ -1898,7 +1822,7 @@ normal! zo
 normal! zo
 30
 normal! zo
-let s:l = 32 - ((25 * winheight(0) + 19) / 38)
+let s:l = 32 - ((22 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1940,7 +1864,7 @@ setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 87 - ((26 * winheight(0) + 19) / 39)
+let s:l = 87 - ((23 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1958,7 +1882,7 @@ setlocal fdl=3
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-190
+138
 normal! zo
 let s:l = 52 - ((23 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
@@ -1971,15 +1895,15 @@ wincmd w
 exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
 exe '2resize ' . ((&lines * 18 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
-exe '3resize ' . ((&lines * 19 + 40) / 80)
+exe '3resize ' . ((&lines * 15 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
 exe '4resize ' . ((&lines * 41 + 40) / 80)
 exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
-exe '5resize ' . ((&lines * 38 + 40) / 80)
-exe 'vert 5resize ' . ((&columns * 84 + 181) / 362)
+exe '5resize ' . ((&lines * 34 + 40) / 80)
+exe 'vert 5resize ' . ((&columns * 82 + 181) / 362)
 exe '6resize ' . ((&lines * 41 + 40) / 80)
-exe 'vert 6resize ' . ((&columns * 84 + 181) / 362)
-exe '7resize ' . ((&lines * 39 + 40) / 80)
+exe 'vert 6resize ' . ((&columns * 82 + 181) / 362)
+exe '7resize ' . ((&lines * 35 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 93 + 181) / 362)
 exe '8resize ' . ((&lines * 40 + 40) / 80)
 exe 'vert 8resize ' . ((&columns * 93 + 181) / 362)
@@ -2007,11 +1931,11 @@ set winminwidth=0
 set winwidth=1
 exe '1resize ' . ((&lines * 26 + 40) / 80)
 exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 26 + 40) / 80)
+exe '2resize ' . ((&lines * 22 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
 exe '3resize ' . ((&lines * 26 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 178 + 181) / 362)
+exe 'vert 4resize ' . ((&columns * 176 + 181) / 362)
 exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
 argglobal
 setlocal fdm=indent
@@ -2049,7 +1973,7 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 13) / 26)
+let s:l = 1 - ((0 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2097,7 +2021,7 @@ setlocal fen
 normal! zo
 7
 normal! zo
-let s:l = 17 - ((16 * winheight(0) + 40) / 80)
+let s:l = 17 - ((15 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2124,7 +2048,7 @@ normal! zo
 normal! zo
 26
 normal! zo
-let s:l = 14 - ((13 * winheight(0) + 40) / 80)
+let s:l = 14 - ((12 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2133,11 +2057,11 @@ normal! 0
 wincmd w
 exe '1resize ' . ((&lines * 26 + 40) / 80)
 exe 'vert 1resize ' . ((&columns * 92 + 181) / 362)
-exe '2resize ' . ((&lines * 26 + 40) / 80)
+exe '2resize ' . ((&lines * 22 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
 exe '3resize ' . ((&lines * 26 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe 'vert 4resize ' . ((&columns * 178 + 181) / 362)
+exe 'vert 4resize ' . ((&columns * 176 + 181) / 362)
 exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
 tabnext
 edit ~/cursus/matcha/core/modules/notifications/c_notifications.php
@@ -2191,11 +2115,11 @@ exe '2resize ' . ((&lines * 10 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
 exe '3resize ' . ((&lines * 39 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 1 + 40) / 80)
+exe '4resize ' . ((&lines * 5 + 40) / 80)
 exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
 exe '5resize ' . ((&lines * 5 + 40) / 80)
 exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 68 + 40) / 80)
+exe '6resize ' . ((&lines * 64 + 40) / 80)
 exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
 exe '7resize ' . ((&lines * 11 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)
@@ -2218,9 +2142,9 @@ setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-15
+5
 normal! zo
-24
+14
 normal! zo
 let s:l = 11 - ((10 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
@@ -2262,8 +2186,6 @@ setlocal fen
 normal! zo
 24
 normal! zo
-41
-normal! zo
 let s:l = 15 - ((14 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
@@ -2288,7 +2210,7 @@ normal! zo
 normal! zo
 7
 normal! zo
-let s:l = 18 - ((7 * winheight(0) + 0) / 1)
+let s:l = 18 - ((0 * winheight(0) + 2) / 5)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2332,33 +2254,27 @@ setlocal fdl=7
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-3
+16
 normal! zo
-15
+18
 normal! zo
-17
+54
 normal! zo
-38
+90
 normal! zo
-64
+160
 normal! zo
-91
+238
 normal! zo
-98
+368
 normal! zo
-103
+423
 normal! zo
-116
-normal! zo
-199
-normal! zo
-253
-normal! zo
-329
+425
 normal! zo
 430
 normal! zo
-let s:l = 69 - ((26 * winheight(0) + 34) / 68)
+let s:l = 69 - ((24 * winheight(0) + 32) / 64)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2384,22 +2300,12 @@ normal! zo
 normal! zo
 12
 normal! zo
-14
-normal! zo
-31
-normal! zo
-35
-normal! zo
-36
-normal! zo
-38
-normal! zo
-let s:l = 45 - ((7 * winheight(0) + 5) / 11)
+let s:l = 45 - ((5 * winheight(0) + 5) / 11)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 45
-normal! 063|
+normal! 09|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2413,8 +2319,6 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 26
-normal! zo
-29
 normal! zo
 40
 normal! zo
@@ -2438,20 +2342,18 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-190
+138
 normal! zo
-192
+215
 normal! zo
-220
+287
 normal! zo
-288
-normal! zo
-let s:l = 292 - ((32 * winheight(0) + 16) / 32)
+let s:l = 292 - ((35 * winheight(0) + 16) / 32)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 292
-normal! 023|
+normal! 05|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2498,48 +2400,36 @@ normal! zo
 normal! zo
 156
 normal! zo
-181
+179
 normal! zo
-195
+196
 normal! zo
-195
+210
 normal! zo
-203
+215
 normal! zo
-218
+237
 normal! zo
-222
+253
 normal! zo
-242
+261
 normal! zo
-258
-normal! zo
-266
-normal! zo
-277
-normal! zo
-290
-normal! zo
-303
-normal! zo
-318
+271
 normal! zo
 321
 normal! zo
-357
+331
 normal! zo
-367
+362
 normal! zo
-373
-normal! zo
-377
+372
 normal! zo
 let s:l = 285 - ((12 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 285
-normal! 09|
+normal! 01|
 lcd ~/cursus/matcha
 wincmd w
 argglobal
@@ -2552,14 +2442,14 @@ setlocal fdl=3
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-393
+341
 normal! zo
-let s:l = 443 - ((34 * winheight(0) + 18) / 37)
+let s:l = 393 - ((5 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-443
-normal! 031|
+393
+normal! 05|
 lcd ~/cursus/matcha
 wincmd w
 8wincmd w
@@ -2569,11 +2459,11 @@ exe '2resize ' . ((&lines * 10 + 40) / 80)
 exe 'vert 2resize ' . ((&columns * 92 + 181) / 362)
 exe '3resize ' . ((&lines * 39 + 40) / 80)
 exe 'vert 3resize ' . ((&columns * 92 + 181) / 362)
-exe '4resize ' . ((&lines * 1 + 40) / 80)
+exe '4resize ' . ((&lines * 5 + 40) / 80)
 exe 'vert 4resize ' . ((&columns * 92 + 181) / 362)
 exe '5resize ' . ((&lines * 5 + 40) / 80)
 exe 'vert 5resize ' . ((&columns * 92 + 181) / 362)
-exe '6resize ' . ((&lines * 68 + 40) / 80)
+exe '6resize ' . ((&lines * 64 + 40) / 80)
 exe 'vert 6resize ' . ((&columns * 92 + 181) / 362)
 exe '7resize ' . ((&lines * 11 + 40) / 80)
 exe 'vert 7resize ' . ((&columns * 91 + 181) / 362)

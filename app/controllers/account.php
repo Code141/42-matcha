@@ -1,6 +1,6 @@
 <?php
 
-class c_account extends c_controller
+class c_account extends c_logged_only
 {
 	public function main($params = NULL)
 	{

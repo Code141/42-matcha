@@ -100,10 +100,10 @@ class m_message
 		$sql = "
 				SELECT *
 				FROM conv
-				WHERE 
+				WHERE
 				(id_user_from = :id_user_from AND id_user_to = :id_user_to)
 				OR
-				(id_user_to = :id_user_to AND id_user_from = :id_user_from)
+				(id_user_from = :id_user_to AND id_user_to = :id_user_from)
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);

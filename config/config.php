@@ -29,5 +29,5 @@ define('MODULES_PATH', CORE_PATH . 'modules/');
 define('CSS_PATH', SITE_ROOT . 'app/assets/css/');
 define('IMG_PATH', SITE_ROOT . 'app/assets/img/');
 define('MEDIA_PATH', SITE_ROOT . 'app/assets/media/');
-define('JS_PATH', SITE_ROOT . 'app/js/');
+define('JS_PATH', SITE_ROOT . 'app/assets/js/');
 

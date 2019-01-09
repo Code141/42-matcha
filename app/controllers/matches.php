@@ -1,6 +1,6 @@
 <?php
 
-class c_matches extends c_controller
+class c_matches extends c_logged_only
 {
 	var $user;
 

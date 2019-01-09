@@ -4,22 +4,20 @@
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
 		integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
   crossorigin=""></script>
+
 <?php $user = $this->data['profil'];?>
-
-
-
-
 <?php $like = $user['like'];?>
 
 <div id="user_like_<?php echo $user['id']?>" class="user_like_status">
 </div>
+
 <script>
 	user_like_data[<?php echo $user['id']?>] = Array();
-	user_like_data[<?php echo $user['id']?>]['id'] = <?php echo $user['id']?>;
-	user_like_data[<?php echo $user['id']?>]['u1'] = <?php echo $like['u1'];?>;
-	user_like_data[<?php echo $user['id']?>]['u1_revoked'] = <?php echo $like['u1_revoked'];?>;
-	user_like_data[<?php echo $user['id']?>]['u2'] = <?php echo $like['u2'];?>;
-	user_like_data[<?php echo $user['id']?>]['u2_revoked'] = <?php echo $like['u2_revoked'];?>;
+	user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
+	user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
+	user_like_data[<?php echo $user['id']?>]['u1_revoked'] = parseInt(<?php echo $like['u1_revoked'];?>);
+	user_like_data[<?php echo $user['id']?>]['u2'] = parseInt(<?php echo $like['u2'];?>);
+	user_like_data[<?php echo $user['id']?>]['u2_revoked'] = parseInt(<?php echo $like['u2_revoked'];?>);
 </script>
 
 <fieldset>
