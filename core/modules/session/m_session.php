@@ -105,6 +105,27 @@ class m_module_session
 		return (NULL);
 	}
 
+	public function get_user_by_id($id)
+	{
+		$sql = "
+			SELECT u.*, g.gender_name, gi.gender_identity_name 
+			FROM user u
+			LEFT JOIN gender g
+			ON u.id_gender = g.id
+			LEFT JOIN gender_identity gi
+			ON u.id_gender_identity = gi.id
+			WHERE u.id = :id
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id", $id, PDO::PARAM_INT);
+		$stm->execute();
+		$user = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (count($user) == 1)
+			return ($user[0]);
+		return (NULL);
+	}
+
+
 	public function get_user_by_email($username)
 	{
 		$sql = "

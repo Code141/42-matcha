@@ -55,7 +55,7 @@ class c_account extends c_logged_only
 		return FALSE;
 	}
 
-	private function update_session($username, $pw_len)
+/*	private function update_session($username, $pw_len)
 	{
 		$module = $this->module_loader->session();
 		$user = $module->model->get_user_by_login($username);
@@ -63,14 +63,15 @@ class c_account extends c_logged_only
 		$user['orientations'] = $module->model->get_user_orientations($user['id']);
 		$user['tags'] = $module->model->get_user_tags($user['id']);
 		$user['bio'] = $module->model->get_bio($user['id']);
+		$user['media'] = $module->model->get_user_media($user['id']);
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = $pw_len;
 	}
-
+ */
 	public function edit_user()
 	{
 		$successmsg = "";
-		$user = $this->module_loader->session()->controller->user_loggued();
+		$user = $_SESSION['user'];
 		$fields = array("username", "firstname", "lastname", "new_email");
 		$fields = $this->requiered_fields($fields, $_POST);
 		foreach ($_POST as $field => $value)
@@ -82,22 +83,23 @@ class c_account extends c_logged_only
 			$this->core->fail("Please fill in required fields", 'account', 'main');
 		try 
 		{
+			$module = $this->module_loader->session()->controller;
 			if (!empty($_POST['password']) || !empty($_POST['password2']))
 			{
-				$this->module->session->check_password($_POST['password'], $_POST['password2']);
-				$fields['password'] = $this->module->session->hash_password($_POST['password']);
+				$module->check_password($_POST['password'], $_POST['password2']);
+				$fields['password'] = $module->hash_password($_POST['password']);
 				$successmsg .= "Password has successfully been updated<br>";
 			}
 			if ($user['username'] !== $_POST['username'])
-				$this->module->session->check_username($_POST['username']);
+				$module->check_username($_POST['username']);
 			if ($user['birthdate'] !== $_POST['birthdate'])
-				$this->module->session->check_date($_POST['birthdate']);
+				$module->check_date($_POST['birthdate']);
 			if ($user['email'] !== $_POST['new_email'])
 			{
 				echo "holaaaa";
-				$this->module->session->check_email($_POST['new_email']);
+				$module->check_email($_POST['new_email']);
 				$fields['new_email'] = $_POST['new_email'];
-				$fields['token_email'] = $this->module->session->unique_id();	
+				$fields['token_email'] = $module->unique_id();	
 				$mail = $this->module_loader->email();
 				$mail->controller->to($fields['new_email'])->change_email($fields['token_email']);
 				$successmsg .= "An email has been sent to " . $_POST['new_email'] . " to validate your new email<br>";
@@ -113,7 +115,8 @@ class c_account extends c_logged_only
 				$this->core->fail('gender identity must contain at least one character', "account", "main");
 		$model->update_user($user['id'], $fields);
 		$pw_len = isset($fields['password']) ? strlen($_POST['password']) : $user['password_length'];
-		$this->update_session($fields['username'], $pw_len);
+		$module->update_session();
+		$_SESSION['user']['password_length'] = $pw_len;
 		$this->core->success("Your profil has successfully been updated<br>" . $successmsg, 'account', 'main');
 	}	
 
@@ -121,10 +124,9 @@ class c_account extends c_logged_only
 	{
 		if (!isset($_POST['bio']) || trim($_POST['bio']) == "")
 			$this->core->fail("Your bio can not be empty", 'account', 'main');
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$model = $this->load->model("account");
-		$model->edit_bio($user['id'], $_POST['bio']);
-		$this->update_session($user['username'], $user['password_length']);
+		$model->edit_bio($_SESSION['user']['id'], $_POST['bio']);
+		$this->module_loader->session()->controller->update_session();
 		$this->core->success("Bio added successfully", 'account', 'main');
 	}
 
@@ -137,7 +139,7 @@ class c_account extends c_logged_only
 			if (isset($_POST['lat']) && isset($_POST['lng']) &&
 				$_POST['lat'] != "" && $_POST['lng'] != "")	
 			{
-				$user = $this->module_loader->session()->controller->user_loggued();
+				$user = $_SESSION['user'];
 				if ($_POST['lat'] == $user['latitude'] && $_POST['lng'] == $user['longitude'])
 				{
 					$json_reponse['fail'] = "Nothing to update";
@@ -146,7 +148,7 @@ class c_account extends c_logged_only
 				}
 				$model = $this->load->model("account");
 				$model->edit_location($user['id'], $_POST['lat'], $_POST['lng']);
-				$this->update_session($user['username'], $user['password_length']);
+				$this->module_loader->session()->controller->update_session();
 				$json_reponse['success'] = "Location has been successfully updated";
 				echo json_encode($json_reponse); 
 			}
@@ -160,10 +162,9 @@ class c_account extends c_logged_only
 
 	public function del_preference()
 	{
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$model = $this->load->model("account");
-		$model->del_preference($user['id'], $_POST['gender'], $_POST['gender_identity']);
-		$this->update_session($user['username'], $user['password_length']);
+		$model->del_preference($_SESSION['user']['id'], $_POST['gender'], $_POST['gender_identity']);
+		$this->module_loader->session()->controller->update_session();
 		$this->core->success("Preference successfully deleted", 'account', 'main');
 	}
 
@@ -173,11 +174,11 @@ class c_account extends c_logged_only
 			((!is_numeric($_POST['gender']) || $_POST['gender'] > 4) && $_POST['gender'] != 'NULL') ||
 			(!is_numeric($_POST['gender_identity']) && $_POST['gender_identity'] != 'NULL'))
 			$this->core->fail("Bad/wrong input for this field", 'account', 'main');
-		$user = $this->module_loader->session()->controller->user_loggued();
+		$user = $_SESSION['user'];
 		$model = $this->load->model("account");
 		if (!$model->add_preference($user['id'], $_POST['gender'], $_POST['gender_identity']))
 			$this->core->fail("No preference to add", 'account', 'main');
-		$this->update_session($user['username'], $user['password_length']);
+		$this->module_loader->session()->controller->update_session();
 		$this->core->success("Matching preference successfully added", 'account', 'main');
 	}
 
@@ -185,10 +186,10 @@ class c_account extends c_logged_only
 	{
 		if (!isset($_POST['tag']) || !is_numeric($_POST['tag']))
 			$this->core->fail("No tag specified", 'account', 'main');
-		$user = $this->module_loader->session()->controller->user_loggued();
+		$user = $_SESSION['user'];
 		$model = $this->load->model("account");
 		$model->del_tag($user['id'], $_POST['tag']);
-		$this->update_session($user['username'], $user['password_length']);
+		$this->module_loader->session()->controller->update_session();
 		$this->core->success("Tag successfully deleted", 'account', 'main');
 	}
 
@@ -200,11 +201,11 @@ class c_account extends c_logged_only
 		$tag_name = rtrim($tag_name);
 		if ($tag_name == "")
 			$this->core->fail("Tag is badly formated", 'account', 'main');
-		$user = $this->module_loader->session()->controller->user_loggued();
+		$user = $_SESSION['user'];
 		$model = $this->load->model("account");
 		if (!$model->add_tag($user['id'], $tag_name))
 			$this->core->fail("No tag to add", 'account', 'main');
-		$this->update_session($user['username'], $user['password_length']);
+		$this->module_loader->session()->controller->update_session();
 		$this->core->success("Tag successfully added", 'account', 'main');
 	}
 
