@@ -24,7 +24,6 @@ class m_interactions
 			echo 'Erreur : ' . $exception->getMessage();
 		}
 		return ($stm->rowCount());
-
 	}
 
 	public function like($id_user_from, $id_user_to)
@@ -44,14 +43,8 @@ class m_interactions
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
-		try
-		{
-			$stm->execute();
-		}
-		catch(PDOException $exception)
-		{
-			echo 'Erreur : ' . $exception->getMessage();
-		}
+		$stm->execute();
+
 		if ($stm->rowCount() == 0)
 		{
 			$sql = "
@@ -63,14 +56,7 @@ class m_interactions
 			$stm = $this->db->pdo->prepare($sql);
 			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
-			try
-			{
-				$stm->execute();
-			}
-			catch(PDOException $exception)
-			{
-				echo 'Erreur : ' . $exception->getMessage();
-			}
+			$stm->execute();
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-class c_register extends c_controller
+class c_register extends c_public_only
 {
 	public function	main()
 	{

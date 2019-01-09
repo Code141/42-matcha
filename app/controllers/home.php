@@ -1,6 +1,6 @@
 <?php
 
-class c_home extends c_controller
+class c_home extends c_public_only
 {
 	public function main($params = NULL)
 	{

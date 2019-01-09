@@ -50,6 +50,24 @@ class c_account extends c_logged_only
 		return FALSE;
 	}
 
+<<<<<<< HEAD
+=======
+/*
+	private function update_session($username, $pw_len)
+	{
+		$module = $this->module_loader->session();
+		$user = $module->model->get_user_by_login($username);
+
+		$user['orientations'] = $module->model->get_user_orientations($user['id']);
+		$user['tags'] = $module->model->get_user_tags($user['id']);
+		$user['bio'] = $module->model->get_bio($user['id']);
+		$user['media'] = $module->model->get_user_media($user['id']);
+		$_SESSION['user'] = $user;
+		$_SESSION['user']['password_length'] = $pw_len;
+	}
+*/
+
+>>>>>>> ce7dc1d6af08d45fbbf993e1b3ab8344b5ec32e4
 	public function edit_user()
 	{
 		$successmsg = "";

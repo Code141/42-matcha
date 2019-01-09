@@ -211,7 +211,6 @@ class socket_server
 				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
-
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????

@@ -1,6 +1,6 @@
 <?php
 
-class c_ajax extends c_controller
+class c_ajax extends c_logged_only
 {
 	public function like($params)
 	{
@@ -25,7 +25,6 @@ class c_ajax extends c_controller
 		{
 			if (!$this->load->model("message")->find_conv($user["id"], $id_user_to))
 				$this->load->model("message")->crea_conv($user["id"], $id_user_to);
-
 			$this->module_loader->websocket()->controller->send_matche($id_user_to);
 		}
 		else

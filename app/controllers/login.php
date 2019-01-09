@@ -57,5 +57,4 @@ class c_login extends c_controller
 		}
 		$this->core->success("Reset password has be sent to your email", "login", "main");
 	}
-	
 }

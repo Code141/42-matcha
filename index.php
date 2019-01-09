@@ -23,3 +23,6 @@ require_once(CORE_PATH . 'tool.php');
 
 $core = new core();
 
+$core->new_controller($core->request['controller']);
+$core->execute_controller($core->request['action']);
+

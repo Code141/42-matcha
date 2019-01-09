@@ -27,6 +27,7 @@ class loader
 		$controller->load =& $this;
 		$controller->core =& $this->core;
 		$controller->data =& $this->data;
+		$controller->json =& $this->json;
 		$controller->module_loader =& $this->core->module_loader;
 
 		return ($controller);
@@ -46,6 +47,7 @@ class loader
 		$view->core =& $this->core;
 		$view->data =& $this->data;
 		$view->module_loader =& $this->core->module_loader;
+		$view->json =& $this->json;
 		return ($view);
 	}
 

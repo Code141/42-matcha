@@ -16,7 +16,7 @@ class m_profil
 	private function fetch_user($id_profil, $id_user_logged)
 	{
 		$sql = "
-			SELECT u.*, g.gender_name, gi.gender_identity_name 
+			SELECT u.*, g.gender_name, gi.gender_identity_name, bio.bio
 			FROM user u
 			LEFT JOIN gender g
 			ON u.id_gender = g.id
@@ -24,6 +24,8 @@ class m_profil
 			ON u.id_gender_identity = gi.id
 			LEFT JOIN blocked b
 			ON b.`id_user_to` = u.id
+			LEFT JOIN bio
+			ON bio.`id_user` = u.id
 			WHERE u.id = :0
 			AND (b.`id_user_to` IS NULL OR
 			NOT b.`id_user_from` = :1 )

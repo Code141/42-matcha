@@ -11,6 +11,7 @@ document.getElementById('search_button').addEventListener('click', function(even
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
+			console.log(xhr.responseText);
 			profils = JSON.parse(xhr.responseText);
 			if (profils)
 				fill_profil_container(profils);

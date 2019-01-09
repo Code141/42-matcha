@@ -33,7 +33,7 @@ class v_view
 	}
 
 	private function ajax_render()
-	{
+	{	
 		foreach($this->files['views'] as $key => $filename)
 		{
 			ob_start();
@@ -54,6 +54,7 @@ class v_view
 
 	public function layout_render()
 	{
+		$this->data = $this->protect_html_injection($this->data);
 		$basic_css[] = 'reset';
 		$basic_css[] = 'style';
 		$this->css_files = array_merge($basic_css, $this->css_files);
@@ -63,6 +64,7 @@ class v_view
 
 	protected function	linear_render()
 	{
+		$this->data = $this->protect_html_injection($this->data);
 		foreach($this->html_files as $key => $filename)
 		{
 			$this->load_html($filename);

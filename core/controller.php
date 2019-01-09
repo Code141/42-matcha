@@ -41,9 +41,11 @@ class c_logged_only extends c_controller
 {
 	public function __construct()
 	{
+		global $core;
 		parent::__construct();
-		if (!$this->is_loggued())
-			$this->fail("You must be loggued in", "main", "login");
+
+		if (!isset($_SESSION['user']))
+			$core->fail("You must be loggued in", "home", "main");
 	}
 }
 
@@ -51,8 +53,10 @@ class c_public_only extends c_controller
 {
 	public function __construct()
 	{
+		global $core;
 		parent::__construct();
-		if ($this->is_loggued())
-			$this->fail("You are already loggued", "main", "settings");
+
+		if (isset($_SESSION['user']))
+			$core->fail("You are already loggued", "account", "main");
 	}
 }
