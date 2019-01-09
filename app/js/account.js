@@ -100,7 +100,7 @@ function edit_location(latitude, longitude)
 	formData.append('lat',latitude);
 	formData.append('lng',longitude);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url + "?is_ajax=1", true);
+	xhr.open("POST", url_location + "?is_ajax=1", true);
 	xhr.onload = function () {
 		var prompter = document.getElementById('prompter');
 		var status = xhr.status;

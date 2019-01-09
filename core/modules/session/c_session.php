@@ -33,6 +33,21 @@ class c_module_session extends c_controller
 		return (TRUE);
 	}
 
+	public function update_session()
+	{
+		$id = $_SESSION['user']['id'];
+		$pw_len = $_SESSION['user']['password_length']; 
+		$module = $this->self;
+		$user = $module->model->get_user_by_id($id);
+		$user['orientations'] = $module->model->get_user_orientations($user['id']);
+		$user['tags'] = $module->model->get_user_tags($user['id']);
+		$user['bio'] = $module->model->get_bio($user['id']);
+		$user['media'] = $module->model->get_user_media($user['id']);
+		$_SESSION['user'] = $user;
+		$_SESSION['user']['password_length'] = $pw_len; 
+	}
+
+
 	public function	logout()
 	{
 		$_SESSION['user'] = NULL;

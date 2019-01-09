@@ -4,8 +4,7 @@
 
 <link rel="stylesheet" href="<?php echo SITE_ROOT;?>Leaflet.Geonames/L.Control.Geonames.css" />
 
-<?php $user = $this->module_loader->session()->controller->user_loggued(); 
-var_dump($user);?>
+<?php $user = $this->module_loader->session()->controller->user_loggued(); ?>
 <section class="user">
 	<fieldset>
 		<legend></legend>
@@ -182,7 +181,6 @@ var_dump($user);?>
 <script>
 	var user = <?php echo $this->data['user']?>;
 	var ip_location = <?php echo $this->data['ip_location']?>;
-	
-	var url = <?php echo SITE_ROOT;?> + "account/edit_location";
+	var url_location = <?php echo SITE_ROOT;?> + "account/edit_location";
 </script>
 <script src="<?php echo SITE_ROOT;?>app/js/account.js"></script>
