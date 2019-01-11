@@ -28,8 +28,8 @@ class c_module_session extends c_controller
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = strlen($fields['password']);
 
-
 		$_SESSION = $this->protect_html_injection($_SESSION);
+		$this->self->model->put_ip($user['id'], $this->getUserIP());
 		return (TRUE);
 	}
 
@@ -240,4 +240,27 @@ class c_module_session extends c_controller
 		}
 		return (TRUE);
 	}
+
+	private function getUserIP()
+	{
+		// Get real visitor IP behind CloudFlare network
+		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+		{
+			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+		}
+		$client  = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+		$remote  = $_SERVER['REMOTE_ADDR'];
+		if (filter_var($client, FILTER_VALIDATE_IP))
+			$ip = $client;
+		else if (filter_var($forward, FILTER_VALIDATE_IP))
+			$ip = $forward;
+		else
+			$ip = $remote;
+		if ($ip == "::1" || $ip = "127.0.0.1")
+			$ip = file_get_contents("http://ipecho.net/plain");
+		return $ip;
+	}
+
 }

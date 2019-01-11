@@ -10,6 +10,7 @@ class m_profil
 		$profil['tags'] = $this->fetch_user_tags($id_profil);
 		$profil['orientations'] = $this->fetch_orientations($id_profil);
 		$profil['like'] = $this->like($id_profil, $id_user_logged);
+		$profil['last_connexion'] = $this->last_connexion($id_profil)['timestamp'];
 		return ($profil);
 	}
 
@@ -70,6 +71,23 @@ class m_profil
 			return ($user[0]);
 		return (NULL);
 	}
+
+	private function last_connexion($id_user)
+	{
+		$sql = "
+			SELECT *
+			FROM `connexion`
+			WHERE id_user = :id_user
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":id_user", $id_user, PDO::PARAM_INT);
+		$user = $stm->execute();
+		$user = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (count($user) == 1)
+			return ($user[0]);
+		return (NULL);
+	}
+
 
 
 	private function fetch_user_tags($id_profil)

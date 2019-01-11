@@ -4,30 +4,48 @@
 <?php $user = $this->data['profil'];?>
 <?php $like = $user['like'];?>
 
-<div id="user_like_<?php echo $user['id']?>" class="user_like_status">
-</div>
-
-<script>
-	user_like_data[<?php echo $user['id']?>] = Array();
-	user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
-	user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
-	user_like_data[<?php echo $user['id']?>]['u1_revoked'] = parseInt(<?php echo $like['u1_revoked'];?>);
-	user_like_data[<?php echo $user['id']?>]['u2'] = parseInt(<?php echo $like['u2'];?>);
-	user_like_data[<?php echo $user['id']?>]['u2_revoked'] = parseInt(<?php echo $like['u2_revoked'];?>);
-</script>
-
 <fieldset>
 	<legend>
 	</legend>
 	<p class="f_title">
 		<?php echo $user['username']; ?>
 	</p>
-	<div id="profil_pic">
-		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+
+	<div id="user_like_<?php echo $user['id']?>" class="user_like_status">
 	</div>
+
+	<div id="last_connection">
+		LAST CONNECTION : <?php echo last_connection($user['last_connexion']); ?>
+	</div>
+	<button id="">
+		BLOCK
+	</button>
+	<button id="">
+		REPORT
+	</button>
+
+	<div id="profil_pic">
+	<?php if (!$user['id_media']){ ?>
+		<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<?php } else { ?>
+		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<script>
+		user_like_data[<?php echo $user['id']?>] = Array();
+		user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
+		user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
+		user_like_data[<?php echo $user['id']?>]['u1_revoked'] = parseInt(<?php echo $like['u1_revoked'];?>);
+		user_like_data[<?php echo $user['id']?>]['u2'] = parseInt(<?php echo $like['u2'];?>);
+		user_like_data[<?php echo $user['id']?>]['u2_revoked'] = parseInt(<?php echo $like['u2_revoked'];?>);
+	</script>
+	<?php } ?>
+
+
+	</div>
+
 	<p id="bio">
 			<?php echo $user['bio'];?>
 	</p>
+
 </fieldset>
 
 <fieldset>

@@ -13,56 +13,38 @@ window.onload = function ()
 
 function websock()
 {
+
 	this.init = function()
 	{
 		url = "ws://localhost:8090/";
 
-		try
-		{
-			if ("WebSocket" in window)
-				this.websocket = new WebSocket(url);
-			else if ("MozWebSocket" in window)
-				this.websocket = new MozWebSocket(url);
-		}
-		catch(e)
-		{
-			console.log(e);
-		}
-
 		window.addEventListener('beforeunload', function()
+		{
+			if (this.websocket.readyState == 1)
 			{
 				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.send(JSON.stringify({ action: "close" }));
-/*
-				if (this.websocket.readyState == 1)
-					this.websocket.send(JSON.stringify({ action: "close" }));
-				else if (this.websocket.readyState == 2)
-					this.websocket.close();
-				while (this.websocket.readyState != 3) {
-					console.log(this.websocket.readyState);
+				this.websocket.close();
+			}
 
-					try
-					{
-						this.websocket.close();
-					}catch(e)
-					{
-						console.log(e);
-					}
-				}
-*/
+			var i = 0;
+			while (i < 50000 && this.websocket.readyState != 3)
+			{
+				i++;
+			}
 
-			}.bind(this), false)
+		}.bind(this), false)
 
-	this.websocket.onclose = function(event) {
-  console.log("WebSocket is closed now.");
-};
-		this.websocket.onopen = function(event)
+		if ("WebSocket" in window)
+			this.websocket = new WebSocket(url);
+		else if ("MozWebSocket" in window)
+			this.websocket = new MozWebSocket(url);
+
+
+		this.websocket.onclose = function (event) {
+			console.log("WebSocket is closed now.");
+		}.bind(this);
+
+		this.websocket.onopen = function (event)
 		{
 			if (typeof id_conv == "undefined")
 				this.chat_list = new chat_list(chat_list_cont);
@@ -76,7 +58,6 @@ function websock()
 		this.websocket.onmessage = function(event)
 		{
 			var data = JSON.parse(event.data);
-			console.log(data);
 			if (typeof data.like != 'undefined')
 				notif.like(data.like);
 			if (typeof data.matche != 'undefined')
@@ -93,19 +74,14 @@ function websock()
 		{
 			if (typeof this.chat_list !== "undefined")
 				this.chat_list.connected(false);
-			console.log("ERROR : ");
-			console.log(event);
 		}.bind(this);
 
 		/*
 		this.websocket.onclose = function(event)
 		{
-			console.log('- Disconnecting . . . -');
 			setTimeout(function () {
-			console.log("CLOSE");
 				if (typeof this.chat_list != 'undefined')
 					this.chat_list.connected(false);
-				console.log("TRYING RECONNECT");
 				this.init();
 			}.bind(this), 5000);
 		}.bind(this);
@@ -127,16 +103,22 @@ function like_ctrl()
 
 	this.like = function(id)
 	{
-		this.user[id].u2 = 1;
-		this.user[id].u2_revoked = 0;
-		this.user[id].refresh();
+		if (typeof this.user[id] != "undefined")
+		{
+			this.user[id].u2 = 1;
+			this.user[id].u2_revoked = 0;
+			this.user[id].refresh();
+		}
 	}
 
 
 	this.dislike = function(id)
 	{
-		this.user[id].u2 = 0;
-		this.user[id].refresh();
+		if (typeof this.user[id] != "undefined")
+		{
+			this.user[id].u2 = 0;
+			this.user[id].refresh();
+		}
 	}
 }
 
