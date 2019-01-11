@@ -39,7 +39,7 @@ class m_matches extends m_wrapper
 		$compgi = "";
 		foreach ($user['orientations'] as $o)
 		{
-			if ($o["id_gender"] == NULL)
+			if ($o["id_gender"] == -1)
 				$compg = "(";
 			else if ($o["id_gender"])
 			{
@@ -47,22 +47,29 @@ class m_matches extends m_wrapper
 				$this->bind_param[] = $o["id_gender"];
 				$i++;
 			}
-			if ($o["id_gender_identity"] == NULL)
+			if ($o["id_gender_identity"] == -1)
 				$compgi = ")";
 			else if ($o["id_gender_identity"])
 			{
-				if ($compg)
+				if ($compg && $compg != "(")
 					$compgi = " AND ";
 				$compgi .= "u2.id_gender_identity = :" . $i . ")";
 				$this->bind_param[] = $o["id_gender_identity"];
 				$i++;
 			}
-			$c[] = $compg . $compgi;
+			if (!($compg == "(" && $compgi == ")"))
+				$c[] = $compg . $compgi;
 		}
-		$c = "( " . implode(" OR ", $c) . " )";		
 		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
-		$this->condition[] = $c . " AND (uo2.id_gender = :" . $i . " OR uo2.id_gender IS NULL)
-							 AND (uo2.id_gender_identity = :" . ($i+1) . " OR uo2.id_gender_identity IS NULL)";
+		if (count($c))
+		{
+			$c = "( " . implode(" OR ", $c) . " )";		
+			$this->condition[] = $c . " AND (uo2.id_gender = :" . $i . " OR uo2.id_gender = -1)
+							 AND (uo2.id_gender_identity = :" . ($i+1) . " OR uo2.id_gender_identity = -1)";
+		}
+		else
+			$this->condition[] = "(uo2.id_gender = :" . $i . " OR uo2.id_gender = -1)
+							 AND (uo2.id_gender_identity = :" . ($i+1) . " OR uo2.id_gender_identity = -1)";
 		$this->bind_param[] = $user['id_gender'];
 		$this->bind_param[] = $user['id_gender_identity'];
 		return ($this);
