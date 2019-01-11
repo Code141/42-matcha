@@ -257,9 +257,17 @@ class c_account extends c_logged_only
 	public function upload_file()
 	{
 		if (count($_SESSION['user']['media']) == 5)
+		{
+			if (is_ajax_query())
+				exit("You can have maximum 5 pictures");
 			$this->core->fail("You can have maximum 5 pictures", 'account', 'main');
+		}	
 		if (($err = $this->check_file()))
+		{
+			if (is_ajax_query())
+				exit($err);
 			$this->core->fail($err, 'account', 'main');
+		}
 		$media_path = APP_PATH . 'assets/media/';
 		if(!is_dir($media_path))
 			mkdir($media_path);
@@ -268,13 +276,22 @@ class c_account extends c_logged_only
 		$media_id = $model->add_media($_SESSION['user']['id']);
 		$finalpath = $media_path . $media_id . '.png';
 		if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $finalpath))
+		{
+			if (is_ajax_query())
+				exit("There was an error uploading file");
 			$this->core->fail("There was an error uploading file", 'account', 'main');
-
+		}
 		$photo = $finalpath;
 		$dst = $this->format_file($finalpath, $media_path);
 		$ret = imagepng( $dst, $finalpath);
 		imagedestroy( $dst );
 		$this->module_loader->session()->controller->update_session();
+		if (is_ajax_query())
+		{ 
+			if($ret)
+				exit("Image upload success!/" . $media_id);
+			exit("Image upload fail...");
+		}
 		if ($ret)
 			$this->core->success('Image upload success!', 'account', 'main');
 		$this->core->fail('Image upload fail...', 'account', 'main');

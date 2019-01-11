@@ -92,9 +92,7 @@ function set_events(){
 			button_div.style.display = 'block';
 		});
 	};
-	document.getElementById("snap_button").addEventListener("click", function(e){
-	e.preventDefault();
-	display_booth();}); 
+	document.getElementById("snap_button").addEventListener("click", display_booth); 
 	document.getElementById("fileToUpload").addEventListener("change", function(){document.getElementById("upload_file").submit();});
 }
 
@@ -119,6 +117,8 @@ function display_booth()
 }
 
 function cancel_snapshot(){
+		var canvas = document.getElementById('canvas');
+			canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 		snap_button.style.display = "block";
 		document.getElementById("div_snapshot").style.display = "none";
 		document.getElementById("booth").style.display = "none";
@@ -151,7 +151,64 @@ function take_snapshot(){
 }
 
 function save_snapshot(){
+	var img_b64 = canvas.toDataURL("img/png");
+	var blob = dataURItoBlob(img_b64);
+
+	var formData = new FormData();
+	formData.append("fileToUpload", blob);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', url_account + "upload_file?is_ajax=1", true);
+	xhr.onload = function () {
+		var prompter = document.getElementById('prompter');
+		var status = xhr.status;
+		if (status == 200) {
+			response = xhr.responseText.split("\/")[0];
+			if (response !== "Image upload success!")
+			{
+				prompter.innerHTML = response;
+				prompter.style.backgroundColor = 'red';
+			}
+			else
+			{
+				prompter.innerHTML = response;
+				prompter.style.backgroundColor = 'green';
+				update_pic_fieldset(xhr.responseText.split("\/")[1]);
+			}
+			prompter.style.display = 'block';
+		} else {
+			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
+		}
+	};
+	xhr.send(formData);
 	cancel_snapshot();
+}
+
+function update_pic_fieldset(id_media){
+	var pic_div = document.getElementsByClassName("bottom")[0];
+	var a = document.createElement('a');
+	a.href = url_account + "full_img/" + id_media; 
+	var div = document.createElement('div');
+	div.className = "media";
+	a.appendChild(div);
+	var img = document.createElement('img');
+	img.src = media_path + id_media + '.png';
+	div.appendChild(img);
+	console.log(pic_div);
+	pic_div.appendChild(a);
+}
+
+function dataURItoBlob(dataURI) {
+	 var byteString;
+	 if (dataURI.split(',')[0].indexOf('base64') >= 0)
+		 byteString = atob(dataURI.split(',')[1]);
+	 else
+		 byteString = unescape(dataURI.split(',')[1]);
+	 var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+	 var ia = new Uint8Array(byteString.length);
+	 for (var i = 0; i < byteString.length; i++)
+		 ia[i] = byteString.charCodeAt(i);
+	 return new Blob([ia], {type:mimeString});
 }
 
 function edit_location(latitude, longitude)
@@ -160,7 +217,7 @@ function edit_location(latitude, longitude)
 	formData.append('lat',latitude);
 	formData.append('lng',longitude);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url_location + "?is_ajax=1", true);
+	xhr.open("POST", url_account + "edit_location?is_ajax=1", true);
 	xhr.onload = function () {
 		var prompter = document.getElementById('prompter');
 		var status = xhr.status;
