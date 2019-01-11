@@ -14,7 +14,6 @@ class c_module_session extends c_controller
 				throw new Exception("Bad password");
 			if ($user['token_account'] != NULL)
 				throw new Exception("Account not validated");
-
 		}
 		catch (Exception $e)
 		{
@@ -30,6 +29,7 @@ class c_module_session extends c_controller
 		$_SESSION['user']['password_length'] = strlen($fields['password']);
 
 
+		$_SESSION = $this->protect_html_injection($_SESSION);
 		return (TRUE);
 	}
 
@@ -45,8 +45,20 @@ class c_module_session extends c_controller
 		$user['media'] = $module->model->get_user_media($user['id']);
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = $pw_len;
+		$_SESSION = $this->protect_html_injection($_SESSION);
 	}
 
+	private function protect_html_injection(array $data)
+	{
+		foreach ($data as $key => $value)
+			if (is_string($value))
+				$data[$key] = htmlspecialchars($value);
+			else if (is_array($value))
+				$data[$key] = $this->protect_html_injection($value);
+			else
+				$data[$key] = $value;
+		return ($data);
+	}
 
 	public function	logout()
 	{

@@ -26,18 +26,42 @@ function websock()
 		}
 		catch(e)
 		{
+			console.log(e);
 		}
 
-		window.addEventListener('beforeunload', function() {
-			if (this.websocket.readyState == 1)
+		window.addEventListener('beforeunload', function()
+			{
 				this.websocket.send(JSON.stringify({ action: "close" }));
-			else if (this.websocket.readyState == 2)
-			this.websocket.close();
-			console.log("-- WS CLOSED ---");
-		}.bind(this), false)
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+				this.websocket.send(JSON.stringify({ action: "close" }));
+/*
+				if (this.websocket.readyState == 1)
+					this.websocket.send(JSON.stringify({ action: "close" }));
+				else if (this.websocket.readyState == 2)
+					this.websocket.close();
+				while (this.websocket.readyState != 3) {
+					console.log(this.websocket.readyState);
 
-		this.websocket.onclose = function () {}; // disable onclose handler first
+					try
+					{
+						this.websocket.close();
+					}catch(e)
+					{
+						console.log(e);
+					}
+				}
+*/
 
+			}.bind(this), false)
+
+	this.websocket.onclose = function(event) {
+  console.log("WebSocket is closed now.");
+};
 		this.websocket.onopen = function(event)
 		{
 			if (typeof id_conv == "undefined")
@@ -69,8 +93,11 @@ function websock()
 		{
 			if (typeof this.chat_list !== "undefined")
 				this.chat_list.connected(false);
+			console.log("ERROR : ");
+			console.log(event);
 		}.bind(this);
-/*
+
+		/*
 		this.websocket.onclose = function(event)
 		{
 			console.log('- Disconnecting . . . -');
@@ -82,7 +109,7 @@ function websock()
 				this.init();
 			}.bind(this), 5000);
 		}.bind(this);
-	*/
+		 */
 	}
 }
 
@@ -246,7 +273,7 @@ function messagerie()
 		this.list[id].className = "non_connected";
 		if (typeof this.conv[id] != "undefined")
 			this.conv[id].is_connected(false);
-		*/
+		 */
 	}
 
 	this.friends_login = function(id)
@@ -255,7 +282,7 @@ function messagerie()
 		this.list[id].className = "connected";
 		if (typeof this.conv[id] != "undefined")
 			this.conv[id].is_connected(true);
-		*/
+		 */
 	}
 
 	this.send_msg = function(e)
@@ -302,7 +329,7 @@ function messagerie()
 		if (typeof friends !== 'undefined')
 		{
 			this.list.forEach(function(element) {
-    			element.parentNode.removeChild(element);
+				element.parentNode.removeChild(element);
 			});
 			this.list = Array();
 			friends.forEach(function(element)
@@ -322,7 +349,7 @@ function messagerie()
 					}.bind(this))
 				}.bind(this));
 		}
-		*/
+		 */
 	}
 
 	this.connected = function (status)
@@ -332,7 +359,7 @@ function messagerie()
 			// connected
 		else
 			// non connected
-		*/
+		 */
 	}
 
 	this.do = function (data)
@@ -610,9 +637,9 @@ function conversation(id_user, username)
 		this.chat_conv.insertBefore(this.conv, chat_conv.firstChild);
 
 		var messageJSON = {
-				action : "previous_message",
-				id : id_user,
-			};
+			action : "previous_message",
+			id : id_user,
+		};
 		client.websocket.send(JSON.stringify(messageJSON));
 
 	}

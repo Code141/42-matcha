@@ -174,6 +174,23 @@ class socket_server
 		}
 	}
 
+	public function disconnect()
+	{
+		$id = $this->find_id_user($this->current_socket);
+		if ($id != null)
+		{
+			$msg['logout'] = $id;
+			$friends = $this->db->get_friends($id);
+			if ($friends)
+				foreach ($friends as $user)
+					$this->send($user['id'], $msg);
+		}
+		socket_shutdown($this->current_socket);
+		socket_close($this->current_socket);
+		$index = array_search($this->current_socket, $this->clientSocketArray);
+		unset($this->clientSocketArray[$index]);
+	}
+
 	public function incoming($socketData)
 	{
 		$message = json_decode($this->unseal($socketData));
@@ -183,15 +200,23 @@ class socket_server
 		if ($id == null)
 			return;
 		$user = $this->user[$id];
+
 		if ($message->action == "close")
 		{
+			echo "CLOSE";
+
+/*	
 			$index = array_search($this->current_socket, $this->clientSocketArray);
 			unset($this->clientSocketArray[$index]);
-			socket_shutdown($this->current_socket);
-			socket_close($this->current_socket);
+
+			socket_write($this->current_socket, 0x8, 1);
+
+//			socket_shutdown($this->current_socket);
+//			socket_close($this->current_socket);
+ */
 			return ;
 		}
-		if ($message->action == "friends")
+		else if ($message->action == "friends")
 		{
 			$msg['friends'] = $this->db->get_friends($id);
 			$msg_log['login'] = $user['id'];
@@ -205,7 +230,7 @@ class socket_server
 			}
 			$this->send($id, $msg);
 		}
-		if ($message->action == "message")
+		else if ($message->action == "message")
 		{
 			if (strlen($message->message) == 0)
 				return;
@@ -220,7 +245,6 @@ class socket_server
 				if ($conv === NULL)
 					return ;
 				$this->db->send($conv['id'], $id, $message->to, $message->message);
-
 				if (isset($this->user[$message->to]))
 				{
 					$msg['message'] = array();
@@ -231,7 +255,7 @@ class socket_server
 				}
 			}
 		}
-		if ($message->action == "previous_message")
+		else if ($message->action == "previous_message")
 		{
 			if (!empty($message->id))
 			{
@@ -315,23 +339,6 @@ class socket_server
 		return ($user);
 	}
 
-	public function disconnect()
-	{
-		$id = $this->find_id_user($this->current_socket);
-		if ($id != null)
-		{
-			$msg['logout'] = $id;
-			$friends = $this->db->get_friends($id);
-			if ($friends)
-				foreach ($friends as $user)
-					$this->send($user['id'], $msg);
-		}
-//		socket_shutdown($this->current_socket);
-		socket_close($this->current_socket);
-		$index = array_search($this->current_socket, $this->clientSocketArray);
-		unset($this->clientSocketArray[$index]);
-	}
-
 	public function	find_socket($id_user)
 	{
 		if (isset($this->user[$id_user]))
@@ -370,7 +377,6 @@ class socket_server
 	{
 		$newSocket = socket_accept($this->socket);
 		$msg = socket_read($newSocket, 1024);
-
 
 		$header = $msg;
 		$lines = preg_split("/\r\n/", $header);
