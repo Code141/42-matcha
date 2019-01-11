@@ -118,15 +118,13 @@
 			</form>
 		</div>
 		<div class='right'>
-			<form id='take_picture'>
-				<button id='snap_button'>Take picture</button>
-			</form> 
-			</div>
+			<button id='snap_button'>Take picture</button>
+		</div>
 		</div>
 		<?php }?>
 		<div class='bottom'>
 		<?php if(count($user['media']))	foreach($user['media'] as $pic){?>
-		<a href="<?php echo SITE_ROOT . '/full_img/' . $pic['id_media'];?>">
+		<a href="<?php echo SITE_ROOT . 'full_img/' . $pic['id_media'];?>">
 			<div class="media">
 				<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
 			</div>
@@ -204,6 +202,7 @@
 <script>
 var user = <?php echo $this->json['user']?>;
 var ip_location = <?php echo $this->json['ip_location']?>;
-var url_location = <?php echo SITE_ROOT;?> + "account/edit_location";
+var url_account = <?php echo SITE_ROOT;?> + "account/";
+var media_path = "<?php echo MEDIA_PATH;?>";
 </script>
 <script src="<?php echo JS_PATH;?>account.js"></script>
