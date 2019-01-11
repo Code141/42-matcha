@@ -212,7 +212,7 @@ class c_account extends c_logged_only
 			if($check === false) 
 				return("File is not an image");
 		}
-		$allowed_types = array ('image/jpeg', 'image/png' );
+		$allowed_types = array ('image/jpeg', 'image/png');
 		$finfo = new finfo(FILEINFO_MIME_TYPE);
 		$ext = array_search($finfo->file($_FILES["fileToUpload"]['tmp_name']), $allowed_types, true);
 		if (false === $ext)
@@ -235,7 +235,9 @@ class c_account extends c_logged_only
 		$src = imagecreatefrompng($photo);
 		$maxDim = 250;
 		list($width, $height, $type, $attr) = getimagesize($photo);
-		if ( $width > $maxDim || $height > $maxDim ) {
+		$new_width = $width;
+		$new_height = $height;
+		if ($width > $maxDim || $height > $maxDim) {
 			$target_filename = $photo;
 			$ratio = $width/$height;
 			if( $ratio > 1) {
@@ -247,8 +249,8 @@ class c_account extends c_logged_only
 			}
 		}
 		$dst = imagecreatetruecolor($new_width, $new_height);
-		imagecopyresampled( $dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
-		imagedestroy( $src );
+		imagecopyresampled($dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+		imagedestroy($src);
 		return ($dst);
 	}
 
