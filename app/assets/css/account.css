@@ -76,6 +76,33 @@ img#profil_pic{
 	height:100%;
 }
 
+div#booth{
+	display:none;
+	width:100%;
+}
+
+canvas{
+	position:absolute;
+	max-height:100%;
+	max-width:250px;
+}
+
+video{
+	max-height:100%;
+	max-width:250px;
+}
+div#div_snapshot{
+	height:20px;
+	display:none;
+}
+
+button#cancel_snapshot{
+	float:left;
+}
+
+button#take_snapshot{
+	float:right;
+}
 div.media{
 	width:100px;
 	height:100px;
@@ -87,15 +114,25 @@ div.media img{
 	object-fit:cover;
 }
 
+div.top{
+	height:20px;
+	width:100%;
+}
+
+div.bottom{
+	width:100%;
+	display: flex;
+	justify-content:space-evenly;
+}
+
 div.left{
-	text-align:left;
 	float:left;
-	height:100%;
-	width:20%;
+	text-align:left;
 }
 
 div.right{
 	float:right;
+	text-align:right;
 }
 
 table{

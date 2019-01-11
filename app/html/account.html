@@ -99,26 +99,39 @@
 	</fieldset>
 	<fieldset>
 		<legend>Pictures</legend>
+		<div id='booth'>
+		<canvas id='canvas'>
+		</canvas>
+			<video id='video'>
+			</video>
+		</div>
+		<div id="div_snapshot">
+			<button id="cancel_snapshot">cancel</button>
+			<button id="take_snapshot">snap</button>
+		</div>
+
 		<?php if(count($user['media']) < 5) { ?>
+		<div class='top'>
 			<div class='left'>
-			 <form class="upload_file" id="upload_file" action="<?php echo SITE_ROOT;?>account/upload_file" method="post" enctype="multipart/form-data">
-			<input type="file" name="fileToUpload" id="fileToUpload"  required>
-			<input type="submit">
-			 </form>
-			 <form id='take_picture'>
-			<button>Take picture</button>
-			 </form> 
+			<form class="upload_file" id="upload_file" action="<?php echo SITE_ROOT;?>account/upload_file" method="post" enctype="multipart/form-data">
+				<input type="file" name="fileToUpload" id="fileToUpload"  required>
+			</form>
+		</div>
+		<div class='right'>
+			<form id='take_picture'>
+				<button id='snap_button'>Take picture</button>
+			</form> 
 			</div>
-			<?php }?>
-	<div class='right'>
-		<?php if(count($user['media']))
-			foreach($user['media'] as $pic){?>
-			<a>
+		</div>
+		<?php }?>
+		<div class='bottom'>
+		<?php if(count($user['media']))	foreach($user['media'] as $pic){?>
+		<a href="<?php echo SITE_ROOT . '/full_img/' . $pic['id_media'];?>">
 			<div class="media">
-			<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
+				<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
 			</div>
-			</a>
-			<?php } ?>
+		</a>
+		<?php } ?>
 		</div>
 	</fieldset>
 	<fieldset id="matching_preferences">
@@ -189,8 +202,8 @@
 	</fieldset>
 </section>
 <script>
-	var user = <?php echo $this->json['user']?>;
-	var ip_location = <?php echo $this->json['ip_location']?>;
-	var url_location = <?php echo SITE_ROOT;?> + "account/edit_location";
+var user = <?php echo $this->json['user']?>;
+var ip_location = <?php echo $this->json['ip_location']?>;
+var url_location = <?php echo SITE_ROOT;?> + "account/edit_location";
 </script>
 <script src="<?php echo JS_PATH;?>account.js"></script>

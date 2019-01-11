@@ -256,9 +256,10 @@ class c_account extends c_logged_only
 
 	public function upload_file()
 	{
+		if (count($_SESSION['user']['media']) == 5)
+			$this->core->fail("You can have maximum 5 pictures", 'account', 'main');
 		if (($err = $this->check_file()))
 			$this->core->fail($err, 'account', 'main');
-
 		$media_path = APP_PATH . 'assets/media/';
 		if(!is_dir($media_path))
 			mkdir($media_path);
@@ -271,10 +272,11 @@ class c_account extends c_logged_only
 
 		$photo = $finalpath;
 		$dst = $this->format_file($finalpath, $media_path);
-		$ret = imagepng( $dst, $finalpath ); // adjust format as needed
+		$ret = imagepng( $dst, $finalpath);
 		imagedestroy( $dst );
-		$message = $ret ? "upload_success" : "merge_fail"; 
-		echo $message.'<br>';
 		$this->module_loader->session()->controller->update_session();
+		if ($ret)
+			$this->core->success('Image upload success!', 'account', 'main');
+		$this->core->fail('Image upload fail...', 'account', 'main');
 	}
 }
