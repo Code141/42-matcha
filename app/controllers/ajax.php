@@ -64,5 +64,67 @@ class c_ajax extends c_logged_only
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$this->load->model("interactions")->see_notifs($user["id"]);
 	}
+
+	public function block($params)
+	{
+		$response = Array ();
+		$response['status'] = "fail";
+		if (empty($params[0]))
+		{
+			if (!is_ajax_query())
+				$this->core->success("Bad user selected", "matches", "main");
+			else
+			{
+				echo json_encode($response);
+				die ();
+			}
+		}
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$id_user_to = intval($params[0]);
+
+		$response['row'] = $this->load->model("interactions")->block($user["id"], $id_user_to);
+		$response['status'] = "success";
+
+//		$this->module_loader->websocket()->controller->send_block($id_user_to);
+
+		if (!is_ajax_query())
+			$this->core->success("You bloked this user !", "matches", "main");
+		else
+			echo json_encode($response);
+	}
+
+	public function unblock($params)
+	{
+		$response = Array ();
+		$response['status'] = "fail";
+		if (empty($params[0]))
+		{
+			if (!is_ajax_query())
+				$this->core->success("Bad user selected", "matches", "main");
+			else
+			{
+				echo json_encode($response);
+				die ();
+			}
+		}
+		$user = $this->module_loader->session()->controller->user_loggued();
+		$id_user_to = intval($params[0]);
+
+		$response['row'] = $this->load->model("interactions")->unblock($user["id"], $id_user_to);
+		$response['status'] = "success";
+
+//		$this->module_loader->websocket()->controller->send_block($id_user_to);
+
+		if (!is_ajax_query())
+			$this->core->success("You unbloked this user !", "matches", "main");
+		else
+			echo json_encode($response);
+	
+	}
+
+	public function report($params)
+	{
+
+	}
 }
 

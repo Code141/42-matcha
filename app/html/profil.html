@@ -17,9 +17,14 @@
 	<div id="last_connection">
 		LAST CONNECTION : <?php echo last_connection($user['last_connexion']); ?>
 	</div>
-	<button id="">
+	<button id="" onclick="block(<?php echo $user['id']?>)">
 		BLOCK
 	</button>
+
+	<button id="" onclick="unblock(<?php echo $user['id']?>)">
+		UNBLOCK
+	</button>
+	
 	<button id="">
 		REPORT
 	</button>

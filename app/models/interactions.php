@@ -82,6 +82,31 @@ class m_interactions
 		return ($stm->rowCount());
 	}
 
+	public function block($id_user_from, $id_user_to)
+	{
+		$sql = "
+			INSERT INTO blocked (id_user_from, id_user_to)
+			VALUES(:id_user_from, :id_user_to)
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+	}
+
+	public function unblock($id_user_from, $id_user_to)
+	{
+		$sql = "
+			DELETE FROM blocked
+			WHERE id_user_from = :id_user_from AND id_user_to = :id_user_to
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+	}
+
+
 	public function does_match($id_user_from, $id_user_to)
 	{
 		$sql = "
@@ -112,6 +137,5 @@ class m_interactions
 		}
 		return ($stm->rowCount());
 	}
-
 
 }

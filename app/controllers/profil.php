@@ -9,7 +9,7 @@ class c_profil extends c_logged_only
 		{
 			$this->data['profil'] = $this->load->model("profil")->create_profil($params[0], $user['id']);
 			if ($this->data['profil'] == NULL)
-				$this->core->fail("Unknow user", "404");
+				$this->core->fail("blocked user", "matches", "main");
 			else
 				if ($user['id'] != $params[0])
 				{
@@ -19,6 +19,7 @@ class c_profil extends c_logged_only
 		}
 		else
 			$this->data['profil'] = $user;
+
 		$this->core->set_view("profil", "main");
 	}
 }
