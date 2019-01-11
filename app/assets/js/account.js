@@ -92,6 +92,66 @@ function set_events(){
 			button_div.style.display = 'block';
 		});
 	};
+	document.getElementById("snap_button").addEventListener("click", function(e){
+	e.preventDefault();
+	display_booth();}); 
+	document.getElementById("fileToUpload").addEventListener("change", function(){document.getElementById("upload_file").submit();});
+}
+
+function display_booth()
+{
+	var snap_button = document.getElementById("snap_button");
+		snap_button.style.display = "none";
+	document.getElementById("div_snapshot").style.display = "block";
+	document.getElementById("booth").style.display = "block";
+	document.getElementById("take_snapshot").addEventListener("click", take_snapshot);
+	document.getElementById("cancel_snapshot").addEventListener("click", cancel_snapshot);
+	navigator.mediaDevices.getUserMedia({video:true , audio:false})
+		.then(function(stream){
+			video.srcObject = stream;
+			video.play();
+		})
+	.catch(function(error){
+		console.log(error);
+		alert("failed to connect to the webcam");
+	});
+
+}
+
+function cancel_snapshot(){
+		snap_button.style.display = "block";
+		document.getElementById("div_snapshot").style.display = "none";
+		document.getElementById("booth").style.display = "none";
+		var snapshot_button = document.getElementById("take_snapshot");
+		var textnode = snapshot_button.childNodes[0];
+		if (textnode !== "snap")
+		{
+			var new_textnode = document.createTextNode("snap");
+			snapshot_button.replaceChild(new_textnode, textnode);
+			snapshot_button.removeEventListener("click", save_snapshot);
+			snapshot_button.addEventListener("click", take_snapshot);
+		}
+}
+
+function take_snapshot(){
+	video.pause();
+	var width = video.videoWidth;
+	var height = video.videoHeight;
+	canvas.width = width;
+	canvas.height = height;
+	var context = canvas.getContext('2d');
+	context.drawImage(video, 0, 0, width, height);
+
+	var snapshot_button = document.getElementById("take_snapshot");
+	var textnode = snapshot_button.childNodes[0];
+	var new_textnode = document.createTextNode("save");
+	snapshot_button.replaceChild(new_textnode, textnode);
+	snapshot_button.removeEventListener("click", take_snapshot);
+	snapshot_button.addEventListener("click", save_snapshot);
+}
+
+function save_snapshot(){
+	cancel_snapshot();
 }
 
 function edit_location(latitude, longitude)
