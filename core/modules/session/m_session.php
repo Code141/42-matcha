@@ -23,6 +23,22 @@ class m_module_session
 		return (NULL);
 	}
 
+	public function put_ip($user_id, $ip)
+	{
+		$sql = "
+			INSERT INTO connexion (id_user, ip, timestamp)
+			VALUES(:user_id, ip, NOW())
+			ON DUPLICATE KEY
+			UPDATE ip = :ip, timestamp = NOW()
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("user_id", $user_id, PDO::PARAM_INT);
+		$stm->bindparam("ip", $ip, PDO::PARAM_STR);
+		$stm->execute();
+		return (NULL);
+	}
+
+
 	public function get_user_orientations($id_user)
 	{
 		$sql = "

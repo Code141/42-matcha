@@ -100,6 +100,10 @@ CREATE TABLE `user_tags` (
   `id_tag` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `connexion`
+  ADD PRIMARY KEY (`id_user`);
+
+
 ALTER TABLE `gender`
   ADD PRIMARY KEY (`id`);
 
@@ -137,7 +141,6 @@ ALTER TABLE `media`
 
 ALTER TABLE `gender_identity`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 
 ALTER TABLE `msg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

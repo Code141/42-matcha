@@ -77,13 +77,9 @@ function	fill_profil_container(profils)
 			var username = document.createElement('p');
 			var dist = document.createElement('p');
 			var age = document.createElement('p');
-			var like_button = document.createElement('button');
-			like_button.innerHTML = 'LIKE';
-			like_button.value = profils[i].id;
-			like_button.className = 'like_button';
+
 			var matching_tags = document.createElement('p');
 			article.appendChild(a);
-			article.appendChild(like_button);
 
 			a.href = 'http://localhost:8080/matcha/profil/main/' + profils[i].id;
 			img.id = 'profil_pic';
@@ -98,9 +94,6 @@ function	fill_profil_container(profils)
 				dist.innerHTML = 'No location';
 			age.innerHTML = profils[i].age + 'years old';
 			matching_tags.innerHTML = 'Nb of matching tags : ' + profils[i].nb_matching_tags;
-			like_button.addEventListener('click', function(event){
-			ajax_request('http://localhost:8080/matcha/ajax/like/' + event.target.value);
-			});
 			container.appendChild(article);
 			a.appendChild(img);
 			a.appendChild(username);
@@ -117,7 +110,6 @@ function	fill_profil_container(profils)
 		prompt.style.margin = "50px";
 		container.appendChild(prompt);
 	}
-
 }
 
 function	tag_handling(){

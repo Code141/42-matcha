@@ -23,6 +23,29 @@ function	human_date($str)
 		return date("G:i", $timestamp);
 }
 
+function	last_connection($str)
+{
+	date_default_timezone_set('Europe/Paris');
+
+	$timestamp = strtotime($str);
+
+	$date = localtime($timestamp, true);
+	$now = localtime(time(), true);
+
+	if (empty($str))
+		return "???";
+	if ($timestamp + (15 * 60) > time())
+		return "Connected";
+	else if ($date["tm_year"] != $now["tm_year"])
+		return date("M Y", $timestamp);
+	else if ($date["tm_mon"] != $now["tm_mon"])
+		return date("j M", $timestamp);
+	else if ($date["tm_mday"] != $now["tm_mday"])
+		return date("D j", $timestamp);
+	else
+		return date("G:i", $timestamp);
+}
+
 function	redirect($path = "")
 {
 	header ('location:'.SITE_ROOT. $path);
