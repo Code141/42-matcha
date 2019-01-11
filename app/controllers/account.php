@@ -183,6 +183,8 @@ class c_account extends c_logged_only
 		$tag_name = rtrim($tag_name);
 		if ($tag_name == "")
 			$this->core->fail("Tag is badly formated", 'account', 'main');
+		if (strlen($tag_name) >= 64)
+			$this->core->fail("Tag is too long", 'account', 'main');
 		$user = $_SESSION['user'];
 		$model = $this->load->model("account");
 		if (!$model->add_tag($user['id'], $tag_name))
@@ -244,33 +246,33 @@ class c_account extends c_logged_only
 				$new_height = $maxDim;
 			}
 		}
-			$dst = imagecreatetruecolor( $new_width, $new_height );
-			imagecopyresampled( $dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
-			imagedestroy( $src );
-			return ($dst);
+		$dst = imagecreatetruecolor($new_width, $new_height);
+		imagecopyresampled( $dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+		imagedestroy( $src );
+		return ($dst);
 	}
 
-		public function upload_file()
-		{
-			if (($err = $this->check_file()))
-				$this->core->fail($err, 'account', 'main');
+	public function upload_file()
+	{
+		if (($err = $this->check_file()))
+			$this->core->fail($err, 'account', 'main');
 
-			$media_path = APP_PATH . 'assets/media/';
-				if(!is_dir($media_path))
-					mkdir($media_path);
-		
-			$model = $this->load->model("account");
-			$media_id = $model->add_media($_SESSION['user']['id']);
-			$finalpath = $media_path . $media_id . '.png';
-			if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $finalpath))
-				$this->core->fail("There was an error uploading file", 'account', 'main');
+		$media_path = APP_PATH . 'assets/media/';
+		if(!is_dir($media_path))
+			mkdir($media_path);
 
-			$photo = $finalpath;
-			$dst = $this->format_file($finalpath, $media_path);
-			$ret = imagepng( $dst, $finalpath ); // adjust format as needed
-			imagedestroy( $dst );
-			$message = $ret ? "upload_success" : "merge_fail"; 
-			echo $message.'<br>';
+		$model = $this->load->model("account");
+		$media_id = $model->add_media($_SESSION['user']['id']);
+		$finalpath = $media_path . $media_id . '.png';
+		if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $finalpath))
+			$this->core->fail("There was an error uploading file", 'account', 'main');
+
+		$photo = $finalpath;
+		$dst = $this->format_file($finalpath, $media_path);
+		$ret = imagepng( $dst, $finalpath ); // adjust format as needed
+		imagedestroy( $dst );
+		$message = $ret ? "upload_success" : "merge_fail"; 
+		echo $message.'<br>';
 		$this->module_loader->session()->controller->update_session();
-		}
 	}
+}
