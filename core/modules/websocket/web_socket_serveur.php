@@ -163,7 +163,7 @@ class socket_server
 		foreach ($this->working_sokets as $current_socket)
 		{
 			$this->current_socket = $current_socket;
-			if (socket_recv($current_socket, $socketData, 2048, 0) > 0)
+			if (@socket_recv($current_socket, $socketData, 2048, 0) > 0)
 				$this->incoming($socketData);
 			else
 			{
@@ -186,7 +186,7 @@ class socket_server
 					$this->send($user['id'], $msg);
 		}
 //		socket_shutdown($this->current_socket);
-//		socket_close($this->current_socket);
+		socket_close($this->current_socket);
 		$index = array_search($this->current_socket, $this->clientSocketArray);
 		unset($this->clientSocketArray[$index]);
 	}
@@ -203,17 +203,14 @@ class socket_server
 
 		if ($message->action == "close")
 		{
-			echo "CLOSE";
 			socket_write($this->current_socket, 0x8, 2);
-
-
+			$this->disconnect();
+			/*
 			$index = array_search($this->current_socket, $this->clientSocketArray);
 			unset($this->clientSocketArray[$index]);
-
-
 			socket_shutdown($this->current_socket);
 			socket_close($this->current_socket);
-
+			 */
 			return ;
 		}
 		else if ($message->action == "friends")
@@ -264,9 +261,12 @@ class socket_server
 					return ;
 				$msgs = $this->db->get_msg($conv['id']);
 				$msg['previous_message'] = array();
-				$msg['previous_message']['id'] = $message->id;
-				$msg['previous_message']['msgs'] = $msgs;
-				$this->send($id, $msg);
+				foreach ($msgs as $value){
+					$msg['previous_message']['id'] = $message->id;
+					$msg['previous_message']['msgs'] = $value;
+					var_dump( $value);
+					$this->send($id, $msg);
+				}
 			}
 		}
 	}
@@ -377,7 +377,6 @@ class socket_server
 	{
 		$newSocket = socket_accept($this->socket);
 		$msg = socket_read($newSocket, 1024);
-
 		$header = $msg;
 		$lines = preg_split("/\r\n/", $header);
 		$headers = array();

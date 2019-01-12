@@ -1,4 +1,3 @@
-
 window.onload = function ()
 {
 	chat_list_cont = document.getElementById("chat_list");
@@ -8,84 +7,60 @@ window.onload = function ()
 	});
 	notif = new notif();
 	client = new websock();
+	if (typeof id_conv == "undefined")
+		chat_list = new chat_list(chat_list_cont);
+	else
+		chat_list = new messagerie();
+
 	client.init();
+	chat_list.init();
+	chat_list.connected(true);
 };
+
+window.onbeforeunload = function (e) 
+{
+/*	if (typeof client != "undefined" && typeof client.worker != "undefined")
+		client.worker.port.postMessage(JSON.stringify({ action: "close" }));
+		*/
+}.bind(this);
 
 function websock()
 {
-
 	this.init = function()
 	{
-		url = "ws://localhost:8090/";
+		this.worker = new SharedWorker("/matcha/app/assets/js/socket_worker.js");
+		this.worker.port.start();
 
-		window.addEventListener('beforeunload', function()
-		{
-			if (this.websocket.readyState == 1)
-			{
-				this.websocket.send(JSON.stringify({ action: "close" }));
-				this.websocket.close();
-			}
-
-			var i = 0;
-			while (i < 50000 && this.websocket.readyState != 3)
-			{
-				i++;
-			}
-
-		}.bind(this), false)
-
-		if ("WebSocket" in window)
-			this.websocket = new WebSocket(url);
-		else if ("MozWebSocket" in window)
-			this.websocket = new MozWebSocket(url);
-
-
-		this.websocket.onclose = function (event) {
-			console.log("WebSocket is closed now.");
-		}.bind(this);
-
-		this.websocket.onopen = function (event)
-		{
-			if (typeof id_conv == "undefined")
-				this.chat_list = new chat_list(chat_list_cont);
-			else
-				this.chat_list = new messagerie();
-			this.chat_list.init();
-			this.chat_list.connected(true);
-			this.websocket.send(JSON.stringify({ action: "friends" }));
-		}.bind(this);
-
-		this.websocket.onmessage = function(event)
+		this.worker.port.addEventListener("message", function(event)
 		{
 			var data = JSON.parse(event.data);
 			if (typeof data.like != 'undefined')
 				notif.like(data.like);
-			if (typeof data.matche != 'undefined')
+			else if (typeof data.matche != 'undefined')
 				notif.matche(data.matche);
-			if (typeof data.dislike != 'undefined')
+			else if (typeof data.dislike != 'undefined')
 				notif.dislike(data.dislike);
-			if (typeof data.history != 'undefined')
+			else if (typeof data.history != 'undefined')
 				notif.history(data.history);
+			else if (data == "connected")
+			{
+				chat_list.connected(true);
+				this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
+			}
+			else if (data == "closed")
+			{
+				if (typeof chat_list !== "undefined")
+					chat_list.connected(false);
+			}
 			else
-				this.chat_list.do(data);
-		}.bind(this);
+				chat_list.do(data);
+		}.bind(this), false);
 
-		this.websocket.onerror = function(event)
-		{
-			if (typeof this.chat_list !== "undefined")
-				this.chat_list.connected(false);
-		}.bind(this);
+}
 
-		/*
-		this.websocket.onclose = function(event)
-		{
-			setTimeout(function () {
-				if (typeof this.chat_list != 'undefined')
-					this.chat_list.connected(false);
-				this.init();
-			}.bind(this), 5000);
-		}.bind(this);
-		 */
+	this.send = function(msg)
+	{
+		this.worker.port.postMessage(msg);
 	}
 }
 
@@ -239,7 +214,6 @@ function notif()
 		nb = (isNaN(nb)) ? 0 : nb;
 		this.notif_nb_div.innerHTML = nb + 1;
 	}
-
 }
 
 function messagerie()
@@ -278,9 +252,7 @@ function messagerie()
 			to : this.id_user,
 			message : this.msg.value
 		};
-
-		client.websocket.send(JSON.stringify(messageJSON));
-		this.show_msg(this.msg.value, true);
+		client.send(JSON.stringify(messageJSON));
 		this.msg.value = "";
 	}
 
@@ -298,11 +270,21 @@ function messagerie()
 
 	this.incoming_message = function(message)
 	{
-		id = message['from'];
-		mesg = message['msg'];
-		username = message['username'];
+		if (typeof message['from'] == 'undefined')
+		{
+			from_me = true;
+			id = parseInt(message['to']);
+			mesg = message['message'];
+		}
+		else
+		{
+			from_me = false;
+			id = parseInt(message['from']);
+			mesg = message['msg'];
+			username = message['username'];
+		}
 		if (id == this.id_user)
-			this.show_msg(mesg, false);
+			this.show_msg(mesg, from_me);
 	}
 
 	this.put_friends = function(friends)
@@ -410,9 +392,20 @@ function chat_list(chat_list)
 
 	this.incoming_message = function(message)
 	{
-		id = message['from'];
-		mesg = message['msg'];
-		username = message['username'];
+		if (typeof message['from'] == 'undefined')
+		{
+			from_me = true;
+			id = parseInt(message['to']);
+			mesg = message['message'];
+		}
+		else
+		{
+			from_me = false;
+			id = parseInt(message['from']);
+			mesg = message['msg'];
+			username = message['username'];
+		}
+
 		if (!(id in this.conv))
 		{
 			this.conv[id] = new conversation(id, username);
@@ -424,7 +417,7 @@ function chat_list(chat_list)
 			if (this.conv[id].minized)
 				this.conv[id].switch_mini();
 		}
-		this.conv[id].show_msg(mesg, false);
+		this.conv[id].show_msg(mesg, from_me);
 	}
 
 	this.put_friends = function(friends)
@@ -476,10 +469,8 @@ function chat_list(chat_list)
 	this.put_previous_msg = function(prev)
 	{
 		id = prev.id;
-		prev.msgs.forEach(function(e) {
-			from_me = (e.id_user_to == id) ? 1 : 0;
-			this.conv[id].show_msg(e.msg, from_me);
-		}.bind(this));
+		from_me = (prev.msgs.id_user_to == id) ? 1 : 0;
+		this.conv[id].show_msg(prev.msgs.msg, from_me);
 	}
 
 	this.do = function(data)
@@ -555,8 +546,7 @@ function conversation(id_user, username)
 			to : this.id_user,
 			message : this.msg.value
 		};
-		client.websocket.send(JSON.stringify(messageJSON));
-		this.show_msg(this.msg.value, true);
+		client.send(JSON.stringify(messageJSON));
 		this.msg.value = "";
 	}
 
@@ -617,13 +607,11 @@ function conversation(id_user, username)
 			this.send_msg(e);
 		}.bind(this))
 		this.chat_conv.insertBefore(this.conv, chat_conv.firstChild);
-
 		var messageJSON = {
 			action : "previous_message",
 			id : id_user,
 		};
-		client.websocket.send(JSON.stringify(messageJSON));
-
+		client.send(JSON.stringify(messageJSON));
 	}
 }
 
