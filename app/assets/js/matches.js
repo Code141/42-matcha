@@ -39,6 +39,14 @@ function	init()
 	fill_profil_container(profils);
 	add_markers(profils);
 	tag_handling();
+	pagination();
+}
+
+function	pagination()
+{
+	var nb_pages = total_matches / 10;
+	console.log(nb_pages);
+	console.log(total_matches);
 }
 
 function	add_markers(matches)

@@ -1,3 +1,5 @@
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
 CREATE TABLE `bio` (
   `id_user` int(11) NOT NULL, UNIQUE (`id_user`),
   `bio` varchar(500) NOT NULL

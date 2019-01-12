@@ -173,7 +173,6 @@ function delete_img(div_media)
 		var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText;
-			console.log(response);
 			if (response)
 			{
 				prompter.innerHTML = response;
@@ -367,4 +366,22 @@ function edit_location(latitude, longitude)
 	};
 	xhr.send(formData);
 	hide_buttons();
+}
+
+function full_img(id_media)
+{
+	var section = document.getElementsByClassName("center")[0];
+	var wrap = document.createElement('div');
+		wrap.style.position = 'absolute';
+		wrap.style.left = '0px';
+		wrap.style.height = '100vh';
+		wrap.style.width = '100vw';
+		wrap.style.backgroundColor = 'rgba(0,0,0,0.5)';
+	var img = document.createElement('img');
+		img.style.position = 'absolute';
+		img.src = media_path + id_media + '.png';
+	wrap.appendChild(img);
+	section.appendChild(wrap);
+	wrap.addEventListener('click', function(){
+		wrap.remove();});
 }
