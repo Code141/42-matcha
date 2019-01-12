@@ -90,10 +90,14 @@ button
 #map
 {
 	width:100%;
-	height:400px;
+	height:370px;
 	overflow:hidden;
 }
 
+div#pagination{
+	width:100%;
+	height:30px;
+}
 div#profils
 {
 	width:780px;

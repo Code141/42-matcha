@@ -109,6 +109,8 @@
 	<div class="right">
 		<div id=map>
 		</div>
+		<div id="pagination">
+		</div>
 		<div class='container' id="profils">
 		</div>
 	</div>
@@ -117,6 +119,7 @@
 		var profils = <?php echo $this->json['matches'];?>;
 		var default_pic = "<?php echo IMG_PATH . 'default-user-image.png';?>";
 		var MEDIA_PATH = "<?php echo MEDIA_PATH;?>";
+		var total_matches = "<?php echo $this->json['total_matches'];?>";
 	</script>
 </section>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>

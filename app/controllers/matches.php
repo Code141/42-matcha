@@ -4,13 +4,12 @@ class c_matches extends c_logged_only
 {
 	var	$user;
 
-	private function prepare(int $start = 0, int $offset = 10)
+	private function prepare()
 	{
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
 		$this->req = $this->load->model("matches")
-			->all_users($this->user)
-			->limit($start, $offset);
+			->all_users($this->user);
 		$this->data['all_tags'] = $this->load->model("wrapper")
 			->all_tags()
 			->execute()
@@ -62,11 +61,22 @@ class c_matches extends c_logged_only
 			}
 		}
 
+		$this->json['total_matches'] = json_encode($this->req
+			->filter_by_tags($filter_tags)
+			->execute()
+			->rowCount());
+
+		$offset = 10;
+		if (!isset($_POST['page']) || empty($_POST['page']) ||
+			!is_numeric($_POST['page']) || $_POST['page'] <= 0)
+			$_POST['page'] = 1;
+		$start = $_POST['page'] - 1;	
 		$this->data['matches'] = $this->req
+			->limit($start, $offset)
 			->filter_by_tags($filter_tags)
 			->execute()
 			->fetchAll();
-
+		
 		foreach ($this->data['matches'] as &$profil)
 			$profil['age'] = date_diff(date_create($profil['birthdate']), date_create('today'))->y;
 
