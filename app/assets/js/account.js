@@ -52,7 +52,7 @@ function initMap() {
 	map.addControl(control);
 }
 
-function set_events(){
+function map_event(){
 	var forms = document.forms;
 	for (let form of forms){
 		form.addEventListener("submit",function(e){
@@ -63,9 +63,9 @@ function set_events(){
 			}
 		});
 	};
-	var pw_conf = document.getElementById("pw_conf");
-	var pw_input = document.getElementById("pw_input");
-	pw_conf.style.display = 'none';
+}
+
+function hide_buttons(){
 	var buttons = document.getElementsByClassName("buttons");		
 	for (let div of buttons)
 	{
@@ -77,12 +77,20 @@ function set_events(){
 			pw_conf.style.display = 'none';
 		});
 	}
+}
+function set_events(){
+	var forms = document.forms;
+	map_event();
+	var pw_conf = document.getElementById("pw_conf");
+	var pw_input = document.getElementById("pw_input");
+	pw_conf.style.display = 'none';
+	hide_buttons();
+	
 	var editables = document.getElementsByClassName("edit");
 	var submit_buttons = document.getElementsByClassName("submit");
 	for (let element of editables)
 	{
 		element.addEventListener("change", function(e){
-			console.log(element);
 			if (element.name == "password"){
 				pw_conf.style.display = 'block';
 				pw_input.required = true;
@@ -92,8 +100,105 @@ function set_events(){
 			button_div.style.display = 'block';
 		});
 	};
-	document.getElementById("snap_button").addEventListener("click", display_booth); 
-	document.getElementById("fileToUpload").addEventListener("change", function(){document.getElementById("upload_file").submit();});
+	var snap_button = document.getElementById("snap_button");
+	var upload_input = document.getElementById("fileToUpload");
+		snap_button.addEventListener("click", display_booth); 
+		upload_input.addEventListener("change", function(){
+			document.getElementById("upload_file").submit();
+			set_events();});
+	var div_media = document.getElementsByClassName("media");
+	if (div_media.length == 5)
+		document.getElementsByClassName('top')[0].style.display = "none";
+	else
+		document.getElementsByClassName('top')[0].style.display = "block";
+	for (let div of div_media)
+	{
+		div.addEventListener("click", function(e){
+			if (e.target.tagName == "A")
+			{
+				if (e.target.className == "delete")
+					delete_img(div);
+				else
+					set_as_profil_pic(div.id);
+			}
+			else
+				full_img(div.id);
+		});
+	}
+}
+
+function set_as_profil_pic(id_media)
+{
+	var formData = new FormData();
+	formData.append("id_media", id_media);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', url_account + "set_as_profil_pic?is_ajax=1", true);
+	xhr.onload = function () {
+		var prompter = document.getElementById('prompter');
+		var status = xhr.status;
+		if (status == 200) {
+			response = xhr.responseText;
+			if (response)
+			{
+				prompter.innerHTML = response;
+				prompter.style.backgroundColor = 'red';
+				prompter.style.display = 'block';
+			}
+			else
+			{
+				var profil_pic = document.getElementById('profil_pic');
+					profil_pic.src = media_path + id_media + '.png';
+				var promp = document.getElementsByClassName('prompt')[0];
+				if (promp)
+					promp.remove();
+			}
+		} else {
+			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
+		}
+	};
+	xhr.send(formData);
+
+}
+
+function delete_img(div_media)
+{
+	var formData = new FormData();
+	formData.append("id_media", div_media.id);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', url_account + "delete_img?is_ajax=1", true);
+	xhr.onload = function () {
+		var prompter = document.getElementById('prompter');
+		var status = xhr.status;
+		if (status == 200) {
+			response = xhr.responseText;
+			console.log(response);
+			if (response)
+			{
+				prompter.innerHTML = response;
+				prompter.style.backgroundColor = 'red';
+				prompter.style.display = 'block';
+			}
+			else
+			{
+				div_media.parentNode.remove();
+				var profil_pic = document.getElementById('profil_pic');
+				var array = profil_pic.src.split('\/');
+				if (array[array.length - 1] === div_media.id + ".png")
+				{
+					var promp = document.createElement('p');
+				   		promp.className = "prompt";	
+				   		promp.innerHTML = "Please add a profil picture";
+						document.getElementById('div_profil_pic').insertBefore(promp, document.getElementById('div_profil_pic').childNodes[0])
+					profil_pic.src = default_user_img;
+				}
+			}
+		} else {
+			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
+		}
+	};
+	xhr.send(formData);
 }
 
 function display_booth()
@@ -186,16 +291,38 @@ function save_snapshot(){
 
 function update_pic_fieldset(id_media){
 	var pic_div = document.getElementsByClassName("bottom")[0];
-	var a = document.createElement('a');
-	a.href = url_account + "full_img/" + id_media; 
-	var div = document.createElement('div');
-	div.className = "media";
-	a.appendChild(div);
+	var wrap = document.createElement('div');
+		wrap.className = "wrap";
+	var div_media = document.createElement('div');
+		div_media.className = "media";
+		div_media.id = id_media;
+		div_media.addEventListener("click", function(e){
+			if (e.target.tagName == "A")
+			{
+				if (e.target.className == "delete")
+					delete_img(div_media);
+				else
+					set_as_profil_pic(id_media);
+			}
+			else
+				full_img(id_media);	
+		});
+	var a_set_profil = document.createElement('a');
+		a_set_profil.className = "set_profil";
+		a_set_profil.innerHTML = "set as profil";
+	var a_delete = document.createElement('a');
+		a_delete.className = "delete";
+		a_delete.innerHTML = "delete";
+	div_media.appendChild(a_set_profil);
+	div_media.appendChild(a_delete);
+	wrap.appendChild(div_media);
+	var div_img = document.createElement('div');
+		div_img.className = "img";
 	var img = document.createElement('img');
-	img.src = media_path + id_media + '.png';
-	div.appendChild(img);
-	console.log(pic_div);
-	pic_div.appendChild(a);
+		img.src = media_path + id_media + '.png';
+	div_img.appendChild(img);
+	wrap.appendChild(div_img);
+	pic_div.appendChild(wrap);
 }
 
 function dataURItoBlob(dataURI) {
@@ -239,5 +366,5 @@ function edit_location(latitude, longitude)
 		}
 	};
 	xhr.send(formData);
-	set_events();
+	hide_buttons();
 }

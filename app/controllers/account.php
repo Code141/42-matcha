@@ -296,4 +296,49 @@ class c_account extends c_logged_only
 			$this->core->success('Image upload success!', 'account', 'main');
 		$this->core->fail('Image upload fail...', 'account', 'main');
 	}
+
+	public function delete_img()
+	{
+		if (is_ajax_query())
+		{
+			if (!isset($_POST['id_media']) || empty($_POST['id_media']) || !is_numeric($_POST['id_media']))
+				exit('Sorry, an error occured');
+			foreach($_SESSION['user']['media'] as $key => $media)
+			{
+				if (intval($media['id_media']) == intval($_POST['id_media']))
+				{
+					$model = $this->load->model("account");
+					$model->delete_media($_POST['id_media'], $_SESSION['user']['id']);
+					$path = APP_PATH . 'assets/media/' . $_POST['id_media'] . '.png';
+					unlink($path);
+					unset($_SESSION['user']['media'][$key]);
+					$this->module_loader->session()->controller->update_session();
+					exit(NULL);
+				}
+			}
+			exit("This image doesn't belong to you");
+		}
+		$this->core->fail('An error occured', 'account', 'main');
+	}
+
+	public function set_as_profil_pic()
+	{
+		if (is_ajax_query())
+		{
+			if (!isset($_POST['id_media']) || empty($_POST['id_media']) || !is_numeric($_POST['id_media']))
+				exit('Sorry, an error occured');
+			foreach($_SESSION['user']['media'] as $media)
+			{
+				if ($media['id_media'] == $_POST['id_media'])
+				{
+					$model = $this->load->model("account");
+					$model->set_as_profil_pic($_POST['id_media'], $_SESSION['user']['id']);
+					$this->module_loader->session()->controller->update_session();
+					exit(NULL);
+				}
+			}
+			exit("This image doesn't belong to you");
+		}
+		$this->core->fail('An error occured', 'account', 'main');
+	}
 }
