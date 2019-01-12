@@ -12,7 +12,7 @@
 			<p>
 			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
 			</p>
-			<div id="profil_pic">
+			<div id="div_profil_pic">
 				<?php if(!$user['id_media']){ ?>
 				<p class="prompt">Please add a profil picture</p>
 				<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
@@ -110,7 +110,6 @@
 			<button id="take_snapshot">snap</button>
 		</div>
 
-		<?php if(count($user['media']) < 5) { ?>
 		<div class='top'>
 			<div class='left'>
 			<form class="upload_file" id="upload_file" action="<?php echo SITE_ROOT;?>account/upload_file" method="post" enctype="multipart/form-data">
@@ -121,15 +120,18 @@
 			<button id='snap_button'>Take picture</button>
 		</div>
 		</div>
-		<?php }?>
 		<div class='bottom'>
 		<?php if(count($user['media']))	foreach($user['media'] as $pic){?>
-		<a href="<?php echo SITE_ROOT . 'full_img/' . $pic['id_media'];?>">
-			<div class="media">
+		<div class="wrap">
+		<div class="media" id='<?php echo $pic['id_media'];?>'>
+				<a class='set_profil'>set as profil</a>
+				<a class='delete'>delete</a>
+			</div>
+			<div class="img">
 				<img src="<?php echo MEDIA_PATH . $pic['id_media'] . '.png';?>">
 			</div>
-		</a>
-		<?php } ?>
+		</div>	
+	<?php } ?>
 		</div>
 	</fieldset>
 	<fieldset id="matching_preferences">
@@ -204,5 +206,6 @@ var user = <?php echo $this->json['user']?>;
 var ip_location = <?php echo $this->json['ip_location']?>;
 var url_account = <?php echo SITE_ROOT;?> + "account/";
 var media_path = "<?php echo MEDIA_PATH;?>";
+var default_user_img = "<?php echo IMG_PATH . 'default-user-image.png';?>";
 </script>
 <script src="<?php echo JS_PATH;?>account.js"></script>

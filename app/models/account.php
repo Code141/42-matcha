@@ -267,4 +267,27 @@ class m_account
 		$this->db->execute_pdo($stm, "account", "main");
 		return ($stm->fetch()[0]);
 	}
+	
+	public function delete_media($id_media, $id_user)
+	{
+		$sql =
+			"DELETE FROM `media` WHERE `id_media` = :id_media AND `id_user` = :id_user;
+			UPDATE `user` SET `id_media` = NULL WHERE `id` = :id_user AND `id_media` = :id_media";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":id_media", $id_media);
+		$stm->bindparam(":id_user", $id_user);
+		$this->db->execute_pdo($stm, "account", "main");
+		return($stm->rowCount());
+	}
+
+	public function set_as_profil_pic($id_media, $id_user)
+	{
+		$sql =
+			"UPDATE `user` SET `id_media` = :id_media WHERE `id` = :id_user";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":id_media", $id_media);
+		$stm->bindparam(":id_user", $id_user);
+		$this->db->execute_pdo($stm, "account", "main");
+		return($stm->rowCount());
+	}
 }
