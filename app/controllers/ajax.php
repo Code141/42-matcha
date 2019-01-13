@@ -15,7 +15,6 @@ class c_ajax extends c_logged_only
 		$id_user_to = intval($params[0]);
 		$response['row'] = $this->load->model("interactions")->like($user["id"], $id_user_to);
 		$response['status'] = "success";
-
 		if ($this->load->model("interactions")->does_match($user["id"], $id_user_to))
 		{
 			if (!$this->load->model("message")->find_conv($user["id"], $id_user_to))
@@ -60,6 +59,7 @@ class c_ajax extends c_logged_only
 
 	public function block($params)
 	{
+		$this->dislike($params);
 		$response = Array ();
 		$response['status'] = "fail";
 		if (empty($params[0]))
@@ -69,6 +69,7 @@ class c_ajax extends c_logged_only
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
+
 
 		$response['row'] = $this->load->model("interactions")->block($user["id"], $id_user_to);
 		$response['status'] = "success";

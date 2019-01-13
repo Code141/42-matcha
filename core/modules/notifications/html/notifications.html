@@ -15,12 +15,11 @@
 	$seen =  ($value['seen']) ? " seen " : "" ;
 ?>
 
-	<p class="<?php echo $seen;?>">
-		<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
+		<p class="<?php echo $seen;?>">
+			<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
 				<?php echo $value['username']; ?>
 			</a>
-			
-				<?php echo $value['notif_msg']; ?>
+			<?php echo $value['notif_msg']; ?>
 			<span class="date">
 				<?php echo human_date($value['timestamp']); ?>
 			</span>

@@ -31,17 +31,30 @@ function websock()
 		this.worker = new SharedWorker("/matcha/app/assets/js/socket_worker.js");
 		this.worker.port.start();
 
+		this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
 		this.worker.port.addEventListener("message", function(event)
 		{
 			var data = JSON.parse(event.data);
 			if (typeof data.like != 'undefined')
+			{
 				notif.like(data.like);
+				this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
+			}
 			else if (typeof data.matche != 'undefined')
+			{
 				notif.matche(data.matche);
+				this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
+			}
 			else if (typeof data.dislike != 'undefined')
+			{
 				notif.dislike(data.dislike);
+				this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
+			}
 			else if (typeof data.history != 'undefined')
+			{
 				notif.history(data.history);
+				this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
+			}
 			else if (data == "connected")
 			{
 				chat_list.connected(true);

@@ -4,7 +4,7 @@ class c_login extends c_controller
 {
 	public function main($params = NULL)
 	{
-		$this->core->set_view("dashboard", "main");
+		$this->core->set_view("home", "main");
 	}
 	
 	public function check($params = NULL)
@@ -22,7 +22,7 @@ class c_login extends c_controller
 		} catch (Exception $e) {
 			$this->core->fail($e->getMessage(), "login", "main");
 		}
-		$this->core->success("Loggued", "login", "main");
+		$this->core->success("Loggued", "dashboard", "main");
 	}
 
 	public function logout($params = NULL)

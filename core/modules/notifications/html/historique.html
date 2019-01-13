@@ -2,9 +2,9 @@
 	$notif = $this->self->controller->get_historique();
 ?>
 	<?php foreach ($notif as $key => $value) {
-	$seen =  ($value['seen']) ? " seen " : "" ;
 ?>
 
+		<p>
 		<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
 				<?php echo $value['username']; ?>
 		</a>

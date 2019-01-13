@@ -30,7 +30,6 @@
 	BLOCKED USERS
 
 	<?php foreach($this->data['blocked'] as $user) { ?>
-
 	<?php echo $user['username']; ?>
 			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
 	<br>

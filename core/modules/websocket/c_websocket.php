@@ -5,7 +5,7 @@ class c_module_websocket extends c_controller
 	public function	__construct()
 	{
 		//		 CHECK IF SERV IS LUNCHED
-		//		echo shell_exec('sh ./core/modules/websocket/start_server.sh');
+	//			shell_exec('sh ./core/modules/websocket/start_server.sh');
 		//		$_SESSION['USER']['websocket_token'] == eirugh;
 	}
 
@@ -18,11 +18,11 @@ class c_module_websocket extends c_controller
 		$msg = json_encode(array_merge($auth, $msg));
 		$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
-		socket_connect($socket, HOST_NAME, PORT);
-		socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
-		socket_write($socket, $msg, strlen($msg));
-		socket_shutdown($socket, 2);
-		socket_close($socket);
+		@socket_connect($socket, HOST_NAME, PORT);
+		@socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
+		@socket_write($socket, $msg, strlen($msg));
+		@socket_shutdown($socket, 2);
+		@socket_close($socket);
 	}
 	
 	public function	send_like($id)

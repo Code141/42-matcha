@@ -67,9 +67,39 @@ class	db
 			LEFT JOIN user u
 			ON l2.id_user_from = u.id
 
-			WHERE l1.id_user_from = " . $user_id . "
-			AND l2.id_user_to = " . $user_id;
+			LEFT OUTER JOIN blocked b
+			ON (b.id_user_from = :id
+			AND b.id_user_to = u.id)
+
+			WHERE (l1.id_user_from = :id
+			AND l2.id_user_to = :id)
+			AND (l1.revoked = 0
+				AND l2.revoked = 0
+			)
+			AND b.id_user_to IS NULL";
+
 		$this->stm = $this->pdo->prepare($this->sql);
+		$this->stm->bindparam("id", $user_id, PDO::PARAM_INT);
+		$this->execute();
+		$friends = $this->stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($friends);
+	}
+
+	public function is_blocked($id1, $id2)
+	{
+		$this->sql = "
+			SELECT *
+			FROM `blocked`
+			WHERE 
+				(id_user_from = :id1
+			AND id_user_to = :id2)
+			OR
+				(id_user_from = :id2
+			AND id_user_to = :id1)";
+
+		$this->stm = $this->pdo->prepare($this->sql);
+		$this->stm->bindparam("id1", $id1, PDO::PARAM_INT);
+		$this->stm->bindparam("id2", $id2, PDO::PARAM_INT);
 		$this->execute();
 		$friends = $this->stm->fetchAll(PDO::FETCH_ASSOC);
 		return ($friends);
@@ -185,10 +215,29 @@ class socket_server
 				foreach ($friends as $user)
 					$this->send($user['id'], $msg);
 		}
-//		socket_shutdown($this->current_socket);
-		socket_close($this->current_socket);
+		@socket_write($this->current_socket, 0x8, 2);
+		@socket_shutdown($this->current_socket);
+		@socket_close($this->current_socket);
 		$index = array_search($this->current_socket, $this->clientSocketArray);
 		unset($this->clientSocketArray[$index]);
+	}
+
+	public function refresh_friends($id, $user)
+	{
+			$msg['friends'] = $this->db->get_friends($id);
+			$msg_log['login'] = $user['id'];
+
+			foreach($msg['friends'] as $key => $user)
+			{
+				$msg['friends'][$key]['username'] = htmlspecialchars($user['username']);
+				if (isset($this->user[$user['id']]))
+					$msg['friends'][$key]['connected'] = true;
+				else
+					$msg['friends'][$key]['connected'] = false;
+				$this->send($user['id'], $msg_log);
+			}
+
+			$this->send($id, $msg);
 	}
 
 	public function incoming($socketData)
@@ -203,29 +252,13 @@ class socket_server
 
 		if ($message->action == "close")
 		{
-			socket_write($this->current_socket, 0x8, 2);
 			$this->disconnect();
-			/*
-			$index = array_search($this->current_socket, $this->clientSocketArray);
-			unset($this->clientSocketArray[$index]);
-			socket_shutdown($this->current_socket);
-			socket_close($this->current_socket);
-			 */
 			return ;
 		}
 		else if ($message->action == "friends")
 		{
-			$msg['friends'] = $this->db->get_friends($id);
-			$msg_log['login'] = $user['id'];
-			foreach($msg['friends'] as $key => $user)
-			{
-				if (isset($this->user[$user['id']]))
-					$msg['friends'][$key]['connected'] = true;
-				else
-					$msg['friends'][$key]['connected'] = false;
-				$this->send($user['id'], $msg_log);
-			}
-			$this->send($id, $msg);
+			$this->refresh_friends($id, $user);
+			return ;
 		}
 		else if ($message->action == "message")
 		{
@@ -233,6 +266,7 @@ class socket_server
 				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
+
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
 				// ARE THEY FRIENDS ????
@@ -241,13 +275,18 @@ class socket_server
 				$conv = $this->db->find_conv($id,  $message->to);
 				if ($conv === NULL)
 					return ;
+
 				$this->db->send($conv['id'], $id, $message->to, $message->message);
+
+				if ($this->db->is_blocked($id, $message->to))
+					return;
+
 				if (isset($this->user[$message->to]))
 				{
 					$msg['message'] = array();
-					$msg['message']['msg'] = $message->message;
+					$msg['message']['msg'] = htmlspecialchars($message->message);
 					$msg['message']['from'] = $id;
-					$msg['message']['username'] = $user['username'];
+					$msg['message']['username'] = htmlspecialchars($user['username']);
 					$this->send($message->to, $msg);
 				}
 			}
@@ -263,7 +302,9 @@ class socket_server
 				$msg['previous_message'] = array();
 				foreach ($msgs as $value){
 					$msg['previous_message']['id'] = $message->id;
+					$value['msg'] = htmlspecialchars($value['msg']);
 					$msg['previous_message']['msgs'] = $value;
+
 					$this->send($id, $msg);
 				}
 			}
@@ -276,10 +317,13 @@ class socket_server
 		if (empty($message->ssid_non_relink))
 			return;
 		$user = $this->auth($message->ssid_non_relink);
+		$id = $user['id'];
 		if (!$user)
 			return;
 		if ($message->action == "like")
 		{
+			if ($this->db->is_blocked($id, $message->to))
+				return;
 			$msg = array();
 			$msg['like'] = array();
 			$msg['like']['from'] = intval($user['id']);
@@ -287,9 +331,13 @@ class socket_server
 			$msg['like']['to'] = $message->to;
 			$msg['like']['date'] = date("G:i");
 			$this->send($message->to, $msg);
+			$this->refresh_friends($id, $user);
+
 		}
 		if ($message->action == "matche")
 		{
+			if ($this->db->is_blocked($id, $message->to))
+				return;
 			$msg = array();
 			$msg['matche'] = array();
 			$msg['matche']['from'] = intval($user['id']);
@@ -297,10 +345,13 @@ class socket_server
 			$msg['matche']['to'] = $message->to;
 			$msg['matche']['date'] = date("G:i");
 			$this->send($message->to, $msg);
+			$this->refresh_friends($id, $user);
 		}
-	
+
 		if ($message->action == "dislike")
 		{
+			if ($this->db->is_blocked($id, $message->to))
+				return;
 			$msg = array();
 			$msg['dislike'] = array();
 			$msg['dislike']['from'] = intval($user['id']);
@@ -308,10 +359,13 @@ class socket_server
 			$msg['dislike']['to'] = $message->to;
 			$msg['dislike']['date'] = date("G:i");
 			$this->send($message->to, $msg);
+			$this->refresh_friends($id, $user);
 		}
 
 		if ($message->action == "history")
 		{
+			if ($this->db->is_blocked($id, $message->to))
+				return;
 			$msg = array();
 			$msg['history'] = array();
 			$msg['history']['from'] = intval($user['id']);

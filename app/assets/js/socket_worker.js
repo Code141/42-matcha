@@ -1,5 +1,15 @@
 const connections = [];
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
 
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 self.addEventListener("connect", function (e) {
 	port = e.ports[0];
 	port.start();
@@ -11,9 +21,12 @@ self.addEventListener("connect", function (e) {
 	port.addEventListener("message", function (e) {
 		data = JSON.parse(e.data);
 		if (data.action == "message")
+		{
+data.message = escapeHtml(data.message);
 			connections.forEach(function(connection) {
 				connection.postMessage(JSON.stringify({message : data }));
 			});
+		}
 		if (typeof this.websocket === "undefined")
 			this.init();
 		this.websocket.send(e.data);
