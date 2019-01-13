@@ -110,18 +110,31 @@
 		<div id=map>
 		</div>
 		<div id="pagination">
+			<p>
+			<span id='nb_matches'>
+				Number of matching results :  
+			</span>
+				<table id='pages'>
+					<th id='previous_page' title="previous page"><a id="a_previous_page" href="<?php echo SITE_ROOT . 'matches/main/' . $this->data['current_page'];?>"><<</a></th>
+					<th id='first_page' title="first page"><a id="a_first_page" href="<?php echo SITE_ROOT . 'matches/main/1';?>">1 ...</a></th>
+					<th id='last_page' title="last page"><a id="a_last_page"></a></th>
+					<th id='next_page' title="next page"><a id="a_next_page"href="<?php echo SITE_ROOT . 'matches/main/' . $this->data['current_page'] ;?>">>></a></th>
+				</table>
+			</p>
 		</div>
 		<div class='container' id="profils">
 		</div>
 	</div>
 	<script>
-		var user_location = <?php echo $this->json['user_location'];?>;
-		var profils = <?php echo $this->json['matches'];?>;
-		var default_pic = "<?php echo IMG_PATH . 'default-user-image.png';?>";
-		var MEDIA_PATH = "<?php echo MEDIA_PATH;?>";
-		var total_matches = "<?php echo $this->json['total_matches'];?>";
+var user_location = <?php echo $this->json['user_location'];?>;
+var profils = <?php echo $this->json['matches'];?>;
+var default_pic = "<?php echo IMG_PATH . 'default-user-image.png';?>";
+var MEDIA_PATH = "<?php echo MEDIA_PATH;?>";
+var SITE_ROOT = "<?php echo SITE_ROOT;?>";
+var total_matches = "<?php echo $this->json['total_matches'];?>";
+var current_page = parseInt(<?php echo $this->json['current_page'];?>);
 	</script>
 </section>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
-	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
 <script src="<?php echo JS_PATH;?>matches.js"></script>
