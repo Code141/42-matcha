@@ -32,7 +32,7 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>message">
-				Messages <?php echo $new_mess; ?>
+				Messages <?php echo ($new_mess !=0) ? $new_mess : ""; ?>
 			</a>
 		</li>
 		<li>

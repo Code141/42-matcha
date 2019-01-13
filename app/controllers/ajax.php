@@ -60,6 +60,7 @@ class c_ajax extends c_logged_only
 	public function block($params)
 	{
 		$this->dislike($params);
+
 		$response = Array ();
 		$response['status'] = "fail";
 		if (empty($params[0]))
