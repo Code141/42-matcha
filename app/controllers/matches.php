@@ -61,29 +61,34 @@ class c_matches extends c_logged_only
 			}
 		}
 
-		$this->json['total_matches'] = json_encode($this->req
+		$nb_matches = $this->req
 			->filter_by_tags($filter_tags)
 			->execute()
-			->rowCount());
-
+			->rowCount();
+		$this->json['total_matches'] = json_encode($nb_matches);
 		$offset = 10;
-		if (!isset($_POST['page']) || empty($_POST['page']) ||
-			!is_numeric($_POST['page']) || $_POST['page'] <= 0)
-			$_POST['page'] = 1;
-		$start = $_POST['page'] - 1;	
+		if (!isset($params[0]) || empty($params[0]) ||
+			!is_numeric($params[0]) || $params[0] <= 0 || $params[0] >= (($nb_matches / 10) + 1))
+			$this->data['current_page'] = 1;
+		else
+			$this->data['current_page'] = intval($params[0]);
+			$this->json['current_page'] = json_encode($this->data['current_page']);
+		$start = ($this->data['current_page'] - 1) * 10;	
+	
 		$this->data['matches'] = $this->req
 			->limit($start, $offset)
-			->filter_by_tags($filter_tags)
 			->execute()
 			->fetchAll();
-		
 		foreach ($this->data['matches'] as &$profil)
 			$profil['age'] = date_diff(date_create($profil['birthdate']), date_create('today'))->y;
 
 		$this->json['matches'] = json_encode($this->data['matches']);
 
 		if (is_ajax_query())
+		{
 			echo $this->json['matches'];
+			echo $this->json['total_matches'];
+		}
 		else
 			$this->core->set_view("matches", "main");
 	}
