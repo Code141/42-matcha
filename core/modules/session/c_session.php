@@ -20,10 +20,12 @@ class c_module_session extends c_controller
 			throw $e;
 			return (FALSE);
 		}
+
 		$user['orientations'] = $this->self->model->get_user_orientations($user['id']);
 		$user['tags'] = $this->self->model->get_user_tags($user['id']);
 		$user['media'] = $this->self->model->get_user_media($user['id']);
 		$user['bio'] = $this->self->model->get_bio($user['id']);
+
 
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = strlen($fields['password']);
@@ -73,6 +75,12 @@ class c_module_session extends c_controller
 			return (FALSE);
 		else
 			return (TRUE);
+	}
+
+	public function	new_mess()
+	{
+		if ($this->is_loggued())
+			return ($this->self->model->nb_of_new_mess($_SESSION['user']['id']));
 	}
 
 	public function	user_loggued()

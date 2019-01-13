@@ -34,3 +34,8 @@ function	unblock(id)
 {
 	ajax_request(SITE_ROOT + 'ajax/unblock/' + id);
 }
+
+function	report(id)
+{
+	ajax_request(SITE_ROOT + 'ajax/report/' + id);
+}

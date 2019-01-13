@@ -1,0 +1,39 @@
+<section id="dashboard">
+	DASHBOARD
+
+	<section>
+		MATCHES
+
+	</section>
+
+	<section>
+		Historique
+		<br>
+		<?php
+			$this->module_loader->notifications();
+			$this->module->notifications->history();
+		?>
+
+	</section>
+
+	<section>
+		Like
+		<br>
+		<?php
+			$this->module_loader->notifications();
+			$this->module->notifications->like();
+		?>
+
+	</section>
+
+	<section>
+	BLOCKED USERS
+
+	<?php foreach($this->data['blocked'] as $user) { ?>
+
+	<?php echo $user['username']; ?>
+			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
+	<br>
+	<?php } ?>
+	</section>
+</section>

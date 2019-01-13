@@ -15,14 +15,7 @@ class m_interactions
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);
-		try
-		{
-			$stm->execute();
-		}
-		catch(PDOException $exception)
-		{
-			echo 'Erreur : ' . $exception->getMessage();
-		}
+		$stm->execute();
 		return ($stm->rowCount());
 	}
 
@@ -71,27 +64,33 @@ class m_interactions
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
-		try
-		{
-			$stm->execute();
-		}
-		catch(PDOException $exception)
-		{
-			echo 'Erreur : ' . $exception->getMessage();
-		}
+		$stm->execute();
 		return ($stm->rowCount());
 	}
 
 	public function block($id_user_from, $id_user_to)
 	{
 		$sql = "
-			INSERT INTO blocked (id_user_from, id_user_to)
-			VALUES(:id_user_from, :id_user_to)
+			SELECT id_user_from, id_user_to
+			FROM blocked
+			WHERE id_user_from = :id_user_from
+			AND id_user_to = :id_user_to
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 		$stm->execute();
+		if (!$stm->rowCount())
+		{
+			$sql = "
+				INSERT INTO blocked (id_user_from, id_user_to)
+				VALUES(:id_user_from, :id_user_to)
+				";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+			$stm->execute();
+		}
 	}
 
 	public function unblock($id_user_from, $id_user_to)
@@ -104,6 +103,31 @@ class m_interactions
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 		$stm->execute();
+	}
+
+	public function report($id_user_from, $id_user_to)
+	{
+		$sql = "
+			SELECT id_user_from, id_user_to
+			FROM reported
+			WHERE id_user_from = :id_user_from
+			AND id_user_to = :id_user_to
+			";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+		if (!$stm->rowCount())
+		{
+			$sql = "
+				INSERT INTO reported (id_user_from, id_user_to)
+				VALUES(:id_user_from, :id_user_to)
+				";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
+			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
+			$stm->execute();
+		}
 	}
 
 
@@ -127,14 +151,7 @@ class m_interactions
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
-		try
-		{
-			$toto = $stm->execute();
-		}
-		catch(PDOException $exception)
-		{
-			echo 'Erreur : ' . $exception->getMessage();
-		}
+		$toto = $stm->execute();
 		return ($stm->rowCount());
 	}
 

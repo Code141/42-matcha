@@ -1,0 +1,16 @@
+<?php
+	$notif = $this->self->controller->get_like();
+?>
+	<?php foreach ($notif as $key => $value) {
+	$seen =  ($value['seen']) ? " seen " : "" ;
+?>
+
+		<a href="<?php echo SITE_ROOT . "profil/main/" . $value['id']?>">
+				<?php echo $value['username']; ?>
+		</a>
+		<?php echo $value['notif_msg']; ?>
+		<span class="date">
+			<?php echo human_date($value['timestamp']); ?>
+		</span>
+	</p>
+	<?php } ?>

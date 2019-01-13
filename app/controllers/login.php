@@ -4,7 +4,7 @@ class c_login extends c_controller
 {
 	public function main($params = NULL)
 	{
-		$this->core->set_view("home", "main");
+		$this->core->set_view("dashboard", "main");
 	}
 	
 	public function check($params = NULL)

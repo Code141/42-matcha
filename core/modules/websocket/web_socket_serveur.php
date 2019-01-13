@@ -264,7 +264,6 @@ class socket_server
 				foreach ($msgs as $value){
 					$msg['previous_message']['id'] = $message->id;
 					$msg['previous_message']['msgs'] = $value;
-					var_dump( $value);
 					$this->send($id, $msg);
 				}
 			}

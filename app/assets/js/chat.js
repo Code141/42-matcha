@@ -406,17 +406,21 @@ function chat_list(chat_list)
 			username = message['username'];
 		}
 
-		if (!(id in this.conv))
+		if (typeof username != "undefined")
 		{
-			this.conv[id] = new conversation(id, username);
-			this.conv[id].init();
+			if (!(id in this.conv))
+			{
+				this.conv[id] = new conversation(id, username);
+				this.conv[id].init();
+			}
+			if (!this.conv[id].open)
+			{
+				this.conv[id].switch_open();
+				if (this.conv[id].minized)
+					this.conv[id].switch_mini();
+			}
 		}
-		if (!this.conv[id].open)
-		{
-			this.conv[id].switch_open();
-			if (this.conv[id].minized)
-				this.conv[id].switch_mini();
-		}
+		if (typeof this.conv[id] != "undefined")
 		this.conv[id].show_msg(mesg, from_me);
 	}
 
@@ -470,7 +474,8 @@ function chat_list(chat_list)
 	{
 		id = prev.id;
 		from_me = (prev.msgs.id_user_to == id) ? 1 : 0;
-		this.conv[id].show_msg(prev.msgs.msg, from_me);
+		if (typeof this.conv[id] != "undefined")
+			this.conv[id].show_msg(prev.msgs.msg, from_me);
 	}
 
 	this.do = function(data)

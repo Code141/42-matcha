@@ -1,13 +1,23 @@
-<h1 id="title">
+
+	<h1 id="title">
+<?php
+$this->core->module_loader->session();
+
+if ($this->module_loader->session()->controller->is_loggued()) {
+	$new_mess = $this->module_loader->session()->controller->new_mess();
+?>
+	<a href="<?php echo SITE_ROOT . "dashboard"; ?>"><?php echo ucfirst(APP_NAME); ?></a>
+<?php } else { ?>
 	<a href="<?php echo SITE_ROOT; ?>"><?php echo ucfirst(APP_NAME); ?></a>
+<?php } ?>
+
 </h1>
 
-<?php
 
-$this->core->module_loader->session();
-if ($this->module_loader->session()->controller->is_loggued()) 
-{
-?>
+
+
+
+<?php if ($this->module_loader->session()->controller->is_loggued()) { ?>
 <nav>
 	<ul>
 		<li>
@@ -22,7 +32,7 @@ if ($this->module_loader->session()->controller->is_loggued())
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>message">
-				Messages 
+				Messages <?php echo $new_mess; ?>
 			</a>
 		</li>
 		<li>

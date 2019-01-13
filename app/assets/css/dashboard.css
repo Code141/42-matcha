@@ -1,0 +1,10 @@
+section#dashboard
+{
+	display:flex;
+}
+
+section#dashboard section
+{
+	border: 1px solid black;
+	width : 33%;
+}

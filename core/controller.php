@@ -57,6 +57,6 @@ class c_public_only extends c_controller
 		parent::__construct();
 
 		if (isset($_SESSION['user']))
-			$core->fail("You are already loggued", "account", "main");
+			$core->fail("You are already loggued", "dashboard", "main");
 	}
 }
