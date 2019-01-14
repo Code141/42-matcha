@@ -85,6 +85,7 @@ create table `user` (
   `id_gender_identity` int(11) default null,
   `latitude` float default null,
   `longitude` float default null,
+  `score` int(11) default 0,
   `new_email` varchar(64) default null,
   `token_email` varchar(256) default null,
   `token_password` varchar(256) default null,

@@ -51,6 +51,14 @@ class m_interactions
 			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 			$stm->execute();
 		}
+		$sql = "
+			UPDATE user 
+			SET score = score + 1
+			WHERE id = :id_user
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
 	}
 
 	public function dislike($id_user_from, $id_user_to)
@@ -60,11 +68,24 @@ class m_interactions
 			SET `revoked` = 1, timestamp = now()
 			WHERE id_user_from = :id_user_from
 			AND id_user_to = :id_user_to
+			AND revoked = 0
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 		$stm->execute();
+
+		if ($stm->rowCount())
+		{
+			$sql = "
+				UPDATE user 
+				SET score = score - 1
+				WHERE id = :id_user
+			";
+			$stm = $this->db->pdo->prepare($sql);
+			$stm->bindparam("id_user", $id_user_to, PDO::PARAM_INT);
+			$stm->execute();
+		}
 		return ($stm->rowCount());
 	}
 
@@ -90,6 +111,15 @@ class m_interactions
 			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 			$stm->execute();
+		$sql = "
+			UPDATE user 
+			SET score = score - 5
+			WHERE id = :id_user
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+	
 			return (1);
 		}
 		return (0);
@@ -105,6 +135,18 @@ class m_interactions
 		$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 		$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 		$stm->execute();
+		if ($stm->rowCount())
+		{
+		$sql = "
+			UPDATE user 
+			SET score = score + 5
+			WHERE id = :id_user
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+		}
+	
 	}
 
 	public function report($id_user_from, $id_user_to)
@@ -129,6 +171,16 @@ class m_interactions
 			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 			$stm->execute();
+
+		$sql = "
+			UPDATE user 
+			SET score = score - 10
+			WHERE id = :id_user
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user_to, PDO::PARAM_INT);
+		$stm->execute();
+	
 		}
 	}
 
