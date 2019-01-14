@@ -93,19 +93,20 @@ class c_matches extends c_logged_only
 			$this->json['current_page'] = json_encode($this->data['current_page']);
 		$start = ($this->data['current_page'] - 1) * 10;
 
+		$this->data['matches'] = $this->req
+			->limit($start, $offset)
+			->execute()
+			->fetchAll();
+
 		$sql = " SELECT MIN(score) as min, MAX(score) as max FROM user "; 
 		$stm = $this->req->db->pdo->prepare($sql);
 		$scores = $stm->execute();
 		$scores = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 		$smin = $scores['min'];
 		$smax = $scores['max'];
-
 		$sdelta = ($smax - $smin);
-		$this->data['matches'] = $this->req
-			->limit($start, $offset)
-			->execute()
-			->fetchAll();
-
+		if ($sdelta == 0)
+			$sdelta = 1;
 		foreach($this->data['matches'] as $key => &$profile)
 			$profile['score'] = floor((($profile['score'] - $smin) / $sdelta) * 100) / 10;
 

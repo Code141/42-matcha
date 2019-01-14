@@ -11,6 +11,19 @@ class m_profil
 		$profil['orientations'] = $this->fetch_orientations($id_profil);
 		$profil['like'] = $this->like($id_profil, $id_user_logged);
 		$profil['last_connexion'] = $this->last_connexion($id_profil)['timestamp'];
+
+		$sql = " SELECT MIN(score) as min, MAX(score) as max FROM user "; 
+		$stm = $this->db->pdo->prepare($sql);
+		$scores = $stm->execute();
+		$scores = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
+		$smin = $scores['min'];
+		$smax = $scores['max'];
+		$sdelta = ($smax - $smin);
+		if ($sdelta == 0 )
+			$sdelta = 1;
+		$profil['score'] = floor((($profil['score'] - $smin) / $sdelta) * 100) / 10;
+
+
 		return ($profil);
 	}
 

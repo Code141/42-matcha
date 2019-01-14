@@ -19,9 +19,9 @@ window.onload = function ()
 
 window.onbeforeunload = function (e) 
 {
-/*	if (typeof client != "undefined" && typeof client.worker != "undefined")
-		client.worker.port.postMessage(JSON.stringify({ action: "close" }));
-		*/
+	if (typeof client != "undefined" && typeof client.worker != "undefined")
+		client.worker.port.postMessage(JSON.stringify({ action: "finish" }));
+
 }.bind(this);
 
 function websock()
