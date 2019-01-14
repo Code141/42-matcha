@@ -59,8 +59,6 @@ class c_ajax extends c_logged_only
 
 	public function block($params)
 	{
-		$this->dislike($params);
-
 		$response = Array ();
 		$response['status'] = "fail";
 		if (empty($params[0]))
@@ -71,9 +69,13 @@ class c_ajax extends c_logged_only
 		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
 
+		$this->load->model("interactions")->dislike($user["id"], $id_user_to);
 
 		$response['row'] = $this->load->model("interactions")->block($user["id"], $id_user_to);
+		if ($response['row'])
+			$this->module_loader->websocket()->controller->send_block($id_user_to);
 		$response['status'] = "success";
+
 		if (!is_ajax_query())
 			$this->core->success("You bloked this user !", "matches", "main");
 		else

@@ -119,11 +119,11 @@ class m_message
 	public function get_all_conv($id_user)
 	{
 		$sql = "
-	SELECT conv.id,
+			SELECT conv.id,
 				msg.datetime,
 				msg.id_user_from,
 				SUBSTRING(msg.msg, 1, 40) as last_msg,
-				msg.seen,
+				(CASE WHEN msg.seen IS NULL THEN 1 ELSE msg.seen END) AS seen,
 				(CASE WHEN u1.id = :id_user THEN u2.username ELSE u1.username END) AS username,
 				(CASE WHEN u1.id = :id_user THEN u2.id ELSE u1.id END) AS id_user,
 				(CASE WHEN u1.id = :id_user THEN u2.id_media ELSE u1.id_media END) AS id_media

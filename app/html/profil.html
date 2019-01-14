@@ -17,9 +17,11 @@
 	<div id="last_connection">
 		LAST CONNECTION : <?php echo last_connection($user['last_connexion']); ?>
 	</div>
-	<button id="" onclick="block(<?php echo $user['id']?>)">
+
+
+	<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
 		BLOCK
-	</button>
+	</a>
 
 	<button id="" onclick="report(<?php echo $user['id']?>)">
 		REPORT

@@ -222,10 +222,10 @@ class socket_server
 		unset($this->clientSocketArray[$index]);
 	}
 
-	public function refresh_friends($id, $user)
+	public function refresh_friends($id)
 	{
 			$msg['friends'] = $this->db->get_friends($id);
-			$msg_log['login'] = $user['id'];
+			$msg_log['login'] = $id;
 
 			foreach($msg['friends'] as $key => $user)
 			{
@@ -235,9 +235,12 @@ class socket_server
 				else
 					$msg['friends'][$key]['connected'] = false;
 				$this->send($user['id'], $msg_log);
+				echo $msg['friends'][$key]['username'] . "\n";
 			}
 
 			$this->send($id, $msg);
+				echo "\n";
+				echo "\n";
 	}
 
 	public function incoming($socketData)
@@ -257,7 +260,7 @@ class socket_server
 		}
 		else if ($message->action == "friends")
 		{
-			$this->refresh_friends($id, $user);
+			$this->refresh_friends($id);
 			return ;
 		}
 		else if ($message->action == "message")
@@ -330,9 +333,8 @@ class socket_server
 			$msg['like']['username'] = $user['username'];
 			$msg['like']['to'] = $message->to;
 			$msg['like']['date'] = date("G:i");
+			$this->refresh_friends($id);
 			$this->send($message->to, $msg);
-			$this->refresh_friends($id, $user);
-
 		}
 		if ($message->action == "matche")
 		{
@@ -344,8 +346,8 @@ class socket_server
 			$msg['matche']['username'] = $user['username'];
 			$msg['matche']['to'] = $message->to;
 			$msg['matche']['date'] = date("G:i");
+			$this->refresh_friends($id);
 			$this->send($message->to, $msg);
-			$this->refresh_friends($id, $user);
 		}
 
 		if ($message->action == "dislike")
@@ -358,8 +360,14 @@ class socket_server
 			$msg['dislike']['username'] = $user['username'];
 			$msg['dislike']['to'] = $message->to;
 			$msg['dislike']['date'] = date("G:i");
+			$this->refresh_friends($id);
 			$this->send($message->to, $msg);
-			$this->refresh_friends($id, $user);
+		}
+
+		if ($message->action == "block")
+		{
+			$this->refresh_friends($id);
+			$this->refresh_friends($message->to);
 		}
 
 		if ($message->action == "history")

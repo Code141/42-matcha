@@ -31,7 +31,6 @@ function websock()
 		this.worker = new SharedWorker("/matcha/app/assets/js/socket_worker.js");
 		this.worker.port.start();
 
-		this.worker.port.postMessage(JSON.stringify({ action: "friends" }));
 		this.worker.port.addEventListener("message", function(event)
 		{
 			var data = JSON.parse(event.data);

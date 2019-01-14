@@ -22,7 +22,7 @@ self.addEventListener("connect", function (e) {
 		data = JSON.parse(e.data);
 		if (data.action == "message")
 		{
-data.message = escapeHtml(data.message);
+			data.message = escapeHtml(data.message);
 			connections.forEach(function(connection) {
 				connection.postMessage(JSON.stringify({message : data }));
 			});

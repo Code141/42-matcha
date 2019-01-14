@@ -90,7 +90,9 @@ class m_interactions
 			$stm->bindparam("id_user_from", $id_user_from, PDO::PARAM_INT);
 			$stm->bindparam("id_user_to", $id_user_to, PDO::PARAM_INT);
 			$stm->execute();
+			return (1);
 		}
+		return (0);
 	}
 
 	public function unblock($id_user_from, $id_user_to)
