@@ -1,0 +1,49 @@
+<div class='section'>
+	<p>Reported users</p>
+	<fieldset>
+		<table>
+			<tr>
+				<th>User</th>
+				<th>Times reported</th>
+				<th></th>
+			</tr>
+			<?php foreach($this->data['reported_users'] as $user) { ?>
+			<tr>
+				<td><?php echo $user['username'];?></td>
+				<td><?php echo $user['times_reported'];?></td>
+				<td>
+					<form  method="post" action="<?php echo SITE_ROOT . 'admin/delete_user'?>">
+						<input type="hidden" name='to_delete' value="<?php echo $user['id'];?>"></input>
+						<button class='delete_user_button' type="submit" title="delete this user">x</button>
+					</form>
+				</td>
+			</tr>
+			<?php } ?>
+		</table>
+	</fieldset>
+</div>
+<div class='section'>
+	<p>Blocked users</p>
+	<fieldset>
+		<table>
+			<tr>
+				<th>User</th>
+				<th>Times blocked</th>
+				<th></th>
+			</tr>
+			<?php foreach($this->data['blocked_users'] as $user) { ?>
+			<tr>
+				<td><?php echo $user['username'];?></td>
+				<td><?php echo $user['times_blocked'];?></td>
+				<td>
+					<form  method="post" action="<?php echo SITE_ROOT . 'admin/delete_user'?>" title="delete this user">
+						<input type="hidden" name='to_delete' value="<?php echo $user['id'];?>"></input>
+						<button class='delete_user_button' type="submit">x</button>
+					</form>
+				</td>
+			</tr>
+			<?php } ?>
+		</table>
+	</fieldset>
+</div>
+<script src="<?php echo JS_PATH;?>admin.js"></script>
