@@ -2,11 +2,14 @@
 
 class m_matches extends m_wrapper
 {
+
 	public function all_users($user)
 	{
 		$i = count($this->bind_param);
 		$this->select[] = "DISTINCT u2.id";
 		$this->select[] = "u2.username";
+		$this->select[] = "u2.score";
+
 		$this->select[] = "u2.id_gender";
 		$this->select[] = "gn.gender_name";
 		$this->select[] = "u2.id_gender_identity";
@@ -20,17 +23,19 @@ class m_matches extends m_wrapper
 		$this->select[] = "u2.id_media";
 		$this->from[] = "user u2";
 		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user_to` = u2.id";
+
+
 		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
 		$this->join[] = "LEFT OUTER JOIN gender_identity gin ON gin.id = u2.id_gender_identity";
-		$this->condition[] ="NOT u2.id = :" . $i . 
-			" AND (`b`.`id_user_from` IS NULL 
+		$this->condition[] ="NOT u2.id = :" . $i .
+			" AND (`b`.`id_user_from` IS NULL
 			OR NOT `b`.`id_user_from` = :". ($i) ." )";
 		$this->bind_param[] = $user['id'];
 		$this->bind_param[] = $user['longitude'];
 		$this->bind_param[] = $user['latitude'];
 		return ($this);
 	}
-	
+
 	public function match($user)
 	{
 		$i = count($this->bind_param);
@@ -118,7 +123,7 @@ class m_matches extends m_wrapper
 		$this->order[] = "u2.birthdate " . $direction;
 		return ($this);
 	}
-	
+
 	public function filter_by_birthdate($from, $to)
 	{
 		$i = count($this->bind_param);
@@ -145,4 +150,33 @@ class m_matches extends m_wrapper
 		$this->bind_param[] = $dist_m;
 		return ($this);
 	}
+
+	public function order_by_score($direction)
+	{
+		$this->select[] = "u2.score";
+		$this->order[] = "u2.score " . $direction;
+		return ($this);
+	}
+
+	public function filter_by_score($from, $to)
+	{
+		$sql = " SELECT MIN(score) as min, MAX(score) as max FROM user "; 
+		$stm = $this->db->pdo->prepare($sql);
+		$scores = $stm->execute();
+		$scores = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
+		$smin = $scores['min'];
+		$smax = $scores['max'];
+
+		$from = (($from / 10) * ($smax - $smin)) + $smin;
+		$to = (($to / 10) * ($smax - $smin)) + $smin;
+
+		$i = count($this->bind_param);
+		$this->condition[] = "u2.score BETWEEN :" . $i .
+			" AND :" . ($i+1);
+		$this->bind_param[] = $from;
+		$this->bind_param[] = $to;
+		return ($this);
+	}
+
+
 }

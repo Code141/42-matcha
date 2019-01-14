@@ -18,6 +18,11 @@
 		LAST CONNECTION : <?php echo last_connection($user['last_connexion']); ?>
 	</div>
 
+	<div id="score">
+		SCORE: <?php echo $user['score']; ?>
+	</div>
+
+
 
 	<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
 		BLOCK

@@ -43,6 +43,7 @@ function	search_matches(url)
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
+			console.log(xhr.responseText.match(/.+[^\d+$]/));
 			profils = JSON.parse(xhr.responseText.match(/.+[^\d+$]/));
 			total_matches = JSON.parse(xhr.responseText.match(/\d+$/));
 			fill_profil_container(profils);
@@ -188,6 +189,7 @@ function	fill_profil_container(profils)
 			var age = document.createElement('p');
 
 			var matching_tags = document.createElement('p');
+			var score = document.createElement('p');
 			article.appendChild(a);
 
 			a.href = 'http://localhost:8080/matcha/profil/main/' + profils[i].id;
@@ -205,12 +207,14 @@ function	fill_profil_container(profils)
 			if (!profils[i].nb_matching_tags)
 				profils[i].nb_matching_tags = 0;
 			matching_tags.innerHTML = 'Nb of matching tags : ' + profils[i].nb_matching_tags;
+			score.innerHTML = 'score : ' + profils[i].score;
 			container.appendChild(article);
 			a.appendChild(img);
 			a.appendChild(username);
 			a.appendChild(dist);
 			a.appendChild(age);
 			a.appendChild(matching_tags);
+			a.appendChild(score);
 		}
 	}
 	else

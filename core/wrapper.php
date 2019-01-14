@@ -45,7 +45,6 @@ class m_wrapper
 		$this->make_query();
 		$this->prepare();
 		$this->bind_params();
-
 		try
 		{
 			$this->stm->execute();
