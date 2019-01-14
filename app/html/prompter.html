@@ -1,15 +1,19 @@
 <section id='prompter'>	
 
 <?php if (!empty($this->data['prompter']['fail'])) { ?>
-<p style='background-color:red;'>
+<div class="prompter_fail">
+<p>
 	<?php	echo $this->data['prompter']['fail'];?>
 </p>
+</div>
 <?php } ?>
 	
 <?php if (!empty($this->data['prompter']['success'])) { ?>
-<p style='background-color:green;'>
+<div class="prompter_success">
+<p>
 	<?php	echo $this->data['prompter']['success'];?>
 </p>
+</div>
 <?php } ?>
 
 </section>	

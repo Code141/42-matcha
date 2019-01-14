@@ -28,6 +28,23 @@ h1, h2, h3, h4, h5, h6
 	font-size: 30px;
 }
 
+section#prompter div{
+	margin:5px auto 5px auto;
+	width:60%;
+	padding:5px;
+	border-radius:3px;
+	border:1px solid;
+}
+section#prompter div.prompter_fail{
+	background-color:rgba(249, 64, 95,0.3);
+	border-color:rgba(249, 64, 95,0.7);
+}
+
+section#prompter div.prompter_success{
+	background-color:rgba(93, 244, 63,0.3);
+	border-color:rgba(93, 244, 63,0.7);
+}
+
 p,label, input, select{
 	color:rgba(0,0,0,0.6);
 }
@@ -66,6 +83,21 @@ input
 	border-radius: 3px;
 	padding: 5px;
 	border: none;
+}
+
+button{
+	border-radius: 3px;
+	border: none;
+	padding: 5px 5px 5px 5px;
+	color:rgba(255, 100, 100, 1);
+}
+::-webkit-scrollbar {
+	  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background:rgba(0,0,0,0.1);
+	border-radius: 10px;
 }
 /*- HEADER ---------------------------------------------------------*/
 

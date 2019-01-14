@@ -10,7 +10,7 @@
 		<legend></legend>
 		<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
 			<p>
-			<input name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
+			<input id="username" name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
 			</p>
 			<div id="div_profil_pic">
 				<?php if(!$user['id_media']){ ?>

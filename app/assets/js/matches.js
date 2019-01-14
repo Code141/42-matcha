@@ -198,19 +198,20 @@ function	fill_profil_container(profils)
 				img.src = MEDIA_PATH + profils[i].id_media + '.png';
 			else
 				img.src = default_pic;
+			username.className = 'username';
 			username.innerHTML = profils[i].username;
 			if (profils[i].distance)
-				dist.innerHTML = 'dist : ' + (Number(profils[i].distance)/1000).toFixed(2) + ' km away';
+				dist.innerHTML = 'Distance : ' + (Number(profils[i].distance)/1000).toFixed(2) + ' km away';
 			else
 				dist.innerHTML = 'No location';
-			age.innerHTML = profils[i].age + ' years old';
+			age.innerHTML = 'Age : ' + profils[i].age + ' years old';
 			if (!profils[i].nb_matching_tags)
 				profils[i].nb_matching_tags = 0;
-			matching_tags.innerHTML = 'Nb of matching tags : ' + profils[i].nb_matching_tags;
-			score.innerHTML = 'score : ' + profils[i].score;
+			matching_tags.innerHTML = 'Matching tags : ' + profils[i].nb_matching_tags;
+			score.innerHTML = 'Popularity : ' + profils[i].score;
 			container.appendChild(article);
-			a.appendChild(img);
 			a.appendChild(username);
+			a.appendChild(img);
 			a.appendChild(dist);
 			a.appendChild(age);
 			a.appendChild(matching_tags);
