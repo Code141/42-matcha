@@ -5,8 +5,9 @@ main
 div.right
 {
 	float:right;
-	/*display:flex;
-	flex-direction:column;*/
+	border-style: solid;
+	border-width: 0 0 0 1px;
+	border-color: rgba(0,0,0,0.2);
 }
 
 section#matches aside
