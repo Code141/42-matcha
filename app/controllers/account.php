@@ -70,7 +70,7 @@ class c_account extends c_logged_only
 			{
 				$module->check_password($_POST['password'], $_POST['password2']);
 				$fields['password'] = $module->hash_password($_POST['password']);
-				$successmsg .= "Password has successfully been updated<br>";
+				$successmsg .= "Password has successfully been updated";
 			}
 			if ($user['username'] !== $_POST['username'])
 				$module->check_username($_POST['username']);
@@ -84,7 +84,7 @@ class c_account extends c_logged_only
 				$fields['token_email'] = $module->unique_id();	
 				$mail = $this->module_loader->email();
 				$mail->controller->to($fields['new_email'])->change_email($fields['token_email']);
-				$successmsg .= "An email has been sent to " . $_POST['new_email'] . " to validate your new email<br>";
+				$successmsg .= "An email has been sent to " . $_POST['new_email'] . " to validate your new email";
 			}
 		}
 		catch (Exception $e)
@@ -99,7 +99,7 @@ class c_account extends c_logged_only
 		$pw_len = isset($fields['password']) ? strlen($_POST['password']) : $user['password_length'];
 		$module->update_session();
 		$_SESSION['user']['password_length'] = $pw_len;
-		$this->core->success("Your profil has successfully been updated<br>" . $successmsg, 'account', 'main');
+		$this->core->success("Your profil has successfully been updated " . $successmsg, 'account', 'main');
 	}	
 
 	public function edit_bio()

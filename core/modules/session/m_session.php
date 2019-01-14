@@ -221,12 +221,17 @@ class m_module_session
 	public function nb_of_new_mess($id_user)
 	{
 		$sql = "
-			SELECT *
-			FROM msg
+			SELECT m.*
+			FROM msg m
+
+			LEFT OUTER JOIN blocked b
+			ON b.id_user_from = :id_user AND b.id_user_to = m.id_user_from
+
 			WHERE
-				id_user_to = :id_user
-				AND seen = 0
-				GROUP BY id_user_from
+				m.id_user_to = :id_user
+				AND m.seen = 0
+				AND b.id_user_to IS NULL
+				GROUP BY m.id_user_from
 			";
 		$stm = $this->db->pdo->prepare($sql);
 		$stm->bindparam("id_user", $id_user, PDO::PARAM_INT);

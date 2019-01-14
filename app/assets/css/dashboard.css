@@ -3,6 +3,13 @@ section#dashboard
 	display:flex;
 }
 
+section#dashboard img.profil_pic
+{
+	width:40px;
+	height:40px;
+	border-radius:100%;
+}
+
 section#dashboard section
 {
 	border: 1px solid black;

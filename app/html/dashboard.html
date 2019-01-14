@@ -3,12 +3,44 @@
 
 	<section>
 		MATCHES
-
+		<hr>
+	<?php foreach($this->data['matches'] as $user) { ?>
+	<?php if (!$user['id_media']){ ?>
+		<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<?php } else { ?>
+		<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<?php } ?>
+	
+		<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+			<?php echo $user['username']; ?>
+		</a>
+	<br>
+	<?php } ?>
+	
 	</section>
 
 	<section>
+		Users likes you
+		<hr>
+	<?php foreach($this->data['likes'] as $user) { ?>
+	<?php if (!$user['id_media']){ ?>
+		<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<?php } else { ?>
+		<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<?php } ?>
+	
+		<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+			<?php echo $user['username']; ?>
+		</a>
+	<br>
+	<?php } ?>
+	
+	</section>
+
+
+	<section>
 		Historique
-		<br>
+		<hr>
 		<?php
 			$this->module_loader->notifications();
 			$this->module->notifications->history();
@@ -18,7 +50,7 @@
 
 	<section>
 		Like
-		<br>
+		<hr>
 		<?php
 			$this->module_loader->notifications();
 			$this->module->notifications->like();
@@ -27,8 +59,8 @@
 	</section>
 
 	<section>
-	BLOCKED USERS
-
+		BLOCKED USERS
+		<hr>
 	<?php foreach($this->data['blocked'] as $user) { ?>
 	<?php echo $user['username']; ?>
 			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
