@@ -11,7 +11,8 @@ fieldset{
 	border-width:2px;
 	border-style:solid;
 	border-color: rgba(0,0,0,0.2);
-    margin: 10px 5px 10px 5px;
+	border-radius:3px;
+	margin: 10px 5px 10px 5px;
 	overflow-y: auto;
 }
 
