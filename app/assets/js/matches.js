@@ -208,7 +208,7 @@ function	fill_profil_container(profils)
 			if (!profils[i].nb_matching_tags)
 				profils[i].nb_matching_tags = 0;
 			matching_tags.innerHTML = 'Matching tags : ' + profils[i].nb_matching_tags;
-			score.innerHTML = 'Popularity : ' + profils[i].score;
+			score.innerHTML = 'Popularity : ' + profils[i].score + ' / 10';
 			container.appendChild(article);
 			a.appendChild(username);
 			a.appendChild(img);

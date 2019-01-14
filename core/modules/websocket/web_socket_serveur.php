@@ -235,12 +235,9 @@ class socket_server
 				else
 					$msg['friends'][$key]['connected'] = false;
 				$this->send($user['id'], $msg_log);
-				echo $msg['friends'][$key]['username'] . "\n";
 			}
 
 			$this->send($id, $msg);
-				echo "\n";
-				echo "\n";
 	}
 
 	public function incoming($socketData)
@@ -334,6 +331,7 @@ class socket_server
 			$msg['like']['to'] = $message->to;
 			$msg['like']['date'] = date("G:i");
 			$this->refresh_friends($id);
+			$this->refresh_friends($message->to);
 			$this->send($message->to, $msg);
 		}
 		if ($message->action == "matche")
@@ -347,6 +345,7 @@ class socket_server
 			$msg['matche']['to'] = $message->to;
 			$msg['matche']['date'] = date("G:i");
 			$this->refresh_friends($id);
+			$this->refresh_friends($message->to);
 			$this->send($message->to, $msg);
 		}
 
