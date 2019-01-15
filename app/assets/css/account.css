@@ -48,6 +48,7 @@ div#more_info{
 }
 div#more_info span{
 	display:inline-block;
+	font-weight: bold;
 	width:110px;
 }
 hr{
@@ -248,7 +249,9 @@ input.edit:invalid
 }
 
 input.edit:hover, textarea.edit:hover, select.edit:hover, select.input:hover, input.input:hover{
-	color: blue;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	background: white;
+	color: #555;;
 }
 
 input.edit:focus, select.edit:focus, textarea.edit:focus, select.input:focus, input.input:focus

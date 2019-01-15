@@ -22,19 +22,23 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 	<ul>
 		<li>
 		<a href="<?php echo SITE_ROOT; ?>account">
-<div class="glyph_ban">
-</div>
+			<div class="glyphicons glyph_book">
+			</div>
 				Account
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>matches">
+				<div class="glyphicons glyph_group">
+				</div>
 				Matches 
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>message">
-				Messages <?php echo ($new_mess !=0) ? $new_mess : ""; ?>
+				<div class="glyphicons glyph_envelope">
+				</div>
+				Messages <?php echo ($new_mess != 0) ? $new_mess : ""; ?>
 			</a>
 		</li>
 		<li>
@@ -52,11 +56,15 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 	<ul id>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>setup">
+<div class="glyphicons glyph_cogwhell">
+</div>
 				Setup
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>admin">
+<div class="glyphicons glyph_globe">
+</div>
 			Admin
 			</a>
 		</li>

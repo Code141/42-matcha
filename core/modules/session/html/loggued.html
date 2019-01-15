@@ -1,10 +1,12 @@
 <section id="login">
-	<h1>
-		Hello <?php echo $this->self->controller->user_loggued()['username']; ?>
-	</h1>
+		<?php
+			$user = $this->self->controller->user_loggued();
+			echo '<img id="loggued_pic" src="' . MEDIA_PATH . $user['id_media'] . '.png">';
+			echo $user['username'];
+		?>
 	<a href="<?php echo SITE_ROOT; ?>login/logout">
-	<p>
+		<div class="glyphicons glyph_logout">
+		</div>
 		logout
-	</p>
 	</a>
 </section>

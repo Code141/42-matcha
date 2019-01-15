@@ -25,24 +25,30 @@ h1, h2, h3, h4, h5, h6
 {
 	margin:5px;
 	font-family: arial;
-	font-size: 30px;
+	font-size: 20px;
+}
+
+section#prompter {
+	position:absolute;
+	width:100%;
 }
 
 section#prompter div{
 	margin:5px auto 5px auto;
 	width:60%;
-	padding:5px;
+	padding:7px;
 	border-radius:3px;
 	border:1px solid;
 }
+
 section#prompter div.prompter_fail{
-	background-color:rgba(249, 64, 95,0.3);
-	border-color:rgba(249, 64, 95,0.7);
+	background-color:rgba(253, 197, 206, 1);
+	border-color:rgba(250, 103, 127, 1);
 }
 
 section#prompter div.prompter_success{
-	background-color:rgba(93, 244, 63,0.3);
-	border-color:rgba(93, 244, 63,0.7);
+	background-color:rgba(206, 252, 197, 1);
+	border-color:rgba(126, 246, 102, 1);
 }
 
 p,label, input, select{
@@ -81,7 +87,8 @@ a:hover
 input
 {
 	border-radius: 3px;
-	padding: 5px;
+	padding: 2px;
+	padding-left: 8px;
 	border: none;
 }
 
@@ -134,6 +141,17 @@ header nav ul
 	align-self: center;
 }
 
+img#loggued_pic
+{
+	width::42px;
+	height:42px;
+	border-radius: 100%;
+	border: 1px solid grey;
+}
+
+section#login
+{
+}
 /*- WRAP -----------------------------------------------------------*/
 
 section#wrap
