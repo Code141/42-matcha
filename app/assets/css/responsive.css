@@ -1,0 +1,33 @@
+@media (max-width: 1024px) {
+	body {
+		color: blue;
+		background-image:none;
+		background-color: #ff0000;
+	}
+
+	span.header_menutxt {
+		display:none;
+	}
+
+	span.header_menutxt:hover
+	{
+		display:block;
+	}
+	section#message aside#recap_user,
+	section#message aside#conv_list span.date,
+	section#message aside#conv_list p.last_message
+	{
+		display:none;
+	}
+	
+	section#message aside#conv_list
+	{
+		min-width: 200px;
+	}
+
+	section#message aside#conv_list p.username
+	{
+		margin-top: 16px;
+		font-size: 17px;
+	}
+}

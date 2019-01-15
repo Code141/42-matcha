@@ -70,10 +70,27 @@
 	background-image: url("../img/glyphicons/glyphicons_203_lock.png ");
 }
 
-.glyph_
+
+
+.glyph_checkbox
 {
-	background-image: url("../img/glyphicons/");
+	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
 }
+
+input + label
+{
+	padding-left:25px;
+	height:25px;
+	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
+	background-repeat: no-repeat;
+}
+
+input:checked + label
+{
+	background-image: url("../img/glyphicons/glyphicons_152_check.png");
+}
+
+
 
 .glyph_
 {

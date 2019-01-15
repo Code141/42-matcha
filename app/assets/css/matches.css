@@ -2,6 +2,39 @@ main
 {
 }
 
+form#matches_form
+{
+	text-align:left;
+}
+div.search_section
+{
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+	text-align:center;
+	padding : 6px;
+	background-color: rgba(0, 0, 0, 0.04);
+}
+
+form#matches_form button#reset_button
+{
+
+	border: 1px solid rgba(250, 103, 127, 1);
+	background-color:rgba(253, 197, 206, 1);
+	color: #555;
+}
+
+form#matches_form button#search_button
+{
+	background-color: rgba(206, 252, 197, 1);
+	border: 1px solid rgba(126, 246, 102, 1);
+	color: #666;
+}
+form#matches_form button#search_button:hover,
+form#matches_form button#reset_button:hover
+{
+	color: #333;
+}
+
 div.right
 {
 	float:right;
@@ -23,7 +56,7 @@ section#matches aside
 div.f_container
 {
 	width:100%;
-	padding:15px 0 15px 0;
+	padding:15px 0 0 0;
 }
 
 input[type="checkbox"]
@@ -38,14 +71,13 @@ input + label
 
 label:hover
 {
-	font-weight: bolder;
 	color:rgba(0, 0, 127, 0.8);
 }
 
 input:checked + label
 {
 	font-weight: bolder;
-	color: blue;
+	color: #333;
 }
 
 .f_container #tag_container
@@ -67,6 +99,7 @@ input:checked + label
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	height:25px;
 }
 
 button
@@ -82,8 +115,6 @@ button
 
 .f_title
 {
-	text-transform:uppercase;
-	font-weight:bold;
 	font-size:13pt;
 	margin:10px auto 10px auto;
 }
@@ -125,7 +156,6 @@ table#pages th a{
 div#profils
 {
 	width:780px;
-	max-height:500px;
 	overflow-y:auto;
 	overflow-x:hidden;
 	display:flex;
@@ -156,7 +186,7 @@ article
 
 article:hover
 {
-	box-shadow:0px 0px 10px rgba(255, 190, 190, 1) ;
+	background-color: rgba(0, 0, 0, 0.03);
 }
 
 

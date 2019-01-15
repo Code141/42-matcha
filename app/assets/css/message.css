@@ -87,6 +87,8 @@ p.username span.date
 p.last_message
 {
 	color: grey;
+	max-height: 15px;
+	overflow: hidden;
 }
 
 section#conv_content img

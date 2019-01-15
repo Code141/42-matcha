@@ -1,20 +1,27 @@
 <section id="matches">
 	<aside>
 		<form action="<?php echo SITE_ROOT;?>matches/main" method="post" id="matches_form">
-			<button id="search_button" type="submit">
-				SEARCH FOR THE PERFECT MATCH
+			<button type="reset" id="reset_button">
+				Reset all
 			</button>
-<hr>
+			<button id="search_button" type="submit">
+				Find love !
+			</button>
+<div class="search_section">
 ORDER BY
-<hr>
+</div>
 			<div class="f_container">
 				<input type="checkbox" name="match" id="match" value="1">
-				<label class="f_title" for="match">matches</label> 
+				<label class="f_title" for="match">
+					Matches
+				</label> 
 			</div>
 
 			<div class="f_container">
 				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1">
-				<label class="f_title" for="order by matching tags">order by matching tags</label> 
+				<label class="f_title" for="order by matching tags">
+					Order by tags
+				</label> 
 			</div>
 
 			<div class="f_container">
@@ -47,9 +54,10 @@ ORDER BY
 					</option>
 				</select>
 			</div>
-<hr>
+<div class="search_section">
 FILTER BY
-<hr>
+</div>
+
 			<div class="f_container">
 				Between
 <p>
@@ -102,6 +110,12 @@ FILTER BY
 				<p class="f_title">
 				Filter by tags
 				</p>
+				<div>
+					<button id="uncheck_tags">
+						Clear tag filters
+					</button>
+				</div>
+
 				<input type="text" id="search_tags" placeholder="Search for tags..">
 				<div id="tag_list">
 					<ul id="myUL">
@@ -113,13 +127,7 @@ FILTER BY
 						<?php  }?>
 					</ul>
 				</div>
-				<div>
-					<button id="uncheck_tags">
-						Clear tag filters
-					</button>
-				</div>
-			</div>
-			<button type="reset" id="reset_button">Reset all search options</button>
+						</div>
 		</form>
 	</aside>
 
