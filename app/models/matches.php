@@ -2,7 +2,7 @@
 
 class m_matches extends m_wrapper
 {
-
+/*
 	public function all_users($user)
 	{
 		$i = count($this->bind_param);
@@ -34,8 +34,12 @@ class m_matches extends m_wrapper
 		$this->bind_param[] = $user['longitude'];
 		$this->bind_param[] = $user['latitude'];
 		return ($this);
-	}
+	}*/
 
+	/*
+	 * the match function filters your matches by gender AND gender identity
+	 * */
+	
 	public function match($user)
 	{
 		$i = count($this->bind_param);
@@ -65,7 +69,6 @@ class m_matches extends m_wrapper
 			if (!($compg == "(" && $compgi == ")"))
 				$c[] = $compg . $compgi;
 		}
-		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
 		if (count($c))
 		{
 			$c = "( " . implode(" OR ", $c) . " )";		
@@ -80,11 +83,35 @@ class m_matches extends m_wrapper
 		return ($this);
 	}
 
-	public function order_by_matching_tags(array $user)
-	{	
+	public function suggestion($user)
+	{
 		$i = count($this->bind_param);
-		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as 'nb_matching_tags'";
+		$this->select[] = "DISTINCT u2.id";
+		$this->select[] = "u2.username";
+		$this->select[] = "u2.score";
 
+		$this->select[] = "u2.id_gender";
+		$this->select[] = "gn.gender_name";
+		$this->select[] = "u2.id_gender_identity";
+		$this->select[] = "gin.gender_identity_name";
+		$this->select[] = "u2.id_media";
+		$this->select[] = "ST_Distance_Sphere( point( :" . ($i) ." , :" . ($i+1) . " ),
+							point(u2.longitude, u2.latitude) ) as distance";
+		$this->select[] = "u2.latitude";
+		$this->select[] = "u2.longitude";
+		$this->select[] = "u2.birthdate";
+		$this->select[] = "u2.id_media";
+		$this->select[] = "COUNT(DISTINCT ut2.id_tag) as 'nb_matching_tags'";
+		$this->from[] = "user u2";
+		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user_to` = u2.id";
+
+
+		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
+		$this->join[] = "LEFT OUTER JOIN gender_identity gin ON gin.id = u2.id_gender_identity";
+		
+		$this->bind_param[] = $user['longitude'];
+		$this->bind_param[] = $user['latitude'];
+		$i = count($this->bind_param);
 		$comp_tag = array();
 		foreach ($user['tags'] as $tag)
 		{
@@ -94,7 +121,51 @@ class m_matches extends m_wrapper
 		}
 		$comp_tag = "( " . implode(" OR ", $comp_tag) . " )";
 		$this->join[] = "LEFT JOIN user_tags ut2 ON ut2.id_user = u2.id AND " . $comp_tag;
+		$this->condition[] ="NOT u2.id = :" . $i .
+			" AND (`b`.`id_user_from` IS NULL
+			OR NOT `b`.`id_user_from` = :". ($i) ." )";
+		$this->bind_param[] = $user['id'];
+		$this->join[] = "LEFT JOIN user_orientation uo2 ON uo2.id_user = u2.id";
+		$index = count($this->bind_param);
+		$i = $index;
+		$c = array();
+		$compg = "";
+		$all_genders = FALSE;
+		foreach ($user['orientations'] as $o)
+		{
+			if ($o["id_gender"] == -1)
+			{
+				$all_genders = TRUE;
+				while ($i > $index)
+				{
+					$i--;
+					unset($this->bind_param[$i]);
+				}
+				break;
+			}
+			else if ($o["id_gender"])
+			{
+				$c[] = "u2.id_gender = :" . $i;
+				$this->bind_param[] = $o["id_gender"];
+				$i++;
+			}
+		}
+		$compg = "( " . implode(" OR ", $c) . ")";
+		if ($all_genders == FALSE)
+			$this->condition[] = $compg . " OR " . $comp_tag;
+		else
+			$this->condition[] = $comp_tag;
+	
+		$this->condition[] = "(uo2.id_gender = :" . $i . " OR uo2.id_gender = -1)";
+		$this->bind_param[] = $user['id_gender'];
+
+
 	 	$this->group_by[] = "u2.id";
+		return ($this);
+	}
+
+	public function order_by_matching_tags(array $user)
+	{	
 		$this->order[] = "COUNT(DISTINCT ut2.id_tag) DESC";
 		return ($this);
 	}

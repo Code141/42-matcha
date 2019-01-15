@@ -30,7 +30,7 @@ class m_profil
 	private function fetch_user($id_profil, $id_user_logged)
 	{
 		$sql = "
-			SELECT u.*, g.gender_name, gi.gender_identity_name, bio.bio
+			SELECT DISTINCT u.*, g.gender_name, gi.gender_identity_name, bio.bio
 			FROM user u
 			LEFT JOIN gender g
 			ON u.id_gender = g.id
