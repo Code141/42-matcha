@@ -22,15 +22,15 @@
 			</div>
 			<div id="more_info">
 				<p>
-				<span>Firstname</span>:
+				<span>Firstname</span>
 				<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
 				</p>
 				<p>
-				<span>Lastname</span>:
+				<span>Lastname</span>
 				<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
 				</p>
 				<p>
-				<span>Gender</span>:
+				<span>Gender</span>
 				<select name="id_gender" class="edit" placeholder="Add your gender">
 					<option class="placeholder" value="" disabled selected hidden><?php echo $user['gender_name']; ?></option>
 					<?php for($i = 1; $i < count($this->data['all_genders']);$i++){ ?>
@@ -39,7 +39,7 @@
 				</select>
 				</p>
 				<p>
-				<span>Gender identity</span>:
+				<span>Gender identity</span>
 				<input list="gender_identity_list" name="id_gender_identity" type="text" value="<?php echo $user['gender_identity_name']; ?>" class="edit" placeholder="Add your gender identity">
 				<datalist id="gender_identity_list">
 					<?php for($i = 1; $i < count($this->data['all_gender_id']);$i++){ ?>
@@ -48,19 +48,19 @@
 				</datalist>
 				</p>
 				<p>
-				<span>Birthdate</span>:
+				<span>Birthdate</span>
 				<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate">
 				</p>	
 				<p>
-				<span>Email</span>:
+				<span>Email</span>
 				<input name="new_email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
 				</p>
 				<p>
-				<span>Password</span>:
+				<span>Password</span>
 				<input id="pw_input" name="password" type="password" value="" placeholder="<?php echo str_repeat('*', $user['password_length']); ?>" class="edit" autocomplete="new-password">
 				</p>
 				<p id="pw_conf">
-				<span>Password confirmation</span>:
+				<span>Password confirmation</span>
 				<input name="password2" type="password" value="" class="edit" autocomplete="new-password">
 				</p>
 			</div>

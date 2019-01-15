@@ -192,7 +192,7 @@ function	fill_profil_container(profils)
 			var score = document.createElement('p');
 			article.appendChild(a);
 
-			a.href = 'http://localhost:8080/matcha/profil/main/' + profils[i].id;
+			a.href = SITE_ROOT + '/profil/main/' + profils[i].id;
 			img.id = 'profil_pic';
 			if (profils[i].id_media)
 				img.src = MEDIA_PATH + profils[i].id_media + '.png';
@@ -201,10 +201,10 @@ function	fill_profil_container(profils)
 			username.className = 'username';
 			username.innerHTML = profils[i].username;
 			if (profils[i].distance)
-				dist.innerHTML = 'Distance : ' + (Number(profils[i].distance)/1000).toFixed(2) + ' km away';
+				dist.innerHTML = 'Distance : ' + (Number(profils[i].distance)/1000).toFixed(0) + ' Km';
 			else
 				dist.innerHTML = 'No location';
-			age.innerHTML = 'Age : ' + profils[i].age + ' years old';
+			age.innerHTML = 'Age : ' + profils[i].age;
 			if (!profils[i].nb_matching_tags)
 				profils[i].nb_matching_tags = 0;
 			matching_tags.innerHTML = 'Matching tags : ' + profils[i].nb_matching_tags;
@@ -212,8 +212,8 @@ function	fill_profil_container(profils)
 			container.appendChild(article);
 			a.appendChild(username);
 			a.appendChild(img);
-			a.appendChild(dist);
 			a.appendChild(age);
+			a.appendChild(dist);
 			a.appendChild(matching_tags);
 			a.appendChild(score);
 		}

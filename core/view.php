@@ -57,7 +57,9 @@ class v_view
 		$this->data = $this->protect_html_injection($this->data);
 		$basic_css[] = 'reset';
 		$basic_css[] = 'style';
+		$basic_css[] = 'glyph';
 		$this->css_files = array_merge($basic_css, $this->css_files);
+		$this->css_files[] = 'responsive';
 		$this->js_files[] = 'xhr';
 		$this->load_html('layout/' . $this->layout);
 	}

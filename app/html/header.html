@@ -10,7 +10,6 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 <?php } else { ?>
 	<a href="<?php echo SITE_ROOT; ?>"><?php echo ucfirst(APP_NAME); ?></a>
 <?php } ?>
-
 </h1>
 
 
@@ -22,17 +21,32 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 	<ul>
 		<li>
 		<a href="<?php echo SITE_ROOT; ?>account">
-				Account
+			<div class="glyphicons glyph_book">
+			</div>
+				<span class="header_menutxt">
+					Account
+				</span>
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>matches">
+				<div class="glyphicons glyph_group">
+				</div>
+				<span class="header_menutxt">
 				Matches 
+				</span>	
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>message">
-				Messages <?php echo ($new_mess !=0) ? $new_mess : ""; ?>
+				<div class="glyphicons glyph_envelope">
+				</div>
+				<?php if ($new_mess != 0) { ?>
+					<span id="nb_messages"><?php echo $new_mess; ?></span>
+				<?php } ?>
+				<span class="header_menutxt">
+				Messages
+				</span>	
 			</a>
 		</li>
 		<li>
@@ -50,12 +64,20 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 	<ul id>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>setup">
+<div class="glyphicons glyph_cogwhell">
+</div>
+	<span class="header_menutxt">
 				Setup
+</span>
 			</a>
 		</li>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>admin">
+<div class="glyphicons glyph_globe">
+</div>
+	<span class="header_menutxt">
 			Admin
+</span>
 			</a>
 		</li>
 	</ul>

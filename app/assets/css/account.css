@@ -46,9 +46,18 @@ p#map_prompt{
 div#more_info{
 	float:left;
 }
+div#more_info p
+{
+	padding: 5px;
+}
+div#more_info p + p
+{
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 div#more_info span{
 	display:inline-block;
-	width:110px;
+	font-weight: bold;
+	width:140px;
 }
 hr{
 	margin:unset;
@@ -57,10 +66,10 @@ hr{
 	border-color:black;
 }
 hr.delimiter{
-	border-color:rgba(0,0,0,0.1);
+	border-color:rgba(0,0,0,0.font-weight:1);
 }
 div#div_profil_pic{
-	margin:0 auto 0 auto;
+	margin:10px auto 10px auto;
 	width:250px;
 	height:250px;
 	object-fit:contain;
@@ -71,9 +80,11 @@ div#div_profil_pic p.prompt{
 	position:relative;
 	top:100px;
 }
+
 img#profil_pic{
 	max-width:100%;
 	object-fit:contain;
+	border-radius: 5px;
 }
 
 div#booth{
@@ -190,6 +201,7 @@ td{
 input#username{
 	/*color:rgba(255, 100, 100, 1);*/
 	color:rgba(0,0,0,0.7);
+	font-size: 25px;
 }
 
 div.preferences{
@@ -248,7 +260,9 @@ input.edit:invalid
 }
 
 input.edit:hover, textarea.edit:hover, select.edit:hover, select.input:hover, input.input:hover{
-	color: blue;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	background: white;
+	color: #555;;
 }
 
 input.edit:focus, select.edit:focus, textarea.edit:focus, select.input:focus, input.input:focus

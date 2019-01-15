@@ -1,0 +1,113 @@
+
+.background
+{
+	background-image: url("../img/background.jpg");
+}
+
+
+.glyphicons
+{
+	opacity:0.6;
+	width: 35px;
+	height: 35px;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 0px auto;
+}
+
+.glyphicons:hover
+{
+	opacity:0.9;
+}
+
+.glyph_book
+{
+	background-image: url("../img/glyphicons/glyphicons_088_address_book.png");
+}
+
+.glyph_group
+{
+	background-image: url("../img/glyphicons/glyphicons_043_group.png");
+}
+
+.glyph_envelope
+{
+	background-image: url("../img/glyphicons/glyphicons_010_envelope.png");
+}
+
+/*
+.glyph_envelope_full
+{
+	background-image: url("../img/glyphicons/glyphicons_120_message_full.png");
+}
+*/
+
+.glyph_globe
+{
+	background-image: url("../img/glyphicons/glyphicons_370_globe_af.png");
+}
+
+.glyph_cogwhell
+{
+	background-image: url("../img/glyphicons/glyphicons_136_cogwheel.png");
+}
+
+.glyph_vcard
+{
+	background-image: url("../img/glyphicons/glyphicons_264_vcard.png");
+}
+
+
+
+
+.glyph_keys
+{
+	background-image: url("../img/glyphicons/glyphicons_044_keys.png");
+}
+
+.glyph_ban
+{
+	background-image: url("../img/glyphicons/glyphicons_199_ban.png");
+}
+
+
+.glyph_logout
+{
+	background-image: url("../img/glyphicons/glyphicons_203_lock.png ");
+}
+
+
+
+.glyph_checkbox
+{
+	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
+}
+
+input + label
+{
+	display:block;
+	padding-right:25px;
+	height:25px;
+	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
+	background-repeat: no-repeat;
+	background-position: right;
+	line-height: 26px;
+}
+
+input:checked + label
+{
+	background-image: url("../img/glyphicons/glyphicons_152_check.png");
+}
+
+
+
+.glyph_
+{
+	background-image: url("../img/glyphicons/");
+}
+
+.glyph_
+{
+	background-image: url("../img/glyphicons/");
+}
+

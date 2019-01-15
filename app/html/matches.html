@@ -1,20 +1,32 @@
 <section id="matches">
 	<aside>
 		<form action="<?php echo SITE_ROOT;?>matches/main" method="post" id="matches_form">
-			<button id="search_button" type="submit">
-				SEARCH FOR THE PERFECT MATCH
+
+			<button type="reset" id="reset_button">
+				Reset all
 			</button>
-<hr>
-ORDER BY
-<hr>
+
+			<button id="search_button" type="submit">
+				Find love !
+			</button>
+
+			<div class="search_section">
+				ORDER BY
+			</div>
+			<div class="search_section_box">
+
 			<div class="f_container">
 				<input type="checkbox" name="match" id="match" value="1">
-				<label class="f_title" for="match">matches</label> 
+				<label class="f_title" for="match">
+					Matches
+				</label> 
 			</div>
 
 			<div class="f_container">
 				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1">
-				<label class="f_title" for="order by matching tags">order by matching tags</label> 
+				<label class="f_title" for="order by matching tags">
+					Order by tags
+				</label> 
 			</div>
 
 			<div class="f_container">
@@ -29,12 +41,7 @@ ORDER BY
 					</option>
 				</select>
 			</div>
-			<div class="f_container">
-				Distance
-				<input type="number" name="distance_filter_km" min="1" max="20037">
-				km away
-			</div>
-
+		
 			<div class="f_container">
 				Distance
 				<select name="distance_order">
@@ -47,31 +54,46 @@ ORDER BY
 					</option>
 				</select>
 			</div>
-<hr>
-FILTER BY
-<hr>
+
+			</div>
+			<div class="search_section">
+				FILTER BY
+			</div>
+
+			<div class="search_section_box">
 			<div class="f_container">
-				Between
-<p>
+				Distance
+				<input id="distance_input" type="number" name="distance_filter_km" min="1" max="20037">
+				km
+			</div>
+
+			<div class="f_container">
+				Age between
+				<p>
 				<select name="age_select_from">
 					<option class="placeholder" value="" disabled selected hidden></option>
-					<?php for($i=16; $i<120; $i+=10) {?>
-					<option value=<?php echo $i;?>>
-					<?php echo $i;?>
-					</option>
-					<?php } ?>
+					<option value="16">16</option>
+					<option value="18">18</option>
+					<option value="21">21</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+					<option value="60">60</option>
+					<option value="80">80</option>
+					<option value="100">100</option>
 				</select>
-				and 
+				& 
 				<select name="age_select_to">
 					<option class="placeholder" value="" disabled selected hidden></option>
-					<?php for($i=16; $i<120; $i+=10) {?>
-					<option value=<?php echo $i;?>>
-					<?php echo $i;?>
-					</option>
-					<?php } ?>
+					<option value="16">16</option>
+					<option value="18">18</option>
+					<option value="21">21</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+					<option value="60">60</option>
+					<option value="80">80</option>
+					<option value="100">100</option>
 				</select>
 </p>
-				years old
 			</div>
 
 			<div class="f_container">
@@ -85,8 +107,7 @@ FILTER BY
 					</option>
 					<?php } ?>
 				</select>
-
-				and 
+				&
 				<select name="score_select_from">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<?php for($i=0; $i<=10; $i+=1) {?>
@@ -102,6 +123,12 @@ FILTER BY
 				<p class="f_title">
 				Filter by tags
 				</p>
+				<div>
+					<button id="uncheck_tags">
+						Clear tag
+					</button>
+				</div>
+
 				<input type="text" id="search_tags" placeholder="Search for tags..">
 				<div id="tag_list">
 					<ul id="myUL">
@@ -113,13 +140,8 @@ FILTER BY
 						<?php  }?>
 					</ul>
 				</div>
-				<div>
-					<button id="uncheck_tags">
-						Clear tag filters
-					</button>
-				</div>
+						</div>
 			</div>
-			<button type="reset" id="reset_button">Reset all search options</button>
 		</form>
 	</aside>
 
