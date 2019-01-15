@@ -3,10 +3,8 @@
 
 <?php $user = $this->data['profil'];?>
 <?php $like = $user['like'];?>
-
-<fieldset>
-	<legend>
-	</legend>
+<section id="profil">
+	<div class='profil_body'>
 	<p class="f_title">
 		<?php echo $user['username']; ?>
 	</p>
@@ -54,8 +52,9 @@
 			<?php echo $user['bio'];?>
 	</p>
 
-</fieldset>
-
+</div>
+</section>
+<section id='infos'>
 <fieldset>
 	<legend>General informations</legend>
 	<p>Position :</p>
@@ -131,6 +130,7 @@
 	</div>
 
 </fieldset>
+</section>
 <script>
 
 window.addEventListener('load', initMap);

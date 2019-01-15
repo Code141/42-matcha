@@ -111,7 +111,10 @@ button#cancel_snapshot{
 	float:left;
 }
 
-button#take_snapshot{
+button#take_snapshot, button#snap_button{
+	background-color: rgba(206, 252, 197, 1);
+	border: 1px solid rgba(126, 246, 102, 1);
+	color: #666;
 	float:right;
 }
 div.wrap{

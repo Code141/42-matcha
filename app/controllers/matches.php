@@ -10,7 +10,7 @@ class c_matches extends c_logged_only
 		$this->user = $this->module->session->user_loggued();
 
 		$this->req = $this->load->model("matches")
-			->all_users($this->user);
+			->suggestion($this->user);
 
 		$this->data['all_tags'] = $this->load->model("wrapper")
 			->all_tags()
@@ -78,7 +78,6 @@ class c_matches extends c_logged_only
  
 			}
 		}
-
 		$nb_matches = $this->req
 			->filter_by_tags($filter_tags)
 			->execute()
@@ -92,12 +91,23 @@ class c_matches extends c_logged_only
 			$this->data['current_page'] = intval($params[0]);
 			$this->json['current_page'] = json_encode($this->data['current_page']);
 		$start = ($this->data['current_page'] - 1) * 10;
-
-		$this->data['matches'] = $this->req
+		if (empty($_POST))
+		{
+			$this->data['matches'] = $this->req
+			->order_by_distance("ASC")
+			->order_by_matching_tags($this->user)
+			->order_by_score("DESC")
 			->limit($start, $offset)
 			->execute()
 			->fetchAll();
-
+		}
+		else
+		{
+			$this->data['matches'] = $this->req
+				->limit($start, $offset)
+				->execute()
+				->fetchAll();
+		}
 		$sql = " SELECT MIN(score) as min, MAX(score) as max FROM user "; 
 		$stm = $this->req->db->pdo->prepare($sql);
 		$scores = $stm->execute();

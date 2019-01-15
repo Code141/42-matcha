@@ -11,21 +11,19 @@ div.search_section
 {
 	border-top-left-radius: 7px;
 	border-top-right-radius:7px;
-	color: #333;
-	border: 1px solid #333;
+	color: rgba(0,0,0,0.7);
+	border: 1px solid rgba(0,0,0,0.3);
 	text-align:center;
 	padding : 6px;
-	background-color: rgba(0, 0, 0, 0.04);
+	background-color: rgba(0, 0, 0, 0.01);
 }
 
 div.search_section_box
 {
 	padding : 0px 10px;
-	border: 1px solid #999;
+	border: 1px solid rgba(0,0,0,0.3);
 	border-top:none;
-	background-color: rgba(0, 0, 0, 0.02);
 	margin-bottom:20px;
-
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius:7px;
 }
@@ -95,8 +93,11 @@ div.f_container
 
 	padding-top: 5px;
 	padding-bottom: 5px;
+	line-height: 26px;
+}
 
-line-height: 26px;
+div.f_container:hover{
+	color:rgba(255, 100, 100, 1);
 }
 
 input[type="checkbox"]
@@ -111,12 +112,11 @@ input + label
 
 label:hover
 {
-	color:rgba(0, 0, 127, 0.8);
+	color:rgba(255, 100, 100, 1);
 }
 
 input:checked + label
 {
-	font-weight: bolder;
 	color: #333;
 }
 
@@ -127,6 +127,7 @@ input:checked + label
 
 .f_container #tag_list
 {
+	padding:3px;
 	text-align:justify;
 	min-height:150px;
 	max-height:300px;
@@ -195,6 +196,10 @@ table#pages th a{
 	cursor:pointer;
 }
 
+table#pages th#next_page{
+	float:right;
+}
+
 div#profils
 {
 	width:780px;
@@ -218,8 +223,7 @@ div#profils a
 
 article
 {
-	border: 1px solid #bbb;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0,0,0,0.3);
 	border-radius: 5px;
 	padding: 5px 7px;
 	margin: 10px 5px;
@@ -247,4 +251,5 @@ article p{
 article p.username{
 	text-align:center;
 	color:rgba(255, 100, 100, 1);
+	font-size:large;
 }

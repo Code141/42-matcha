@@ -1,7 +1,20 @@
 main{
 	flex-wrap: wrap;
 }
-
+section#profil{
+	width:30%;
+}
+section#infos{
+	width:65%;
+}
+div.profil_body{
+	padding: 0px 10px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-top: none;
+	margin-bottom: 20px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+}
 fieldset{
 	width:280px;
 	border-width:1px;

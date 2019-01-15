@@ -16,17 +16,36 @@
 			<div class="search_section_box">
 
 			<div class="f_container">
-				<input type="checkbox" name="match" id="match" value="1">
-				<label class="f_title" for="match">
-					Matches
-				</label> 
-			</div>
-
-			<div class="f_container">
 				<input type="checkbox" name="order by matching tags" id="order by matching tags" value="1">
 				<label class="f_title" for="order by matching tags">
 					Order by tags
 				</label> 
+			</div>
+
+			<div class="f_container">
+				Distance
+				<select name="distance_order">
+					<option class="placeholder" value="" disabled selected hidden></option>
+					<option value="ASC">
+					CLOSEST
+					</option>
+					<option value="DESC">
+					FURTHEST
+					</option>
+				</select>
+			</div>
+			
+			<div class="f_container">
+			Popularity	
+				<select name="birthdate_order">
+					<option class="placeholder" value="" disabled selected hidden></option>
+					<option value="ASC">
+					ASC
+					</option>
+					<option value="DESC">
+					DESC
+					</option>
+				</select>
 			</div>
 
 			<div class="f_container">
@@ -42,25 +61,19 @@
 				</select>
 			</div>
 		
-			<div class="f_container">
-				Distance
-				<select name="distance_order">
-					<option class="placeholder" value="" disabled selected hidden></option>
-					<option value="ASC">
-					CLOSEST
-					</option>
-					<option value="DESC">
-					FURTHEST
-					</option>
-				</select>
-			</div>
 
 			</div>
 			<div class="search_section">
 				FILTER BY
 			</div>
-
 			<div class="search_section_box">
+			<div class="f_container">
+				<input type="checkbox" name="match" id="match" value="1">
+				<label class="f_title" for="match">
+				Gender identity	
+				</label> 
+			</div>
+
 			<div class="f_container">
 				Distance
 				<input id="distance_input" type="number" name="distance_filter_km" min="1" max="20037">
@@ -125,7 +138,7 @@
 				</p>
 				<div>
 					<button id="uncheck_tags">
-						Clear tag
+						Clear tags
 					</button>
 				</div>
 

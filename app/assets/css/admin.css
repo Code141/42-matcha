@@ -1,7 +1,12 @@
 div.section{
+	margin:20px;
 	width:50%;
 	padding:5px;
 	text-align:center;
+}
+div.section p{
+	color:rgba(255, 100, 100, 1);
+	font-size:large;
 }
 fieldset{
 	max-height:1000px;
