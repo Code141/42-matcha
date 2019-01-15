@@ -4,11 +4,10 @@
 <?php $user = $this->data['profil'];?>
 <?php $like = $user['like'];?>
 <section id="profil">
-	<div class='profil_body'>
-	<p class="f_title">
+	<div class="profil_top">
 		<?php echo $user['username']; ?>
-	</p>
-
+	</div>
+	<div class='profil_body'>
 	<div id="user_like_<?php echo $user['id']?>" class="user_like_status">
 	</div>
 
@@ -35,14 +34,6 @@
 		<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
 	<?php } else { ?>
 		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
-	<script>
-		user_like_data[<?php echo $user['id']?>] = Array();
-		user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
-		user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
-		user_like_data[<?php echo $user['id']?>]['u1_revoked'] = parseInt(<?php echo $like['u1_revoked'];?>);
-		user_like_data[<?php echo $user['id']?>]['u2'] = parseInt(<?php echo $like['u2'];?>);
-		user_like_data[<?php echo $user['id']?>]['u2_revoked'] = parseInt(<?php echo $like['u2_revoked'];?>);
-	</script>
 	<?php } ?>
 
 
@@ -131,6 +122,15 @@
 
 </fieldset>
 </section>
+
+<script>
+		user_like_data[<?php echo $user['id']?>] = Array();
+		user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
+		user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
+		user_like_data[<?php echo $user['id']?>]['u1_revoked'] = parseInt(<?php echo $like['u1_revoked'];?>);
+		user_like_data[<?php echo $user['id']?>]['u2'] = parseInt(<?php echo $like['u2'];?>);
+		user_like_data[<?php echo $user['id']?>]['u2_revoked'] = parseInt(<?php echo $like['u2_revoked'];?>);
+</script>
 <script>
 
 window.addEventListener('load', initMap);

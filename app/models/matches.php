@@ -131,6 +131,8 @@ class m_matches extends m_wrapper
 		$c = array();
 		$compg = "";
 		$all_genders = FALSE;
+		if (!$user['orientations'])
+			$all_genders = TRUE;
 		foreach ($user['orientations'] as $o)
 		{
 			if ($o["id_gender"] == -1)
