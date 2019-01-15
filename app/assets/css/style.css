@@ -133,7 +133,7 @@ header
 	width: 100%;
 	position: sticky;
 	top: 0px;
-	background-color: rgba(66, 103, 178, 1);
+	background-color: rgb(178, 66, 66);
 	z-index: 2000;
 	color:white;
 }
