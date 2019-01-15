@@ -11,8 +11,8 @@ div.search_section
 {
 	border-top-left-radius: 7px;
 	border-top-right-radius:7px;
-	color: #333;
-	border: 1px solid #333;
+	color: #404040;
+	border: 1px solid rgb(170, 170, 170);
 	text-align:center;
 	padding : 6px;
 	background-color: rgba(0, 0, 0, 0.04);
@@ -21,11 +21,10 @@ div.search_section
 div.search_section_box
 {
 	padding : 0px 10px;
-	border: 1px solid #999;
+	border: 1px solid rgb(170, 170, 170);
 	border-top:none;
 	background-color: rgba(0, 0, 0, 0.02);
 	margin-bottom:20px;
-
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius:7px;
 }
