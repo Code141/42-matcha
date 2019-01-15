@@ -43,7 +43,7 @@ function	search_matches(url)
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
-			console.log(xhr.responseText.match(/.+[^\d+$]/));
+			console.log(xhr.responseText);
 			profils = JSON.parse(xhr.responseText.match(/.+[^\d+$]/));
 			total_matches = JSON.parse(xhr.responseText.match(/\d+$/));
 			fill_profil_container(profils);

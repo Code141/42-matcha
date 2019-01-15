@@ -11,11 +11,6 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 	<a href="<?php echo SITE_ROOT; ?>"><?php echo ucfirst(APP_NAME); ?></a>
 <?php } ?>
 </h1>
-
-
-
-
-
 <?php if ($this->module_loader->session()->controller->is_loggued()) { ?>
 <nav>
 	<ul>
@@ -57,9 +52,11 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 		</li>
 	</ul>
 </nav>
-<?php } ?>
-
-<?php if (DEV_MODE) { ?>
+<?php
+}
+if (DEV_MODE)
+{
+?>
 <nav>
 	<ul id>
 		<li>
@@ -82,8 +79,9 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 		</li>
 	</ul>
 </nav>
-<?php } ?>
-
+<?php
+}
+ ?>
 <?php
 
 //	$this->module_loader->session();
