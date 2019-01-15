@@ -201,10 +201,10 @@ function	fill_profil_container(profils)
 			username.className = 'username';
 			username.innerHTML = profils[i].username;
 			if (profils[i].distance)
-				dist.innerHTML = 'Distance : ' + (Number(profils[i].distance)/1000).toFixed(2) + ' km away';
+				dist.innerHTML = 'Distance : ' + (Number(profils[i].distance)/1000).toFixed(0) + ' Km';
 			else
 				dist.innerHTML = 'No location';
-			age.innerHTML = 'Age : ' + profils[i].age + ' years old';
+			age.innerHTML = 'Age : ' + profils[i].age;
 			if (!profils[i].nb_matching_tags)
 				profils[i].nb_matching_tags = 0;
 			matching_tags.innerHTML = 'Matching tags : ' + profils[i].nb_matching_tags;
@@ -212,8 +212,8 @@ function	fill_profil_container(profils)
 			container.appendChild(article);
 			a.appendChild(username);
 			a.appendChild(img);
-			a.appendChild(dist);
 			a.appendChild(age);
+			a.appendChild(dist);
 			a.appendChild(matching_tags);
 			a.appendChild(score);
 		}

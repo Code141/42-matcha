@@ -1,9 +1,4 @@
 @media (max-width: 1024px) {
-	body {
-		color: blue;
-		background-image:none;
-		background-color: #ff0000;
-	}
 
 	span.header_menutxt {
 		display:none;
@@ -13,6 +8,7 @@
 	{
 		display:block;
 	}
+
 	section#message aside#recap_user,
 	section#message aside#conv_list span.date,
 	section#message aside#conv_list p.last_message
@@ -30,4 +26,10 @@
 		margin-top: 16px;
 		font-size: 17px;
 	}
+
+span#nb_messages
+{
+	margin-left: 8px;
+}
+
 }

@@ -7,11 +7,17 @@
 
 .glyphicons
 {
+	opacity:0.6;
 	width: 35px;
 	height: 35px;
 	background-repeat: no-repeat;
 	background-position: center;
 	margin: 0px auto;
+}
+
+.glyphicons:hover
+{
+	opacity:0.9;
 }
 
 .glyph_book

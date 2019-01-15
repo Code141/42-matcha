@@ -21,12 +21,29 @@ body
 	color:rgba(0,0,0,0.7);
 }
 
+
+
 h1, h2, h3, h4, h5, h6
 {
 	margin:5px;
 	font-family: arial;
 	font-size: 20px;
 }
+
+h1#title
+{
+	font-family: din1451;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 55px;
+	box-sizing: border-box;
+	margin-top: 20px;
+	background-image: url("../img/logo.png");
+	background-repeat: no-repeat;
+	padding-right: 60px;
+	background-position: right top;
+}
+
 
 section#prompter {
 	position:absolute;
@@ -63,6 +80,7 @@ header, main, footer, section
 section#login a{
 	float:right;
 }
+
 a
 {
 	color: rgba(255, 100, 100, 1);
@@ -71,7 +89,7 @@ a
 
 a:hover
 {
-	color: rgba(200, 100, 100, 1);
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .center
@@ -98,6 +116,7 @@ button{
 	padding: 5px 5px 5px 5px;
 	color:rgba(255, 100, 100, 1);
 }
+
 ::-webkit-scrollbar {
 	  width: 5px;
 }
@@ -114,14 +133,39 @@ header
 	width: 100%;
 	position: sticky;
 	top: 0px;
-	background-color: rgba(255, 215, 215, 1);
+	background-color: rgba(66, 103, 178, 1);
 	z-index: 2000;
+	color:white;
 }
 
-header h1#title
+header a
 {
-	font-size: 40px;
-	box-sizing: border-box;
+	color:white;
+}
+
+header span.loggued_username
+{
+	position:relative;
+	top: -18px;
+	font-size: 20px;
+}
+div#notif
+{
+	color:white;
+	cursor: pointer;
+}
+
+span#nb_messages
+{
+	background-color: red;
+	border-radius: 5px;
+	padding: 3px 5px;
+	font-size: 13px;
+	font-weight: bold;
+	position: absolute;
+	margin-left: 45px;
+	margin-top: -35px;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
 }
 
 header nav ul li
@@ -143,10 +187,11 @@ header nav ul
 
 img#loggued_pic
 {
-	width::42px;
+	margin-top: 8px;
+	width:40px;
 	height:42px;
 	border-radius: 100%;
-	border: 1px solid grey;
+	border: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 section#login
@@ -398,12 +443,6 @@ section#login
 	}
 
 /*- NOTIFICATIONS --------------------------------------------------*/
-
-	div#notif
-	{
-		cursor: pointer;
-		color :rgba(255, 100, 100, 1);
-	}
 
 	div#notif div#detail
 	{

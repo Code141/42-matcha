@@ -11,7 +11,7 @@ div.search_section
 {
 	border-top-left-radius: 7px;
 	border-top-right-radius:7px;
-
+	color: #333;
 	border: 1px solid #333;
 	text-align:center;
 	padding : 6px;
@@ -32,11 +32,12 @@ div.search_section_box
 
 form#matches_form button
 {
-	display:block;
+	padding:8px;
+	display:inline;
 	border: 1px solid rgba(250, 103, 127, 0.5);
-
-background-color: rgba(253, 197, 206,0.5);
+	background-color: rgba(253, 197, 206,0.5);
 	color: #555;
+	margin : 10px 5px;
 }
 
 form#matches_form button#reset_button
@@ -63,6 +64,10 @@ input#distance_input
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.f_container select
+{
+float:right;
+}
 form#matches_form button#search_button:hover,
 form#matches_form button#reset_button:hover
 {
@@ -72,9 +77,6 @@ form#matches_form button#reset_button:hover
 div.right
 {
 	float:right;
-	border-style: solid;
-	border-width: 0 0 0 1px;
-	border-color: rgba(0,0,0,0.2);
 }
 
 section#matches aside
@@ -126,7 +128,8 @@ input:checked + label
 .f_container #tag_list
 {
 	text-align:justify;
-	max-height:150px;
+	min-height:150px;
+	max-height:300px;
 	overflow-y:auto;
 	overflow-x:hidden;
 }
@@ -158,8 +161,10 @@ button
 #map
 {
 	width:100%;
-	height:390px;
+	height:350px;
 	overflow:hidden;
+	border-radius: 15px;
+	margin-top: 20px;
 }
 
 div#pagination{
@@ -175,6 +180,7 @@ p span#nb_matches{
 }
 
 table#pages{
+	font-size: 17px;
 	width:40%;
 	margin:5px;
 	float:right;
@@ -212,11 +218,11 @@ div#profils a
 
 article
 {
-	border: 1px solid rgba(255, 200, 200, 1);
-	border-radius: 3px;
-	padding: 15px;
-	margin: 10px;
-	min-width: 250px;
+	border: 1px solid #bbb;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	padding: 5px 7px;
+	margin: 10px 5px;
 	min-height:250px;
 }
 
@@ -229,7 +235,7 @@ article:hover
 article img
 {
 	margin:5px;
-	border-radius:3px;
+	border-radius:10px;
 	max-width: 150px;
 	max-height: 150px;
 }

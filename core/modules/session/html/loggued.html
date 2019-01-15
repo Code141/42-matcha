@@ -2,8 +2,10 @@
 		<?php
 			$user = $this->self->controller->user_loggued();
 			echo '<img id="loggued_pic" src="' . MEDIA_PATH . $user['id_media'] . '.png">';
-			echo $user['username'];
 		?>
+		<p class="loggued_username">
+			<?php echo $user['username']; ?>
+		</p>
 	<a href="<?php echo SITE_ROOT; ?>login/logout">
 		<div class="glyphicons glyph_logout">
 		</div>
