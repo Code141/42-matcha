@@ -79,10 +79,13 @@
 
 input + label
 {
-	padding-left:25px;
+	display:block;
+	padding-right:25px;
 	height:25px;
 	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
 	background-repeat: no-repeat;
+	background-position: right;
+	line-height: 26px;
 }
 
 input:checked + label

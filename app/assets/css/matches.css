@@ -6,13 +6,37 @@ form#matches_form
 {
 	text-align:left;
 }
+
 div.search_section
 {
-	border-top: 1px solid #333;
-	border-bottom: 1px solid #333;
+	border-top-left-radius: 7px;
+	border-top-right-radius:7px;
+
+	border: 1px solid #333;
 	text-align:center;
 	padding : 6px;
 	background-color: rgba(0, 0, 0, 0.04);
+}
+
+div.search_section_box
+{
+	padding : 0px 10px;
+	border: 1px solid #999;
+	border-top:none;
+	background-color: rgba(0, 0, 0, 0.02);
+	margin-bottom:20px;
+
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius:7px;
+}
+
+form#matches_form button
+{
+	display:block;
+	border: 1px solid rgba(250, 103, 127, 0.5);
+
+background-color: rgba(253, 197, 206,0.5);
+	color: #555;
 }
 
 form#matches_form button#reset_button
@@ -29,6 +53,16 @@ form#matches_form button#search_button
 	border: 1px solid rgba(126, 246, 102, 1);
 	color: #666;
 }
+input#distance_input
+{
+	width: 60px;
+}
+
+.f_container + .f_container
+{
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 form#matches_form button#search_button:hover,
 form#matches_form button#reset_button:hover
 {
@@ -56,7 +90,11 @@ section#matches aside
 div.f_container
 {
 	width:100%;
-	padding:15px 0 0 0;
+
+	padding-top: 5px;
+	padding-bottom: 5px;
+
+line-height: 26px;
 }
 
 input[type="checkbox"]
@@ -91,7 +129,6 @@ input:checked + label
 	max-height:150px;
 	overflow-y:auto;
 	overflow-x:hidden;
-	margin:5px;
 }
 
 #tag_list ul li
@@ -116,7 +153,6 @@ button
 .f_title
 {
 	font-size:13pt;
-	margin:10px auto 10px auto;
 }
 
 #map
