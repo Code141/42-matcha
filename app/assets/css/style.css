@@ -171,6 +171,7 @@ span#nb_messages
 header nav ul li
 {
 	float: left;
+	font-size:small;
 }
 
 header nav ul li + li

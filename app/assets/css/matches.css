@@ -163,7 +163,7 @@ button
 	width:100%;
 	height:350px;
 	overflow:hidden;
-	border-radius: 15px;
+	border-radius: 3px;
 	margin-top: 20px;
 }
 
@@ -180,7 +180,7 @@ p span#nb_matches{
 }
 
 table#pages{
-	font-size: 17px;
+	font-size: 13px;
 	width:40%;
 	margin:5px;
 	float:right;
