@@ -1,10 +1,17 @@
 		<?php
 			$user = $this->self->controller->user_loggued();
-			echo '<img id="loggued_pic" src="' . MEDIA_PATH . $user['id_media'] . '.png">';
 		?>
-		<p class="loggued_username">
-			<?php echo $user['username']; ?>
-		</p>
+		<nav>
+			<ul>
+			<li>
+		<div>
+			<img id="loggued_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+			<p class="loggued_username">
+				<?php echo $user['username']; ?>
+			</p>
+		</div>
+			</li>
+			<li>
 	<a href="<?php echo SITE_ROOT; ?>login/logout">
 		<div class="glyphicons glyph_logout">
 		</div>
@@ -12,3 +19,6 @@
 			logout
 		</span>
 	</a>
+			</li>
+			</ul>
+		</nav>

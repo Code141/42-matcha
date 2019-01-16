@@ -5,7 +5,7 @@ section#profil{
 	width:30%;
 }
 section#infos{
-	width:65%;
+	width:70%;
 }
 div.profil_top{
 	border-top-left-radius: 7px;
@@ -14,7 +14,7 @@ div.profil_top{
 	border: 1px solid rgba(0,0,0,0.3);
 	text-align: center;
 	padding: 6px;
-	background-color: rgba(0, 0, 0, 0.01);
+	background-color: rgba(0, 0, 0, 0.02);
 	font-size:large;
 margin:5px;
 margin-top:20px;
@@ -72,6 +72,7 @@ padding: 10px;
 }
 
 div#div_pictures,
+div#div_bio,
 div#div_matching_preferences,
 div#div_tags{
 	display:none;
@@ -118,11 +119,15 @@ div.flex_wrap{
 	display:flex
 	justify-content:space-evenly;
 }
-img{
+
+img.min{
 	border-radius:5px;
-	height:100%;
-	width:100%;
+	width:auto;
+	max-height:125px;
+	max-width:125px;
+	
 }
+
 img#full_img{
 	all:unset;
 }
@@ -137,6 +142,7 @@ div.interact_flex
 	display:flex;
 	margin-bottom:20px;
 }
+
 div.interact
 {
 	display: block;
@@ -146,6 +152,7 @@ div.interact
 	margin: auto auto;
 	float: left;
 }
+
 div.interact:hover
 {
 	background-color: rgba(0, 0, 0, 0.05);
@@ -157,7 +164,28 @@ div.interact:hover
 	font-weight:bold;
 	font-size:10pt;
 }
+
 #map{
 	height:200px;
 	border-radius:10px;
+}
+
+div.show_img
+{
+	position: absolute;
+	left: 0px;
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(0,0,0,0.5);
+}
+
+div.show_img img
+{
+	top:50vh;
+	left:50vw;
+	position:absolute;
+	width: auto;
+	height: auto;
+	margin-left: -125px;
+	margin-top: -125px;
 }

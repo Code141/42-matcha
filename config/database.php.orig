@@ -4,7 +4,7 @@
 	$DB_DSN_SETUP = "mysql:host=localhost";
 	$DB_USER = "root";
 <<<<<<< HEAD
-	$DB_PASSWORD = "password";
+	$DB_PASSWORD = "123456789";
 =======
-	$DB_PASSWORD = "root";
->>>>>>> 93107cd365424738a86213a75ce8493690ecb579
+	$DB_PASSWORD = "password";
+>>>>>>> bbc1fb0dcf7b8cc96bef77ec4e386da5f3e930b3

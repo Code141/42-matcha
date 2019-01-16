@@ -6,7 +6,7 @@
 				Reset all
 			</button>
 
-			<button id="search_button" type="submit">
+			<button id="search_button" class="f_right"  type="submit">
 				Find love !
 			</button>
 
@@ -24,6 +24,7 @@
 
 			<div class="f_container">
 				Distance
+				<p class="f_right">
 				<select name="distance_order">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="ASC">
@@ -33,10 +34,12 @@
 					FURTHEST
 					</option>
 				</select>
+				</p>
 			</div>
 			
 			<div class="f_container">
 			Popularity	
+				<p class="f_right">
 				<select name="birthdate_order">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="ASC">
@@ -46,10 +49,12 @@
 					DESC
 					</option>
 				</select>
+				</p>
 			</div>
 
 			<div class="f_container">
 				Birthdate
+				<p class="f_right">
 				<select name="birthdate_order">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="DESC">
@@ -59,6 +64,7 @@
 					DESC
 					</option>
 				</select>
+				</p>
 			</div>
 		
 
@@ -76,13 +82,15 @@
 
 			<div class="f_container">
 				Distance
-				<input id="distance_input" type="number" name="distance_filter_km" min="1" max="20037">
-				km
+				<p class="f_right">
+					<input id="distance_input" type="number" name="distance_filter_km" min="1" max="20037">
+					km
+				</p>
 			</div>
 
 			<div class="f_container">
-				Age between
-				<p>
+				Age
+				<p class="f_right">
 				<select name="age_select_from">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<option value="16">16</option>
@@ -106,12 +114,12 @@
 					<option value="80">80</option>
 					<option value="100">100</option>
 				</select>
-</p>
+				</p>
 			</div>
 
 			<div class="f_container">
-				Score between
-<p>
+				Score
+				<p class="f_right">
 				<select name="score_select_to">
 					<option class="placeholder" value="" disabled selected hidden></option>
 					<?php for($i=0; $i<=10; $i+=1) {?>
@@ -129,20 +137,19 @@
 					</option>
 					<?php } ?>
 				</select>
-</p>
+				</p>
 			</div>
 	
 			<div class="f_container" id="tag_container">
 				<p class="f_title">
-				Filter by tags
+				Tags
 				</p>
-				<div>
-					<button id="uncheck_tags">
-						Clear tags
-					</button>
-				</div>
-
 				<input type="text" id="search_tags" placeholder="Search for tags..">
+					<button id="uncheck_tags">
+						Clear
+					</button>
+
+
 				<div id="tag_list">
 					<ul id="myUL">
 						<?php foreach($this->data['all_tags'] as $tag) { ?>

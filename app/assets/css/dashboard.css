@@ -1,7 +1,8 @@
 section#dashboard
 {
-	display:flex;
+	/*display:flex;*/
 }
+
 
 section#dashboard img.profil_pic
 {
@@ -10,8 +11,56 @@ section#dashboard img.profil_pic
 	border-radius:100%;
 }
 
-section#dashboard section
-{
-	border: 1px solid black;
-	width : 33%;
+div.top{
+	margin-top:20px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	color: rgba(0,0,0,0.7);
+	border: 1px solid rgba(0,0,0,0.3);
+	text-align: center;
+	padding: 6px;
+	background-color: rgba(0, 0, 0, 0.02);
+	font-size:large;
+}
+
+div.body{
+	min-height:100px;
+	padding: 15px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-top: none;
+	margin-bottom: 20px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+	overflow-y:auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+table input{
+	display:none;
+}
+
+table input[type="radio"]+label{
+	background-image:unset;
+	cursor:pointer;
+}
+
+table label:hover{
+	color:rgba(255, 100, 100, 1);
+}
+table input[type="radio"]:checked+label{
+	background-image:unset;
+	color:rgba(255, 100, 100, 1);
+}
+
+div#div_likes_to,
+div#div_likes_from,
+div#div_visits_history,
+div#div_likes_history,
+div#div_blocked{
+	display:none;
 }

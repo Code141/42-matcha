@@ -15,7 +15,7 @@ div.search_section
 	border: 1px solid rgb(170, 170, 170);
 	text-align:center;
 	padding : 6px;
-	background-color: rgba(0, 0, 0, 0.01);
+	background-color: rgba(0, 0, 0, 0.02);
 }
 
 div.search_section_box
@@ -26,11 +26,11 @@ div.search_section_box
 	margin-bottom:20px;
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius:7px;
+	color: rgba(0,0,0,0.6);
 }
 
 form#matches_form button
 {
-	padding:8px;
 	display:inline;
 	border: 1px solid rgba(250, 103, 127, 0.5);
 	background-color: rgba(253, 197, 206,0.5);
@@ -55,6 +55,8 @@ form#matches_form button#search_button
 input#distance_input
 {
 	width: 60px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+
 }
 
 .f_container + .f_container
@@ -62,10 +64,24 @@ input#distance_input
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.f_container select
+input#search_tags
 {
-float:right;
+	border:1px solid rgba(0, 0, 0, 0.3);
+	border-radius:3px;
+	width:118px;
 }
+
+button#uncheck_tags
+{
+	font-size:10px;
+	padding:3px;
+}
+
+.f_right
+{
+	float:right;
+}
+
 form#matches_form button#search_button:hover,
 form#matches_form button#reset_button:hover
 {

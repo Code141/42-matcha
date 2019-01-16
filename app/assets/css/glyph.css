@@ -97,6 +97,15 @@
 	background-image: url("../img/glyphicons/glyphicons_360_bug.png");
 }
 
+.glyph_star
+{
+	background-image: url("../img/glyphicons/glyphicons_049_star.png");
+}
+
+.glyph_flash
+{
+	background-image: url("../img/glyphicons/glyphicons_241_flash.png");
+}
 
 
 
@@ -110,7 +119,7 @@
 	background-image: url("../img/glyphicons/glyphicons_153_unchecked.png");
 }
 
-input + label
+form#matches_form input + label
 {
 	display:block;
 	padding-right:25px;
@@ -119,9 +128,10 @@ input + label
 	background-repeat: no-repeat;
 	background-position: right;
 	line-height: 26px;
+
 }
 
-input:checked + label
+ form#matches_form input:checked + label
 {
 	background-image: url("../img/glyphicons/glyphicons_152_check.png");
 }

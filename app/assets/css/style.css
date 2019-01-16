@@ -147,6 +147,10 @@ header a
 	color:white;
 }
 
+header span.header_menutxt{
+	font-size:small;
+	
+}
 header span.loggued_username
 {
 	position:relative;
@@ -186,7 +190,6 @@ span#nb_notif
 header nav ul li
 {
 	float: left;
-	font-size:small;
 }
 
 header nav ul li + li
