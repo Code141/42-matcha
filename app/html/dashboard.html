@@ -1,102 +1,165 @@
 <section id="dashboard">
-<div class="top">
-	<form id="radio_form" action="">
-		<table>
-			<th>
-				<input id="i_matches" value="div_matches"type="radio" name="section" checked>
-				<label for="i_matches">
-					Matches	
-				</label>
-			</th>
-			<th>
-				<input id="i_likes" value="div_likes" type="radio" name="section">
-				<label for="i_likes">
-					Liked users	
-				</label>
-			</th>
+	<p class="section_title">Current activity</p>
+	<div class="top">
+		<form id="radio_form" action="">
+			<table>
+				<th>
+					<input id="i_matches" value="div_matches"type="radio" name="section" checked>
+					<label for="i_matches">
+						Matches	
+					</label>
+				</th>
+				<th>
+					<input id="i_liked" value="div_liked" type="radio" name="section">
+					<label for="i_liked">
+						Liked users	
+					</label>
+				</th>
 
-			<th>
-				<input id="i_liked_by" value="div_liked_by" type="radio" name="section">
-				<label for="i_liked_by">
-					Users that like you	
-				</label>
-			</th>
-			<th>
-				<input id="i_visits_history" value="div_visits_history" type="radio" name="section">
-				<label for="i_visits_history">
-					Visits history	
-				</label>
-			</th>
-			<th>
-				<input id="i_likes_history" value="div_likes_history" type="radio" name="section">
-				<label for="i_likes_history">
-					Likes history	
-				</label>
-			</th>
-			<th>
-				<input id="i_blocked" value="div_blocked" type="radio" name="section">
-				<label for="i_blocked">
-					Blocked users	
-				</label>
-			</th>
-		</table>
-	</form>
-</div>
+				<th>
+					<input id="i_liked_by" value="div_liked_by" type="radio" name="section">
+					<label for="i_liked_by">
+						Users that like you	
+					</label>
+				</th>
 
-<div class='body' id="div_infos">
-	<div id="div_matches">
-		<?php foreach($this->data['matches'] as $user) { ?>
-	<?php if (!$user['id_media']){ ?>
-	<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
-	<?php } else { ?>
-	<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
-	<?php } ?>
-
-	<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-		<?php echo $user['username']; ?>
-	</a>
-	<br>
-	<?php } ?>
+				<th>
+					<input id="i_blocked" value="div_blocked" type="radio" name="section">
+					<label for="i_blocked">
+						Blocked users	
+					</label>
+				</th>
+			</table>
+		</form>
 	</div>
 
-	<div id="div_likes">
-	</div>
-
-	<div id="div_liked_by">
-		<?php foreach($this->data['liked_by'] as $user) { ?>
-	<?php if (!$user['id_media']){ ?>
-	<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
-	<?php } else { ?>
-	<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
-	<?php } ?>
-
-	<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-		<?php echo $user['username']; ?>
-	</a>
-	<br>
-	<?php } ?>
+	<div class='body' id="div_infos_dashboard">
+		<div id="div_matches">
+			<table class="t_div">
+				<?php foreach($this->data['matches'] as $user) { ?>
+				<tr>
+					<td class="profil_pic">
+						<div class="profil_pic">
+							<?php if (!$user['id_media']){ ?>
+							<img src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+							<?php } else { ?>
+							<img src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+							<?php } ?>
+						</div>
+					</td>
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+				</tr>
+				<?php } ?>
+			</table>
 		</div>
 
-	<div id="div_visits_history">
-		<?php
-	$this->module_loader->notifications();
-	$this->module->notifications->history();
-	?>
+		<div id="div_liked">
+			<p>Still waiting for them to like you back ...</p>
+			<table class="t_div">
+				<?php foreach($this->data['liked'] as $user) { ?>
+				<tr>
+					<td class="profil_pic">
+						<div class="profil_pic">
+							<?php if (!$user['id_media']){ ?>
+							<img src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+							<?php } else { ?>
+							<img src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+							<?php } ?>
+						</div>
+					</td>
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+				</tr>	
+				<?php } ?>
+			</table>
+		</div>
+
+		<div id="div_liked_by">
+			<p>Like them back to start a conversation !</p>
+			<table class="t_div">
+				<?php foreach($this->data['liked_by'] as $user) { ?>
+				<tr>
+					<td class="profil_pic">
+						<div class="profil_pic">
+							<?php if (!$user['id_media']){ ?>
+							<img src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+							<?php } else { ?>
+							<img src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+							<?php } ?>
+						</div>
+					</td>
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+				</tr>	
+				<?php } ?>
+			</table>
+		</div>
+
+		<div id="div_blocked">
+			<table class="t_div">
+			<?php foreach($this->data['blocked'] as $user) { ?>
+					<tr>
+					<td class="profil_pic">
+						<div class="profil_pic">
+							<img src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+						</div>
+							<?php echo $user['username']; ?>
+					</td>
+					<td>
+			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
+					</td>
+				</tr>	
+			<?php } ?>
+			</table>
+		</div>
 	</div>
-	
-	<div id="div_likes_history">
-	<?php
-	$this->module_loader->notifications();
-	$this->module->notifications->like();
-	?>
-	</div>
-	<div id="div_blocked">
-		<?php foreach($this->data['blocked'] as $user) { ?>
-	<?php echo $user['username']; ?>
-	<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
-	<br>
-	<?php } ?>
-	</div>
-</div>
 </section>
+<section id="history">
+	<p class="section_title">History</p>
+	<div class="top">
+		<form id="history_form" action="">
+			<table>
+				<th>
+					<input id="i_visits_history" value="div_visits_history" type="radio" name="section">
+					<label for="i_visits_history">
+						Visits history	
+					</label>
+				</th>
+				<th>
+					<input id="i_likes_history" value="div_likes_history" type="radio" name="section">
+					<label for="i_likes_history">
+						Likes history	
+					</label>
+				</th>
+			</table>
+		</form>
+	</div>
+	<div class='body' id="div_infos_history">
+		<div id="div_visits_history">
+			<?php
+	   $this->module_loader->notifications();
+	   $this->module->notifications->history();
+	   ?>
+		</div>
+
+		<div id="div_likes_history">
+			<?php
+	   $this->module_loader->notifications();
+	   $this->module->notifications->like();
+	   ?>
+		</div>
+
+	</div>
+</section>
+
 <script src="<?php echo JS_PATH;?>dashboard.js"></script>

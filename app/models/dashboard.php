@@ -69,10 +69,10 @@ class m_dashboard
 		return ($matches);
 	}
 
-	public function likes($id_user)
+	public function liked($id_user)
 	{
 		$sql = "
-			SELECT DISTINCT *, u.id, u.username, u.id_media
+			SELECT DISTINCT u.id, u.username, u.id_media
 			FROM user u
             LEFT JOIN `like` l1
 			ON l1.id_user_to = u.id
