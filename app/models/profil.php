@@ -7,6 +7,7 @@ class m_profil
 		$profil = $this->fetch_user($id_profil, $id_user_logged);
 		if ($profil == NULL)
 			return (NULL);
+		$profil['media'] = $this->fetch_user_media($id_profil);
 		$profil['tags'] = $this->fetch_user_tags($id_profil);
 		$profil['orientations'] = $this->fetch_orientations($id_profil);
 		$profil['like'] = $this->like($id_profil, $id_user_logged);
@@ -118,6 +119,20 @@ class m_profil
 		$tags = $stm->execute();
 		$tags = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return ($tags);
+	}
+
+	private function fetch_user_media($id_profil)
+	{
+		$sql = "
+			SELECT media.id_media 
+			FROM media
+			WHERE media.id_user = :0
+		";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":0", $id_profil, PDO::PARAM_STR);
+		$media = $stm->execute();
+		$media = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($media);
 	}
 
 	private function fetch_orientations($id_profil)

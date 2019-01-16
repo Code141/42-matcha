@@ -32,4 +32,10 @@ span#nb_messages
 	margin-left: 8px;
 }
 
+span#nb_notif
+{
+	
+	margin-top: -39px;
+}
+
 }

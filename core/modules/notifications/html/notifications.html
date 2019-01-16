@@ -4,17 +4,21 @@
 </div>
 	<span class="header_menutxt">
 		Notifications
-</span>	
-	<span id="nb_notif">
+	</span>	
 <?php
 	$notif = $this->self->controller->get_notifications();
 	$count = 0;
+
 	foreach ($notif as $value)
 		$count += ($value['seen']) ? 0 : 1;
+
 	if ($count != 0)
+	{
+		echo '<span id="nb_notif">';
 		echo $count;
+		echo '</span>';
+	}
 ?>
-	</span>
 	<div id="detail">
 	<?php foreach ($notif as $key => $value) {
 	$seen =  ($value['seen']) ? " seen " : "" ;

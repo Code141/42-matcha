@@ -46,8 +46,39 @@
 </div>
 </section>
 <section id='infos'>
-<fieldset>
-	<legend>General informations</legend>
+	<div class="profil_top">
+		<form id="radio_form" action="">
+			<table>
+				<th>
+						<input id="i_general_information" value="div_general_information"type="radio" name="section" checked>
+					<label for="i_general_information">
+						General information	
+						</label>
+				</th>
+				<th>
+		<input id="i_pictures" value="div_pictures" type="radio" name="section">
+					<label for="i_pictures">
+		Pictures	
+					</label>
+				</th>
+				<th>
+		<input id="i_matching_preferences" value="div_matching_preferences" type="radio" name="section">
+					<label for="i_matching_preferences">
+		Matching preferences
+					</label>
+				</th>
+				<th>
+		<input id="i_tags" value="div_tags" type="radio" name="section">
+					<label for="i_tags">
+		Tags
+					</label>
+				</th>
+			</table>
+		</form>
+	</div>
+	<div class='profil_body' id="div_infos">
+	
+		<div id="div_general_information">
 	<p>Position :</p>
 	<div id="map"></div>
 	<div id="more_info">
@@ -80,37 +111,36 @@
 			<?php echo $user['email']; ?>
 		</p>
 	</div>
-</fieldset>
-<fieldset>
-	<legend>Matching preferences</legend>
-	<div class="wrap">
-		<div id="o_gender">
-			<p class="f_title">gender</p>
-		</div>
-		<div id="o_gender_identity">
-			<p class="f_title">gender identity</p>
-		</div>
 	</div>
-	<hr>
-	<div id="o_gender">
+	
+	<div id="div_matching_preferences">
+		<table id="preferences">
+			<tr>
+			<th>gender</th>
+			<th>gender_indentity</th>
+			<tr>
+
 		<?php foreach($user['orientations'] as $value) { ?>
-		<p>
-			<?php echo $value['gender_name'];?>
-		</p>
+			<tr>
+				<td><?php echo $value['gender_name'];?></td>
+				<td><?php echo $value['gender_identity_name']; ?></td>
+			</tr>
 		<?php } ?>
+		</table>
+		</div>	
+	<div id="div_pictures">
+		<div class="flex_wrap">
+		<?php  if($user['media']) { foreach($user['media'] as $media){ ?>
+		<div class="pic">
+			<a class="a_pic" href="" title="view full picture">
+			<img id="<?php echo $media['id_media'];?>" src="<?php echo MEDIA_PATH . $media['id_media'] . '.png';?>">
+			</a>
+		</div>
+		<?php }}?>
+		</div>
 	</div>
-	<div id="o_gender_identity">
-		<?php foreach($user['orientations'] as $value) { ?>
-		<p>
-			<?php echo $value['gender_identity_name']; ?>
-		</p>
-		<?php } ?>
-	</div>
-</fieldset>
-<fieldset id="pictures">
-	<legend>pictures</legend>
-</fieldset>
-<fieldset id="tag">
+	
+	<div id="div_tags">
 	<legend>tags</legend>
 	<div id="tag">
 		<?php foreach($user['tags'] as $value) { ?>
@@ -119,11 +149,13 @@
 		</p>
 		<?php } ?>
 	</div>
+	</div>
 
-</fieldset>
+	</div>
 </section>
 
 <script>
+var media_path = "<?php echo MEDIA_PATH;?>";
 		user_like_data[<?php echo $user['id']?>] = Array();
 		user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
 		user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);
@@ -134,6 +166,7 @@
 <script>
 
 window.addEventListener('load', initMap);
+window.addEventListener('load', initEvents);
 
 function initMap()
 {
@@ -152,4 +185,61 @@ function initMap()
 	}).addTo(map);
 }
 
+function full_img(id_media)
+{
+	var section = document.getElementsByClassName("center")[0];
+	var wrap = document.createElement('div');
+		wrap.style.position = 'absolute';
+		wrap.style.left = '0px';
+		wrap.style.height = '100vh';
+		wrap.style.width = '100vw';
+		wrap.style.backgroundColor = 'rgba(0,0,0,0.5)';
+	var img = document.createElement('img');
+		img.style.position = 'absolute';
+		img.src = media_path + id_media + '.png';
+	wrap.appendChild(img);
+	section.appendChild(wrap);
+	wrap.addEventListener('click', function(){
+		wrap.remove();});
+}
+
+function	initEvents()
+{
+	var div_infos = document.getElementById("div_infos");
+	var form = document.getElementById("radio_form");
+	form.addEventListener("change", function(e){
+		for (var i = 0; i < div_infos.childNodes.length; i++)
+		{
+			if (div_infos.childNodes[i].id)
+				div_infos.childNodes[i].style.display = "none";
+		}
+		var div = document.getElementById(e.target.value);
+			div.style.display = "block";
+	});
+	
+	var full_img = document.getElementsByClassName("a_pic");
+		for (var i = 0; i < full_img.length; i++)
+		{
+			full_img[i].addEventListener('click', function(e){
+				e.preventDefault();
+				var id_media = e.target.id;
+				var section = document.getElementsByClassName("center")[0];
+	var wrap = document.createElement('div');
+		wrap.style.position = 'absolute';
+		wrap.style.left = '0px';
+		wrap.style.height = '100vh';
+		wrap.style.width = '100vw';
+		wrap.style.backgroundColor = 'rgba(0,0,0,0.5)';
+	var img = document.createElement('img');
+		img.style.position = 'absolute';
+		img.id = 'full_img';
+		img.src = media_path + id_media + '.png';
+	wrap.appendChild(img);
+	section.appendChild(wrap);
+	wrap.addEventListener('click', function(){
+		wrap.remove();});
+			});
+		}
+
+}
 </script>

@@ -19,24 +19,60 @@ div.profil_top{
 	font-size:large;
 }
 div.profil_body{
-	padding: 0px 10px;
+	min-height:100px;
+	padding: 15px;
 	border: 1px solid rgba(0,0,0,0.3);
 	border-top: none;
 	margin-bottom: 20px;
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius: 7px;
 }
-fieldset{
-	width:280px;
-	border-width:1px;
-	border-style:solid;
-	border-color:black;
-	padding:5px;
-	margin:10px;
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
 }
-fieldset#tag, fieldset#pictures{
-	width:100%;
+
+table input{
+	display:none;
 }
+
+table input[type="radio"]+label{
+	background-image:unset;
+	cursor:pointer;
+}
+
+table label:hover{
+	color:rgba(255, 100, 100, 1);
+}
+table input[type="radio"]:checked+label{
+	background-image:unset;
+	color:rgba(255, 100, 100, 1);
+}
+
+table#preferences th{
+	    font-weight: bold;
+		    padding: 0px 5px 15px 5px;
+			    border-style: solid;
+				    border-width: 0 0 1px 0;
+					    border-color: grey;
+}
+
+table#preferences td{
+padding: 10px;
+    color: rgba(0,0,0,0.7);
+	    border-style: solid;
+		    border-width: 0 0 1px 0;
+			    border-color: rgba(0,0,0,0.1);
+}
+
+div#div_pictures,
+div#div_matching_preferences,
+div#div_tags{
+	display:none;
+}
+
 div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
@@ -50,29 +86,37 @@ hr{
 	border-color:black;
 }
 div#profil_pic{
-	height:280px;
-	width:280px;
+	margin:auto;
+	height:250px;
+	width:250px;
 	object-fit:contain;
 }
-img#profil_pic{
-	max-height:280px;
-	width:280px;
+
+div.pic{
+	margin:auto;
+	height:100px;
+	width:100px;
+	object-fit:contain;
+
 }
-div.wrap{
+div.flex_wrap{
+	display:flex
+	justify-content:space-evenly;
+}
+img{
+	border-radius:5px;
+	height:100%;
 	width:100%;
-	height:30px;
 }
-div#o_gender{
-	width:50%;
-	float:left;
+img#full_img{
+	all:unset;
 }
-div#o_gender_identity{
-	width:50%;
-	float:right;
-}
+
+
 p{
-	margin:5px;
+	padding:5px;
 }
+
 .f_title{
 	text-align:center;
 	text-transform:uppercase;

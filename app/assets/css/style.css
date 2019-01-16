@@ -81,6 +81,7 @@ header, main, footer, section
 	box-sizing: border-box;
 	text-align: center;
 }
+
 section#login a{
 	float:right;
 }
@@ -89,11 +90,6 @@ a
 {
 	color: rgba(255, 100, 100, 1);
 	text-decoration: none;
-}
-
-a:hover
-{
-	color: rgba(255, 255, 255, 0.5);
 }
 
 .center
@@ -153,9 +149,9 @@ header span.loggued_username
 	top: -18px;
 	font-size: 20px;
 }
+
 div#notif
 {
-	color:white;
 	cursor: pointer;
 }
 
@@ -169,7 +165,20 @@ span#nb_messages
 	position: absolute;
 	margin-left: 45px;
 	margin-top: -35px;
-	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+	box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.4);
+}
+
+span#nb_notif
+{
+	background-color: red;
+	border-radius: 5px;
+	padding: 3px 5px;
+	font-size: 13px;
+	font-weight: bold;
+	position: absolute;
+	margin-left: 5px;
+	margin-top: -50px;
+	box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.4);
 }
 
 header nav ul li
@@ -183,6 +192,19 @@ header nav ul li + li
 	margin-left: 20px;
 }
 
+header li a:hover,
+div#notif:hover,
+span.header_menutxt:hover
+{
+	opacity:0.9;
+	color:black;
+}
+
+header li a:hover img
+{
+	opacity:0.5:
+}
+
 header nav,
 header h1,
 header nav ul
@@ -192,16 +214,17 @@ header nav ul
 
 img#loggued_pic
 {
-	margin-top: 8px;
-	width:40px;
-	height:42px;
+	margin-top: 7px;
+	width:30px;
+	height:30px;
 	border-radius: 100%;
-	border: 2px solid rgba(0, 0, 0, 0.5);
+	border: 2px solid rgba(0, 0, 0, 0.4);
 }
 
 section#login
 {
 }
+
 /*- WRAP -----------------------------------------------------------*/
 
 section#wrap
