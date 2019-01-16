@@ -1,68 +1,102 @@
 <section id="dashboard">
-	<section>
-		MATCHES
-		<hr>
-	<?php foreach($this->data['matches'] as $user) { ?>
+<div class="top">
+	<form id="radio_form" action="">
+		<table>
+			<th>
+				<input id="i_matches" value="div_matches"type="radio" name="section" checked>
+				<label for="i_matches">
+					Matches	
+				</label>
+			</th>
+			<th>
+				<input id="i_likes" value="div_likes" type="radio" name="section">
+				<label for="i_likes">
+					Liked users	
+				</label>
+			</th>
+
+			<th>
+				<input id="i_liked_by" value="div_liked_by" type="radio" name="section">
+				<label for="i_liked_by">
+					Users that like you	
+				</label>
+			</th>
+			<th>
+				<input id="i_visits_history" value="div_visits_history" type="radio" name="section">
+				<label for="i_visits_history">
+					Visits history	
+				</label>
+			</th>
+			<th>
+				<input id="i_likes_history" value="div_likes_history" type="radio" name="section">
+				<label for="i_likes_history">
+					Likes history	
+				</label>
+			</th>
+			<th>
+				<input id="i_blocked" value="div_blocked" type="radio" name="section">
+				<label for="i_blocked">
+					Blocked users	
+				</label>
+			</th>
+		</table>
+	</form>
+</div>
+
+<div class='body' id="div_infos">
+	<div id="div_matches">
+		<?php foreach($this->data['matches'] as $user) { ?>
 	<?php if (!$user['id_media']){ ?>
-		<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
 	<?php } else { ?>
-		<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
 	<?php } ?>
-	
-		<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-			<?php echo $user['username']; ?>
-		</a>
+
+	<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+		<?php echo $user['username']; ?>
+	</a>
 	<br>
 	<?php } ?>
-	
-	</section>
+	</div>
 
-	<section>
-		Users likes you
-		<hr>
-	<?php foreach($this->data['likes'] as $user) { ?>
+	<div id="div_likes">
+	</div>
+
+	<div id="div_liked_by">
+		<?php foreach($this->data['liked_by'] as $user) { ?>
 	<?php if (!$user['id_media']){ ?>
-		<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<img class="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
 	<?php } else { ?>
-		<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<img class="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
 	<?php } ?>
-	
-		<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-			<?php echo $user['username']; ?>
-		</a>
+
+	<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+		<?php echo $user['username']; ?>
+	</a>
 	<br>
 	<?php } ?>
+		</div>
+
+	<div id="div_visits_history">
+		<?php
+	$this->module_loader->notifications();
+	$this->module->notifications->history();
+	?>
+	</div>
 	
-	</section>
-
-
-	<section>
-		Historique
-		<hr>
-		<?php
-			$this->module_loader->notifications();
-			$this->module->notifications->history();
-		?>
-
-	</section>
-
-	<section>
-		Like
-		<hr>
-		<?php
-			$this->module_loader->notifications();
-			$this->module->notifications->like();
-		?>
-
-	</section>
-
-	<section>
-		BLOCKED USERS
-		<hr>
-	<?php foreach($this->data['blocked'] as $user) { ?>
+	<div id="div_likes_history">
+	<?php
+	$this->module_loader->notifications();
+	$this->module->notifications->like();
+	?>
+	</div>
+	<div id="div_blocked">
+		<?php foreach($this->data['blocked'] as $user) { ?>
 	<?php echo $user['username']; ?>
-			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
+	<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
 	<br>
 	<?php } ?>
-	</section>
+	</div>
+</div>
 </section>
+<script src="<?php echo JS_PATH;?>dashboard.js"></script>

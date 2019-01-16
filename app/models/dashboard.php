@@ -44,7 +44,7 @@ class m_dashboard
 		return ($matches);
 	}
 	
-	public function get_likers($id_user)
+	public function liked_by($id_user)
 	{
 		$sql = "
 			SELECT DISTINCT u.id, u.username, u.id_media
@@ -69,4 +69,27 @@ class m_dashboard
 		return ($matches);
 	}
 
+	public function likes($id_user)
+	{
+		$sql = "
+			SELECT DISTINCT *, u.id, u.username, u.id_media
+			FROM user u
+            LEFT JOIN `like` l1
+			ON l1.id_user_to = u.id
+			LEFT OUTER JOIN `like` l2
+			ON (l1.id_user_to = l2.id_user_from
+			AND l1.id_user_from = l2.id_user_to)
+			LEFT OUTER JOIN blocked b
+			ON (b.id_user_from = :id_user
+			AND b.id_user_to = u.id)
+			WHERE l1.id_user_from = :id_user
+			AND l1.revoked = 0
+			AND (l2.id_user_from IS NULL OR l2.revoked = 1)
+			AND b.id_user_from IS NULL";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam("id_user", $id_user, PDO::PARAM_STR);
+		$matches = $stm->execute();
+		$matches = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return ($matches);
+	}
 }

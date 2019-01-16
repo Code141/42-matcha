@@ -15,7 +15,7 @@ div.search_section
 	border: 1px solid rgb(170, 170, 170);
 	text-align:center;
 	padding : 6px;
-	background-color: rgba(0, 0, 0, 0.01);
+	background-color: rgba(0, 0, 0, 0.02);
 }
 
 div.search_section_box
