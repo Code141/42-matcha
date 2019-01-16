@@ -5,7 +5,7 @@ class m_dashboard
 	public function get_blocked($id_user)
 	{
 		$sql = "
-			SELECT u.id, u.username
+			SELECT u.id, u.username, u.id_media
 			FROM `blocked` b
 			LEFT JOIN user u
 			ON u.id = b.id_user_to
@@ -21,7 +21,7 @@ class m_dashboard
 	public function get_matched($id_user)
 	{
 		$sql = "
-			SELECT DISTINCT u.id, u.username, u.id_media
+			SELECT DISTINCT u.id, u.username, u.id_media, c.timestamp as last_connexion
 			FROM `like` l1
 			LEFT JOIN `like` l2
 			ON l1.id_user_to = l2.id_user_from
@@ -30,6 +30,10 @@ class m_dashboard
 			LEFT OUTER JOIN blocked b
 			ON (b.id_user_from = :id_user
 			AND b.id_user_to = u.id)
+
+			LEFT JOIN connexion c
+			ON c.id_user = u.id
+
 			WHERE (l1.id_user_from = :id_user
 			AND l2.id_user_to = :id_user)
 			AND (l1.revoked = 0

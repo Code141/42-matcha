@@ -38,3 +38,13 @@
 	}
 
 }
+
+@media (max-width: 600px) {
+	h1#title,
+	h1#title a
+	{
+		width:0px;
+		overflow:hidden;
+		 color: rgba(255, 255, 255, 0);
+	}
+}

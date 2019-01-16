@@ -21,8 +21,8 @@ function	like(id)
 
 function	dislike(id)
 {
-	console.log(id);
 	ajax_request(SITE_ROOT + 'ajax/dislike/' + id);
+	return (false);
 }
 
 

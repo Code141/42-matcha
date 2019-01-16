@@ -137,22 +137,6 @@ p{
 	padding:5px;
 }
 
-div.interact_flex
-{
-	display:flex;
-	margin-bottom:20px;
-}
-
-div.interact
-{
-	display: block;
-	background-color: rgba(0, 0, 0, 0.03);
-	padding: 10px;
-	border-radius:5px;
-	margin: auto auto;
-	float: left;
-}
-
 div.interact:hover
 {
 	background-color: rgba(0, 0, 0, 0.05);

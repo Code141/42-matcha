@@ -20,6 +20,7 @@ self.addEventListener("connect", function (e) {
 
 	port.addEventListener("message", function (e) {
 		data = JSON.parse(e.data);
+		console.log(data);
 		if (data.action == "message")
 		{
 			data.message = escapeHtml(data.message);

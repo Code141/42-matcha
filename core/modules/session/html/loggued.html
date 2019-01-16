@@ -1,24 +1,24 @@
-		<?php
-			$user = $this->self->controller->user_loggued();
-		?>
-		<nav>
-			<ul>
-			<li>
-		<div>
-			<img id="loggued_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
-			<p class="loggued_username">
-				<?php echo $user['username']; ?>
-			</p>
-		</div>
-			</li>
-			<li>
-	<a href="<?php echo SITE_ROOT; ?>login/logout">
-		<div class="glyphicons glyph_logout">
-		</div>
-		<span class="header_menutxt">
-			logout
-		</span>
-	</a>
-			</li>
-			</ul>
-		</nav>
+<?php $user = $this->self->controller->user_loggued(); ?>
+<nav>
+	<ul>
+		<li>
+			<a href="<?php echo SITE_ROOT; ?>account">
+				<div class="">
+					<img id="loggued_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+				</div>
+				<span class="header_menutxt">
+					<?php echo $user['username']; ?>
+				</span>
+			</a>
+		</li>
+		<li>
+			<a href="<?php echo SITE_ROOT; ?>login/logout">
+				<div class="glyphicons glyph_logout">
+				</div>
+				<span class="header_menutxt">
+					logout
+				</span>
+			</a>
+		</li>
+	</ul>
+</nav>

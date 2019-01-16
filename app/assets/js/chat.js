@@ -222,12 +222,9 @@ function notif()
 
 	this.add_a_notif = function()
 	{
-		if (typeof this.notif_nb_div != "undefined")
-		{
 		nb = parseInt(this.notif_nb_div.innerHTML);
 		nb = (isNaN(nb)) ? 0 : nb;
 		this.notif_nb_div.innerHTML = nb + 1;
-		}
 	}
 }
 

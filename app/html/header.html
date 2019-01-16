@@ -6,7 +6,7 @@ $this->core->module_loader->session();
 if ($this->module_loader->session()->controller->is_loggued()) {
 	$new_mess = $this->module_loader->session()->controller->new_mess();
 ?>
-	<a href="<?php echo SITE_ROOT . "dashboard"; ?>"><?php echo ucfirst(APP_NAME); ?></a>
+	<a href="<?php echo SITE_ROOT . "matches"; ?>"><?php echo ucfirst(APP_NAME); ?></a>
 <?php } else { ?>
 	<a href="<?php echo SITE_ROOT; ?>"><?php echo ucfirst(APP_NAME); ?></a>
 <?php } ?>
@@ -15,11 +15,11 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 <nav>
 	<ul>
 		<li>
-		<a href="<?php echo SITE_ROOT; ?>account">
+		<a href="<?php echo SITE_ROOT; ?>dashboard">
 			<div class="glyphicons glyph_book">
 			</div>
 				<span class="header_menutxt">
-					Account
+					Dashboard
 				</span>
 			</a>
 		</li>

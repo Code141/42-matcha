@@ -51,6 +51,30 @@
 						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
 							<?php echo $user['username']; ?>
 						</a>
+						<div class="interact_flex">
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/dislike/' . $user['id']; ?>" onclick="return dislike(<?php echo $user['id']; ?>);">
+									<div class="glyphicons glyph_heart"></div>
+									Dislike
+								</a>
+							</div>
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
+									<div class="glyphicons glyph_ban"></div>
+									Block
+								</a>
+							</div>
+							<div class="interact">
+								<a id="" onclick="report(<?php echo $user['id']?>)">
+									<div class="glyphicons glyph_bug"></div>
+									Report
+								</a>
+							</div>
+							<div class="interact">
+								<div class="glyphicons glyph_flash"></div>
+									<?php echo last_connection($user['last_connexion']); ?>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<?php } ?>
@@ -111,12 +135,16 @@
 					<tr>
 					<td class="profil_pic">
 						<div class="profil_pic">
+							<?php if (!$user['id_media']){ ?>
 							<img src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+							<?php } else { ?>
+							<img src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+							<?php } ?>
 						</div>
-							<?php echo $user['username']; ?>
+						<?php echo $user['username']; ?>
 					</td>
 					<td>
-			<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
+						<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
 					</td>
 				</tr>	
 			<?php } ?>
