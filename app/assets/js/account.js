@@ -136,14 +136,17 @@ function set_as_profil_pic(id_media)
 	xhr.open('POST', url_account + "set_as_profil_pic?is_ajax=1", true);
 	xhr.onload = function () {
 		var prompter = document.getElementById('prompter');
+		if (prompter.childNodes[0])
+			prompter.childNodes[0].remove();
+		var div = document.createElement('div');
 		var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText;
 			if (response)
 			{
-				prompter.innerHTML = response;
-				prompter.style.backgroundColor = 'red';
-				prompter.style.display = 'block';
+				div.className = "prompter_fail";
+				div.innerHTML = response;
+				prompter.appendChild(div);
 			}
 			else
 			{
@@ -170,14 +173,17 @@ function delete_img(div_media)
 	xhr.open('POST', url_account + "delete_img?is_ajax=1", true);
 	xhr.onload = function () {
 		var prompter = document.getElementById('prompter');
+		if (prompter.childNodes[0])
+			prompter.childNodes[0].remove();
+		var div = document.createElement('div');
 		var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText;
 			if (response)
 			{
-				prompter.innerHTML = response;
-				prompter.style.backgroundColor = 'red';
-				prompter.style.display = 'block';
+				div.className = "prompter_fail";
+				div.innerHTML = response;
+				prompter.appendChild(div);
 			}
 			else
 			{
@@ -192,6 +198,8 @@ function delete_img(div_media)
 						document.getElementById('div_profil_pic').insertBefore(promp, document.getElementById('div_profil_pic').childNodes[0])
 					profil_pic.src = default_user_img;
 				}
+				var div = document.getElementsByClassName('top')[0];
+					div.style.display = "inline-block";
 			}
 		} else {
 			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
@@ -265,21 +273,25 @@ function save_snapshot(){
 	xhr.open('POST', url_account + "upload_file?is_ajax=1", true);
 	xhr.onload = function () {
 		var prompter = document.getElementById('prompter');
+		if (prompter.childNodes[0])
+			prompter.childNodes[0].remove();
+		var div = document.createElement('div');
 		var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText.split("\/")[0];
 			if (response !== "Image upload success!")
 			{
-				prompter.innerHTML = response;
-				prompter.style.backgroundColor = 'red';
+				div.className = "prompter_fail";
+				div.innerHTML = response;
+				prompter.appendChild(div);
 			}
 			else
 			{
-				prompter.innerHTML = response;
-				prompter.style.backgroundColor = 'green';
+				div.className = "prompter_success";
+				div.innerHTML = response;
+				prompter.appendChild(div);
 				update_pic_fieldset(xhr.responseText.split("\/")[1]);
 			}
-			prompter.style.display = 'block';
 		} else {
 			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
 		}
@@ -322,6 +334,9 @@ function update_pic_fieldset(id_media){
 	div_img.appendChild(img);
 	wrap.appendChild(div_img);
 	pic_div.appendChild(wrap);
+	var wraps = document.getElementsByClassName('wrap');
+	if (wraps.length == 5)
+		document.getElementsByClassName('top')[0].style.display = "none";
 }
 
 function dataURItoBlob(dataURI) {

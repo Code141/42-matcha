@@ -5,7 +5,19 @@ function ajax_request(target)
 	xhr.onreadystatechange = function(event) {
 		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200)
-				console.log(this.responseText);
+			{
+				var prompter = document.getElementById('prompter');
+				if (prompter.childNodes[0])
+					prompter.childNodes[0].remove();
+				var div = document.createElement('div');
+				var status = JSON.parse(this.responseText).status;
+				if (status == "success")
+				{
+					div.className = "prompter_success";
+					div.innerHTML = "Success!";
+					prompter.appendChild(div);
+				}
+			}
 			else
 				console.log("XHR Error : %d (%s)", this.status, this.statusText);
 		}
