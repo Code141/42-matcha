@@ -2,7 +2,7 @@ SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 CREATE TABLE `bio` (
   `id_user` int(11) NOT NULL, UNIQUE (`id_user`),
-  `bio` varchar(500) NOT NULL
+  `bio` varchar(2000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `blocked` (

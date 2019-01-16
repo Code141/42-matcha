@@ -8,8 +8,35 @@
 		<?php echo $user['username']; ?>
 	</div>
 	<div class='profil_body'>
+	<div class="interact_flex">
+	<div class="interact">
+
 	<div id="user_like_<?php echo $user['id']?>" class="user_like_status">
 	</div>
+
+	</div>
+	<div class="interact">
+	<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
+		Block
+		<div class="glyphicons glyph_ban"></div>
+	</a>
+	</div>
+	<div class="interact">
+		<a id="" onclick="report(<?php echo $user['id']?>)">
+			Report
+			<div class="glyphicons glyph_bug"></div>
+		</a>
+	</div>
+</div>
+
+	<div id="profil_pic">
+	<?php if (!$user['id_media']){ ?>
+		<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
+	<?php } else { ?>
+		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
+	<?php } ?>
+	</div>
+
 
 	<div id="last_connection">
 		LAST CONNECTION : <?php echo last_connection($user['last_connexion']); ?>
@@ -20,29 +47,6 @@
 	</div>
 
 
-
-	<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
-		BLOCK
-	</a>
-
-	<button id="" onclick="report(<?php echo $user['id']?>)">
-		REPORT
-	</button>
-
-	<div id="profil_pic">
-	<?php if (!$user['id_media']){ ?>
-		<img id="profil_pic" src="<?php echo IMG_PATH . 'default-user-image.png';?>">
-	<?php } else { ?>
-		<img id="profil_pic" src="<?php echo MEDIA_PATH . $user['id_media'] . '.png';?>">
-	<?php } ?>
-
-
-	</div>
-
-	<p id="bio">
-			<?php echo $user['bio'];?>
-	</p>
-
 </div>
 </section>
 <section id='infos'>
@@ -50,27 +54,33 @@
 		<form id="radio_form" action="">
 			<table>
 				<th>
-						<input id="i_general_information" value="div_general_information"type="radio" name="section" checked>
+					<input id="i_general_information" value="div_general_information"type="radio" name="section" checked>
 					<label for="i_general_information">
-						General information	
+						General
 						</label>
 				</th>
 				<th>
-		<input id="i_pictures" value="div_pictures" type="radio" name="section">
+					<input id="i_bio" value="_bio"type="radio" name="section">
+					<label for="i_bio">
+						Bio
+					</label>
+				</th>
+				<th>
+					<input id="i_pictures" value="div_pictures" type="radio" name="section">
 					<label for="i_pictures">
-		Pictures	
+						Pictures
 					</label>
 				</th>
 				<th>
-		<input id="i_matching_preferences" value="div_matching_preferences" type="radio" name="section">
+					<input id="i_matching_preferences" value="div_matching_preferences" type="radio" name="section">
 					<label for="i_matching_preferences">
-		Matching preferences
+						Matching preferences
 					</label>
 				</th>
 				<th>
-		<input id="i_tags" value="div_tags" type="radio" name="section">
+					<input id="i_tags" value="div_tags" type="radio" name="section">
 					<label for="i_tags">
-		Tags
+						Tags
 					</label>
 				</th>
 			</table>
@@ -79,40 +89,47 @@
 	<div class='profil_body' id="div_infos">
 	
 		<div id="div_general_information">
-	<p>Position :</p>
-	<div id="map"></div>
-	<div id="more_info">
-		<p>
-		<span>Firstname</span>:
+		<div id="map"></div>
+		<div id="more_info">
+			<p>
+		<span>Firstname</span>
 			<?php echo $user['firstname']; ?>
 		</p>
 		<p>
-		<span>Lastname</span>:
+		<span>Lastname</span>
 			<?php echo $user['lastname']; ?>
 		</p>
 		<p>
-		<span>Gender</span>:
+		<span>Gender</span>
 			<?php echo $user['gender_name']; ?>
 		</p>
 		<p>
-		<span>Gender identity</span>:
+		<span>Gender identity</span>
 			<?php echo $user['gender_identity_name']; ?>
 		</p>
 		<p>
-		<span>Age</span>:
+		<span>Age</span>
 			<?php echo date_diff(date_create($user['birthdate']), date_create('today'))->y . " years old"; ?>
 		</p>	
 		<p>
-		<span>Birthdate</span>:
+		<span>Birthdate</span>
 			<?php echo $user['birthdate']; ?>
 		</p>	
 		<p>
-		<span>Email</span>:
+		<span>Email</span>
 			<?php echo $user['email']; ?>
 		</p>
 	</div>
 	</div>
 	
+	<div id="div_bio">
+
+	<p id="bio">
+			<?php echo $user['bio'];?>
+	</p>
+
+	</div>
+
 	<div id="div_matching_preferences">
 		<table id="preferences">
 			<tr>

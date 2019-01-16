@@ -106,6 +106,8 @@ class c_account extends c_logged_only
 	{
 		if (!isset($_POST['bio']) || trim($_POST['bio']) == "")
 			$this->core->fail("Your bio can not be empty", 'account', 'main');
+		if (strlen($_POST['bio']) >= 2000)
+			$this->core->fail("Your bio is too long (2000 char max)", 'account', 'main');
 		$model = $this->load->model("account");
 		$model->edit_bio($_SESSION['user']['id'], $_POST['bio']);
 		$this->module_loader->session()->controller->update_session();

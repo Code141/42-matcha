@@ -4,7 +4,6 @@
 	background-image: url("../img/background.jpg");
 }
 
-
 .glyphicons
 {
 	opacity:0.6;
@@ -57,9 +56,6 @@
 	background-image: url("../img/glyphicons/glyphicons_264_vcard.png");
 }
 
-
-
-
 .glyph_keys
 {
 	background-image: url("../img/glyphicons/glyphicons_044_keys.png");
@@ -70,11 +66,42 @@
 	background-image: url("../img/glyphicons/glyphicons_199_ban.png");
 }
 
-
 .glyph_logout
 {
 	background-image: url("../img/glyphicons/glyphicons_203_lock.png ");
 }
+
+.glyph_heart
+{
+	background-image: url("../img/glyphicons/glyphicons_012_heart.png");
+}
+
+.glyph_heart_empty
+{
+	background-image: url("../img/glyphicons/glyphicons_019_heart_empty.png");
+}
+
+.glyph_heart_first_half
+{
+	background-image: url("../img/glyphicons/glyphicons_019_heart_first_half.png");
+}
+
+.glyph_heart_second_half
+{
+	background-image: url("../img/glyphicons/glyphicons_019_heart_second_half.png");
+}
+
+
+.glyph_bug
+{
+	background-image: url("../img/glyphicons/glyphicons_360_bug.png");
+}
+
+
+
+
+
+
 
 
 
@@ -101,13 +128,4 @@ input:checked + label
 
 
 
-.glyph_
-{
-	background-image: url("../img/glyphicons/");
-}
-
-.glyph_
-{
-	background-image: url("../img/glyphicons/");
-}
 

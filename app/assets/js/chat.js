@@ -120,13 +120,13 @@ function user_like(id_user, u1, u2)
 	{
 		this.main_div.innerHTML = "";
 		span = document.createElement('span');
-		button = document.createElement('button');
+		button = document.createElement('a');
 		if (this.u1)
 		{
 			if (this.u2)
-				span.innerHTML = "MATCHED";
+				span.innerHTML = '<div class="glyphicons glyph_heart"></div>';
 			else
-				span.innerHTML = "YOU LIKE THIS USER";
+				span.innerHTML = '<div class="glyphicons glyph_heart_first_half"></div>';
 			button.innerHTML = "Dislike";
 			button.onclick = function(){
 				dislike(this.id);
@@ -137,9 +137,9 @@ function user_like(id_user, u1, u2)
 		else
 		{
 			if (this.u2)
-				span.innerHTML = "THIS USER LIKES YOU";
+				span.innerHTML = '<div class="glyphicons glyph_heart_second_half"></div>';
 			else
-				span.innerHTML = "NOTHING TO SAY";
+				span.innerHTML = '<div class="glyphicons glyph_heart_empty"></div>';
 			button.innerHTML = "Like";
 			button.onclick = function(){
 				like(this.id);
@@ -147,7 +147,7 @@ function user_like(id_user, u1, u2)
 				this.refresh();
 			}.bind(this);
 		}
-		this.main_div.appendChild(span);
+		button.appendChild(span);
 		this.main_div.appendChild(button);
 	}
 }
@@ -222,9 +222,12 @@ function notif()
 
 	this.add_a_notif = function()
 	{
+		if (typeof this.notif_nb_div != "undefined")
+		{
 		nb = parseInt(this.notif_nb_div.innerHTML);
 		nb = (isNaN(nb)) ? 0 : nb;
 		this.notif_nb_div.innerHTML = nb + 1;
+		}
 	}
 }
 

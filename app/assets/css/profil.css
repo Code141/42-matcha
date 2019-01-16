@@ -8,7 +8,6 @@ section#infos{
 	width:65%;
 }
 div.profil_top{
-	margin-top:20px;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
 	color: rgba(0,0,0,0.7);
@@ -17,15 +16,20 @@ div.profil_top{
 	padding: 6px;
 	background-color: rgba(0, 0, 0, 0.01);
 	font-size:large;
+margin:5px;
+margin-top:20px;
+margin-bottom:0px;
 }
+
 div.profil_body{
 	min-height:100px;
 	padding: 15px;
 	border: 1px solid rgba(0,0,0,0.3);
 	border-top: none;
-	margin-bottom: 20px;
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius: 7px;
+margin:5px;
+margin-top:0px;
 }
 
 table {
@@ -76,10 +80,21 @@ div#div_tags{
 div#tag, div#more_info, p#bio{
 	text-align:justify;
 }
-div#more_info span{
-	display:inline-block;
-	width:75px;
+
+div#more_info 
+{
+	margin-top:15px;
 }
+
+div#more_info span
+{
+	display:inline-block;
+	width:160px;
+	margin-top:2px;
+	font-weight:bold;
+
+}
+
 hr{
 	border-width:0.5px;
 	border-style:solid;
@@ -87,8 +102,8 @@ hr{
 }
 div#profil_pic{
 	margin:auto;
-	height:250px;
-	width:250px;
+	margin-bottom:20px;
+
 	object-fit:contain;
 }
 
@@ -117,6 +132,25 @@ p{
 	padding:5px;
 }
 
+div.interact_flex
+{
+	display:flex;
+	margin-bottom:20px;
+}
+div.interact
+{
+	display: block;
+	background-color: rgba(0, 0, 0, 0.03);
+	padding: 10px;
+	border-radius:5px;
+	margin: auto auto;
+	float: left;
+}
+div.interact:hover
+{
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
 .f_title{
 	text-align:center;
 	text-transform:uppercase;
@@ -125,4 +159,5 @@ p{
 }
 #map{
 	height:200px;
+	border-radius:10px;
 }
