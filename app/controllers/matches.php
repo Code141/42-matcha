@@ -83,7 +83,7 @@ class c_matches extends c_logged_only
 			->execute()
 			->rowCount();
 		$this->json['total_matches'] = json_encode($nb_matches);
-		$offset = 10;
+		$offset = 20;
 		if (!isset($params[0]) || empty($params[0]) ||
 			!is_numeric($params[0]) || $params[0] <= 0 || $params[0] >= (($nb_matches / 10) + 1))
 			$this->data['current_page'] = 1;
