@@ -18,8 +18,8 @@ class c_module_notifications extends c_controller
 		$like = $this->tag_notif($like, "has liked you");
 		foreach ($like as $key => $value)
 			if ($like[$key]['matche'])
-				$like[$key]['notif_msg'] = "has matched you";
-		$revoke = $this->tag_notif($revoke, "has revoked you");
+				$like[$key]['notif_msg'] = "has matched with you !";
+		$revoke = $this->tag_notif($revoke, "has unliked you");
 		$history = $this->tag_notif($history, "has visited your profile");
 		$notif = array_merge($history, $like, $revoke);
 		usort($notif, function ($a, $b) {
@@ -47,8 +47,8 @@ class c_module_notifications extends c_controller
 		$like = $this->tag_notif($like, "has liked you");
 		foreach ($like as $key => $value)
 			if ($like[$key]['matche'])
-				$like[$key]['notif_msg'] = "has matched you";
-		$revoke = $this->tag_notif($revoke, "has revoked you");
+				$like[$key]['notif_msg'] = "has matched with you !";
+		$revoke = $this->tag_notif($revoke, "has unliked you");
 		$notif = array_merge($like, $revoke);
 		usort($notif, function ($a, $b) {
 			return strtotime($b["timestamp"]) - strtotime($a["timestamp"]);
