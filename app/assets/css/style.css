@@ -18,7 +18,11 @@
 body
 {
 	font-family: arial;
-	color:rgba(0,0,0,0.7);
+	gcolor:rgba(0,0,0,0.7);
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;          /* Likely future */
 }
 
 
@@ -165,7 +169,6 @@ span#nb_messages
 	position: absolute;
 	margin-left: 45px;
 	margin-top: -35px;
-	box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.4);
 }
 
 span#nb_notif
@@ -178,7 +181,6 @@ span#nb_notif
 	position: absolute;
 	margin-left: 5px;
 	margin-top: -50px;
-	box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.4);
 }
 
 header nav ul li
