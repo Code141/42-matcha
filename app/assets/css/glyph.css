@@ -104,7 +104,7 @@
 
 .glyph_flash
 {
-	background-image: url("../img/glyphicons/glyphicons_241_flash.png");
+	background-image: url("../img/glyphicons/glyphicons_053_alarm.png");
 }
 
 
@@ -121,6 +121,9 @@
 
 form#matches_form input + label
 {
+	text-overflow: ellipsis;
+	  white-space: nowrap;
+  overflow: hidden;
 	display:block;
 	padding-right:25px;
 	height:25px;

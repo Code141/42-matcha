@@ -6,6 +6,7 @@ class c_matches extends c_logged_only
 
 	private function prepare()
 	{
+
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
 
@@ -51,6 +52,8 @@ class c_matches extends c_logged_only
 
 	public function main($params = NULL)
 	{
+		$timestamp_debut = microtime(true);
+
 		$this->prepare();
 		$filter_tags = array();
 		foreach ($_POST as $filter => $value)
@@ -125,10 +128,21 @@ class c_matches extends c_logged_only
 
 		$this->json['matches'] = json_encode($this->data['matches']);
 
+		$timestamp_fin = microtime(true);
+		$difference_ms = $timestamp_fin - $timestamp_debut;
+		$this->data['ms'] = $difference_ms;
+
+		$data_send = array (
+			'matches' => $this->data['matches'],
+			'total_matches' => $nb_matches,
+			'ms' => round($difference_ms, 2)
+		);
+
 		if (is_ajax_query())
 		{
-			echo $this->json['matches'];
-			echo $this->json['total_matches'];
+			header('Content-Type: application/json');
+			echo json_encode($data_send);
+			die();
 		}
 		else
 			$this->core->set_view("matches", "main");

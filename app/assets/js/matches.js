@@ -43,9 +43,11 @@ function	search_matches(url)
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
-			console.log(xhr.responseText);
-			profils = JSON.parse(xhr.responseText.match(/.+[^\d+$]/));
-			total_matches = JSON.parse(xhr.responseText.match(/\d+$/));
+			data = JSON.parse(xhr.responseText);
+			profils = data.matches; 
+			total_matches = data.total_matches;
+			ms = data.ms;
+
 			fill_profil_container(profils);
 			add_markers(profils);
 		}
@@ -125,7 +127,7 @@ function	pagination()
 	var next_page = document.getElementById('next_page');
 	clean_pagination(nb_pages, previous_page, next_page, last_page);
 	var span = document.getElementById('nb_matches');
-		span.innerHTML = span.innerHTML.replace(/[^\:]+$/, ' ' + total_matches);
+		span.innerHTML = span.innerHTML.replace(/[^\:]+$/, ' ' + total_matches + ' (in ' + ms + ' seconds)');
 	var th = document.createElement('th');
 	var a = document.createElement('a');
 		a.href = SITE_ROOT + "matches/main/";

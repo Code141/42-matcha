@@ -166,12 +166,13 @@
 	</aside>
 
 	<div class="right">
+		<div id="match_top">
 		<div id=map>
 		</div>
 		<div id="pagination">
 			<p>
 			<span id='nb_matches'>
-				Number of matching results :  
+				Number of matching results :
 			</span>
 				<table id='pages'>
 					<th id='previous_page' title="previous page"><a id="a_previous_page" href="<?php echo SITE_ROOT . 'matches/main/' . $this->data['current_page'];?>"><<</a></th>
@@ -180,6 +181,7 @@
 					<th id='next_page' title="next page"><a id="a_next_page"href="<?php echo SITE_ROOT . 'matches/main/' . $this->data['current_page'] ;?>">>></a></th>
 				</table>
 			</p>
+		</div>
 		</div>
 		<div class='container' id="profils">
 		</div>
@@ -191,6 +193,7 @@ var default_pic = "<?php echo IMG_PATH . 'default-user-image.png';?>";
 var MEDIA_PATH = "<?php echo MEDIA_PATH;?>";
 var SITE_ROOT = "<?php echo SITE_ROOT;?>";
 var total_matches = "<?php echo $this->json['total_matches'];?>";
+var ms = "<?php echo round( $this->data['ms'], 2); ?>";
 var current_page = parseInt(<?php echo $this->json['current_page'];?>);
 	</script>
 </section>
