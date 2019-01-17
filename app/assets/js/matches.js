@@ -17,6 +17,8 @@ function initMap() {
 
 function	init()
 {
+	var map_div = document.getElementById('map');
+	map_div.style.height = "350px";
 	initMap();
 	fill_profil_container(profils);
 	add_markers(profils);

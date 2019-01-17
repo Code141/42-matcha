@@ -55,7 +55,6 @@ section#prompter {
 }
 
 section#prompter div{
-	position:relative;
 	z-index:9999;
 	margin:5px auto 5px auto;
 	width:60%;

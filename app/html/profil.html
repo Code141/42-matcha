@@ -37,14 +37,17 @@
 	<div class="interact_flex">
 
 	<div class="interact">
-		Last connection <?php echo last_connection($user['last_connexion']); ?>
-		<div class="glyphicons glyph_flash"></div>
+		<a>
+			Last connection <?php echo last_connection($user['last_connexion']); ?>
+			<div class="glyphicons glyph_flash"></div>
+		</a>
 	</div>
 
 	<div class="interact">
-
-		<?php echo $user['score']; ?> / 10
-		<div class="glyphicons glyph_star"></div>
+		<a>
+			<?php echo $user['score']; ?> / 10
+			<div class="glyphicons glyph_star"></div>
+		</a>
 	</div>
 	</div>
 

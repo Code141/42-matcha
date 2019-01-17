@@ -116,8 +116,8 @@
 form#matches_form input + label
 {
 	text-overflow: ellipsis;
-	  white-space: nowrap;
-  overflow: hidden;
+	white-space: nowrap;
+	overflow: hidden;
 	display:block;
 	padding-right:25px;
 	height:25px;
@@ -125,7 +125,6 @@ form#matches_form input + label
 	background-repeat: no-repeat;
 	background-position: right;
 	line-height: 26px;
-
 }
 
  form#matches_form input:checked + label
