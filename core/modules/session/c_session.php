@@ -270,5 +270,4 @@ class c_module_session extends c_controller
 			$ip = file_get_contents("http://ipecho.net/plain");
 		return $ip;
 	}
-
 }

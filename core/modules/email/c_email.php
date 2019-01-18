@@ -18,6 +18,7 @@ class c_module_email
 
 	public function send_mail()
 	{
+		echo 'HELLO';
 		$this->set_header();
 		$this->subject = "[" . APP_NAME . "] " . $this->subject;
 		$this->status = mail($this->user_to, $this->subject, $this->message, $this->header);

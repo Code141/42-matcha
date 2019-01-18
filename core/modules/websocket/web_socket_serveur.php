@@ -224,6 +224,8 @@ class socket_server
 
 	public function refresh_friends($id)
 	{
+		if ($this->find_socket($id))
+		{
 			$msg['friends'] = $this->db->get_friends($id);
 			$msg_log['login'] = $id;
 
@@ -236,8 +238,8 @@ class socket_server
 					$msg['friends'][$key]['connected'] = false;
 				$this->send($user['id'], $msg_log);
 			}
-
 			$this->send($id, $msg);
+		}
 	}
 
 	public function incoming($socketData)

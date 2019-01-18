@@ -7,6 +7,9 @@ window.onload = function ()
 	});
 	notif = new notif();
 	client = new websock();
+	client.worker = new SharedWorker("/matcha/app/assets/js/socket_worker.js");
+	client.worker.port.start();
+
 	if (typeof id_conv == "undefined")
 		chat_list = new chat_list(chat_list_cont);
 	else
@@ -16,6 +19,7 @@ window.onload = function ()
 	chat_list.init();
 	chat_list.connected(true);
 };
+
 
 window.onbeforeunload = function (e) 
 {
@@ -28,9 +32,6 @@ function websock()
 {
 	this.init = function()
 	{
-		this.worker = new SharedWorker("/matcha/app/assets/js/socket_worker.js");
-		this.worker.port.start();
-
 		this.worker.port.addEventListener("message", function(event)
 		{
 			var data = JSON.parse(event.data);
@@ -67,8 +68,7 @@ function websock()
 			else
 				chat_list.do(data);
 		}.bind(this), false);
-
-}
+	}
 
 	this.send = function(msg)
 	{

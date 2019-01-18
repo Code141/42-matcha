@@ -196,6 +196,10 @@ span#nb_notif
 	margin-left: 5px;
 	margin-top: -50px;
 }
+span#nb_notif:empty 
+{
+	display:none;
+}
 
 header nav ul li
 {
@@ -565,4 +569,23 @@ div.interact
 	float: left;
 }
 
+
+section.login_reset
+{
+	padding-top:30px;
+	color: #666;
+}
+
+section.login_reset input
+{
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	margin-top: 10px;
+}
+
+section.login_reset button
+{
+	background-color: rgba(206, 252, 197, 1);
+	border: 1px solid rgba(126, 246, 102, 1);
+	margin-top: 15px;
+}
 

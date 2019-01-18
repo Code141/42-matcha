@@ -20,7 +20,6 @@ self.addEventListener("connect", function (e) {
 
 	port.addEventListener("message", function (e) {
 		data = JSON.parse(e.data);
-		console.log(data);
 		if (data.action == "message")
 		{
 			data.message = escapeHtml(data.message);
@@ -28,31 +27,29 @@ self.addEventListener("connect", function (e) {
 				connection.postMessage(JSON.stringify({message : data }));
 			});
 		}
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------------*/
-		for (var i = 1; i < connections.length; i++)
+
+		if (data.action == "finish")
 		{
-			if (connections[i])
-			var elementsSupprimes = monTableau.splice(0, 2);
-			console.log(i);
+			for (var i = 0; i < connections.length; i++)
+			{
+				if (connections[i] == port)
+				{
+					var elementsSupprimes = connections.splice(i, 1);
+				}
+			}
+			if (connections.length == 0)
+			{
+				this.websocket.send(JSON.stringify({ action: "close" }));
+
+				console.log("close");
+
+			}
 		}
 
-		if (typeof this.websocket === "undefined")
+		if (typeof this.websocket === "undefined" || this.websocket.readyState != 1)
 			this.init();
-		this.websocket.send(e.data);
+		if (this.websocket.readyState == 1)
+			this.websocket.send(e.data);
 	}.bind(this), false);
 
 }, false);
@@ -65,6 +62,7 @@ this.init = function()
 	this.websocket.onopen = function (event)
 	{
 		port.postMessage(JSON.stringify("connected"));
+		this.websocket.send(JSON.stringify({ action: "friends" }));
 	}.bind(this);
 
 	this.websocket.onclose = function(event)
@@ -90,9 +88,3 @@ this.init = function()
 	}.bind(this);
 }
 
-
-WorkerGlobalScope.onclose = function()
-{
-	console.log("CLOSE WEB WORKER");
-		this.websocket.send(JSON.stringify({ action: "close" }));
-};

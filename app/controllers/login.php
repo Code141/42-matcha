@@ -39,7 +39,37 @@ class c_login extends c_controller
 	
 	public function change_password($params = NULL)
 	{
+		if (empty($params[0]) || empty ($params[1]))
+			$this->core->fail("Error while attempt to changing password", 'home', 'main');
+		$this->data['email'] = $params[0];
+		$this->data['token'] = $params[1];
 		$this->core->set_view("login", "change_password");
+	}
+
+	public function reset($params = NULL)
+	{
+
+		$fields = array("email", "token", "password", "password_repeat");
+		$fields = $this->requiered_fields($fields, $_POST);
+		if ($fields == NULL)
+			$this->core->fail("Error while attempt to changing password", 'home', 'main');
+
+		if (!$this->load->model("account")->check_pass_token($_POST['email'], $_POST['token']))
+			$this->core->fail("Bad token", 'home', 'main');
+		$this->module_loader->session();
+		try
+		{
+			$this->module->session->check_password($_POST['password'], $_POST['password_repeat']);
+		}
+		catch (Exception $e)
+		{
+			$this->core->fail($e->getMessage(), "login", "forgot_password");
+		}
+
+		$encrypted = $this->module->session->hash_password($_POST['password']);
+		$this->load->model("account")->change_pass($_POST['email'], $encrypted);
+
+		$this->core->success("Password changed", 'home', 'main');
 	}
 
 	public function reset_password($params = NULL)
