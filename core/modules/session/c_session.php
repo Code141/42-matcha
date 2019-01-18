@@ -25,14 +25,16 @@ class c_module_session extends c_controller
 		$user['tags'] = $this->self->model->get_user_tags($user['id']);
 		$user['media'] = $this->self->model->get_user_media($user['id']);
 		$user['bio'] = $this->self->model->get_bio($user['id']);
-
-
 		$_SESSION['user'] = $user;
 		$_SESSION['user']['password_length'] = strlen($fields['password']);
-
 		$_SESSION = $this->protect_html_injection($_SESSION);
 		$this->self->model->put_ip($user['id'], $this->getUserIP());
 		return (TRUE);
+	}
+
+	public function update_connected()
+	{
+		$this->self->model->put_ip($user['id'], $this->getUserIP());
 	}
 
 	public function update_session()
@@ -118,8 +120,6 @@ class c_module_session extends c_controller
 	public function	hash_password($password)
 	{
 		$hash = hash('whirlpool', $password);
-		// password_hash("rasmuslerdorf", PASSWORD_DEFAULT);
-		// bool password_verify ( string $password , string $hash )
 		return ($hash);
 	}
 
@@ -250,7 +250,6 @@ class c_module_session extends c_controller
 
 	private function getUserIP()
 	{
-		// Get real visitor IP behind CloudFlare network
 		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
 		{
 			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];

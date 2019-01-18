@@ -55,21 +55,6 @@ class	db
 				header ('location:' . SITE_ROOT . '404');
 		}
 	}
-/*
-	public function	execute_pdo()
-	{
-		$pdo_stm = $this->pdo->prepare($this->sql);
-
-		try
-		{
-			$pdo_stm->execute();
-		}
-		catch (PDOException $e)
-		{
-			echo $e->getMessage();
-		}
-		return ($pdo_stm);
-	}*/
 
 	public function	execute_pdo($pdo_stm, $page, $action)
 	{
