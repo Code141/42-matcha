@@ -484,6 +484,17 @@ section#login
 
 /*- NOTIFICATIONS --------------------------------------------------*/
 
+	div#mask
+	{
+		background-color: rgba(0, 0, 0, 0.3);
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100vw;
+		height:100vh;
+		display:none;
+	}
+
 	div#notif div#detail
 	{
 
@@ -537,6 +548,11 @@ div.interact_flex
 {
 	display:flex;
 	margin-bottom:20px;
+}
+
+div#div_infos_dashboard div.interact_flex
+{
+	margin-bottom:0px;
 }
 
 div.interact

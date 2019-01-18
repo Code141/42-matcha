@@ -26,7 +26,7 @@
 				<th>
 					<input id="i_blocked" value="div_blocked" type="radio" name="section">
 					<label for="i_blocked">
-						Blocked users	
+						Blocked users
 					</label>
 				</th>
 			</table>
@@ -37,6 +37,16 @@
 		<div id="div_matches">
 			<table class="t_div">
 				<?php foreach($this->data['matches'] as $user) { ?>
+				<tr class="t_name">
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+					<td class="last_connection">
+						<?php echo last_connection($user['last_connexion']); ?>
+					</td>
+				</tr>
 				<tr>
 					<td class="profil_pic">
 						<div class="profil_pic">
@@ -48,13 +58,16 @@
 						</div>
 					</td>
 					<td>
-						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-							<?php echo $user['username']; ?>
-						</a>
 						<div class="interact_flex">
 							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'message/conversation/' . $user['conv_id']; ?>">
+									<div class="glyphicons glyph_envelope"></div>
+									Conv
+								</a>
+							</div>
+							<div class="interact">
 								<a href="<?php echo SITE_ROOT . 'ajax/dislike/' . $user['id']; ?>" onclick="return dislike(<?php echo $user['id']; ?>);">
-									<div class="glyphicons glyph_heart"></div>
+									<div class="glyphicons glyph_heart_empty"></div>
 									Dislike
 								</a>
 							</div>
@@ -70,12 +83,6 @@
 									Report
 								</a>
 							</div>
-							<div class="interact">
-								<a>
-								<div class="glyphicons glyph_flash"></div>
-									<?php echo last_connection($user['last_connexion']); ?>
-								</a>
-							</div>
 						</div>
 					</td>
 				</tr>
@@ -87,6 +94,16 @@
 			<p>Still waiting for them to like you back ...</p>
 			<table class="t_div">
 				<?php foreach($this->data['liked'] as $user) { ?>
+				<tr class="t_name">
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+					<td class="last_connection">
+						<?php echo last_connection($user['last_connexion']); ?>
+					</td>
+				</tr>
 				<tr>
 					<td class="profil_pic">
 						<div class="profil_pic">
@@ -98,11 +115,29 @@
 						</div>
 					</td>
 					<td>
-						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-							<?php echo $user['username']; ?>
-						</a>
+						<div class="interact_flex">
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/dislike/' . $user['id']; ?>" onclick="return dislike(<?php echo $user['id']; ?>);">
+									<div class="glyphicons glyph_heart_empty"></div>
+									Dislike
+								</a>
+							</div>
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
+									<div class="glyphicons glyph_ban"></div>
+									Block
+								</a>
+							</div>
+							<div class="interact">
+								<a id="" onclick="report(<?php echo $user['id']?>)">
+									<div class="glyphicons glyph_bug"></div>
+									Report
+								</a>
+							</div>
+						</div>
+
 					</td>
-				</tr>	
+				</tr>
 				<?php } ?>
 			</table>
 		</div>
@@ -111,6 +146,17 @@
 			<p>Like them back to start a conversation !</p>
 			<table class="t_div">
 				<?php foreach($this->data['liked_by'] as $user) { ?>
+				<tr class="t_name">
+					<td>
+						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+							<?php echo $user['username']; ?>
+						</a>
+					</td>
+					<td class="last_connection">
+						<?php echo last_connection($user['last_connexion']); ?>
+					</td>
+				</tr>
+	
 				<tr>
 					<td class="profil_pic">
 						<div class="profil_pic">
@@ -122,9 +168,26 @@
 						</div>
 					</td>
 					<td>
-						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
-							<?php echo $user['username']; ?>
-						</a>
+						<div class="interact_flex">
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/like/' . $user['id']; ?>" onclick="return like(<?php echo $user['id']; ?>);">
+									<div class="glyphicons glyph_heart"></div>
+									Like
+								</a>
+							</div>
+							<div class="interact">
+								<a href="<?php echo SITE_ROOT . 'ajax/block/' . $user['id']; ?>">
+									<div class="glyphicons glyph_ban"></div>
+									Block
+								</a>
+							</div>
+							<div class="interact">
+								<a id="" onclick="report(<?php echo $user['id']?>)">
+									<div class="glyphicons glyph_bug"></div>
+									Report
+								</a>
+							</div>
+						</div>
 					</td>
 				</tr>	
 				<?php } ?>
@@ -146,7 +209,9 @@
 						<?php echo $user['username']; ?>
 					</td>
 					<td>
-						<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">UNBLOCK</a>
+						<a href="<?php echo SITE_ROOT . 'ajax/unblock/' . $user['id']; ?>">
+							Unblock
+						</a>
 					</td>
 				</tr>	
 			<?php } ?>
@@ -160,7 +225,7 @@
 		<form id="history_form" action="">
 			<table>
 				<th>
-					<input id="i_visits_history" value="div_visits_history" type="radio" name="section">
+					<input id="i_visits_history" value="div_visits_history" type="radio" name="section" checked>
 					<label for="i_visits_history">
 						Visits history	
 					</label>
@@ -177,18 +242,16 @@
 	<div class='body' id="div_infos_history">
 		<div id="div_visits_history">
 			<?php
-	   $this->module_loader->notifications();
-	   $this->module->notifications->history();
-	   ?>
+				$this->module_loader->notifications();
+				$this->module->notifications->history();
+			?>
 		</div>
-
 		<div id="div_likes_history">
 			<?php
-	   $this->module_loader->notifications();
-	   $this->module->notifications->like();
-	   ?>
+				$this->module_loader->notifications();
+				$this->module->notifications->like();
+			?>
 		</div>
-
 	</div>
 </section>
 

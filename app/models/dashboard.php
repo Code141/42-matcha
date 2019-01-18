@@ -21,7 +21,7 @@ class m_dashboard
 	public function get_matched($id_user)
 	{
 		$sql = "
-			SELECT DISTINCT u.id, u.username, u.id_media, c.timestamp as last_connexion
+			SELECT DISTINCT u.id, u.username, u.id_media, c.timestamp as last_connexion, conv.id as conv_id
 			FROM `like` l1
 			LEFT JOIN `like` l2
 			ON l1.id_user_to = l2.id_user_from
@@ -30,10 +30,11 @@ class m_dashboard
 			LEFT OUTER JOIN blocked b
 			ON (b.id_user_from = :id_user
 			AND b.id_user_to = u.id)
-
+			LEFT OUTER JOIN conv
+			ON ((conv.id_user_from = :id_user AND conv.id_user_to = u.id)
+			OR (conv.id_user_from = u.id AND conv.id_user_to = :id_user))
 			LEFT JOIN connexion c
 			ON c.id_user = u.id
-
 			WHERE (l1.id_user_from = :id_user
 			AND l2.id_user_to = :id_user)
 			AND (l1.revoked = 0
@@ -51,7 +52,7 @@ class m_dashboard
 	public function liked_by($id_user)
 	{
 		$sql = "
-			SELECT DISTINCT u.id, u.username, u.id_media
+			SELECT DISTINCT u.id, u.username, u.id_media, c.timestamp as last_connexion
 			FROM user u
 			LEFT JOIN `like` l1
 			ON l1.id_user_from = u.id
@@ -61,6 +62,9 @@ class m_dashboard
 			LEFT OUTER JOIN blocked b
 			ON (b.id_user_from = :id_user
 			AND b.id_user_to = u.id)
+
+			LEFT JOIN connexion c
+			ON c.id_user = u.id
 			WHERE l1.id_user_to = :id_user
 			AND l1.revoked = 0
 			AND (l2.id_user_from IS NULL OR l2.revoked = 1)
@@ -76,7 +80,7 @@ class m_dashboard
 	public function liked($id_user)
 	{
 		$sql = "
-			SELECT DISTINCT u.id, u.username, u.id_media
+			SELECT DISTINCT u.id, u.username, u.id_media, c.timestamp as last_connexion
 			FROM user u
             LEFT JOIN `like` l1
 			ON l1.id_user_to = u.id
@@ -86,6 +90,9 @@ class m_dashboard
 			LEFT OUTER JOIN blocked b
 			ON (b.id_user_from = :id_user
 			AND b.id_user_to = u.id)
+	LEFT JOIN connexion c
+			ON c.id_user = u.id
+
 			WHERE l1.id_user_from = :id_user
 			AND l1.revoked = 0
 			AND (l2.id_user_from IS NULL OR l2.revoked = 1)

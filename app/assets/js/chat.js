@@ -157,17 +157,31 @@ function notif()
 	this.notif_div = document.getElementById("notif");
 	this.notif_detail_div = document.getElementById("detail");
 	this.notif_nb_div = document.getElementById("nb_notif");
+	this.mask = document.getElementById("mask");
 	this.open = Boolean(false);
 
+	this.mask.addEventListener("click", function()
+	{
+		if(this.open)
+		{
+			this.notif_detail_div.style.display = "none";
+			this.mask.style.display = "none";
+			this.open = false;
+		}
+	}.bind(this));
 
 	this.notif_div.addEventListener("click", function(){
 		if(this.open)
+		{
 			this.notif_detail_div.style.display = "none";
+			this.mask.style.display = "none";
+		}
 		else
 		{
 			ajax_request(SITE_ROOT + 'ajax/see_notifs/');
 			this.notif_nb_div.innerHTML = "";
 			this.notif_detail_div.style.display = "block";
+			this.mask.style.display = "block";
 			this.notif_detail_div.scrollTop = 0;
 			this.notif_detail_div.childNodes.forEach(function(item){
 				item.className = "seen";
