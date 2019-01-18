@@ -8,7 +8,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "fail";
 		if (empty($params[0]))
 			if (!is_ajax_query())
-				$this->core->success("Bad user selected", "matches", "main");
+				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -25,7 +25,7 @@ class c_ajax extends c_logged_only
 			$this->module_loader->websocket()->controller->send_like($id_user_to);
 
 		if (!is_ajax_query())
-			$this->core->success("You liked it !", "matches", "main");
+			$this->core->success("You liked it !", "dashboard", "main");
 		else
 			echo json_encode($response);
 	}
@@ -36,7 +36,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "fail";
 		if (empty($params[0]))
 			if (!is_ajax_query())
-				$this->core->success("Bad user selected", "matches", "main");
+				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -46,11 +46,11 @@ class c_ajax extends c_logged_only
 
 		$this->module_loader->websocket()->controller->send_dislike($id_user_to);
 		if (!is_ajax_query())
-			$this->core->success("You disliked it !", "matches", "main");
+			$this->core->success("You disliked it !", "dashboard", "main");
 		else
 			echo json_encode($response);
 	}
-	
+
 	public function see_notifs()
 	{
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -63,7 +63,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "fail";
 		if (empty($params[0]))
 			if (!is_ajax_query())
-				$this->core->success("Bad user selected", "matches", "main");
+				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -77,7 +77,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "success";
 
 		if (!is_ajax_query())
-			$this->core->success("You bloked this user !", "matches", "main");
+			$this->core->success("You bloked this user !", "dashboard", "main");
 		else
 			echo json_encode($response);
 	}
@@ -88,7 +88,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "fail";
 		if (empty($params[0]))
 			if (!is_ajax_query())
-				$this->core->success("Bad user selected", "matches", "main");
+				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -108,7 +108,7 @@ class c_ajax extends c_logged_only
 		$response['status'] = "fail";
 		if (empty($params[0]))
 			if (!is_ajax_query())
-				$this->core->success("Bad user selected", "matches", "main");
+				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
 		$user = $this->module_loader->session()->controller->user_loggued();
@@ -117,7 +117,7 @@ class c_ajax extends c_logged_only
 		$response['row'] = $this->load->model("interactions")->report($user["id"], $id_user_to);
 		$response['status'] = "success";
 		if (!is_ajax_query())
-			$this->core->success("You reported this user !", "matches", "main");
+			$this->core->success("You reported this user !", "dashboard", "main");
 		else
 			echo json_encode($response);
 	}

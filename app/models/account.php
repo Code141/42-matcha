@@ -12,6 +12,20 @@ class m_account
 		return ($selection);
 	}
 
+	public function change_pass($email, $pass)
+	{
+		$sql = "
+			UPDATE user u
+			SET password = :password, token_password = NULL
+			WHERE email = :email";
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":email", $email);
+		$stm->bindparam(":password", $pass);
+		$this->db->execute_pdo($stm, "login", "main");
+		return ($stm->rowCount());
+	}
+
+
 	public function fetch_and_add_gender_id($gender_id_name)
 	{
 		if (($gender_id_name = trim($gender_id_name)) == "")
@@ -290,4 +304,21 @@ class m_account
 		$this->db->execute_pdo($stm, "account", "main");
 		return($stm->rowCount());
 	}
+
+	public function check_pass_token($email, $token)
+	{
+		$sql = " SELECT * FROM `user` WHERE `email` = :email AND `token_password` = :token";
+
+		$stm = $this->db->pdo->prepare($sql);
+		$stm->bindparam(":email", $email);
+		$stm->bindparam(":token", $token);
+		$this->db->execute_pdo($stm, "account", "main");
+		$all_conv = $stm->execute();
+		$all_conv = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (!empty($all_conv[0]))
+			return (TRUE);
+		else
+			return (FALSE);
+	}
+
 }

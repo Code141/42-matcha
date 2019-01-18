@@ -202,7 +202,7 @@ function	fill_profil_container(profils)
 			var score = document.createElement('p');
 			article.appendChild(a);
 
-			a.href = SITE_ROOT + '/profil/main/' + profils[i].id;
+			a.href = SITE_ROOT + 'profil/main/' + profils[i].id;
 			img.id = 'profil_pic';
 			if (profils[i].id_media)
 				img.src = MEDIA_PATH + profils[i].id_media + '.png';
