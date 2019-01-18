@@ -31,19 +31,10 @@ self.addEventListener("connect", function (e) {
 		if (data.action == "finish")
 		{
 			for (var i = 0; i < connections.length; i++)
-			{
 				if (connections[i] == port)
-				{
 					var elementsSupprimes = connections.splice(i, 1);
-				}
-			}
-			if (connections.length == 0)
-			{
+			if (connections.length == 0 && this.websocket.readyState == 1)
 				this.websocket.send(JSON.stringify({ action: "close" }));
-
-				console.log("close");
-
-			}
 		}
 
 		if (typeof this.websocket === "undefined" || this.websocket.readyState != 1)

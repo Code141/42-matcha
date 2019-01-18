@@ -183,12 +183,11 @@ class socket_server
 
 	public function loop_work()
 	{
-		$this->working_sokets = $this->clientSocketArray;			// DUPLIQUE UNE COPIE DE TRAVAIL
+		$this->working_sokets = $this->clientSocketArray;
 		if (empty($this->working_sokets))
 			return;
-
-		socket_select($this->working_sokets, $null, $null, 0, 10);	// FILTRE LES SOCKECT MODIFIE
-		if (in_array($this->socket, $this->working_sokets)) // Si un des socket a ete modifie
+		socket_select($this->working_sokets, $null, $null, 0, 10);
+		if (in_array($this->socket, $this->working_sokets))
 			$this->connect();
 		foreach ($this->working_sokets as $current_socket)
 		{
@@ -268,21 +267,12 @@ class socket_server
 				return;
 			if (!empty($message->message) && !empty($message->to))
 			{
-
-				// ARE THEY FRIENDS ????
-				// ARE THEY FRIENDS ????
-				// ARE THEY FRIENDS ????
-				// ARE THEY FRIENDS ????
-
 				$conv = $this->db->find_conv($id,  $message->to);
 				if ($conv === NULL)
 					return ;
-
 				$this->db->send($conv['id'], $id, $message->to, $message->message);
-
 				if ($this->db->is_blocked($id, $message->to))
 					return;
-
 				if (isset($this->user[$message->to]))
 				{
 					$msg['message'] = array();
@@ -392,10 +382,6 @@ class socket_server
 		@session_start();
 		if (empty($_SESSION['user']))
 			return (false);
-		//		socket_getpeername($current_socket, $client_ip_address);
-		//			|| empty($_SESSION['USER']['IP']) != socket_ip)
-		//			|| empty($_SESSION['USER']['websocket_token']))
-
 		$user = $_SESSION['user'];
 		session_write_close();
 		return ($user);
