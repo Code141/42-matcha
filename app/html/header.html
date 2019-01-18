@@ -52,44 +52,44 @@ if ($this->module_loader->session()->controller->is_loggued()) {
 		</li>
 	</ul>
 </nav>
+
+<?php }
+$user = $this->module_loader->session()->controller->user_loggued();
+if (DEV_MODE || $user['is_admin']) { ?>
+<nav>
+	<ul>
 <?php
-}
 if (DEV_MODE)
 {
 ?>
-<nav>
-	<ul id>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>setup">
-<div class="glyphicons glyph_cogwhell">
-</div>
-	<span class="header_menutxt">
-				Setup
-</span>
+				<div class="glyphicons glyph_cogwhell">
+				</div>
+				<span class="header_menutxt">
+					Setup
+				</span>
 			</a>
 		</li>
+<?php }
+if ($user['is_admin']) { ?>
 		<li>
 			<a href="<?php echo SITE_ROOT; ?>admin">
-<div class="glyphicons glyph_vcard">
-</div>
-	<span class="header_menutxt">
-			Admin
-</span>
+				<div class="glyphicons glyph_vcard">
+				</div>
+				<span class="header_menutxt">
+					Admin
+				</span>
 			</a>
 		</li>
+<?php } ?>
 	</ul>
 </nav>
-<?php
-}
- ?>
-<?php
+<?php } ?>
 
-//	$this->module_loader->session();
-//	$this->module->session->main();
-
+<?php
 if ($this->module_loader->session()->controller->is_loggued())
 	$this->module->session->loggued();
 else
 	$this->module->session->login();
-
 ?>

@@ -48,7 +48,7 @@ class core
 
 		$this->controller = $this->load->controller($controller_name);
 		if ($this->controller === NULL)
-			die ("CORE CAN'T LOAD CONTROLLER (404!)");
+			$this->core->fail("404", "dashboard", "main");
 	}
 
 	public function	execute_controller($action_name)
@@ -68,7 +68,7 @@ class core
 	{
 		$this->view = $this->load->view($view_name);
 		if ($this->view === NULL)
-			die ("CORE CAN'T LOAD VIEW " . $view_name);
+			$this->core->fail("404", "dashboard", "main");
 		$this->view->$action_name($this->request['params']);
 		die();
 	}
@@ -77,32 +77,20 @@ class core
 	{
 		if ($msg === NULL)
 			$msg = "Fail for unknow reason";
-/*
-		if ($action == NULL)
-			$action = $_SESSION['last_url']['action'];
-		if ($controller == NULL)
-			$controller = $_SESSION['last_url']['controller'];
-*/
 		$this->new_controller($controller);
 		$this->data['prompter']['fail'] = $msg;
 		$this->execute_controller($action);
-		die(); /////// REQUIERED (SWITCH CONTROLLER DOESNT WORK YET)
+		die();
 	}
 
 	public function success($msg = NULL, $controller = NULL, $action = NULL)
 	{
 		if ($msg === NULL)
 			$msg = "Success";
-/*
-		if ($action == NULL)
-			$action = $_SESSION['last_url']['action'];
-		if ($controller == NULL)
-			$controller = $_SESSION['last_url']['controller'];
-*/
 		$this->new_controller($controller);
 		$this->data['prompter']['success'] = $msg;
 		$this->execute_controller($action);
-		die(); /////// REQUIERED (SWITCH CONTROLLER DOESNT WORK YET)
+		die();
 	}
 
 	protected function cookie_set($cookie_key, $cookie_value)

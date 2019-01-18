@@ -1,5 +1,8 @@
+
+INSERT INTO `user` (`id`, `username`, `firstname`, `lastname`, `birthdate`, `id_media`, `password`, `email`, `id_gender`, `id_gender_identity`, `latitude`, `longitude`, `score`, `new_email`, `token_email`, `token_password`, `token_account`, `is_admin`) VALUES
+(1, 'admin', 'Geoffrey', 'Lambinet', '1991-07-12', 1, '6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'lambinet.141@gmail.com', 1, 4, 48.8584, 2.29229, -88, NULL, NULL, NULL, NULL, 1);
+
 INSERT INTO `user` (`id`, `username`, `firstname`, `lastname`, `birthdate`, `id_media`, `password`, `email`, `id_gender`, `id_gender_identity`, `latitude`, `longitude`, `score`, `new_email`, `token_email`, `token_password`, `token_account`) VALUES
-(1, 'code141', 'Geoffrey', 'Lambinet', '1991-07-12', 1, '6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'lambinet.141@gmail.com', 1, 4, 48.8584, 2.29229, -88, NULL, NULL, NULL, NULL),
 (2, 'fiofy', 'Fiona', 'Delsing', '1994-12-06', 2, '6a5de694a026a37990028b0dafbbc1d6945bea1590fa7ba75f3a3dbd033eea8210d1b8022776e475b8688c4d9f986d5da041a47561e91aa61b5ea28b5e7b332e', 'fbocock1@independent.co.uk', 1, 3, -2.01853, 33.8746, 132, NULL, NULL, NULL, NULL),
 (3, 'elebang2', 'Estrellita', 'Lebang', '1909-05-11', 3, 'pdmkVa6PbsA', 'ghenniger2@mtv.com', 2, 3, 55.8057, 37.8046, 223, NULL, NULL, NULL, NULL),
 (4, 'etebald3', 'Errick', 'Tebald', '1938-12-19', 4, 'ZdLO1h', 'mlehr3@simplemachines.org', 3, 3, NULL, NULL, 19, NULL, NULL, NULL, NULL),
@@ -500,3 +503,4 @@ INSERT INTO `user` (`id`, `username`, `firstname`, `lastname`, `birthdate`, `id_
 (498, 'rjimenezdt', 'Rakel', 'Jimenez', '1941-08-28', 498, 'UAnmKnGzPT', 'glauksdt@soundcloud.com', 1, 3, 26.3238, 88.5167, 293, NULL, NULL, NULL, NULL),
 (499, 'mchezierdu', 'Mable', 'Chezier', '1941-01-21', 499, 'kPWr3QINQnD', 'mrymerdu@yale.edu', 3, 3, 29.6064, 112.32, 128, NULL, NULL, NULL, NULL),
 (500, 'gtetherdv', 'Garwin', 'Tether', '2000-09-15', 500, 't0DQvndcr2l', 'jgarritydv@springer.com', 4, 3, 32.1775, -5.47844, 260, NULL, NULL, NULL, NULL);
+

@@ -6,7 +6,8 @@ function ajax_request(target)
 		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200)
 			{
-				console.log (this.responseText);
+				if (this.responseText.length == 0)
+					return;
 				var prompter = document.getElementById('prompter');
 				if (prompter.childNodes[0])
 					prompter.childNodes[0].remove();

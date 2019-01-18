@@ -89,7 +89,8 @@ create table `user` (
   `new_email` varchar(64) default null,
   `token_email` varchar(256) default null,
   `token_password` varchar(256) default null,
-  `token_account` varchar(256) default null
+  `token_account` varchar(256) default null,
+  `is_admin` int(11) default 0
 ) engine=innodb deFAULT CHARSET=utf8;
 
 CREATE TABLE `user_orientation` (

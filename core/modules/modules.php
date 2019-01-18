@@ -21,7 +21,6 @@ class module_loader
 		{
 			$module = $this->load->module($name);
 			$this->$name = &$module;
-//			$this->core->consolelog("[LOAD MODULE] : " . $name . "");
 		}
 		$this->link($name);
 		return ($this->$name);
@@ -33,9 +32,8 @@ class module_loader
 			$this->core->controller->module->$name =& $this->$name->controller;
 		if (!empty($this->core->view))
 			$this->core->view->module->$name =& $this->$name->view;
-/*		if (!empty($this->core->model))
+		if (!empty($this->core->model))
 			$this->core->model->module->$name =& $this->$name->model;
-*/
 	}
 }
 

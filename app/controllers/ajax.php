@@ -6,12 +6,15 @@ class c_ajax extends c_logged_only
 	{
 		$response = Array ();
 		$response['status'] = "fail";
-		if (empty($params[0]))
+		$user = $this->module_loader->session()->controller->user_loggued();
+	
+		if (empty($params[0]) || $params[0] == $user['id'])
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
-		$user = $this->module_loader->session()->controller->user_loggued();
+
+		
 		$id_user_to = intval($params[0]);
 		$response['row'] = $this->load->model("interactions")->like($user["id"], $id_user_to);
 		$response['status'] = "success";
@@ -34,12 +37,12 @@ class c_ajax extends c_logged_only
 	{
 		$response = Array ();
 		$response['status'] = "fail";
-		if (empty($params[0]))
+		$user = $this->module_loader->session()->controller->user_loggued();
+		if (empty($params[0]) || $params[0] == $user['id'])
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
 		$this->load->model("interactions")->dislike($user["id"], $id_user_to);
 		$response['status'] = "success";
@@ -61,12 +64,12 @@ class c_ajax extends c_logged_only
 	{
 		$response = Array ();
 		$response['status'] = "fail";
-		if (empty($params[0]))
+		$user = $this->module_loader->session()->controller->user_loggued();
+		if (empty($params[0]) || $params[0] == $user['id'])
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
 
 		$this->load->model("interactions")->dislike($user["id"], $id_user_to);
@@ -86,12 +89,12 @@ class c_ajax extends c_logged_only
 	{
 		$response = Array ();
 		$response['status'] = "fail";
-		if (empty($params[0]))
+		$user = $this->module_loader->session()->controller->user_loggued();
+		if (empty($params[0]) || $params[0] == $user['id'])
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
 		$response['row'] = $this->load->model("interactions")->unblock($user["id"], $id_user_to);
 		$response['status'] = "success";
@@ -106,14 +109,13 @@ class c_ajax extends c_logged_only
 	{
 		$response = Array ();
 		$response['status'] = "fail";
-		if (empty($params[0]))
+		$user = $this->module_loader->session()->controller->user_loggued();
+		if (empty($params[0]) || $params[0] == $user['id'])
 			if (!is_ajax_query())
 				$this->core->success("Bad user selected", "dashboard", "main");
 			else
 				die (json_encode($response));
-		$user = $this->module_loader->session()->controller->user_loggued();
 		$id_user_to = intval($params[0]);
-
 		$response['row'] = $this->load->model("interactions")->report($user["id"], $id_user_to);
 		$response['status'] = "success";
 		if (!is_ajax_query())

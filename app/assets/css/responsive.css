@@ -1,4 +1,16 @@
 @media (max-width: 1024px) {
+main
+{
+	flex-direction: column;
+	justify-content:center;
+}
+
+section#history,
+section#dashboard
+{
+	width: 90%;
+	box-sizing: border-box;
+}
 
 	span.header_menutxt {
 		display:none;

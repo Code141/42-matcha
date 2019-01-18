@@ -81,7 +81,6 @@ class	db
 		catch (PDOException $e)
 		{
 			$this->core->fail($e->getMessage(), $page, $action);
-			//echo "ERROR :" . $e->getMessage();
 		}
 		return ($pdo_stm);
 	}

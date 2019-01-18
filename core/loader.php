@@ -9,7 +9,7 @@ class loader
 		else if (is_readable(CORE_PATH . $file))
 			require_once(CORE_PATH . $file);
 		else
-			$this->core->fail("404", "home", "main");
+			$this->core->fail("404", "dashboard", "main");
 	}
 
 	public function controller(string $name)

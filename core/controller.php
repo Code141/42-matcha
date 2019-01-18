@@ -29,11 +29,7 @@ class c_controller
 
 	public function error_404()
 	{
-		$this->data['title'] = "Error 404";
-		$this->files['views']['center'] = '404';
-		http_response_code(404);
-		echo '404';
-		//	$this->view();
+		$this->core->fail("404", "home", "main");
 	}
 }
 
@@ -47,6 +43,12 @@ class c_logged_only extends c_controller
 		if (!isset($_SESSION['user']))
 			$core->fail("You must be loggued in", "home", "main");
 	}
+
+	public function error_404()
+	{
+		$this->core->fail("Page not found (404)", "dashboard", "main");
+	}
+
 }
 
 class c_public_only extends c_controller
@@ -59,4 +61,10 @@ class c_public_only extends c_controller
 		if (isset($_SESSION['user']))
 			$core->fail("You are already loggued", "dashboard", "main");
 	}
+
+	public function error_404()
+	{
+		$this->core->fail("Page not found (404)", "home", "main");
+	}
+
 }

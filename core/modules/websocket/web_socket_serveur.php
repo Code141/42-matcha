@@ -243,61 +243,63 @@ class socket_server
 
 	public function incoming($socketData)
 	{
-		$message = json_decode($this->unseal($socketData));
+		$message = @json_decode($this->unseal($socketData));
 		if (empty($message))
 			return;
 		$id = $this->find_id_user($this->current_socket);
 		if ($id == null)
 			return;
 		$user = $this->user[$id];
-
-		if ($message->action == "close")
+		if (!empty($message->action))
 		{
-			$this->disconnect();
-			return ;
-		}
-		else if ($message->action == "friends")
-		{
-			$this->refresh_friends($id);
-			return ;
-		}
-		else if ($message->action == "message")
-		{
-			if (strlen($message->message) == 0)
-				return;
-			if (!empty($message->message) && !empty($message->to))
+			if ($message->action == "close")
 			{
-				$conv = $this->db->find_conv($id,  $message->to);
-				if ($conv === NULL)
-					return ;
-				$this->db->send($conv['id'], $id, $message->to, $message->message);
-				if ($this->db->is_blocked($id, $message->to))
+				$this->disconnect();
+				return ;
+			}
+			else if ($message->action == "friends")
+			{
+				$this->refresh_friends($id);
+				return ;
+			}
+			else if ($message->action == "message")
+			{
+				if (strlen($message->message) == 0)
 					return;
-				if (isset($this->user[$message->to]))
+				if (!empty($message->message) && !empty($message->to))
 				{
-					$msg['message'] = array();
-					$msg['message']['msg'] = htmlspecialchars($message->message);
-					$msg['message']['from'] = $id;
-					$msg['message']['username'] = htmlspecialchars($user['username']);
-					$this->send($message->to, $msg);
+					$conv = $this->db->find_conv($id,  $message->to);
+					if ($conv === NULL)
+						return ;
+					$this->db->send($conv['id'], $id, $message->to, $message->message);
+					if ($this->db->is_blocked($id, $message->to))
+						return;
+					if (isset($this->user[$message->to]))
+					{
+						$msg['message'] = array();
+						$msg['message']['msg'] = htmlspecialchars($message->message);
+						$msg['message']['from'] = $id;
+						$msg['message']['username'] = htmlspecialchars($user['username']);
+						$this->send($message->to, $msg);
+					}
 				}
 			}
-		}
-		else if ($message->action == "previous_message")
-		{
-			if (!empty($message->id))
+			else if ($message->action == "previous_message")
 			{
-				$conv = $this->db->find_conv($id,  $message->id);
-				if ($conv === NULL)
-					return ;
-				$msgs = $this->db->get_msg($conv['id']);
-				$msg['previous_message'] = array();
-				foreach ($msgs as $value){
-					$msg['previous_message']['id'] = $message->id;
-					$value['msg'] = htmlspecialchars($value['msg']);
-					$msg['previous_message']['msgs'] = $value;
+				if (!empty($message->id))
+				{
+					$conv = $this->db->find_conv($id,  $message->id);
+					if ($conv === NULL)
+						return ;
+					$msgs = $this->db->get_msg($conv['id']);
+					$msg['previous_message'] = array();
+					foreach ($msgs as $value){
+						$msg['previous_message']['id'] = $message->id;
+						$value['msg'] = htmlspecialchars($value['msg']);
+						$msg['previous_message']['msgs'] = $value;
 
-					$this->send($id, $msg);
+						$this->send($id, $msg);
+					}
 				}
 			}
 		}
