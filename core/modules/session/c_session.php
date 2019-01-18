@@ -73,9 +73,8 @@ class c_module_session extends c_controller
 	{
 		if (!isset($_SESSION['user']))
 			return (FALSE);
-		else
-			return (TRUE);
-	}
+		return (TRUE);
+ 	}
 
 	public function	new_mess()
 	{

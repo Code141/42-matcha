@@ -48,10 +48,25 @@ h1#title
 	background-position: right top;
 }
 
+@keyframes fade{
+	0% {top:0px;}
+	10% {top:60px;}
+	50% {top:60px;}
+	100% {top:0px;}
+}
+
 
 section#prompter {
 	position:absolute;
+	top:-50px;
 	width:100%;
+	animation-name: fade;
+	animation-duration: 4s;
+}
+
+section#prompter.fade
+{
+	top:60px;
 }
 
 section#prompter div{
@@ -61,8 +76,6 @@ section#prompter div{
 	padding:7px;
 	border-radius:3px;
 	border:1px solid;
-	animation-name: fade;
-	animation-duration: 2s;
 }
 
 section#prompter div.prompter_fail{

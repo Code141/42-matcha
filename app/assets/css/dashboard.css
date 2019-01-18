@@ -96,7 +96,6 @@ table input[type="radio"]:checked+label{
 
 div#div_liked,
 div#div_liked_by,
-div#div_visits_history,
 div#div_likes_history,
 div#div_blocked{
 	display:none;
