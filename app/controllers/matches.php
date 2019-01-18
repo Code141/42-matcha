@@ -6,9 +6,27 @@ class c_matches extends c_logged_only
 
 	private function prepare()
 	{
+		$minimum_required = array(
+			"username",
+			"firstname",
+			"lastname",
+			"birthdate",
+			"id_media",
+			"password",
+			"email",
+			"id_gender",
+			"id_gender_identity",
+			"latitude",
+			"longitude",
+			"tags",
+			"bio");
 
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
+
+		foreach($minimum_required as $field)
+			if ($this->user[$field] == NULL)
+				$this->core->fail("Please complete your profil before looking for matches", "account", "main");
 
 		$this->req = $this->load->model("matches")
 			->suggestion($this->user);
@@ -93,7 +111,7 @@ class c_matches extends c_logged_only
 		else
 			$this->data['current_page'] = intval($params[0]);
 			$this->json['current_page'] = json_encode($this->data['current_page']);
-		$start = ($this->data['current_page'] - 1) * 10;
+		$start = ($this->data['current_page'] - 1) * $offset;
 		if (empty($_POST))
 		{
 			$this->data['matches'] = $this->req
@@ -140,6 +158,7 @@ class c_matches extends c_logged_only
 
 		if (is_ajax_query())
 		{
+//			var_dump($_POST);
 			header('Content-Type: application/json');
 			echo json_encode($data_send);
 			die();

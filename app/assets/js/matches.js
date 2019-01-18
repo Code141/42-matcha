@@ -45,6 +45,7 @@ function	search_matches(url)
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
+			console.log(xhr.responseText);
 			data = JSON.parse(xhr.responseText);
 			profils = data.matches; 
 			total_matches = data.total_matches;
@@ -121,10 +122,15 @@ function	pagination()
 {
 	var last_page = document.getElementById('last_page');
 	nb_pages = 1;
-	if (total_matches)
-		nb_pages = total_matches / 10;
+	if (total_matches !== '0')
+		nb_pages = total_matches / 20;
 	if (nb_pages % 1 > 0)
 		nb_pages = nb_pages - (nb_pages % 1) + 1;
+	if (current_page > nb_pages)
+	{
+		current_page = 1;
+		search_matches(SITE_ROOT + "matches");
+	}
 	var previous_page = document.getElementById('previous_page');
 	var next_page = document.getElementById('next_page');
 	clean_pagination(nb_pages, previous_page, next_page, last_page);

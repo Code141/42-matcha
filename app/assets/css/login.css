@@ -6,10 +6,12 @@ main{
 	src: url('font/GeosansLight-Oblique.ttf');
 }
 
-body{
-	background-image:url("https://www.pgaction.org/inclusion/media/images/articles/lesbian-couple.jpg");
+body.background
+{
+	background-image: url("../img/lesbian_couple.jpg");
 	background-repeat: no-repeat;
-	background-position:-350px 60px;
+	background-position:-100px 0px;
+	background-size: 2700px;
 }
 
 h1#home_title{
@@ -70,5 +72,3 @@ section#register div.radio_gender input
 {
 	margin: 7px;
 }
-
-

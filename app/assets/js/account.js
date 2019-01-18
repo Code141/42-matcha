@@ -135,19 +135,11 @@ function set_as_profil_pic(id_media)
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', url_account + "set_as_profil_pic?is_ajax=1", true);
 	xhr.onload = function () {
-		var prompter = document.getElementById('prompter');
-		if (prompter.childNodes[0])
-			prompter.childNodes[0].remove();
-		var div = document.createElement('div');
-		var status = xhr.status;
+	var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText;
 			if (response)
-			{
-				div.className = "prompter_fail";
-				div.innerHTML = response;
-				prompter.appendChild(div);
-			}
+				prompter_animation(response, "prompter_fail");
 			else
 			{
 				var profil_pic = document.getElementById('profil_pic');
@@ -272,24 +264,13 @@ function save_snapshot(){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', url_account + "upload_file?is_ajax=1", true);
 	xhr.onload = function () {
-		var prompter = document.getElementById('prompter');
-		if (prompter.childNodes[0])
-			prompter.childNodes[0].remove();
-		var div = document.createElement('div');
-		var status = xhr.status;
+	var status = xhr.status;
 		if (status == 200) {
 			response = xhr.responseText.split("\/")[0];
 			if (response !== "Image upload success!")
-			{
-				div.className = "prompter_fail";
-				div.innerHTML = response;
-				prompter.appendChild(div);
-			}
-			else
-			{
-				div.className = "prompter_success";
-				div.innerHTML = response;
-				prompter.appendChild(div);
+				prompter_animation(response, "prompter_fail");
+			else{
+				prompter_animation(response, "prompter_success");
 				update_pic_fieldset(xhr.responseText.split("\/")[1]);
 			}
 		} else {
@@ -360,21 +341,13 @@ function edit_location(latitude, longitude)
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url_account + "edit_location?is_ajax=1", true);
 	xhr.onload = function () {
-		var prompter = document.getElementById('prompter');
 		var status = xhr.status;
 		if (status == 200) {
 			response = JSON.parse(xhr.responseText);
 			if (response.fail)
-			{
-				prompter.innerHTML = response.fail;
-				prompter.style.backgroundColor = 'red';
-			}
+				prompter_animation(response.fail, "prompter_fail");
 			else if (response.success)
-			{
-				prompter.innerHTML = response.success;
-				prompter.style.backgroundColor = 'green';
-			}
-			prompter.style.display = 'block';
+				prompter_animation(response.success, "prompter_success");
 		} else {
 			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
 		}

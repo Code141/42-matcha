@@ -153,14 +153,13 @@ class m_matches extends m_wrapper
 			}
 		}
 		$compg = "( " . implode(" OR ", $c) . ")";
-		if ($all_genders == FALSE)
-			$this->condition[] = $compg . " OR " . $comp_tag;
-		else
-			$this->condition[] = $comp_tag;
-	
-		$this->condition[] = "(uo2.id_gender = :" . $i . " OR uo2.id_gender = -1)";
+		$compuo = "(uo2.id_gender = :" . $i . " OR uo2.id_gender = -1)";
 		$this->bind_param[] = $user['id_gender'];
-
+	
+		if ($all_genders == FALSE)
+			$this->condition[] = $compg . " OR " . $comp_tag . " OR " . $compuo;
+		else
+			$this->condition[] = $comp_tag . " OR " . $compuo;
 
 	 	$this->group_by[] = "u2.id";
 		return ($this);
