@@ -39,6 +39,7 @@ div.top{
 div.body{
 	min-height:100px;
 	padding: 15px;
+	padding-top: 0px;
 	border: 1px solid rgba(0,0,0,0.3);
 	border-top: none;
 	margin-bottom: 20px;
@@ -47,27 +48,30 @@ div.body{
 	overflow-y:auto;
 }
 
-table.t_div tr{
-	border:solid rgba(0,0,0,0.3);
-	border-width:1px 0;
-}
-table.t_div tr:first-child {
-	border-top: none;
+table.t_div tr.t_name
+{
+	text-align: left;
 }
 
-table.t_div tr:last-child {
-	border-bottom: none;
+table.t_div tr + tr.t_name{
+	border-top:solid rgba(0,0,0,0.3);
+	border-width:1px 0;
 }
+
 table.t_div td.profil_pic{
 	width:80px;
 }
 table.t_div td{
 	padding:5px;
 }
+
+table.t_div td.last_connection
+{
+	text-align: right;
+}
 table {
 	width: 100%;
 	border-collapse: collapse;
-	text-align: center;
 }
 
 table tr, th{

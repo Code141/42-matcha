@@ -25,5 +25,4 @@ function	initEvents()
 		var div = document.getElementById(e.target.value);
 			div.style.display = "block";
 	});
-
 }
