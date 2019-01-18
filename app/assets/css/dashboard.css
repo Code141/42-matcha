@@ -67,6 +67,7 @@ table.t_div td{
 
 table.t_div td.last_connection
 {
+	font-size:smaller;
 	text-align: right;
 }
 table {
@@ -74,8 +75,19 @@ table {
 	border-collapse: collapse;
 }
 
+table span{
+	color:rgba(0,0,0,0.5);
+	font-size:8pt;
+}
+
 table tr, th{
 	padding:10px;
+}
+
+table a.username{
+	color:rgba(0,0,0,0.65);
+	font-size:large;
+	font-weight:bolder;
 }
 table input{
 	display:none;

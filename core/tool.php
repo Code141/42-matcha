@@ -33,7 +33,7 @@ function	last_connection($str)
 	$now = localtime(time(), true);
 
 	if (empty($str))
-		return "???";
+		return "unknown";
 	if ($timestamp + (15 * 60) > time())
 		return "Connected";
 	else if ($date["tm_year"] != $now["tm_year"])

@@ -3,6 +3,7 @@ window.addEventListener('load', initEvents);
 
 function initMap()
 {
+	if (user_location){
 	map = new L.map('map');
 
 	var marker = L.marker([user_location.lat, user_location.lon]).addTo(map);
@@ -15,6 +16,9 @@ function initMap()
 		minZoom: 2,
 		maxZoom: 18
 	}).addTo(map);
+	}
+	else
+		document.getElementById('map').innerHTML = "This user's location is unknown";
 }
 
 function full_img(id_media)

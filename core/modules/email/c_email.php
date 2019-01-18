@@ -2,7 +2,8 @@
 
 class c_module_email
 {
-	public $from = "gelambin@e3r6p7.42.fr";
+	//public $from = "gelambin@e3r6p7.42.fr";
+	public $from = "fdelsing@e3r5p6.42.fr";
 	public $user_to = NULL;
 	public $user_from = NULL;
 	public $subject = NULL;
@@ -18,26 +19,29 @@ class c_module_email
 
 	public function send_mail()
 	{
-		echo 'HELLO';
+		$this->message = "<html><head></head><body>" . $this->message . "</body></html>";
+		$this->message = wordwrap($this->message,70);
 		$this->set_header();
 		$this->subject = "[" . APP_NAME . "] " . $this->subject;
-		$this->status = mail($this->user_to, $this->subject, $this->message, $this->header);
+		echo($this->status = mail($this->user_to, $this->subject, $this->message, $this->header));
 	}
 
 	private function set_header()
 	{
-		$this->headers = 'From: ' . $this->from . '\r\n' .
+//		$this->headers = 'From: ' . $this->from . '\r\n' .
+		$this->header = 'From: ' . $this->from . '\r\n' .
 			'Reply-To: ' . $this->from . '\r\n' .
+			'Content-type:text/html;charset=UTF-8' . '\r\n' .
 			'X-Mailer: PHP/' . phpversion();
 	}
 
 	public function	sing_up($token)
 	{
 		$this->subject = 'Signup';
-		$this->message = "Welcome " . $this->user_to . "\r\n
-			Thanks for signing up in " . APP_NAME . " !\r\n
-			Now you just have to click this link to activate your account:\r\n
-			"  . SITE_ABSOLUTE . "register/validate_email/" . $this->user_to . "/" . $token;
+		$this->message = "<p>Welcome " . $this->user_to . 
+			"<br> Thanks for signing up in " . APP_NAME . " !<br>
+			Now you just have to click this link to activate your account: </p>
+			<a href =\""  . SITE_ABSOLUTE . "register/validate_email/\"" . $this->user_to . "/" . $token . ">CLICK HERE !</a>";
 		$this->send_mail();
 	}
 
