@@ -31,7 +31,7 @@ class c_login extends c_controller
 		$this->module->session->logout();
 		$this->core->set_view("home", "main");
 	}
-	
+
 	public function forgot_password($params = NULL)
 	{
 		$this->core->set_view("login", "forgot_password");
