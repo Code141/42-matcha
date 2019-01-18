@@ -83,8 +83,14 @@
 			<div class="f_container">
 				Distance
 				<p class="f_right">
-					<input id="distance_input" type="number" name="distance_filter_km" min="1" max="20037">
-					km
+				<select name="distance_filter_km">
+					<option class="placeholder" value="" disabled selected hidden></option>
+					<?php $i = 10;
+					while($i < 20037){?>
+					<option value="<?php echo $i;?>"><?php echo $i;?></option>
+					<?php $i += 10; } ?>
+				</select>
+				km
 				</p>
 			</div>
 

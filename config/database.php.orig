@@ -6,5 +6,5 @@
 <<<<<<< HEAD
 	$DB_PASSWORD = "password";
 =======
-	$DB_PASSWORD = "root";
->>>>>>> 32120d746c0ef59eb0c46d106a6b8c779ede2dd8
+	$DB_PASSWORD = "123456789";
+>>>>>>> 796a64ba38e4c5391dbcdf88f5fc20b5a4c73166

@@ -22,7 +22,7 @@ class c_login extends c_controller
 		} catch (Exception $e) {
 			$this->core->fail($e->getMessage(), "login", "main");
 		}
-		$this->core->success("Welcome to your dashboard", "dashboard", "main");
+		$this->core->success("Welcome to your account page", "account", "main");
 	}
 
 	public function logout($params = NULL)

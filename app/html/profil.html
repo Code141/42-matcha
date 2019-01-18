@@ -172,8 +172,11 @@
 
 <script>
 var media_path = "<?php echo MEDIA_PATH;?>";
-var user_location = { "lat" : <?php echo $user['latitude'];?>, "lon" : <?php echo $user['longitude'];?> };
-
+<?php if ($user['latitude'] && $user['longitude']) { ?>
+	var user_location = { "lat" : <?php echo $user['latitude'];?>, "lon" : <?php echo $user['longitude'];?> };
+	<?php } else { ?>
+	var user_location = null;
+	<?php } ?>
 		user_like_data[<?php echo $user['id']?>] = Array();
 		user_like_data[<?php echo $user['id']?>]['id'] = parseInt(<?php echo $user['id']?>);
 		user_like_data[<?php echo $user['id']?>]['u1'] = parseInt(<?php echo $like['u1'];?>);

@@ -158,7 +158,6 @@ class c_matches extends c_logged_only
 
 		if (is_ajax_query())
 		{
-//			var_dump($_POST);
 			header('Content-Type: application/json');
 			echo json_encode($data_send);
 			die();
