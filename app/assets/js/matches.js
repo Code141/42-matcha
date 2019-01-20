@@ -47,7 +47,6 @@ function	search_matches(url)
 	xhr.onload = function () {
 		var status = xhr.status;
 		if (status == 200) {
-			console.log(xhr.responseText);
 			data = JSON.parse(xhr.responseText);
 			profils = data.matches; 
 			total_matches = data.total_matches;

@@ -10,7 +10,7 @@
 		<legend></legend>
 		<form id="user_form" method="post" action="<?php echo SITE_ROOT . 'account/edit_user';?>">
 			<p>
-			<input id="username" name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required>
+			<input id="username" name=username type="text" value="<?php echo $user['username']; ?>" class="edit f_title" required autocomplete="username">
 			</p>
 			<div id="div_profil_pic">
 				<?php if(!$user['id_media']){ ?>
@@ -23,11 +23,11 @@
 			<div id="more_info">
 				<p>
 				<span>Firstname</span>
-				<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required>
+				<input name="firstname" type="text" value="<?php echo $user['firstname']; ?>" class="edit" required autocomplete="name">
 				</p>
 				<p>
 				<span>Lastname</span>
-				<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required>
+				<input name="lastname" type="text" value="<?php echo $user['lastname']; ?>" class="edit" required autocomplete="family-name">
 				</p>
 				<p>
 				<span>Gender</span>
@@ -49,11 +49,11 @@
 				</p>
 				<p>
 				<span>Birthdate</span>
-				<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate">
+				<input name="birthdate" type="date" value="<?php echo $user['birthdate']; ?>" class="edit" placeholder="Add your birthdate" autocomplete="bday">
 				</p>	
 				<p>
 				<span>Email</span>
-				<input name="new_email" type="email" value="<?php echo $user['email']; ?>" class="edit" required>
+				<input name="new_email" type="email" value="<?php echo $user['email']; ?>" class="edit" required autocomplete="email">
 				</p>
 				<p>
 				<span>Password</span>
