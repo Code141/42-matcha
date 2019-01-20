@@ -123,7 +123,6 @@ class loader
 		return ($module);
 	}
 
-
 	public function entity(string $entity)
 	{
 		require_once(APP_PATH . 'entity/' . $entity . '.php');
@@ -134,5 +133,4 @@ class loader
 		require_once(APP_PATH . 'script/' . $type . '/' . $file . '.' . $type);
 		return ($data);
 	}
-
 }

@@ -93,6 +93,7 @@ form#matches_form button#reset_button:hover
 
 div.right
 {
+	width: calc(100% - 220px);
 	float:right;
 }
 
@@ -179,7 +180,7 @@ button
 	font-size:13pt;
 }
 
-#map
+#map, .map
 {
 	width:100%;
 	overflow:hidden;
@@ -221,7 +222,7 @@ table#pages th#next_page{
 
 div#profils
 {
-	width:780px;
+	width: 100%;
 	overflow-y:auto;
 	overflow-x:hidden;
 	display:flex;

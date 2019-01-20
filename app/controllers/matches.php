@@ -7,27 +7,13 @@ class c_matches extends c_logged_only
 	private function prepare()
 	{
 		$minimum_required = array(
-			"username",
-			"firstname",
-			"lastname",
-			"birthdate",
-			"id_media",
-			"password",
-			"email",
-			"id_gender",
-			"id_gender_identity",
-			"latitude",
-			"longitude",
-			"tags",
-			"bio");
-
+			"username", "firstname", "lastname", "birthdate", "id_media", "password",
+			"email", "id_gender", "id_gender_identity", "latitude", "longitude", "tags", "bio");
 		$this->module_loader->session();
 		$this->user = $this->module->session->user_loggued();
-
 		foreach($minimum_required as $field)
 			if ($this->user[$field] == NULL)
 				$this->core->fail("Please complete your profil before looking for matches", "account", "main");
-
 		$this->req = $this->load->model("matches")
 			->suggestion($this->user);
 

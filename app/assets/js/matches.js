@@ -18,6 +18,8 @@ function initMap() {
 function	init()
 {
 	var map_div = document.getElementById('map');
+	map_div.className = "map";
+	map_div.style.width = "100%";
 	map_div.style.height = "350px";
 	initMap();
 	fill_profil_container(profils);

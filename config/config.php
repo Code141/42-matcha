@@ -1,6 +1,6 @@
 <?php
 
-define('DEV_MODE', FALSE);
+define('DEV_MODE', TRUE);
 
 if (DEV_MODE)
 {

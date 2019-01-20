@@ -1,16 +1,16 @@
 @media (max-width: 1024px) {
-main
-{
-	flex-direction: column;
-	justify-content:center;
-}
+	main
+	{
+		justify-content:center;
+		flex-wrap: wrap;
+	}
 
-section#history,
-section#dashboard
-{
-	width: 90%;
-	box-sizing: border-box;
-}
+	section#history,
+	section#dashboard
+	{
+		width: 90%;
+		box-sizing: border-box;
+	}
 
 	span.header_menutxt {
 		display:none;
@@ -49,6 +49,12 @@ section#dashboard
 		margin-top: -35px;
 	}
 
+	section#profil,
+	section#history
+	{
+		max-width: 400px;
+		width:100%;
+	}
 }
 
 @media (max-width: 600px) {
@@ -57,6 +63,6 @@ section#dashboard
 	{
 		width:0px;
 		overflow:hidden;
-		 color: rgba(255, 255, 255, 0);
+		color: rgba(255, 255, 255, 0);
 	}
 }
