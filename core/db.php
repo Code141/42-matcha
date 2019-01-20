@@ -18,9 +18,8 @@ class	db
 			if (DEV_MODE)
 			{
 				echo 'Erreur : ' . $exception->getMessage();
+				die();
 			}
-			else
-				header ('location:' . SITE_ROOT . '404');
 		}
 	}
 
@@ -35,61 +34,58 @@ class	db
 		}
 		catch(PDOException $exception)
 		{
-			if (DEV_MODE)
+			if ($exception->getcode() == 1049)
 			{
-				if ($exception->getCode() == 1049)
-				{
-					$this->pdo = new PDO("mysql:host=localhost", $DB_USER, $DB_PASSWORD);
-					$this->core->set_view("setup", "main");
-				}
+				$this->pdo = new pdo("mysql:host=localhost", $db_user, $db_password);
 
-				if ($exception->getCode() == 1045)
-				{
-					echo "BAD BDD PASSWORD, PLEASE SEE config/database.php";
+				if (DEV_MODE)
 					$this->core->set_view("setup", "main");
-				}
 				else
-					echo 'Erreur : ' . $exception->getMessage();
+					die("please set dev_mode to true in your config/config.php to install db");
 			}
+			if ($exception->getcode() == 1045)
+				die("bad bdd password, please see config/database.php");
 			else
-				header ('location:' . SITE_ROOT . '404');
+				if (DEV_MODE)
+					die('Erreur : ' . $exception->getMessage());
+			die("An unknown error occured, please try again later");
 		}
-	}
+}
 
-	public function	execute_pdo($pdo_stm, $page, $action)
+public function	execute_pdo($pdo_stm, $page, $action)
+{
+	try
 	{
-		try
-		{
-			$pdo_stm->execute();
-		}
-		catch (PDOException $e)
-		{
-			if (DEV_MODE)
-				die($e->getMessage());
-			else
-				$this->core->fail('An error has occured', $page, $action);
-		}
-		return ($pdo_stm);
+		$pdo_stm->execute();
 	}
+	catch (PDOException $e)
+	{
+		if (DEV_MODE)
+			die($e->getMessage());
+		else
+			$this->core->fail('An error has occured', $page, $action);
+	}
+	return ($pdo_stm);
+}
 
-	public function	execute()
+public function	execute()
+{
+	try
 	{
-		try
-		{
-			$pdo_stm->execute();
-		}
-		catch (PDOException $e)
-		{
-			$this->core->fail($e->getMessage(), $page, $action);
-		}
-		return ($pdo_stm);
+		$pdo_stm->execute();
 	}
+	catch (PDOException $e)
+	{
+		$this->core->fail($e->getMessage(), $page, $action);
+	}
+	return ($pdo_stm);
+}
 
-	public function	__destruct()
-	{
-		if (!empty($this->pdo_stm))
-			$this->pdo_stm->closeCursor();
-		$this->pdo_stm = NULL;
-		$this->pdo = NULL;
-	}
+public function	__destruct()
+{
+	if (!empty($this->pdo_stm))
+		$this->pdo_stm->closeCursor();
+	$this->pdo_stm = NULL;
+	$this->pdo = NULL;
+}
 }
