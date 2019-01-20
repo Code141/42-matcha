@@ -23,6 +23,9 @@ class m_wrapper
 		if (isset($this->limit))
 			$query[] = $this->limit;
 		$this->sql = implode(" ", $query) . ";";
+//		echo $this->sql . "<br><br><br>";
+//		var_dump($this->bind_param);
+//		echo "<br><br><br>";
 		return ($this);
 	}
 

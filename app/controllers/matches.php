@@ -57,7 +57,6 @@ class c_matches extends c_logged_only
 	public function main($params = NULL)
 	{
 		$timestamp_debut = microtime(true);
-
 		$this->prepare();
 		$filter_tags = array();
 		foreach ($_POST as $filter => $value)
@@ -92,7 +91,7 @@ class c_matches extends c_logged_only
 		$this->json['total_matches'] = json_encode($nb_matches);
 		$offset = 20;
 		if (!isset($params[0]) || empty($params[0]) ||
-			!is_numeric($params[0]) || $params[0] <= 0 || $params[0] >= (($nb_matches / 10) + 1))
+			!is_numeric($params[0]) || $params[0] <= 0 || $params[0] >= (($nb_matches / 20) + 1))
 			$this->data['current_page'] = 1;
 		else
 			$this->data['current_page'] = intval($params[0]);
@@ -101,6 +100,7 @@ class c_matches extends c_logged_only
 		if (empty($_POST))
 		{
 			$this->data['matches'] = $this->req
+			->order_by_gender()
 			->order_by_distance("ASC")
 			->order_by_matching_tags($this->user)
 			->order_by_score("DESC")

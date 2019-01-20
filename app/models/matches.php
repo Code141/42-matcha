@@ -2,43 +2,6 @@
 
 class m_matches extends m_wrapper
 {
-/*
-	public function all_users($user)
-	{
-		$i = count($this->bind_param);
-		$this->select[] = "DISTINCT u2.id";
-		$this->select[] = "u2.username";
-		$this->select[] = "u2.score";
-
-		$this->select[] = "u2.id_gender";
-		$this->select[] = "gn.gender_name";
-		$this->select[] = "u2.id_gender_identity";
-		$this->select[] = "gin.gender_identity_name";
-		$this->select[] = "u2.id_media";
-		$this->select[] = "ST_Distance_Sphere( point( :" . ($i+1) ." , :" . ($i+2) . " ),
-							point(u2.longitude, u2.latitude) ) as distance";
-		$this->select[] = "u2.latitude";
-		$this->select[] = "u2.longitude";
-		$this->select[] = "u2.birthdate";
-		$this->select[] = "u2.id_media";
-		$this->from[] = "user u2";
-		$this->join[] = "LEFT OUTER JOIN blocked b ON b.`id_user_to` = u2.id";
-
-
-		$this->join[] = "LEFT OUTER JOIN gender gn ON gn.id = u2.id_gender";
-		$this->join[] = "LEFT OUTER JOIN gender_identity gin ON gin.id = u2.id_gender_identity";
-		$this->condition[] ="NOT u2.id = :" . $i .
-			" AND (`b`.`id_user_from` IS NULL
-			OR NOT `b`.`id_user_from` = :". ($i) ." )";
-		$this->bind_param[] = $user['id'];
-		$this->bind_param[] = $user['longitude'];
-		$this->bind_param[] = $user['latitude'];
-		return ($this);
-	}*/
-
-	/*
-	 * the match function filters your matches by gender AND gender identity
-	 * */
 	
 	public function match($user)
 	{
@@ -161,8 +124,31 @@ class m_matches extends m_wrapper
 		else
 			$this->condition[] = $comp_tag . " OR " . $compuo;
 
-	 	$this->group_by[] = "u2.id";
+		$this->group_by[] = "u2.id";
+
+		$g = array();	
+		$i = count($this->bind_param);
+		if (!$all_genders)
+		{
+			foreach ($user['orientations'] as $o)
+			{
+				if ($o['id_gender'])
+				{
+					$g[] = "u3.id_gender = :" . $i;
+					$this->bind_param[] = $o["id_gender"];
+					$i++;
+				}
+			}
+			$joinon = "( " . implode(" OR ",$g) . ")";
+			$this->join[] = "LEFT JOIN user u3 ON u3.id = u2.id AND " . $joinon;
+		}
 		return ($this);
+	}
+
+	public function order_by_gender()
+	{
+		$this->order[] = "COUNT(DISTINCT u3.id_gender) DESC";
+		return($this);
 	}
 
 	public function order_by_matching_tags(array $user)
@@ -208,8 +194,6 @@ class m_matches extends m_wrapper
 
 	public function order_by_distance($direction)
 	{
-		$i = count($this->bind_param);
-		$this->condition[] = "u2.latitude IS NOT NULL";
 		$this->order[] = "distance " . $direction;
 		return ($this);
 	}

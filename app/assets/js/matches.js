@@ -4,6 +4,7 @@ document.getElementById('search_button').addEventListener('click', function(even
 	event.preventDefault();
 	current_page = 1;
 	search_matches(SITE_ROOT + "matches");
+	pagination();
 });
 
 function initMap() {
@@ -22,19 +23,22 @@ function	init()
 	map_div.style.width = "100%";
 	map_div.style.height = "350px";
 	initMap();
+	document.getElementById("select_filter_km").addEventListener("change", change_km);	
 	fill_profil_container(profils);
 	add_markers(profils);
 	tag_handling();
 	var array_a = document.getElementsByTagName('a');
 	for (let a of array_a) {
-		if (a.id && !a.id.match(/a_page_/))
+		if (a.id && !a.id.match(/a_page_/) && a.id.match(/a_/))
 			a.addEventListener('click', function(e){
 				e.preventDefault();
-				current_page = parseInt(e.target.href.match(/\d+$/));
+				var link = e.target;
+				current_page = parseInt(link.href.match(/\d+$/));
 				search_matches(e.target.href);
+				pagination();
 			});
 	}
-
+	pagination();
 }
 
 function	search_matches(url)
@@ -65,18 +69,21 @@ function	search_matches(url)
 function	add_page_events()
 {
 	var array_a = document.getElementsByTagName('a');
+		console.log(array_a);
 	for (let a of array_a) {
 		if (a.id && a.id.match(/a_page_/))
 			a.addEventListener('click', function(e){
 				e.preventDefault();
 				current_page = parseInt(e.target.href.match(/\d+$/));
 				search_matches(e.target.href);
+				pagination();
 			});
 	}
 }
 
 function	clean_pagination(nb_pages, previous_page, next_page, last_page)
 {
+	console.log("clean pagination");
 	var a_previous_page = document.getElementById('a_previous_page');
 	var new_val = parseInt(current_page) - 1;
 	if (new_val <= 0)
@@ -178,8 +185,17 @@ function	add_markers(matches)
 
 	var marker = L.marker([user_location.latitude, user_location.longitude]).addTo(markerGroup);
 	marker.bindPopup("<b>You</b><br>").openPopup();
-	L.circle([user_location.latitude, user_location.longitude], 10000).addTo(map);
+
+
 	map.setView([user_location.latitude, user_location.longitude], 6);
+}
+
+function change_km()
+{
+	var value = document.getElementById("select_filter_km").value;
+	if (typeof(circle) != "undefined")
+		map.removeLayer(circle);
+	circle = L.circle([user_location.latitude, user_location.longitude], parseInt(value) * 1000).addTo(map);
 }
 
 function	fill_profil_container(profils)
@@ -188,6 +204,8 @@ function	fill_profil_container(profils)
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
+	console.log(current_page);
+	console.log(profils);
 	if (profils.length)
 	{
 		for(i = 0; i < profils.length; i++)
@@ -237,7 +255,6 @@ function	fill_profil_container(profils)
 		prompt.style.margin = "50px";
 		container.appendChild(prompt);
 	}
-	pagination();
 }
 
 function	tag_handling(){

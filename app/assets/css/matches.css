@@ -1,10 +1,7 @@
-main
-{
+main section#matches{
+	width:100%;
 }
 
-div#match_top
-{
-}
 form#matches_form
 {
 	text-align:left;

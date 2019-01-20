@@ -97,7 +97,7 @@
 				<?php foreach($this->data['liked'] as $user) { ?>
 				<tr class="t_name">
 					<td>
-						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+						<a class="username" href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
 							<?php echo $user['username']; ?>
 						</a>
 					</td>
@@ -149,7 +149,7 @@
 				<?php foreach($this->data['liked_by'] as $user) { ?>
 				<tr class="t_name">
 					<td>
-						<a href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
+						<a class="username" href="<?php echo SITE_ROOT . 'profil/main/' . $user['id']; ?>">
 							<?php echo $user['username']; ?>
 						</a>
 					</td>
