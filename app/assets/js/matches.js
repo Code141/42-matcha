@@ -60,9 +60,6 @@ function	search_matches(url)
 			fill_profil_container(profils);
 			add_markers(profils);
 		}
-		else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
-		}
 	};
 	xhr.send(formData);
 }

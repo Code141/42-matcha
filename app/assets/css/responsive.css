@@ -55,6 +55,11 @@
 		max-width: 400px;
 		width:100%;
 	}
+
+	div.right
+	{
+		width: calc(100% - 230px);
+	}
 }
 
 @media (max-width: 600px) {

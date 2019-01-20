@@ -8,7 +8,6 @@ task('default', [], function() {
     output: 'L.Control.Geonames.min.js',
     callback: function(err, min) {
       if (err) {
-        jake.logger.console.log(err)
       }
     }
   })
