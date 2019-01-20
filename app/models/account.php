@@ -259,11 +259,10 @@ class m_account
 	{
 		$sql = "
 			UPDATE user u
-			SET email = :new_email1 , new_email = NULL, token_email = NULL
-			WHERE new_email = :new_email2 AND token_email = :token";
+			SET email = :new_email , new_email = NULL, token_email = NULL
+			WHERE new_email = :new_email AND token_email = :token";
 		$stm = $this->db->pdo->prepare($sql);
-		$stm->bindparam(":new_email1", $new_email);
-		$stm->bindparam(":new_email2", $new_email);
+		$stm->bindparam(":new_email", $new_email);
 		$stm->bindparam(":token", $token);
 		$this->db->execute_pdo($stm, "login", "main");
 		return ($stm->rowCount());

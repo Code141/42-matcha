@@ -29,8 +29,8 @@ function ajax_request(target)
 
 function	like(id)
 {
-	console.log(id);
 	ajax_request(SITE_ROOT + 'ajax/like/' + id);
+	return (false);
 }
 
 function	dislike(id)
@@ -43,9 +43,11 @@ function	dislike(id)
 function	unblock(id)
 {
 	ajax_request(SITE_ROOT + 'ajax/unblock/' + id);
+	return (false);
 }
 
 function	report(id)
 {
 	ajax_request(SITE_ROOT + 'ajax/report/' + id);
+	return (false);
 }

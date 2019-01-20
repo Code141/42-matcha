@@ -19,10 +19,6 @@ body
 {
 	font-family: arial;
 	color:rgba(0,0,0,0.7);
-	-webkit-user-select: none;  /* Chrome all / Safari all */
-	-moz-user-select: none;     /* Firefox all */
-	-ms-user-select: none;      /* IE 10+ */
-	user-select: none;          /* Likely future */
 }
 
 
@@ -510,6 +506,11 @@ section#login
 		width:100vw;
 		height:100vh;
 		display:none;
+	}
+
+	div#notif div#detail a
+	{
+		color: rgba(255, 100, 100, 1);
 	}
 
 	div#notif div#detail

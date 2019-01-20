@@ -93,7 +93,7 @@ form#matches_form button#reset_button:hover
 
 div.right
 {
-	width: calc(100% - 220px);
+	width: 790px;
 	float:right;
 }
 

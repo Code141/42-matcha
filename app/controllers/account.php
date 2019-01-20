@@ -78,7 +78,6 @@ class c_account extends c_logged_only
 				$module->check_date($_POST['birthdate']);
 			if ($user['email'] !== $_POST['new_email'])
 			{
-				echo "holaaaa";
 				$module->check_email($_POST['new_email']);
 				$fields['new_email'] = $_POST['new_email'];
 				$fields['token_email'] = $module->unique_id();	
@@ -92,9 +91,15 @@ class c_account extends c_logged_only
 			$this->core->fail($e->getMessage(), "account", "main");
 		}
 		$model = $this->load->model("account");
-		if (isset($_POST['id_gender_identity']))
+
+		if (!empty($_POST['id_gender_identity']))
+		{
 			if (!($fields['id_gender_identity'] = $model->fetch_and_add_gender_id($_POST['id_gender_identity'])))
 				$this->core->fail('gender identity must contain at least one character', "account", "main");
+		}
+		else
+			unset($fields['id_gender_identity']);
+
 		$model->update_user($user['id'], $fields);
 		$pw_len = isset($fields['password']) ? strlen($_POST['password']) : $user['password_length'];
 		$module->update_session();
@@ -197,9 +202,15 @@ class c_account extends c_logged_only
 
 	public function change_email($params = NULL)
 	{
+
 		$model = $this->load->model("account");
-		if (count($params) !== 2 || !$model->change_email($params[0],$params[1]))
+		if (count($params) !== 2)
+			$this->core->fail("Bad request", 'login', 'main');
+		if (!$model->change_email($params[0], $params[1]))
 			$this->core->fail("There was a probleme validating your new email. Please login and make a new request", 'login', 'main');
+
+		$module = $this->module_loader->session()->controller;
+		$module->update_session();
 		$this->core->success("Your email has been succesfully changed", 'login', 'main');
 	}
 

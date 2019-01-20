@@ -24,14 +24,7 @@ self.addEventListener("connect", function (e) {
 				connection.postMessage(JSON.stringify({message : data }));
 			});
 		}
-		if (data.action == "finish")
-		{
-			for (var i = 0; i < connections.length; i++)
-				if (connections[i] == port)
-					var elementsSupprimes = connections.splice(i, 1);
-			if (connections.length == 0 && this.websocket.readyState == 1)
-				this.websocket.send(JSON.stringify({ action: "close" }));
-		}
+
 		if (typeof this.websocket === "undefined" || this.websocket.readyState != 1)
 			this.init();
 		if (this.websocket.readyState == 1)
@@ -44,11 +37,13 @@ this.init = function()
 {
 	url = "ws://localhost:8090/";
 	this.websocket = new WebSocket(url);
+
 	this.websocket.onopen = function (event)
 	{
 		port.postMessage(JSON.stringify("connected"));
 		this.websocket.send(JSON.stringify({ action: "friends" }));
 	}.bind(this);
+
 	this.websocket.onclose = function(event)
 	{
 		port.postMessage(JSON.stringify("closed"));
@@ -58,6 +53,7 @@ this.init = function()
 			this.init();
 		}.bind(this), 1000);
 	}.bind(this);
+
 	this.websocket.onmessage = function(event)
 	{
 		connections.forEach(function(connection) {
