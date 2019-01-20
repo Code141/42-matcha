@@ -183,7 +183,7 @@
 		<div id="pagination">
 			<p>
 			<span id='nb_matches'>
-				Number of matching results :
+				Number of matching results : <?php echo $this->data['nb_total']; ?> (in <?php echo number_format($this->data['ms'], 2); ?> seconds)
 			</span>
 				<table id='pages'>
 					<th id='previous_page' title="previous page"><a id="a_previous_page" href="<?php echo SITE_ROOT . 'matches/main/' . $this->data['current_page'];?>"><<</a></th>

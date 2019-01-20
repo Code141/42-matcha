@@ -1,12 +1,5 @@
 window.addEventListener('load', init);
 
-document.getElementById('search_button').addEventListener('click', function(event){
-	event.preventDefault();
-	current_page = 1;
-	search_matches(SITE_ROOT + "matches");
-	pagination();
-});
-
 function initMap() {
 	map = new L.map('map');
 	var osm = new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -18,6 +11,11 @@ function initMap() {
 
 function	init()
 {
+	document.getElementById('search_button').addEventListener('click', function(event){
+		event.preventDefault();
+		current_page = 1;
+		search_matches(SITE_ROOT + "matches");
+	});
 	var map_div = document.getElementById('map');
 	map_div.className = "map";
 	map_div.style.width = "100%";
@@ -35,7 +33,6 @@ function	init()
 				var link = e.target;
 				current_page = parseInt(link.href.match(/\d+$/));
 				search_matches(e.target.href);
-				pagination();
 			});
 	}
 	pagination();
@@ -56,6 +53,10 @@ function	search_matches(url)
 			total_matches = data.total_matches;
 			ms = data.ms;
 
+			var span = document.getElementById('nb_matches');
+				span.innerHTML = span.innerHTML.replace(/[^\:]+$/, ' ' + total_matches + ' (in ' + ms + ' seconds)');
+
+			pagination();
 			fill_profil_container(profils);
 			add_markers(profils);
 		}
@@ -76,7 +77,6 @@ function	add_page_events()
 				e.preventDefault();
 				current_page = parseInt(e.target.href.match(/\d+$/));
 				search_matches(e.target.href);
-				pagination();
 			});
 	}
 }
@@ -142,8 +142,6 @@ function	pagination()
 	var previous_page = document.getElementById('previous_page');
 	var next_page = document.getElementById('next_page');
 	clean_pagination(nb_pages, previous_page, next_page, last_page);
-	var span = document.getElementById('nb_matches');
-		span.innerHTML = span.innerHTML.replace(/[^\:]+$/, ' ' + total_matches + ' (in ' + ms + ' seconds)');
 	var th = document.createElement('th');
 	var a = document.createElement('a');
 		a.href = SITE_ROOT + "matches/main/";
@@ -204,8 +202,6 @@ function	fill_profil_container(profils)
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
-	console.log(current_page);
-	console.log(profils);
 	if (profils.length)
 	{
 		for(i = 0; i < profils.length; i++)

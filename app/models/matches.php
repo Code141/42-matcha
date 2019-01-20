@@ -142,6 +142,8 @@ class m_matches extends m_wrapper
 			$joinon = "( " . implode(" OR ",$g) . ")";
 			$this->join[] = "LEFT JOIN user u3 ON u3.id = u2.id AND " . $joinon;
 		}
+		else
+			$this->join[] = "LEFT JOIN user u3 ON u3.id = u2.id";
 		return ($this);
 	}
 

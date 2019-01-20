@@ -135,13 +135,14 @@ class c_matches extends c_logged_only
 		$timestamp_fin = microtime(true);
 		$difference_ms = $timestamp_fin - $timestamp_debut;
 		$this->data['ms'] = $difference_ms;
+		$this->data['nb_total'] = $nb_matches;
 
 		$data_send = array (
 			'matches' => $this->data['matches'],
 			'total_matches' => $nb_matches,
 			'ms' => round($difference_ms, 2)
 		);
-
+		
 		if (is_ajax_query())
 		{
 			header('Content-Type: application/json');
