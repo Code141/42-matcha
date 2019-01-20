@@ -20,9 +20,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
     <script src="../L.Control.Geonames.js"></script>
     <div>
-        <h2 style="float:left;margin:0;">Event Handling Example:
-            <small>See event data in your javascript console</small>
-        </h2>
+        <h2 style="float:left;margin:0;">UK Postcodes Geonames Example</h2>
         <ul id="Nav" style="float:right;list-style-type:none; margin:0;padding:0;">
             <li>
                 <b>Other examples:</b>
@@ -40,10 +38,10 @@
                 <a href="locale.html">Locale</a>
             </li>
             <li>
-                <a href="mobileview.html">Mobile View</a>
+                <a href="events.html">Events</a>
             </li>
             <li>
-                <a href="postCodes.html">Postal Codes</a>
+                <a href="mobileview.html">Mobile View</a>
             </li>
         </ul>
     </div>
@@ -59,15 +57,10 @@
         }).addTo(map);
 
         var control = L.control.geonames({
-            username: 'cbi.test'
+            username: 'cbi.test',
+            enablePostalCodes: true,
+            postalCodesRegex: POSTALCODE_REGEX_UK
         });
-
-        control.on('search', function (e) {
-        });
-
-        control.on('select', function (e) {
-        });
-
         map.addControl(control);
     </script>
 </body>

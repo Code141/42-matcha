@@ -20,8 +20,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
     <script src="../L.Control.Geonames.js"></script>
     <div>
-        <h2 style="float:left;margin:0;">Event Handling Example:
-            <small>See event data in your javascript console</small>
+        <h2 style="float:left;margin:0;">Bounding Box Example:
+            <small>only placenames in current map extent are returned</small>
         </h2>
         <ul id="Nav" style="float:right;list-style-type:none; margin:0;padding:0;">
             <li>
@@ -34,10 +34,10 @@
                 <a href="adminCodes.html">Admin Codes</a>
             </li>
             <li>
-                <a href="bbox.html">Bounding Box</a>
+                <a href="locale.html">Locale</a>
             </li>
             <li>
-                <a href="locale.html">Locale</a>
+                <a href="events.html">Events</a>
             </li>
             <li>
                 <a href="mobileview.html">Mobile View</a>
@@ -59,15 +59,18 @@
         }).addTo(map);
 
         var control = L.control.geonames({
-            username: 'cbi.test'
+            username: 'cbi.test',
+            //        bbox: {east:-121, west: -123, north: 46, south: 45}
+            bbox: function () {
+                var bounds = map.getBounds();
+                return {
+                    east: bounds.getEast(),
+                    west: bounds.getWest(),
+                    north: bounds.getNorth(),
+                    south: bounds.getSouth()
+                }
+            }
         });
-
-        control.on('search', function (e) {
-        });
-
-        control.on('select', function (e) {
-        });
-
         map.addControl(control);
     </script>
 </body>

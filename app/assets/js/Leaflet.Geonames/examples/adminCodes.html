@@ -20,8 +20,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
     <script src="../L.Control.Geonames.js"></script>
     <div>
-        <h2 style="float:left;margin:0;">Event Handling Example:
-            <small>See event data in your javascript console</small>
+        <h2 style="float:left;margin:0;">Admin Codes Example:
+            <small>Only placenames in specified US (country) and state (adminCode1) are returned</small>
         </h2>
         <ul id="Nav" style="float:right;list-style-type:none; margin:0;padding:0;">
             <li>
@@ -31,13 +31,13 @@
                 <a href="basic.html">Basic</a>
             </li>
             <li>
-                <a href="adminCodes.html">Admin Codes</a>
-            </li>
-            <li>
                 <a href="bbox.html">Bounding Box</a>
             </li>
             <li>
                 <a href="locale.html">Locale</a>
+            </li>
+            <li>
+                <a href="events.html">Events</a>
             </li>
             <li>
                 <a href="mobileview.html">Mobile View</a>
@@ -58,16 +58,31 @@
             minZoom: 2
         }).addTo(map);
 
+        var stateField = L.Control.extend({
+            options: {
+                position: 'topleft'
+            },
+            onAdd: function () {
+                this._container = L.DomUtil.create('div', 'leaflet-state-select leaflet-bar');
+                this._container.title = 'Select a state';
+                this._input = L.DomUtil.create('input', '', this._container);
+                this._input.id = 'state';
+                this._input.type = 'text';
+                this._input.placeholder = 'Enter a US state';
+                return this._container;
+            }
+        });
+        map.addControl(new stateField());
+
         var control = L.control.geonames({
-            username: 'cbi.test'
+            username: 'cbi.test',
+            adminCodes: {
+                country: 'us',
+                adminCode1: function () {
+                    return document.getElementById('state').value
+                }
+            }
         });
-
-        control.on('search', function (e) {
-        });
-
-        control.on('select', function (e) {
-        });
-
         map.addControl(control);
     </script>
 </body>

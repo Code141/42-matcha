@@ -20,15 +20,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
     <script src="../L.Control.Geonames.js"></script>
     <div>
-        <h2 style="float:left;margin:0;">Event Handling Example:
-            <small>See event data in your javascript console</small>
-        </h2>
+        <h2 style="float:left;margin:0;">Basic Geonames Example</h2>
         <ul id="Nav" style="float:right;list-style-type:none; margin:0;padding:0;">
             <li>
                 <b>Other examples:</b>
-            </li>
-            <li>
-                <a href="basic.html">Basic</a>
             </li>
             <li>
                 <a href="adminCodes.html">Admin Codes</a>
@@ -38,6 +33,9 @@
             </li>
             <li>
                 <a href="locale.html">Locale</a>
+            </li>
+            <li>
+                <a href="events.html">Events</a>
             </li>
             <li>
                 <a href="mobileview.html">Mobile View</a>
@@ -61,13 +59,6 @@
         var control = L.control.geonames({
             username: 'cbi.test'
         });
-
-        control.on('search', function (e) {
-        });
-
-        control.on('select', function (e) {
-        });
-
         map.addControl(control);
     </script>
 </body>

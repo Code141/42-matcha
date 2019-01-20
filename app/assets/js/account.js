@@ -22,7 +22,6 @@ function initMap() {
 			var marker = L.marker([user_location.lat, user_location.lng]).addTo(map);
 			marker.bindPopup("<b>Your location</b><br>").openPopup();
 		}, function(error){
-			console.log(error.message);
 			var user_location = { "lat" : ip_location[0], "lng" : ip_location[1]};
 			map.setView(user_location, 13);
 			var marker = L.marker([user_location.lat, user_location.lng]).addTo(map);
@@ -148,9 +147,7 @@ function set_as_profil_pic(id_media)
 				if (promp)
 					promp.remove();
 			}
-		} else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
-		}
+		} 
 	};
 	xhr.send(formData);
 
@@ -193,8 +190,6 @@ function delete_img(div_media)
 				var div = document.getElementsByClassName('top')[0];
 					div.style.display = "inline-block";
 			}
-		} else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
 		}
 	};
 	xhr.send(formData);
@@ -212,12 +207,7 @@ function display_booth()
 		.then(function(stream){
 			video.srcObject = stream;
 			video.play();
-		})
-	.catch(function(error){
-		console.log(error);
-		alert("failed to connect to the webcam");
-	});
-
+		});
 }
 
 function cancel_snapshot(){
@@ -273,9 +263,7 @@ function save_snapshot(){
 				prompter_animation(response, "prompter_success");
 				update_pic_fieldset(xhr.responseText.split("\/")[1]);
 			}
-		} else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
-		}
+		} 
 	};
 	xhr.send(formData);
 	cancel_snapshot();
@@ -348,8 +336,6 @@ function edit_location(latitude, longitude)
 				prompter_animation(response.fail, "prompter_fail");
 			else if (response.success)
 				prompter_animation(response.success, "prompter_success");
-		} else {
-			console.log("ERROR XMLHttpRequest got this response: " + xhr.status);
 		}
 	};
 	xhr.send(formData);

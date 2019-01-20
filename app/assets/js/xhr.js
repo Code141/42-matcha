@@ -20,8 +20,6 @@ function ajax_request(target)
 					prompter.appendChild(div);
 				}
 			}
-			else
-				console.log("XHR Error : %d (%s)", this.status, this.statusText);
 		}
 	};
 	xhr.send();
